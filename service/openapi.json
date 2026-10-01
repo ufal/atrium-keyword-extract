@@ -3,7 +3,7 @@
   "info": {
     "title": "ATRIUM keyword-extract API",
     "description": "The record after nlp-enrich, or a text → keywords of the document and of each page, with the method, score and rank of every keyword.",
-    "version": "1.0.0",
+    "version": "1.0.0-beta",
     "x-atrium-service": "atrium-keyword-extract",
     "x-atrium-service-previous": "atrium-nlp-enrich"
   },

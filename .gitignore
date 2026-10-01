@@ -2,6 +2,8 @@
 .idea
 /.idea/
 /venv-kw/
+/venv-ke/
+venv-ke
 # Recursive, not "/__pycache__/": running the suite drops one of these next to
 # every package it imports (tests/, api_util/, service/),
 # so an anchored rule leaves the tree full of untracked bytecode dirs after any
