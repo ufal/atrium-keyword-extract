@@ -192,6 +192,24 @@ _SPEC = atrium_openapi.load(Path(__file__).resolve().parent.parent / "service" /
 _TEXT = "Archeologický výzkum odkryl zahloubený objekt se sídlištní keramikou a kamennými nástroji."
 
 
+@pytest.fixture(autouse=True)
+def _yake_or_stub(monkeypatch):
+    """The contract lane installs requirements-test.txt only, without the keyword backends.
+    YAKE is replaced by a stand-in there: these tests check the envelope, not the keywords.
+    Where YAKE is installed, the real backend runs."""
+    import importlib.util
+
+    if importlib.util.find_spec("yake") is not None:
+        return
+    import keywords
+
+    def stub(text, num_keywords, lang="cs", max_words=3, source="text"):
+        words = [w.strip(".,") for w in text.split() if len(w) > 3]
+        return [(w, 1.0 / rank) for rank, w in enumerate(words[:num_keywords], start=1)]
+
+    monkeypatch.setattr(keywords, "_yake_from_text", stub)
+
+
 def _conforms(method, path, status, response):
     pytest.importorskip("jsonschema")
     assert response.status_code == status, response.text
