@@ -2,7 +2,7 @@
 # Creates a GitHub Release with auto-generated notes when a v* tag is pushed.
 #
 # The Docker image published to GHCR via docker.yaml is the canonical release artefact for
-# nlp-enrich.  service/ is a subprocess wrapper, not a standalone download, so no
+# keyword-extract.  service/ is not a standalone download, so no
 # service_bundle.zip is produced here. Since atrium-project#32 round 2 each release carries
 # the service's OpenAPI document instead: `openapi.json` (service/openapi.json, stamped with
 # the release version) and `openapi.json.sha256` — the spec the AMČR pipeline generates its
@@ -16,13 +16,13 @@
 # and the latest release, and nothing is published.
 #
 # Suggested tagging workflow:
-#   git tag -a v0.16.2 -m "v0.16.2 — dep bumps + annotator folder"
-#   git push origin v0.16.2
+#   git tag -a v1.0.0 -m "v1.0.0 — the first release of keyword-extract"
+#   git push origin v1.0.0
 #
 # After the tag push three workflows fire in sequence:
-#   1. docker.yaml        — builds and pushes ghcr.io/ufal/atrium-nlp-enrich:v0.16.2
+#   1. docker.yaml        — builds and pushes ghcr.io/ufal/atrium-keyword-extract:v1.0.0
 #   2. release.yml        — creates the GitHub Release (this file)
-#   3. security.yml       — (scheduled/dispatch) Trivy-scans :latest after :v0.16.2 is live
+#   3. security.yml       — (scheduled/dispatch) Trivy-scans :latest after :v1.0.0 is live
 
 name: Release
 

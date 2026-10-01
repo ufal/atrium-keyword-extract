@@ -77,7 +77,7 @@ class KeywordBackendError(RuntimeError):
 DEFAULT_INPUT_DIR = "data_samples/UDP"
 DEFAULT_OUTPUT_FILE = "data_samples/keywords_summary_{method}.csv"
 DEFAULT_PER_DOC_OUT_DIR = "data_samples/KW_PER_DOC_{METHOD}"
-DEFAULT_METHOD = "yake"
+DEFAULT_METHOD = "keybert"
 DEFAULT_NUM_KEYWORDS = 20
 DEFAULT_LANG = "cs"
 DEFAULT_MAX_WORDS = 3
@@ -190,7 +190,11 @@ def _extract_lemmas(file_path: str) -> list[str]:
 
 
 def _extract_legacy(file_path: str, num_keywords: int, **_) -> Keywords:
-    lemmas = _extract_lemmas(file_path)
+    return _legacy_from_lemmas(_extract_lemmas(file_path), num_keywords)
+
+
+def _legacy_from_lemmas(lemmas: list[str], num_keywords: int) -> Keywords:
+    """KER over lemmas already in hand (a CoNLL-U file's, or a record's ``lines[].lemma``)."""
     counts = Counter(lemmas)
 
     _ADMIN_STOP_LEMMAS = {
@@ -236,8 +240,16 @@ def _load_yake():
 def _extract_yake(
     file_path: str, num_keywords: int, lang: str = "cs", max_words: int = 3, **_
 ) -> Keywords:
+    return _yake_from_text(
+        _extract_surface_text(file_path), num_keywords, lang, max_words, source=file_path
+    )
+
+
+def _yake_from_text(
+    text: str, num_keywords: int, lang: str = "cs", max_words: int = 3, source: str = "text"
+) -> Keywords:
+    """YAKE over a text in hand."""
     yake = _load_yake()
-    text = _extract_surface_text(file_path)
     if not text:
         return []
 
@@ -253,7 +265,7 @@ def _extract_yake(
     try:
         raw_kws = extractor.extract_keywords(text)
     except Exception as exc:
-        print(f"[Warning] YAKE failed on {file_path}: {exc}", file=sys.stderr)
+        print(f"[Warning] YAKE failed on {source}: {exc}", file=sys.stderr)
         return []
 
     inverted = [(kw, 1.0 / (score + 1e-10)) for kw, score in raw_kws]
@@ -470,17 +482,38 @@ def _extract_keybert(
     """
     is_batch = isinstance(file_path, list)
     paths = file_path if is_batch else [file_path]
+    results = _keybert_from_texts(
+        [_extract_surface_text(p) for p in paths],
+        num_keywords,
+        max_words=max_words,
+        keybert_model=keybert_model,
+        use_mmr=use_mmr,
+        diversity=diversity,
+        limit_counts=limit_counts,
+    )
+    return results if is_batch else results[0]
 
+
+def _keybert_from_texts(
+    all_texts: List[str],
+    num_keywords: int,
+    max_words: int = 3,
+    keybert_model: str = DEFAULT_KEYBERT_MODEL,
+    use_mmr: bool = True,
+    diversity: float = 0.5,
+    limit_counts: Optional[dict] = None,
+) -> List[Keywords]:
+    """KeyBERT keywords of each text of a batch, in order (an empty text gives ``[]``)."""
+    paths = all_texts
     texts = []
     valid_indices = []
-    for i, p in enumerate(paths):
-        t = _extract_surface_text(p)
+    for i, t in enumerate(all_texts):
         if t:
             texts.append(t)
             valid_indices.append(i)
 
     if not texts:
-        return [[] for _ in paths] if is_batch else []
+        return [[] for _ in paths]
 
     kw_model = _get_keybert_model(keybert_model)
 
@@ -544,11 +577,11 @@ def _extract_keybert(
             else:
                 full_results.append([])
 
-        return full_results if is_batch else full_results[0]
+        return full_results
 
     except Exception as exc:
         print(f"[Warning] KeyBERT extraction failed: {exc}", file=sys.stderr)
-        return [[] for _ in paths] if is_batch else []
+        return [[] for _ in paths]
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -578,6 +611,45 @@ def extract_keywords(
         else:
             return [fn(p, num_keywords, **kwargs) for p in file_path]
     return fn(file_path, num_keywords, **kwargs)
+
+
+def extract_from_texts(
+    texts: List[str],
+    method: str,
+    num_keywords: int,
+    *,
+    lemmas: Optional[List[List[str]]] = None,
+    lang: str = DEFAULT_LANG,
+    max_words: int = DEFAULT_MAX_WORDS,
+    keybert_model: str = DEFAULT_KEYBERT_MODEL,
+    use_mmr: bool = not DEFAULT_NO_MMR,
+    diversity: float = DEFAULT_DIVERSITY,
+    limit_counts: Optional[dict] = None,
+) -> List[Keywords]:
+    """Keywords of each text of a batch, by ``method`` (``keybert``, ``yake`` or ``legacy``).
+
+    The service's entry point (``service/api.py``): the same three backends as the file-based
+    :func:`extract_keywords`, over texts in hand — a record's lines joined per document or per
+    page. ``legacy`` (KER) counts content-word lemmas, so it takes ``lemmas`` (one list per
+    text, e.g. a record's ``lines[].lemma`` of the nouns, proper nouns and adjectives).
+    """
+    if method not in _BACKENDS:
+        raise ValueError(f"Unknown method '{method}'. Choose from: {', '.join(_BACKENDS)}")
+    if method == "legacy":
+        if lemmas is None or len(lemmas) != len(texts):
+            raise ValueError("the legacy (KER) method counts lemmas: pass one list per text")
+        return [_legacy_from_lemmas(per_text, num_keywords) for per_text in lemmas]
+    if method == "yake":
+        return [_yake_from_text(t, num_keywords, lang, max_words) for t in texts]
+    return _keybert_from_texts(
+        texts,
+        num_keywords,
+        max_words=max_words,
+        keybert_model=keybert_model,
+        use_mmr=use_mmr,
+        diversity=diversity,
+        limit_counts=limit_counts,
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

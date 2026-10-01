@@ -6,7 +6,7 @@ The service's runtime manifest declares everything the service is launched with
 
 ``service/requirements.txt`` carried six test/contract deps and **no ASGI server** for
 twelve days while three separate launch paths — ``Dockerfile``'s ``api`` ENTRYPOINT,
-``docker-compose.yaml``'s ``nlp-api`` profile, and ``setup_api_service.sh`` — all invoke
+``docker-compose.yaml``'s ``kw-api`` profile, and the README's start command — all invoke
 ``uvicorn``. Nothing in CI could see it, and the reason is structural rather than
 accidental:
 
@@ -18,7 +18,7 @@ accidental:
 Both blind spots are about *running* the thing. This file takes the other route and checks
 the manifest against the launch commands themselves — cheap, hermetic, and it fails the
 moment someone prunes a requirements file again. It deliberately reads the real
-Dockerfile/compose/setup-script text rather than hardcoding "uvicorn", so switching the
+Dockerfile/compose/README text rather than hardcoding "uvicorn", so switching the
 server (hypercorn, granian, …) keeps the gate honest instead of making it a lie.
 """
 
@@ -113,7 +113,6 @@ def _launch_commands() -> dict[str, str]:
     return {
         "Dockerfile (api target ENTRYPOINT)": _api_launch_text(),
         "docker-compose.yaml": (_REPO_ROOT / "docker-compose.yaml").read_text(encoding="utf-8"),
-        "setup_api_service.sh": (_REPO_ROOT / "setup_api_service.sh").read_text(encoding="utf-8"),
         "service/README.md": (_REPO_ROOT / "service" / "README.md").read_text(encoding="utf-8"),
     }
 
@@ -123,7 +122,7 @@ def test_an_asgi_server_is_declared():
     declared = _declared(_SERVICE_REQS)
     assert declared & set(_ASGI_SERVERS), (
         f"service/requirements.txt declares no ASGI server ({declared}) — "
-        f"the api image's ENTRYPOINT and setup_api_service.sh both exec one"
+        f"the api image's ENTRYPOINT and the README's start command both exec one"
     )
 
 

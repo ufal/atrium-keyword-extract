@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "ATRIUM's NLP enricher: a tool to apply remote NameTag and UDPipe LINDAT services"
-version: "0.23.0"
+title: "ATRIUM's keyword extractor: statistical (KeyBERT, YAKE, KER) and vocabulary-controlled keywords from text-containing documents"
+version: "1.0.0-beta"
 date-released: "2026-10-01"
 authors:
   - family-names: "Lutsai"
@@ -16,7 +16,7 @@ authors:
   - family-names: "Křivánková"
     given-names: "Dana"
     orcid: https://orcid.org/0000-0001-5718-9447
-repository-code: "https://github.com/ufal/atrium-nlp-enrich"
+repository-code: "https://github.com/ufal/atrium-keyword-extract"
 license: "MIT"
 references:
   - type: standard

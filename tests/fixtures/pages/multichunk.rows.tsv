@@ -1,7 +1,0 @@
-# source = multichunk.csv
-page	line	label	text
-1	1		Alfa beta.
-1	2		Gama delta
-2	1		epsilon.
-2	2		Zeta Jan
-3	1	III	Novák iota.

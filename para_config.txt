@@ -1,52 +1,39 @@
-# para_config.txt — atrium-nlp-enrich
+# para_config.txt — atrium-keyword-extract
 # Repository-specific paradata facts. Edit this file (not the Python) when
 # components or versions change.
 
 [tool]
-program = nlp-enrich
-version = v0.23.0
-repository_fallback = https://github.com/ufal/atrium-nlp-enrich
+program = keyword-extract
+version = v1.0.0-beta
+repository_fallback = https://github.com/ufal/atrium-keyword-extract
 
 [components]
 # name = <license> ; <always|conditional> ; <role>
-# "always"      -> component is part of every core run (worst-case baseline)
+# "always"      -> component is part of every run (worst-case baseline)
 # "conditional" -> only counts toward the license when log_component() is called
 #                  (or, via the CLI shim, when `--component NAME` is passed to
 #                  `start`/`success`).
 #
 # License rationale (see ATRIUM issue #6 licensing breakdown):
-#   * The NameTag 3 and UDPipe 2 *engines* are MPL 2.0, accessed here only as
-#     hosted Lindat/CLARIAH-CZ APIs. The binding constraint is the pre-trained
-#     *models*: the NameTag 3 models (the multilingual OntoNotes model, the default
-#     MODEL_NAMETAG, and the Czech CNEC 2.0 one) and the czech-pdt UD parser are all
-#     CC BY-NC-SA 4.0. Because the core enrichment pipeline (api_2_udp →
-#     api_3_nt → api_4_stats) always exercises both models, CC BY-NC-SA 4.0 is
-#     the project-wide floor for this repo — every core run is non-commercial
-#     AND share-alike.
-#   * KER (legacy lemma-frequency keyword extraction) is stdlib-only; it adds
-#     no third-party license, so the repo MIT base applies for KER-only runs.
-#   * YAKE is AGPL-3.0 (LIAAD/yake PyPI package); KeyBERT is MIT and pulls in
-#     sentence-transformers (Apache-2.0). These are conditional: they only
-#     constrain the optional keyword-extraction step that actually loads them.
-#   * flexiconv (UFAL, optional; api_flexiconv.sh) declares GPL-3.0-or-later in its
-#     pyproject.toml (checked at the pinned v0.3.10; the repo has no LICENSE file).
-#     Conditional: it only constrains runs that actually convert documents with it.
-nametag3_models   = CC BY-NC-SA 4.0 ; always      ; NameTag 3 NER model — multilingual OntoNotes by default, Czech CNEC 2.0 optional (api_3_nt)
-udpipe2_models    = CC BY-NC-SA 4.0 ; always      ; UDPipe 2 czech-pdt UD model (api_2_udp)
-nametag3_engine   = MPL 2.0         ; conditional ; NameTag 3 engine (Lindat API, MPL 2.0)
-udpipe2_engine    = MPL 2.0         ; conditional ; UDPipe 2 engine (Lindat API, MPL 2.0)
-ker               = MIT             ; conditional ; legacy KER lemma-frequency keyword extraction (stdlib only)
-yake              = AGPL-3.0        ; conditional ; YAKE statistical keyword extraction (LIAAD/yake)
-keybert           = MIT             ; conditional ; KeyBERT embedding-based keyword extraction
-sentence_transformers = Apache-2.0  ; conditional ; sentence-transformers backbone for KeyBERT
-flexiconv         = GPL-3.0         ; conditional ; flexiconv document → TEITOK converter (api_flexiconv.sh)
+#   * No component is "always": which licences apply depends on the method a run uses,
+#     and the license of a run is the most restrictive of the components it logged.
+#   * KER (the legacy lemma-frequency method of nlp-enrich) is stdlib-only; it adds no
+#     third-party license, so the repo MIT base applies for KER-only runs.
+#   * KeyBERT is MIT and pulls in sentence-transformers (Apache-2.0); the default embedding
+#     model (paraphrase-multilingual-MiniLM-L12-v2) is Apache-2.0.
+#   * YAKE is AGPL-3.0 (LIAAD/yake PyPI package). It is selectable in the production image
+#     (`method=yake`), and a run that uses it is declared AGPL-3.0 -- the same class of
+#     finding as PyMuPDF's in page-classification (atrium-project#72).
 #   * The AMCR `heslo` vocabularies (https://api.aiscr.cz/2.2/oai) and the TEATER
 #     thesaurus are CC0, as stated by their rights holder (AMCR, atrium-project#6,
 #     comment 5867861653, 2026-09-28). They were labelled CC BY-NC 4.0 before, after
 #     the OAI-PMH Identify response for the whole repository; paradata written before
-#     that date says so. Conditional, because a core run
-#     (manifest -> udp -> nt -> stats) never touches the vocabulary -- only the
-#     vocabulary build and the LLM enrichment stage do. Names and licences match
-#     atrium-translator's and atrium-llm-enrich's para_config.txt.
-amcr_vocab        = CC0             ; conditional ; AMCR heslar controlled vocabulary (vocab_sources.harvest_amcr)
-teater_data       = CC0             ; conditional ; TEATER thesaurus data (vocab_sources.harvest_teater)
+#     that date says so. Conditional, because only the vocabulary build and the controlled
+#     kind touch them. Names and licences match atrium-translator's para_config.txt.
+ker                   = MIT        ; conditional ; legacy KER lemma-frequency keyword extraction (stdlib only)
+yake                  = AGPL-3.0   ; conditional ; YAKE statistical keyword extraction (LIAAD/yake)
+keybert               = MIT        ; conditional ; KeyBERT embedding-based keyword extraction
+sentence_transformers = Apache-2.0 ; conditional ; sentence-transformers backbone for KeyBERT
+keybert_model         = Apache-2.0 ; conditional ; paraphrase-multilingual-MiniLM-L12-v2 embedding model weights (Hugging Face Hub)
+amcr_vocab            = CC0        ; conditional ; AMCR heslar controlled vocabulary (vocab_sources.harvest_amcr)
+teater_data           = CC0        ; conditional ; TEATER thesaurus data (vocab_sources.harvest_teater)

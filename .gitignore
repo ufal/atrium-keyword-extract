@@ -1,9 +1,9 @@
 /TEMP/
 .idea
 /.idea/
-/venv-nlp/
+/venv-kw/
 # Recursive, not "/__pycache__/": running the suite drops one of these next to
-# every package it imports (tests/, api_util/, service/, annotation/, utils/),
+# every package it imports (tests/, api_util/, service/),
 # so an anchored rule leaves the tree full of untracked bytecode dirs after any
 # `pytest` run. Matches page-classification's .gitignore, which took the same
 # fix on 2026-07-22 (atrium-project#10).

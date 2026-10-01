@@ -1,6 +1,6 @@
 services:
-  nlp:
-    image: ghcr.io/ufal/atrium-nlp-enrich:${ATRIUM_VERSION:-dev}
+  kw:
+    image: ghcr.io/ufal/atrium-keyword-extract:${ATRIUM_VERSION:-dev}
     # The host uid, group 0 (atrium-project#69, roadmap B6). ./data is in the clone
     # (data/.gitkeep), owned by whoever cloned it, while the images run as uid 10001 by
     # default -- so without this every write to /data fails with EACCES. Every path the
@@ -12,101 +12,78 @@ services:
       context: .
       target: base
       args:
-        ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-nlp-enrich:${ATRIUM_VERSION:-dev}
-        ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-nlp-enrich
+        ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-keyword-extract:${ATRIUM_VERSION:-dev}
+        ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-keyword-extract
         ATRIUM_RUNNER_REF: ${ATRIUM_RUNNER_REF:-dev}
     environment:
-      ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-nlp-enrich:${ATRIUM_VERSION:-dev}
-      ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-nlp-enrich
+      ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-keyword-extract:${ATRIUM_VERSION:-dev}
+      ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-keyword-extract
       ATRIUM_RUNNER_REF: ${ATRIUM_RUNNER_REF:-dev}
       HF_HOME: /cache/huggingface
-      # Backing service endpoints (atrium-project#63). Compose injects ONLY what
-      # is listed here, so without these two lines `UDPIPE_URL=... docker compose
-      # up` never reaches the container and the endpoints are attachable in the
-      # process but unreachable from outside it. Same shape as PORT in the api
-      # service below (atrium-project#58).
-      #
-      # The empty default is deliberate: the variable is then always present but
-      # blank when the operator sets nothing, and blank means "unset" to both
-      # config_api.txt's ${UDPIPE_URL:-...} and the helper scripts' argparse
-      # defaults. Repeating the LINDAT literal here would make it a fourth copy.
-      UDPIPE_URL: ${UDPIPE_URL:-}
-      NAMETAG_URL: ${NAMETAG_URL:-}
     volumes:
       - ./data:/data
       - hf-cache:/cache/huggingface
-      - ./config_api.txt:/app/config_api.txt:ro
 
-  nlp-api:
+  kw-api:
     profiles: [api]
     # The published names (atrium-project#69, roadmap B2): the target is part of the image
-    # NAME, as docker-tool.reusable.yml publishes it -- `atrium-nlp-enrich-api:<version>`,
-    # never `atrium-nlp-enrich:<version>-api` -- so `docker compose --profile api pull`
+    # NAME, as docker-tool.reusable.yml publishes it -- `atrium-keyword-extract-api:<version>`,
+    # never `atrium-keyword-extract:<version>-api` -- so `docker compose --profile api pull`
     # fetches the released image. Same for `-llm` below.
-    image: ghcr.io/ufal/atrium-nlp-enrich-api:${ATRIUM_VERSION:-dev}
-    user: "${ATRIUM_UID:-10001}:0"   # see the nlp service above (roadmap B6)
+    image: ghcr.io/ufal/atrium-keyword-extract-api:${ATRIUM_VERSION:-dev}
+    user: "${ATRIUM_UID:-10001}:0"   # see the kw service above (roadmap B6)
     build:
       context: .
       target: api
       args:
-        ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-nlp-enrich-api:${ATRIUM_VERSION:-dev}
-        ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-nlp-enrich
+        ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-keyword-extract-api:${ATRIUM_VERSION:-dev}
+        ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-keyword-extract
         ATRIUM_RUNNER_REF: ${ATRIUM_RUNNER_REF:-dev}
     # env_file delivers every OTHER variable in .env.example into the container --
     # LOG_LEVEL, HOST, GRACEFUL_SHUTDOWN_S, RELOAD, ALLOWED_ORIGINS, MAX_UPLOAD_MB,
-    # API_JOB_TIMEOUT, MAX_WORDS, MAX_RESCALE_DIM, API_JOBS_ROOT and
-    # API_KEEP_WORKSPACES were all documented but undeliverable under compose until
-    # atrium-project#60 added this. `required: false` because .env is gitignored --
-    # a fresh clone has none and compose must still start.
+    # MAX_DOCUMENT_WORDS, MAX_KEYWORDS and the KeyBERT chunk limits (atrium-project#60).
+    # `required: false` because .env is gitignored -- a fresh clone has none and compose
+    # must still start.
     env_file:
       - path: .env
         required: false
     environment:
-      # These two were literals until atrium-project#60 -- a literal here OVERRIDES
-      # whatever .env says, so `MAX_CONCURRENT_JOBS=8 docker compose up` was
-      # silently reset to 2. ${VAR:-default} lets .env (or a shell export) win while
-      # keeping the same default when neither is set.
-      MAX_CONCURRENT_JOBS: ${MAX_CONCURRENT_JOBS:-2}
+      # ${VAR:-default} lets .env (or a shell export) win while keeping the same default
+      # when neither is set; a literal here would override whatever .env says.
+      MAX_CONCURRENT_REQUESTS: ${MAX_CONCURRENT_REQUESTS:-2}
       DEFAULT_KW_METHOD: ${DEFAULT_KW_METHOD:-keybert}
       HF_HOME: /cache/huggingface
       PORT: ${PORT:-8000}
-      # Also needed on the api service: /info reports these and ?deep=true
-      # probes them, and both must name the endpoint the pipeline calls.
-      UDPIPE_URL: ${UDPIPE_URL:-}
-      NAMETAG_URL: ${NAMETAG_URL:-}
     volumes:
       - ./data:/data
       - hf-cache:/cache/huggingface
-      - ./config_api.txt:/app/config_api.txt:ro
     ports:
     # PORT is passed through so `PORT=9000 docker compose --profile api up` moves the
     # listener, the published port and the container's own HEALTHCHECK together — the
     # service reads it in service/api.py's __main__ block and service/healthcheck.py
     # probes it. (atrium-project#58)
       - "${PORT:-8000}:${PORT:-8000}"
-    # HEALTHCHECK is already declared on the `api` Dockerfile stage — no override
-    # needed here. stop_grace_period raised from Compose's own 10s default (issue
-    # #55): the api stage's ENTRYPOINT sets --timeout-graceful-shutdown 20, and
-    # serve_lifecycle's own drain adds up to another 25s on top for a tracked
-    # /jobs run — 10s would SIGKILL before either has a chance to finish. Same
-    # budget as docs/templates/k8s/atrium-service.deployment.yaml's
-    # terminationGracePeriodSeconds (Compose has no preStop-hook equivalent).
+    # HEALTHCHECK is already declared on the `api` Dockerfile stage — no override needed
+    # here. stop_grace_period raised from Compose's own 10s default (issue #55): uvicorn
+    # waits up to GRACEFUL_SHUTDOWN_S (20) for in-flight requests and serve_lifecycle's
+    # own drain adds up to another 25s on top. Same budget as
+    # docs/templates/k8s/atrium-service.deployment.yaml's terminationGracePeriodSeconds.
     stop_grace_period: 60s
 
-  nlp-llm:
+  kw-llm:
     profiles: [llm]
-    image: ghcr.io/ufal/atrium-nlp-enrich-llm:${ATRIUM_VERSION:-dev}
-    user: "${ATRIUM_UID:-10001}:0"   # see the nlp service above (roadmap B6)
+    image: ghcr.io/ufal/atrium-keyword-extract-llm:${ATRIUM_VERSION:-dev}
+    user: "${ATRIUM_UID:-10001}:0"   # see the kw service above (roadmap B6)
     build:
       context: .
       target: llm
       args:
-        ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-nlp-enrich-llm:${ATRIUM_VERSION:-dev}
-        ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-nlp-enrich
+        ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-keyword-extract-llm:${ATRIUM_VERSION:-dev}
+        ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-keyword-extract
         ATRIUM_RUNNER_REF: ${ATRIUM_RUNNER_REF:-dev}
     environment:
-      ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-nlp-enrich-llm:${ATRIUM_VERSION:-dev}
-      ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-nlp-enrich
+      ATRIUM_RUNNER_IMAGE: ghcr.io/ufal/atrium-keyword-extract-llm:${ATRIUM_VERSION:-dev}
+      ATRIUM_RUNNER_REPO: https://github.com/ufal/atrium-keyword-extract
       ATRIUM_RUNNER_REF: ${ATRIUM_RUNNER_REF:-dev}
       HF_HOME: /cache/huggingface
       HF_TOKEN: ${HF_TOKEN:-}

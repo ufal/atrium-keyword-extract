@@ -8,7 +8,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 .venv/
-venv-nlp/
+venv-kw/
 venv/
 env/
 data_samples/
@@ -19,9 +19,9 @@ ker_data/
 tests/
 agent_dev_logs/
 # Vocabulary review tools, run from a checkout (README: the review sheets), never from an
-# image: no published target's entrypoint (run_pipeline.py, llm_run.py, service/api.py)
+# image: no published target's entrypoint (keywords.py, llm_run.py, service/api.py)
 # reaches them (atrium-project#72, "research off the release line"). They leave this
-# repository with the rest of the LLM and vocabulary code (atrium-nlp-enrich#40).
+# repository when the controlled kind moves into the service (atrium-keyword-extract#1).
 corpus_review.py
 vocab_review.py
 TEMP/

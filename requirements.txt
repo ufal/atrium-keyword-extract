@@ -1,19 +1,15 @@
-regex
-configparser
-pandas
+# Runtime requirements of the batch CLI (keywords.py) and of the service's statistical methods.
+# The service's own packages are in service/requirements.txt; the research LLM target's in
+# requirements_llm.txt.
 tqdm
-openpyxl
 requests
+# YAKE is AGPL-3.0 (para_config.txt); KeyBERT is MIT and pulls in sentence-transformers (Apache-2.0).
 yake
 keybert
 sentence-transformers
-tenacity
 pydantic>=2.13.5
-httpx2
 lxml
-# atrium_document.validate_document() — the Layer D output gate now called from
-# api_util/document_hook.py before finalize() (issue atrium-project#10, D4). Declared here,
-# in the RUNTIME set, not only in requirements-test.txt: the call lives in production code,
-# and validate_document() raises RuntimeError rather than no-opping when jsonschema is
-# absent, so a runtime install without it degrades the gate on every real pipeline run.
+# atrium_document.validate_document() / atrium_paradata read the shared contract. Declared in the
+# RUNTIME set, not only in requirements-test.txt: validate_document() raises RuntimeError rather
+# than no-opping when jsonschema is absent.
 jsonschema

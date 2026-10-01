@@ -7,33 +7,11 @@ design. See the canonical test's module docstring for the full rationale.
 
 from __future__ import annotations
 
-# Read by shipped code but deliberately absent from .env.example, each with a
-# reason. This repo's NOT_PUBLISHED is the largest in the fleet: it is the only one
-# whose batch pipeline is driven by a subprocess stage (api_N_*.sh / config_api.txt)
-# with its own ~15-variable surface, distinct from the api image's HTTP entrypoint.
-# The api entrypoint (service/api.py -> .enrichment/.jobs/.rescale) never imports
-# any of these modules.
+# Read by shipped code but deliberately absent from .env.example, each with a reason: the batch
+# CLIs (keywords.py, llm_run.py) have their own settings (kw_config.txt, llm_config.txt), distinct
+# from the api image's HTTP entrypoint. The api entrypoint (service/api.py) never imports these.
 NOT_PUBLISHED: dict[str, str] = {
-    "ALTO_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "ALTO_DPI": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "BBOX_ORIGIN": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "CONLLU_INPUT_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "IMAGE_DPI": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "INPUT_PAGES_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "MODEL_NAMETAG": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "MODEL_UDPIPE": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "SAVE_CONLLU_NE": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "SAVE_CSV": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "SAVE_TEITOK": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "SUMMARY_CSV": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "SUMMARY_OUTPUT_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "TEITOK_OUTPUT_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "TSV_INPUT_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "TEMP_TXT_DIR": "batch-pipeline knob read by api_util/build_manifest_row.py (the batch CLI's manifest builder) and api_util/summarize_nt_udp.py (where rows files are looked for); not reachable from service/api.py",
-    "INPUT_ALTO_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "FLEXICONV_ANNOTATE": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "TEITOK_FLEXICONV_DIR": "batch-pipeline knob read by api_util/summarize_nt_udp.py; belongs to config_api.txt, not a deployment",
-    "HF_TOKEN": "read only by llm_run.py, the batch keyword-extraction CLI entrypoint; service/api.py never imports it",
+    "HF_TOKEN": "read only by llm_run.py, the research LLM batch CLI (llm_run.py); service/api.py never imports it",
     "PARADATA_DIR": "read only by keywords.py, the batch CLI; not reachable from the service entrypoint",
     "PROMPT_TEMPLATE": "read only by prompt_template.py via llm_run.py, the batch CLI; not reachable from the service entrypoint",
     "PROMPT_GEO_GUARDRAIL": "read only by prompt_template.py via llm_run.py, the batch CLI; not reachable from the service entrypoint",

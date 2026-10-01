@@ -10,7 +10,7 @@
 #
 # The fix is not to invent slow markers. The tests this lane can run that the PR lane
 # cannot are the ones that SKIP on absent optional dependencies -- the same "untested
-# module wearing a green tick" the coverage pass found in llm-enrich. So this job
+# module wearing a green tick" the coverage pass found in llm-enrich (now part of this repo). So this job
 # installs the optional stack and runs the whole suite. Exit 5 is no longer tolerated:
 # collecting nothing is now a failure, which is what stops this regressing quietly.
 #
@@ -18,7 +18,7 @@
 # silently stops installing shows up as a growing skip list rather than as nothing.
 #
 # PARAM block (mirrors docker.yml build args for consistency):
-#   APT_PACKAGES     — no extra apt deps for the base nlp-enrich image
+#   APT_PACKAGES     — no extra apt deps for the base keyword-extract image
 #   PRE_INSTALL_TORCH — torch is not pre-installed for the CPU-only smoke run
 #   REQUIREMENTS     — base + test requirements (no LLM stack)
 #
@@ -88,7 +88,7 @@ jobs:
         run: python -m pytest tests/ -v --tb=short -rs
 
       - name: Open Issue on Failure
-        # Ported from atrium-translator / alto-postprocess (#18, 2026-07-29 audit):
+        # Ported from atrium-translator / ocr-postprocess (#18, 2026-07-29 audit):
         # this repo's smoke test previously failed into the void — nobody was
         # notified, so a red scheduled run looked identical to a green one.
         if: failure() && github.event_name == 'schedule'

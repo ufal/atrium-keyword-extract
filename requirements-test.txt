@@ -24,17 +24,12 @@ openapi-spec-validator
 # relying on openapi-spec-validator to pull it in transitively, so this guard does not
 # silently stop running the day that transitive edge disappears.
 PyYAML
-# TEITOK XSD gate (issue #28). Also in requirements.txt — repeated here so a
-# lane that installs only the test deps can still collect
-# tests/test_validate_teitok.py.
+# The OAI-PMH parser of the vocabulary build (vocab_sources.py) and its tests. Also in
+# requirements.txt — repeated here so a lane that installs only the test deps can still
+# collect tests/test_vocab_sources.py.
 lxml
-# Light optional dep that was gating a real test: tests/test_build_manifest.py skipped
-# on its absence, which is not a cheaper suite -- it is an untested path wearing a green
-# tick. openpyxl is ~250KB of pure Python. (issue atrium-project#10)
-openpyxl
 # Optional heavy deps only if the suite truly needs them. transformers is installed by
-# scheduled-smoke.yml rather than here: it unlocks tests/test_lazy_imports.py's
-# transformers case but pulls tokenizers/safetensors, which is too much for every PR.
-# torch stays in gpu-inference.yml, where a GPU actually exists.
+# scheduled-smoke.yml rather than here, but pulls tokenizers/safetensors, which is too much
+# for every PR. torch stays in gpu-inference.yml, where a GPU actually exists.
 # torch
 # transformers

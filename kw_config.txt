@@ -5,7 +5,7 @@ OUTPUT_FILE = data_samples/keywords_summary_{method}.csv
 PER_DOC_OUT_DIR = data_samples/KW_PER_DOC_{METHOD}
 
 # Extraction settings
-METHOD = yake
+METHOD = keybert
 NUM_KEYWORDS = 20
 LANG = cs
 MAX_WORDS = 3

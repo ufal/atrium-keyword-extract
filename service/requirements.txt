@@ -1,35 +1,19 @@
-# service/requirements.txt — RUNTIME deps for the nlp-enrich FastAPI service.
+# service/requirements.txt — RUNTIME deps for the keyword-extract FastAPI service.
 #
-# (atrium-project#10, G3) This file used to carry only pytest/pytest-cov/requests plus the
-# §32 meta-contract test deps — no ASGI server at all — while `Dockerfile`'s `api` stage
-# ends in `ENTRYPOINT ["uvicorn", "service.api:app", ...]`, docker-compose.yaml's `nlp-api`
-# profile runs that image, and setup_api_service.sh's last line is
-# `exec uvicorn service.api:app`. `grep -rn uvicorn --include="*.txt"` matched nothing in
-# the whole repo, so the documented API path could not start from a clean install. CI never
-# saw it: the contract tests drive the app in-process through TestClient (which never needs
-# a server), and docker-build-smoke only BUILDS the image. tests/test_service_requirements.py
-# is the gate that now can — it reads the Dockerfile/compose/setup script and asserts every
-# executable they invoke is declared here.
+# The `api` Dockerfile stage inherits requirements.txt (KeyBERT, YAKE, jsonschema, ...) from `base`
+# and installs this file on top: the ASGI server and the framework. tests/test_service_requirements.py
+# reads the Dockerfile and compose files and asserts every executable they invoke is declared here.
 #
-# Test-only deps live in ../requirements-test.txt (which already declared all of them);
-# they are not runtime deps of a served API and do not belong in the image's API layer.
-#
-# NOT `-r ../requirements.txt` — llm-enrich can include its parent that way because its
-# Dockerfile copies `service/requirements.txt` into `service/`, preserving the relative
-# path. This repo's Dockerfile flattens it to `./service_requirements.txt`, where `../`
-# escapes /app and the build would fail. Both install paths pull the pipeline requirements
-# in explicitly instead: the `api` stage inherits them from `base`, and
-# setup_api_service.sh installs `requirements.txt` before this file. That is also where
-# `jsonschema` (the Layer D document gate, D4) comes from — it is a pipeline dependency,
-# not a serving one.
+# Test-only deps live in ../requirements-test.txt; they are not runtime deps of a served API and do
+# not belong in the image's API layer.
 #
 # fastapi and pydantic are pinned EXACTLY (atrium-project#32 round 2): the committed
 # service/openapi.json -- attached to every release, and what the AMČR pipeline generates its
-# clients from -- is a function of the code AND of these two versions, and the image is built
-# at tag time. requirements-test.txt pins the same two (and requirements.txt's
-# `pydantic>=2.13.5` and requirements_llm.txt's `pydantic==2.13.5` agree with them);
-# tests/test_openapi_contract.py fails when the pins disagree or the installed versions
-# differ. Bump them together, by hand, and regenerate the spec (dependabot ignores both):
+# clients from -- is a function of the code AND of these two versions, and the image is built at
+# tag time. requirements-test.txt pins the same two (and requirements.txt's `pydantic>=2.13.5` and
+# requirements_llm.txt's `pydantic==2.13.5` agree with them); tests/test_openapi_contract.py fails
+# when the pins disagree or the installed versions differ. Bump them together, by hand, and
+# regenerate the spec (dependabot ignores both):
 # python atrium_openapi.py export --app service.api:app
 fastapi==0.141.1
 pydantic==2.13.5

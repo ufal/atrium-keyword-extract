@@ -34,14 +34,14 @@ jobs:
       # needs only this one (#18). inherit handed it every repo secret.
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     with:
-      image-name: ufal/atrium-nlp-enrich
+      image-name: ufal/atrium-keyword-extract
       apt-packages: ""
       pre-install-torch: ""
       requirements: "requirements.txt requirements-test.txt"
       hf-model-cache: false
-      # base  -> ghcr.io/ufal/atrium-nlp-enrich       (batch run_pipeline.py)
-      # api   -> ghcr.io/ufal/atrium-nlp-enrich-api   (python -m service.api, $PORT)
-      # llm   -> ghcr.io/ufal/atrium-nlp-enrich-llm   (GPU semantic enrichment)
+      # base  -> ghcr.io/ufal/atrium-keyword-extract       (batch CLI, keywords.py)
+      # api   -> ghcr.io/ufal/atrium-keyword-extract-api   (python -m service.api, $PORT)
+      # llm   -> ghcr.io/ufal/atrium-keyword-extract-llm   (research: the LLM batch, GPU)
       # Targets are passed through verbatim since the template fix — "base"
       # now genuinely builds the `AS base` stage, not the last one.
       build-targets: '["base", "api", "llm"]'
@@ -53,5 +53,5 @@ jobs:
       probe-targets: '["api"]'
       # atrium-project#72: `api` is this stage's production image, the one AMČR pins; its
       # first-party files are declared in .github/production-image.json and checked by
-      # workflow-lint. `base` (run_pipeline.py) and `llm` are batch targets: published, never
-      # pinned; `llm` leaves with the keyword code (#40).
+      # workflow-lint. `base` (keywords.py) and `llm` are batch targets: published, never
+      # pinned; `llm` is replaced by the controlled kind of the service (atrium-keyword-extract#1).

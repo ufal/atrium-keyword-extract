@@ -2,7 +2,7 @@
 FROM python:3.11-slim AS base
 
 ARG ATRIUM_RUNNER_IMAGE=""
-ARG ATRIUM_RUNNER_REPO="https://github.com/ufal/atrium-nlp-enrich"
+ARG ATRIUM_RUNNER_REPO="https://github.com/ufal/atrium-keyword-extract"
 ARG ATRIUM_RUNNER_REF=""
 
 ENV ATRIUM_RUNNER_IMAGE=${ATRIUM_RUNNER_IMAGE} \
@@ -71,8 +71,7 @@ COPY . .
 # that owns the ./data bind mount, and a uid with no passwd entry still reaches /app,
 # /cache, /data and $HOME through group 0. HOME is explicit because without a passwd entry
 # it would be `/`. The default runtime -- uid 10001 as the owner -- is unchanged.
-RUN chmod +x api_1_manifest.sh api_2_udp.sh api_3_nt.sh api_4_stats.sh \
-    && useradd --create-home --uid 10001 atrium \
+RUN useradd --create-home --uid 10001 atrium \
     && mkdir -p /cache/huggingface /data \
     && chown -R atrium:0 /app /cache /data /home/atrium \
     && chmod -R g=u /app /cache /data /home/atrium
@@ -80,7 +79,10 @@ ENV HOME=/home/atrium
 
 USER atrium
 
-ENTRYPOINT ["python", "run_pipeline.py"]
+# The batch form of the stage: the statistical keywords of CoNLL-U files (nlp-enrich's UDP/ output) or
+# TEITOK, `python keywords.py -i <dir> -m keybert|yake|legacy`. Published as :<version>, never pinned;
+# the production image is `api` below.
+ENTRYPOINT ["python", "keywords.py"]
 CMD []
 
 
@@ -115,10 +117,8 @@ STOPSIGNAL SIGTERM
 #
 # GRACEFUL_SHUTDOWN_S carries the `--timeout-graceful-shutdown 20` that used to sit on
 # the ENTRYPOINT line. It bounds uvicorn's own wait for in-flight HTTP
-# requests (20s here; nlp-enrich's background /jobs queue is a SEPARATE mechanism — see
-# service/api.py's ServiceState.track() — not covered by this budget at all, since a
-# job-submission request has already returned before the job finishes). --start-period
-# on HEALTHCHECK below covers first-run model downloads; see docs/docker_gha.md §3.4
+# requests (20s here). --start-period
+# on HEALTHCHECK below covers first-run model downloads (the KeyBERT embedding model); see docs/docker_gha.md §3.4
 # and docs/k8s_deployment.md for the full grace-period budget this is sized against.
 ENV PORT=8000 GRACEFUL_SHUTDOWN_S=20
 

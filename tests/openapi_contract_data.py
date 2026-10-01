@@ -12,17 +12,11 @@ from __future__ import annotations
 #: must be a named model (strategy §4.2).
 SERVICES = [
     {
-        "service": "atrium-nlp-enrich",
+        "service": "atrium-keyword-extract",
+        "service_previous": "atrium-nlp-enrich",
         "app": "service.api:app",
         "spec": "service/openapi.json",
-        "primary": [
-            "/enrich",
-            "/enrich_text",
-            "/rescale",
-            "/jobs",
-            "/jobs/{job_id}",
-            "/jobs/{job_id}/result",
-        ],
+        "primary": ["/extract_keywords", "/extract_keywords_text"],
     },
 ]
 
@@ -32,8 +26,6 @@ SERVICES = [
 ENV_PERTURB = {
     "DEFAULT_KW_METHOD": "yake",
     "ALLOWED_ORIGINS": "https://example.org",
-    "UDPIPE_URL": "https://udpipe.invalid/",
-    "NAMETAG_URL": "https://nametag.invalid/",
 }
 
 #: Every requirements file a lane or an image installs fastapi or pydantic from: the api image

@@ -5,14 +5,14 @@
 #   version-check  — runs on every PR and push; verifies CITATION.cff version
 #                    matches para_config.txt [tool] version.
 #   trivy-image    — runs on tag/release/schedule/dispatch only; scans
-#                    ghcr.io/ufal/atrium-nlp-enrich:latest for CVEs.
+#                    ghcr.io/ufal/atrium-keyword-extract:latest for CVEs.
 #   sbom           — runs alongside trivy on the same triggers; generates
 #                    a CycloneDX SBOM and attaches it to the release.
 #
-# No para-config-path override — nlp-enrich uses the default para_config.txt.
+# No para-config-path override — keyword-extract uses the default para_config.txt.
 #
 # Prerequisites (infra, not code):
-#   • GHCR package ghcr.io/ufal/atrium-nlp-enrich must be published & public
+#   • GHCR package ghcr.io/ufal/atrium-keyword-extract must be published & public
 #     (or auth available) before the weekly Trivy scan can pull :latest.
 #     PR runs are unaffected (image-scan is gated off PRs in the reusable).
 
@@ -50,4 +50,4 @@ jobs:
     # (Trivy/SBOM read a public GHCR image, version-check reads the tree).
     # It previously carried `secrets: inherit` for no reason (#18).
     with:
-      image-ref: ghcr.io/ufal/atrium-nlp-enrich:latest
+      image-ref: ghcr.io/ufal/atrium-keyword-extract:latest

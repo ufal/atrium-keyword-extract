@@ -1,8 +1,0 @@
-[
-  {"text": "ARTEFACT", "suffix_key": "a", "background_color": "#e6194b", "text_color": "#ffffff"},
-  {"text": "PERIOD",   "suffix_key": "p", "background_color": "#3cb44b", "text_color": "#ffffff"},
-  {"text": "LOCATION", "suffix_key": "l", "background_color": "#4363d8", "text_color": "#ffffff"},
-  {"text": "CONTEXT",  "suffix_key": "c", "background_color": "#f58231", "text_color": "#ffffff"},
-  {"text": "MATERIAL", "suffix_key": "m", "background_color": "#911eb4", "text_color": "#ffffff"},
-  {"text": "SPECIES",  "suffix_key": "s", "background_color": "#42d4f4", "text_color": "#000000"}
-]

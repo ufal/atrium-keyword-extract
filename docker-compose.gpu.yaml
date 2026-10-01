@@ -1,12 +1,14 @@
 # GPU override — combine with docker-compose.yaml:
-#   docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml run --rm nlp
-#   docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml --profile llm run --rm nlp-llm
+#   docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml run --rm kw
+#   docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml --profile api up kw-api
+#   docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml --profile llm run --rm kw-llm
 #
-# Requires NVIDIA Container Toolkit on the host:
+# KeyBERT uses the first GPU when there is one (the AMČR plan gives it the first GPU, shared with
+# page-classification and ocr-postprocess). Requires NVIDIA Container Toolkit on the host:
 #   https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 
 services:
-  nlp:
+  kw:
     environment:
       NVIDIA_VISIBLE_DEVICES: all
     deploy:
@@ -17,7 +19,19 @@ services:
               count: all
               capabilities: [gpu]
 
-  nlp-llm:
+  kw-api:
+    profiles: [api]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  kw-llm:
     profiles: [llm]
     environment:
       NVIDIA_VISIBLE_DEVICES: all

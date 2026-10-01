@@ -32,9 +32,7 @@ DOCS = [
     "data_samples/vocab/RUNBOOK.md",
     "data_samples/vocab/6.O3O4.decision-package.md",
     "data_samples/vocab/6.D-eval.decision-package.md",
-    "annotation/README.md",
     "service/README.md",
-    "schemas/teitok/README.md",
 ]
 
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
