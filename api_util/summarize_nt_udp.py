@@ -1,7 +1,5 @@
 import argparse
 import csv
-import glob
-import json
 import os
 import re
 import sys
@@ -18,6 +16,7 @@ from api_util import doc_identity as _doc_identity  # noqa: E402
 from api_util import page_rows as _page_rows  # noqa: E402
 from api_util.teitok_alto import write_teitok_merged  # noqa: E402
 from atrium_document import canonical_doc_id  # noqa: E402
+from atrium_paradata import ParadataLogger  # noqa: E402
 
 # Increase CSV field size limit just in case
 csv.field_size_limit(sys.maxsize)
@@ -550,6 +549,7 @@ def process_single_document(
     document_json_dir=None,
     document_run_id=None,
     document_paradata_ref="",
+    document_run_uuid=None,
     document_license_detail=None,
     include_lines=False,
     bbox_origin="page",
@@ -646,6 +646,7 @@ def process_single_document(
                 baseline_json=baseline_json,
                 out_json=out_json,
                 run_id=document_run_id,
+                run_uuid=document_run_uuid,
                 paradata_ref=document_paradata_ref,
                 license_detail=document_license_detail,
                 include_lines=include_lines,
@@ -800,13 +801,11 @@ def build_parser():
 
     # --- Document Hook specific args ---
     parser.add_argument(
-        "--state-dir", default=None, help="Directory containing paradata state files"
-    )
-    parser.add_argument(
         "--para-state",
         default=None,
-        help="The stage's paradata state file (atrium_paradata.py start); limits that "
-        "shaped the summary are recorded in it (atrium-project#53).",
+        help="The stage's paradata state file (atrium_paradata.py start): its run stamps the "
+        "document record (atrium-project#71), and limits that shaped the summary are recorded "
+        "in it (atrium-project#53).",
     )
     parser.add_argument(
         "--document-json-dir",
@@ -877,19 +876,22 @@ def main(argv=None):
     save_csv = bool_from_str(args.save_csv, default=True)
     save_teitok = bool_from_str(args.save_teitok, default=False)
 
-    # Resolve Paradata State for Document JSON Accretion
+    # The record is stamped with the stage's own run: its `atrium_paradata.py start` state,
+    # --para-state (atrium-project#71). This used to take the FIRST .state_*.json of a
+    # --state-dir (now gone), which in a shared paradata directory may be another stage's,
+    # and read keys no state file has (`_run_id`, `paradata_path`, `license_detail`): every
+    # record said run "unknown-nlp-enrich-run", with no paradata reference and no licence.
     document_run_id = "unknown-nlp-enrich-run"
+    document_run_uuid = None
     document_paradata_ref = ""
     document_license_detail = {}
 
-    if args.document_json_dir and args.state_dir:
-        state_files = glob.glob(os.path.join(args.state_dir, ".state_*.json"))
-        if state_files:
-            with open(state_files[0], "r") as sf:
-                state_dict = json.load(sf)
-                document_run_id = state_dict.get("_run_id", document_run_id)
-                document_license_detail = state_dict.get("license_detail", {})
-                document_paradata_ref = state_dict.get("paradata_path", "")
+    if args.document_json_dir and args.para_state and os.path.exists(args.para_state):
+        stage_run = ParadataLogger.from_state_file(args.para_state)
+        document_run_id = stage_run.run_id
+        document_run_uuid = stage_run.run_uuid
+        document_paradata_ref = stage_run.paradata_ref
+        document_license_detail = stage_run.get_license_block()
 
     # ── per-document mode (invoked by api_4_stats.sh with --conllu) ──
     if args.conllu:
@@ -919,6 +921,7 @@ def main(argv=None):
             document_json_dir=args.document_json_dir,
             document_run_id=document_run_id,
             document_paradata_ref=document_paradata_ref,
+            document_run_uuid=document_run_uuid,
             document_license_detail=document_license_detail,
             include_lines=args.include_lines,
             bbox_origin=args.bbox_origin,

@@ -131,7 +131,7 @@ through to it, so there is one implementation, not two.
   "teitok_xml": "<?xml ...>",
   "keywords": [ {"keyword": "...", "score": 0.91} ],
   "ne_summary": [ {"file": "...", "page": "1", "entities": [...] } ],
-  "paradata": { "...merged pipeline-run record incl. license union..." },
+  "paradata": { "@id": "urn:uuid:...", "@type": "CreateAction", "...": "..." },
   "limits_applied": [ {"limit": "keybert_chunk_words", "value": 400, "effect": "split",
                        "count": 1, "detail": "...", "program": "nlp-enrich"} ],
   "method_requested": "keybert", "method_used": "keybert",
@@ -146,6 +146,16 @@ through to it, so there is one implementation, not two.
 (atrium-project#53) — a document embedded in KeyBERT chunks, chunks longer than the encoder's
 window, pages whose entity summary kept its top N. The stages record them in their paradata;
 this is the merged record's list (`[]` when no limit applied).
+
+**`paradata`** is the call's provenance (atrium-project#71): one Process Run Crate `CreateAction`,
+built by `atrium_rocrate.create_action()` from the run's merged pipeline-run record (its
+`paradataRecord`, with the licence union of every stage). Its `@id` is the `run_uuid` the stats
+stage stamped on the blocks it wrote into `document_json`, or, without a record, the merged run's
+own; `object` is what the call was sent (the upload or `lines.json`, a separate `alto` part, the
+record), `result` the blocks written and the TEITOK; `agent` is `ATRIUM_RUN_AGENT` when set. It
+is `null` only for a run that left no paradata. An error response carries no action. Hub
+[`docs/rocrate_export.md`](https://github.com/ufal/atrium-project/blob/main/docs/rocrate_export.md) §5
+describes it.
 
 `layout_source` is `rows`, `alto` or `teitok` ([Layout inputs](#layout-inputs)).
 `teitok_schema_valid`/`teitok_schema_errors` are the output-contract verdict on `teitok_xml`

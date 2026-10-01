@@ -1,4 +1,10 @@
+import json
+
+import pytest
+
+from api_util import summarize_nt_udp
 from api_util.summarize_nt_udp import get_ne_explanation
+from atrium_paradata import ParadataLogger
 
 
 class TestNameTagExplanationMapping:
@@ -34,3 +40,34 @@ class TestNameTagExplanationMapping:
         explanation = get_ne_explanation("B-unknown_xyz")
         assert "Unknown Code" in explanation
         assert "unknown_xyz" in explanation
+
+
+def test_the_record_is_stamped_with_the_stages_own_run(tmp_path, monkeypatch):
+    """atrium-project#71: the stats step reads its run from the stage's state file
+    (--para-state), not from whichever `.state_*.json` a shared paradata directory lists
+    first, and hands its run_id, run_uuid, paradata file and licences to the record write."""
+    para_dir = tmp_path / "paradata"
+    para_dir.mkdir()
+    other = ParadataLogger("udpipe", {}, paradata_dir=str(para_dir))
+    (para_dir / ".state_0_aaa.json").write_text(
+        json.dumps(other._to_state_dict()), encoding="utf-8"
+    )
+    stage = ParadataLogger("nlp-enrich", {}, paradata_dir=str(para_dir))
+    state = para_dir / ".state_1_nlp-enrich.json"
+    state.write_text(json.dumps(stage._to_state_dict()), encoding="utf-8")
+
+    seen = {}
+    monkeypatch.setattr(
+        summarize_nt_udp, "process_single_document", lambda **kw: seen.update(kw) or True
+    )
+    with pytest.raises(SystemExit) as exit_:
+        summarize_nt_udp.main(
+            [
+                "--conllu", "x.conllu", "--ne-dir", "ne", "--output-dir", "out",
+                "--document-json-dir", str(tmp_path / "records"), "--para-state", str(state),
+            ]
+        )  # fmt: skip
+    assert exit_.value.code == 0
+    assert (seen["document_run_id"], seen["document_run_uuid"]) == (stage.run_id, stage.run_uuid)
+    assert seen["document_paradata_ref"] == stage.paradata_ref
+    assert seen["document_license_detail"] == stage.get_license_block()

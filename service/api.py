@@ -10,8 +10,9 @@ The parameters with a closed set of values (``kw_method``, ``lang``, ``format``)
 in the spec, and the default keyword method is the SERVER's (``DEFAULT_KW_METHOD``, reported
 in ``/info``), no longer baked into the spec from the environment. Refusals carry registered
 reasons: an unsupported file type is 415 ``unsupported_media_type``, a record that cannot be
-opened is 422 ``invalid_record`` (it was dropped with a warning before). Regenerate the spec
-after an API change::
+opened is 422 ``invalid_record`` (it was dropped with a warning before). Every JSON success
+carries the run's Process Run Crate ``CreateAction`` as ``paradata`` (atrium-project#71).
+Regenerate the spec after an API change::
 
     python atrium_openapi.py export --app service.api:app --out service/openapi.json
 """
@@ -73,6 +74,7 @@ from .rescale import RescaleError, RescaleTooLarge, rescale_teitok
 # isort: split
 # The repo root is on sys.path from here on (service/enrichment.py puts it there, for the
 # `python api.py` start from service/), so the repo-root modules are imported below it.
+import atrium_rocrate  # noqa: E402
 from atrium_limits import LimitExceeded  # noqa: E402
 from tool_limits import (  # noqa: E402
     API_JOB_TIMEOUT,
@@ -183,8 +185,9 @@ class EnrichResponse(BaseModel):
     ne_summary: List[NamedEntitySummary] = Field(description="Named entities per page.")
     paradata: Optional[CreateAction] = Field(
         description=(
-            "The run's provenance. Transitional until atrium-project#67 R2: the merged pipeline-run paradata "
-            "record, which carries the paradata properties of the `CreateAction` without its own members."
+            "The call's provenance: its Process Run Crate `CreateAction` (atrium-project#71), built from the "
+            "pipeline run's merged paradata record, whose `@id` is the `run_uuid` stamped into `document_json`; "
+            "null only when the run left no paradata."
         )
     )
     limits_applied: List[LimitNote] = Field(
@@ -611,9 +614,14 @@ def _run_pipeline_sync(
     ), kw_method
 
 
-def _build_envelope(result, requested_method) -> Dict[str, Any]:
+def _build_envelope(result, requested_method, sent=()) -> Dict[str, Any]:
     teitok_xml = PipelineManager.collect_teitok(result)
-    paradata = PipelineManager.collect_merged_paradata(result)
+    merged = PipelineManager.collect_merged_paradata(result)
+    record = (
+        PipelineManager.collect_document_json(result)
+        if result.document_json_out is not None
+        else None
+    )
     envelope = {
         "doc_id": result.doc_id,
         "pages": result.pages,
@@ -621,10 +629,10 @@ def _build_envelope(result, requested_method) -> Dict[str, Any]:
         "teitok_xml": teitok_xml,
         "keywords": PipelineManager.collect_keywords(result),
         "ne_summary": PipelineManager.collect_ne_summary(result),
-        "paradata": paradata,
+        "paradata": _run_action(merged, result, record, teitok_xml, sent) if merged else None,
         # Every limit that shaped this result without refusing it (atrium-project#53): the
         # stages record them in their paradata, the run's merged record carries them.
-        "limits_applied": list((paradata or {}).get("limits_applied") or []),
+        "limits_applied": list((merged or {}).get("limits_applied") or []),
         "method_requested": requested_method,
         "method_used": result.kw_method_used,
         "llm": None,
@@ -640,8 +648,52 @@ def _build_envelope(result, requested_method) -> Dict[str, Any]:
     # is meaningful rather than absent-by-default: it says the record was requested and
     # the pipeline produced none (see PipelineManager.collect_document_json).
     if result.document_json_out is not None:
-        envelope["document_json"] = PipelineManager.collect_document_json(result)
+        envelope["document_json"] = record
     return envelope
+
+
+def _run_action(merged, result, record, teitok_xml, sent) -> Dict[str, Any]:
+    """The call's CreateAction (atrium-project#71), from the pipeline run's merged paradata.
+
+    Its `@id` is the `run_uuid` the stats stage stamped on the blocks it wrote (the record's
+    last `nlp-enrich` contributor), so the record and the action name one run; without a
+    record it is the merged run's own. `object` is what the call was sent and the record;
+    `result` is the record's blocks this run stamped and the TEITOK it answers with.
+    """
+    ours = [
+        entry
+        for entry in ((record or {}).get("provenance") or {}).get("contributors") or []
+        if entry.get("program") == "nlp-enrich" and entry.get("run_uuid")
+    ]
+    run_uuid = ours[-1]["run_uuid"] if ours else merged.get("run_uuid")
+    inputs = list(sent)
+    if result.document_json_out is not None:
+        inputs.append(
+            atrium_rocrate.record_entity(str((record or {}).get("doc_id") or result.doc_id))
+        )
+    outputs = atrium_rocrate.block_entities(atrium_rocrate.blocks_written(record, run_uuid or ""))
+    if teitok_xml:
+        outputs.append(
+            atrium_rocrate.file_entity(
+                f"{result.doc_id}.teitok.xml",
+                teitok_xml.encode("utf-8"),
+                media_type="application/xml",
+            )
+        )
+    return atrium_rocrate.create_action(merged, inputs=inputs, outputs=outputs, action_id=run_uuid)
+
+
+def _sent(name, data, media_type, alto=None, layout=None) -> List[Dict[str, Any]]:
+    """What a call was sent, for its CreateAction's `object` (atrium-project#71): the upload and
+    a separate `alto` part. A TEITOK upload is its own layout, so it is listed once."""
+    sent = [atrium_rocrate.file_entity(name, data, media_type=media_type)]
+    if alto is not None and layout is not None and layout.kind == "alto":
+        sent.append(
+            atrium_rocrate.file_entity(
+                alto.filename or "upload.alto.xml", layout.data, media_type="application/alto+xml"
+            )
+        )
+    return sent
 
 
 async def _run_enrichment(
@@ -654,6 +706,7 @@ async def _run_enrichment(
     document_json=None,
     layout=None,
     teitok_enrichment=False,
+    sent=(),
 ) -> tuple[Any, str, Any]:
     loop = asyncio.get_event_loop()
     try:
@@ -678,7 +731,7 @@ async def _run_enrichment(
         if fmt == "zip":
             zip_path = PipelineManager.zip_workspace_output(result)
             return zip_path, "zip", result
-        envelope = _build_envelope(result, requested)
+        envelope = _build_envelope(result, requested, sent)
         return envelope, "json", result
     except Exception:
         PipelineManager.cleanup(result)
@@ -709,6 +762,7 @@ async def _enrich_common(
     document_json=None,
     layout=None,
     teitok_enrichment=False,
+    sent=(),
 ):
     _validate_params(kw_method, lang, num_keywords)
     _check_rows(rows)
@@ -730,6 +784,7 @@ async def _enrich_common(
             document_json,
             layout,
             teitok_enrichment,
+            sent,
         )
     finally:
         await _semaphore.release()
@@ -755,6 +810,7 @@ async def _run_job_background(
     document_json=None,
     layout=None,
     teitok_enrichment=False,
+    sent=(),
 ):
     try:
         # "queued" until the job holds a slot (atrium-project#53): it used to report
@@ -772,6 +828,7 @@ async def _run_job_background(
                 document_json=document_json,
                 layout=layout,
                 teitok_enrichment=teitok_enrichment,
+                sent=sent,
             )
             PipelineManager.cleanup(result)
             job.result = data
@@ -968,6 +1025,7 @@ async def enrich(
         baseline,
         layout,
         teitok_enrichment,
+        _sent(filename, data, file.content_type, alto, layout),
     )
 
 
@@ -995,6 +1053,7 @@ async def enrich_text(payload: EnrichTextRequest, request: Request):
     # matching llm-enrich's /extract_keywords_text (#10 J3).
     baseline = parse_record_part(payload.document_json, "document_json")
     baseline_bytes = json.dumps(baseline).encode("utf-8") if baseline is not None else None
+    lines = json.dumps(payload.lines, ensure_ascii=False).encode("utf-8")
     return await _enrich_common(
         rows,
         payload.doc_id,
@@ -1004,6 +1063,7 @@ async def enrich_text(payload: EnrichTextRequest, request: Request):
         payload.format,
         baseline_bytes,
         teitok_enrichment=payload.teitok_enrichment,
+        sent=_sent("lines.json", lines, "application/json"),
     )
 
 
@@ -1228,7 +1288,16 @@ async def submit_job(
     # longer kills it mid-run.
     _state.track(
         _run_job_background(
-            job, rows, doc_id, kw_method, num_keywords, lang, baseline, layout, teitok_enrichment
+            job,
+            rows,
+            doc_id,
+            kw_method,
+            num_keywords,
+            lang,
+            baseline,
+            layout,
+            teitok_enrichment,
+            _sent(filename, data, file.content_type, alto, layout),
         )
     )
     return {"job_id": job.job_id, "status": "queued"}

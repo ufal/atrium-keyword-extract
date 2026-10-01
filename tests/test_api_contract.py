@@ -182,6 +182,7 @@ def test_deep_health_reports_draining_with_operator_fields():
 # by a stand-in for run_pipeline.py, as tests/test_api_service.py does) and hold every
 # response — 200s and refusals alike — to the schema the PUBLISHED spec declares for it.
 
+import json  # noqa: E402
 from pathlib import Path  # noqa: E402
 from types import SimpleNamespace  # noqa: E402
 
@@ -290,6 +291,90 @@ def test_a_value_outside_the_published_enum_or_bounds_is_422(pipeline, data):
     files = {"file": ("doc.csv", b"text\nPraha\n", "text/csv")}
     body = _conforms("post", "/enrich", 422, client.post("/enrich", files=files, data=data))
     assert body["reason"] is None and body["errors"] and pipeline == []
+
+
+#: An AMČR seed (atrium-project#71): the file id and the archive's own view of the original.
+_AMCR_SEED = {
+    "doc_id": "C-202000543A-DT-27",
+    "source": {"sha512": "c" * 128, "filename": "zprava.pdf", "media_type": "application/pdf"},
+}
+
+
+@pytest.fixture
+def pipeline_run(tmp_path, monkeypatch):
+    """The stand-in above, plus what a real run leaves for the envelope: the stats stage's
+    paradata, the run's merged record, and the record that stage stamped with its run_uuid."""
+    from atrium_document import DocumentRecord
+    from atrium_paradata import ParadataLogger, merge_run_paradata
+
+    def _run(cmd, **_kwargs):
+        out = Path(cmd[cmd.index("--config") + 1]).parent / "out"
+        (out / "TEITOK").mkdir(parents=True, exist_ok=True)
+        (out / "TEITOK" / "doc.teitok.xml").write_text(_TEITOK, encoding="utf-8")
+        stage = ParadataLogger(
+            "nlp-enrich", {"script": "api_4_stats"}, paradata_dir=str(out / "paradata")
+        )
+        merge_run_paradata(
+            [stage.finalize()],
+            str(out / "paradata" / f"{stage.run_id}_nlp-enrich_pipeline-run.json"),
+            pipeline="nlp-enrich",
+        )
+        if "--document-json-out" in cmd:
+            with DocumentRecord.open(
+                "doc",
+                "nlp-enrich",
+                baseline=cmd[cmd.index("--document-json") + 1],
+                run_id=stage.run_id,
+                run_uuid=stage.run_uuid,
+                paradata_ref=stage.paradata_ref,
+            ) as doc:
+                doc.add_derived_from("teitok", "TEITOK/doc.teitok.xml")
+                doc.finalize(cmd[cmd.index("--document-json-out") + 1])
+        return SimpleNamespace(returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr(_enr, "_API_JOBS_ROOT", tmp_path)
+    monkeypatch.setattr(_enr.subprocess, "run", _run)
+
+
+def test_an_amcr_seed_keeps_its_identity_and_the_run_is_returned(pipeline_run):
+    """atrium-project#71 through /enrich: the seed's id and source come back unchanged, and
+    `paradata` is the run's CreateAction, whose @id is the run_uuid the stats stage stamped."""
+    from atrium_rocrate import action_problems
+
+    files = {
+        "file": ("doc.csv", b"text\nPraha\n", "text/csv"),
+        "document_json": (
+            "seed.document.json",
+            json.dumps(_AMCR_SEED).encode(),
+            "application/json",
+        ),
+    }
+    body = _conforms(
+        "post", "/enrich", 200, client.post("/enrich", files=files, data={"kw_method": "none"})
+    )
+    record, action = body["document_json"], body["paradata"]
+    assert record["doc_id"] == _AMCR_SEED["doc_id"] and record["source"] == _AMCR_SEED["source"]
+
+    assert action_problems(action) == []
+    assert action["@id"] == record["assembled"]["blocks"]["derived_from"]["run_uuid"]
+    assert [e["name"] for e in action["object"]] == ["doc.csv", "C-202000543A-DT-27.document.json"]
+    assert {"#block-derived_from"} <= {e["@id"] for e in action["result"]}
+    assert "doc.teitok.xml" in {e["name"] for e in action["result"]}
+
+
+def test_without_a_record_the_action_is_the_merged_runs(pipeline_run):
+    from atrium_rocrate import action_problems
+
+    body = _conforms(
+        "post",
+        "/enrich_text",
+        200,
+        client.post("/enrich_text", json={"lines": ["Praha"], "kw_method": "none"}),
+    )
+    action = body["paradata"]
+    assert action_problems(action) == []
+    assert action["@id"] == action["paradataRecord"]["run_uuid"]  # the merged run's own id
+    assert [e["name"] for e in action["object"]] == ["lines.json"]
 
 
 def test_the_jobs_api_conforms_to_the_published_schema(pipeline):

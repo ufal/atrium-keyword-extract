@@ -58,6 +58,7 @@ def _record(doc_id="CTX000000001", **blocks):
 #: (atrium-project#10, D4), so a bare MagicMock — which is not a JSON object at all —
 #: would fail that gate for a reason that has nothing to do with the test.
 _VALID_STUB_RECORD = _record(doc_id="CTX0")
+_RUN_UUID = "urn:uuid:9a3c1e57-2b6d-4f08-8e41-7c5d0b2a6f19"
 
 
 @pytest.fixture
@@ -104,14 +105,16 @@ def test_document_hook_onto_extraction(mock_parse, mock_group, mock_document_rec
         paradata_ref="paradata.json",
         license_detail={"effective_license": "CC-BY"},
         alto_path="/fake/path/CTX000000001.alto.xml",
+        run_uuid=_RUN_UUID,
     )
 
-    # Verify accretion initialization
+    # Verify accretion initialization: the stage's run_uuid goes with its run_id (#71)
     mock_record_class.open.assert_called_once_with(
         "CTX000000001",
         "nlp-enrich",
         baseline=None,
         run_id="test-run-123",
+        run_uuid=_RUN_UUID,
         paradata_ref="paradata.json",
     )
 
@@ -330,7 +333,7 @@ def _span_token(char_start=0, char_end=5):
     }
 
 
-def _run_real_hook(tmp_path, span_token, baseline=None, doc_id="CTX000000001"):
+def _run_real_hook(tmp_path, span_token, baseline=None, doc_id="CTX000000001", run_uuid=None):
     """Run the hook against the real DocumentRecord; return the out path (written or not)."""
     tmp_path.mkdir(parents=True, exist_ok=True)
     baseline_path = None
@@ -360,8 +363,27 @@ def _run_real_hook(tmp_path, span_token, baseline=None, doc_id="CTX000000001"):
             run_id="260805-120000",
             paradata_ref="paradata/260805-120000_nlp-enrich.json",
             license_detail={"effective_license": "CC BY-NC-SA 4.0"},
+            run_uuid=run_uuid,
         )
     return out_json
+
+
+def test_an_amcr_seed_is_a_valid_baseline_and_keeps_its_identity(tmp_path, capsys):
+    """atrium-project#71: a seed (a foreign doc_id and the archive's view of the original) is
+    checked against the seed profile, so it is no "invalid baseline" and the own-output gate
+    is not demoted. Its identity survives, and the stage's run_uuid is stamped."""
+    pytest.importorskip("jsonschema")
+    seed = {
+        "doc_id": "AMCR-F-0001",
+        "source": {"sha512": "c" * 128, "filename": "zprava.pdf", "media_type": "application/pdf"},
+    }
+    out_json = _run_real_hook(tmp_path, _span_token(), baseline=seed, run_uuid=_RUN_UUID)
+
+    assert "does not validate" not in capsys.readouterr().err
+    record = json.loads(out_json.read_text(encoding="utf-8"))
+    assert record["doc_id"] == seed["doc_id"] and record["source"] == seed["source"]
+    assert {s["run_uuid"] for s in record["assembled"]["blocks"].values()} == {_RUN_UUID}
+    assert record["provenance"]["contributors"][-1]["run_uuid"] == _RUN_UUID
 
 
 def test_valid_contribution_is_written_and_validates(tmp_path):

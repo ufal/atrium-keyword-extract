@@ -3,7 +3,7 @@ import os
 import sys
 from typing import Any, Dict, List, Optional
 
-from atrium_document import DocumentRecord, load_document
+from atrium_document import DocumentRecord, load_document, validate_baseline
 
 # Aliased on import, deliberately (atrium-project#10, D4). This repo has a SECOND,
 # unrelated `validate_document()` in api_util/validate_teitok_xml.py — TEITOK XML
@@ -66,6 +66,10 @@ def _baseline_is_invalid(path: Optional[str]) -> bool:
 
     A baseline that cannot be READ at all is not this function's problem —
     ``DocumentRecord.open()`` reports on it a few lines later, with the right message.
+
+    An AMČR seed (``doc_id`` and ``source`` only, atrium-project#71) is checked against the
+    seed profile (``validate_baseline``), not the full schema it could never pass: it used to
+    be reported here as an invalid baseline, which also demoted this stage's own output gate.
     """
     if not path or not os.path.exists(path):
         return False
@@ -74,7 +78,7 @@ def _baseline_is_invalid(path: Optional[str]) -> bool:
     except Exception:
         return False
     try:
-        validate_document_record(record)
+        validate_baseline(record)
     except (RuntimeError, FileNotFoundError) as exc:
         # RuntimeError = jsonschema missing; FileNotFoundError = the schema itself was
         # not vendored next to the module. Neither means "the record is bad".
@@ -219,9 +223,14 @@ def run_document_hook(
     alto_path: Optional[str] = None,
     include_lines: bool = False,
     rows: Optional[list] = None,
+    run_uuid: Optional[str] = None,
 ):
     """
     Integrates nlp-enrich outputs (entities, TEITOK refs) into the AtriumDocument pair.
+
+    ``run_id``, ``run_uuid`` and ``paradata_ref`` name the stage's run (its paradata state):
+    ``run_uuid`` (atrium-project#71) is stamped with every block and the contributor entry,
+    and it is the ``@id`` of the run's CreateAction.
 
     ``alto_path`` (ALTO or a converted TEITOK layout) gives each token its page, line and
     bbox; ``rows`` (stage 1's rows file, ``api_util/page_rows.py``) gives page and line where
@@ -329,7 +338,12 @@ def run_document_hook(
     baseline_was_invalid = _baseline_is_invalid(baseline_json)
 
     with DocumentRecord.open(
-        doc_id, "nlp-enrich", baseline=baseline_json, run_id=run_id, paradata_ref=paradata_ref
+        doc_id,
+        "nlp-enrich",
+        baseline=baseline_json,
+        run_id=run_id,
+        run_uuid=run_uuid,
+        paradata_ref=paradata_ref,
     ) as doc:
         if license_detail:
             doc.add_license_detail(license_detail)
