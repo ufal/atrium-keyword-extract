@@ -1,5 +1,7 @@
 # TEITOK conformance & flexi* integration — ecosystem plan (umbrella for #9 · #10 · #28 · #38)
 
+> 🔀 **Not this repository's plan:** the TEITOK umbrella stays with ufal/atrium-nlp-enrich; this copy came with the history on 2026-10-01. keyword-extract only reads TEITOK (vendored `api_util/teitok_read.py`, pinned).
+
 > _Written 2026-09-23 from an audit of `atrium-nlp-enrich` (`test` `ed18f40`, v0.20.3), `atrium-llm-enrich`,
 > `atrium-alto-postprocess` and `atrium-project`, checked against the TEITOK author's own tooling; round 4
 > (2026-09-24) re-audited `test` `3654e73` (v0.21.0) and the same upstream heads; round 5 (2026-09-24, after the
