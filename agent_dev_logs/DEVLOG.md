@@ -493,7 +493,20 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **Checks:** full suite 756 passed, 4 skipped (with `yake` installed; `tests/test_api_service.py` skips without it).
   No version bump: the next release carries it.
 
-  **Not pushed: files delivered in chat.**
+  Files delivered in chat; pushed by the maintainer as `6a6619d`.
+
+## 2026-10-05 (evening) — Issue logs refreshed after the split's releases
+* **#1 pair:** rewritten for the released split:
+  * the statistical service in `v1.0.0-beta`;
+  * nlp-enrich LINDAT-only;
+  * digital-convert's LLM copy gone in `v1.1.0-beta`.
+
+  Of its 76 files, 52 are byte-identical here, 14 differ and 10 are absent, so no repository holds a complete copy on
+  `test`. V-6 (`6a6619d`) is unreleased.
+* **#2 digest:** a 2026-10-05 banner that points to the per-file list, posted on #2 at 11:37 UTC.
+* **DEVLOG:** the 2026-10-05 entry names its commit (`6a6619d`).
+
+  Files delivered in chat; the maintainer pushed the pairs as `57f2ce5`.
 
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
