@@ -316,7 +316,7 @@
             "type": "string",
             "contentMediaType": "application/json",
             "title": "Document Json",
-            "description": "The ATRIUM document record, after nlp-enrich: its `lines[].text` are read per page (lines categorised `Trash` or `Empty` are left out), and for the legacy method its `lines[].lemma` and `lines[].upos`. A record that cannot be opened is refused (422 `invalid_record`); one with no text, 422."
+            "description": "The ATRIUM document record, after nlp-enrich: its `lines[].text` are read per page (lines categorised `Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the legacy method its `lines[].lemma` and `lines[].upos`. A record that cannot be opened is refused (422 `invalid_record`); one with no text, 422."
           },
           "kind": {
             "type": "string",
@@ -1321,6 +1321,12 @@
     },
     "ocr_text_layer": {
       "description": "The PDF's text layer is an earlier OCR run's invisible text over page images, so the document is not born-digital (HTTP 422). Route it to OCR: that text layer is not trusted.",
+      "statuses": [
+        422
+      ]
+    },
+    "source_digest_mismatch": {
+      "description": "The record sent with the request names the original by its `source.sha512`, and the uploaded file is not that file (HTTP 422): the record would describe one file under another file's identity. Send the original the seed was made for, or a seed made for this file; do not retry unchanged.",
       "statuses": [
         422
       ]

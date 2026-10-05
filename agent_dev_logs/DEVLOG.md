@@ -476,6 +476,25 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   README notes they run from a checkout. `docker.yml` names `api` as the production target.
 * Revendored the three declared-rename files. Tag draft: `v0.23.0`. **Not pushed: files delivered in chat.**
 
+
+## 2026-10-05 — The hub round of 2026-10-05 re-vendored; born-digital `Garbage`/`Inverted` lines left out
+* **Found in the round's end-to-end check** (digital-convert record → ocr-postprocess OCR hand-off → this service):
+  `_SKIPPED_CATEGORIES` was `{"Trash", "Empty"}`, so the lines digital-convert labels `Garbage` or `Inverted` (a
+  born-digital text layer that does not decode) were read as text, and keywords were extracted from mojibake
+  (`sondì`, `høeby`). The hub registry `atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES` (`Garbage`, `Inverted`, `Trash`)
+  is the one declaration downstream filters key off; digital-convert's `json_to_md` already uses it.
+* **Code:** `service/api.py` builds `_SKIPPED_CATEGORIES` from the vendored registry, plus `Empty`; the
+  `document_json` help (the spec's description) names the four. `tests/test_api_service.py`: the record carries a
+  `Garbage` and an `Inverted` line, and the set is pinned to the registry. README and `service/README.md` updated.
+* **Re-vendored** (hub round of 2026-10-05): `atrium_document.py` (the OCR hand-off per page), the record schema
+  (`pages[].text_layer`), `atrium_service.py` (`source_digest_mismatch`), `test_document_originators.py`,
+  `test_schema_freeze.py`. `service/openapi.json` regenerated: the reason code and the description; compatible with
+  `v1.0.0-beta`.
+* **Checks:** full suite 756 passed, 4 skipped (with `yake` installed; `tests/test_api_service.py` skips without it).
+  No version bump: the next release carries it.
+
+  **Not pushed: files delivered in chat.**
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

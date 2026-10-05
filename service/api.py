@@ -72,6 +72,7 @@ if str(_ROOT) not in sys.path:
 import atrium_rocrate  # noqa: E402
 import keywords as kw  # noqa: E402
 from atrium_paradata import ParadataLogger  # noqa: E402
+from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES  # noqa: E402
 from tool_limits import (  # noqa: E402
     LIMITS,
     MAX_CONCURRENT_REQUESTS,
@@ -112,7 +113,11 @@ _METHOD_HELP = {
 }
 
 #: Lines the quality stage labelled so are left out of the text: nothing is read from them (report §5).
-_SKIPPED_CATEGORIES = frozenset({"Trash", "Empty"})
+#: The untrustworthy ones are the hub registry's (`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES`):
+#: ocr-postprocess's `Trash`, and digital-convert's `Garbage` and `Inverted`, the lines of a born-digital
+#: text layer that does not decode. `Empty` has nothing to read. Until 2026-10-05 only `Trash` and
+#: `Empty` were left out here, so a born-digital record's mojibake was read as text.
+_SKIPPED_CATEGORIES = frozenset(UNTRUSTWORTHY_LINE_CATEGORIES) | {"Empty"}
 _KER_POS = frozenset({"NOUN", "PROPN", "ADJ"})
 
 #: Retry-After of a `busy` refusal: one extraction takes seconds to a minute.
@@ -537,7 +542,7 @@ _EXTRACT_ERRORS = (413, 429, 501)
 
 _RECORD_HELP = (
     "The ATRIUM document record, after nlp-enrich: its `lines[].text` are read per page (lines categorised "
-    "`Trash` or `Empty` are left out), and for the legacy method its `lines[].lemma` and `lines[].upos`. A "
+    "`Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the legacy method its `lines[].lemma` and `lines[].upos`. A "
     "record that cannot be opened is refused (422 `invalid_record`); one with no text, 422."
 )
 _METHOD_PARAM_HELP = (

@@ -7,9 +7,9 @@ method, score and rank, plus the run's **paradata** (a Process Run Crate `Create
 
 Two kinds of keywords are meant to run here, chosen by `kind`:
 
-| Kind          | What it is                                                                                         | In this release |
-|---------------|----------------------------------------------------------------------------------------------------|-----------------|
-| `statistical` | KeyBERT (the default), YAKE, or the legacy KER method — the methods of nlp-enrich's `keywords.py`  | built           |
+| Kind          | What it is                                                                                               | In this release                                                           |
+|---------------|----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| `statistical` | KeyBERT (the default), YAKE, or the legacy KER method — the methods of nlp-enrich's `keywords.py`        | built                                                                     |
 | `controlled`  | the LLM over the AMČR and TEATER vocabularies, with entity links — from llm-enrich's `/extract_keywords` | not yet: asked for alone → 501; with `kind=both` it is reported `skipped` |
 
 The record is read, not written. The `keywords` block of the record is atrium-project#73, so this
@@ -39,35 +39,35 @@ curl -s -X POST localhost:8000/extract_keywords \
 
 ## Endpoints
 
-| Method | Path                      | Purpose                                                                                                                                                      |
-|--------|---------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GET    | `/info`                   | service id, endpoints, the methods (default, descriptions, the KeyBERT model), the kinds (available, planned), `limits` and `limits_meta`, `openapi_sha256`    |
-| GET    | `/health`                 | liveness — 200 always, even mid-shutdown                                                                                                                     |
-| GET    | `/ready`                  | readiness — 503 until the startup warm-up (the KeyBERT model, when it is the default) has finished, 200 while serving, 503 the instant `SIGTERM` arrives     |
-| POST   | `/extract_keywords`       | **the entry point** — the record as an upload (`document_json`); keywords per document and per page                                                          |
-| POST   | `/extract_keywords_text`  | the same on a plain text in a JSON body (no pages)                                                                                                           |
+| Method | Path                     | Purpose                                                                                                                                                     |
+|--------|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GET    | `/info`                  | service id, endpoints, the methods (default, descriptions, the KeyBERT model), the kinds (available, planned), `limits` and `limits_meta`, `openapi_sha256` |
+| GET    | `/health`                | liveness — 200 always, even mid-shutdown                                                                                                                    |
+| GET    | `/ready`                 | readiness — 503 until the startup warm-up (the KeyBERT model, when it is the default) has finished, 200 while serving, 503 the instant `SIGTERM` arrives    |
+| POST   | `/extract_keywords`      | **the entry point** — the record as an upload (`document_json`); keywords per document and per page                                                         |
+| POST   | `/extract_keywords_text` | the same on a plain text in a JSON body (no pages)                                                                                                          |
 
 ### `POST /extract_keywords` (multipart form)
 
-| Field           | Default    | Notes                                                                                                                                                          |
-|-----------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `document_json` | *required* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record` |
-| `kind`          | `both`     | `statistical`, `controlled` or `both`                                                                                                                          |
-| `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's `DEFAULT_KW_METHOD` (`keybert` unless set; `/info` `methods.default`). The spec's default is null          |
-| `num_keywords`  | `20`       | per list; at most `MAX_KEYWORDS`                                                                                                                               |
-| `lang`          | `cs`       | Czech-pinned in v1 (YAKE's stop words)                                                                                                                         |
-| `per_page`      | `true`     | also extract per page, from `lines[].page`                                                                                                                     |
+| Field           | Default    | Notes                                                                                                                                                                                                                     |
+|-----------------|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `document_json` | *required* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash`, `Garbage`, `Inverted` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record` |
+| `kind`          | `both`     | `statistical`, `controlled` or `both`                                                                                                                                                                                     |
+| `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's `DEFAULT_KW_METHOD` (`keybert` unless set; `/info` `methods.default`). The spec's default is null                                                                  |
+| `num_keywords`  | `20`       | per list; at most `MAX_KEYWORDS`                                                                                                                                                                                          |
+| `lang`          | `cs`       | Czech-pinned in v1 (YAKE's stop words)                                                                                                                                                                                    |
+| `per_page`      | `true`     | also extract per page, from `lines[].page`                                                                                                                                                                                |
 
 `POST /extract_keywords_text` takes the same options as a JSON body (`text`, `doc_id`, `kind`,
 `method`, `num_keywords`, `lang`).
 
 ### The methods
 
-| `method`  | What it is                                                                                      | Score                                      | Needs                              |
-|-----------|-------------------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------|
-| `keybert` | embedding-based; best quality, uses a GPU when there is one                                      | cosine similarity, [0, 1]                  | the embedding model (first use)    |
-| `yake`    | unsupervised statistical, CPU only (**AGPL-3.0**: a run that uses it is declared so)             | inverted YAKE score, normalised to [0, 1]  | —                                  |
-| `legacy`  | KER: counts the lemmas of nouns, proper nouns and adjectives                                     | an occurrence count                        | `lines[].lemma` and `lines[].upos` (written by nlp-enrich); without them → 422 |
+| `method`  | What it is                                                                           | Score                                     | Needs                                                                          |
+|-----------|--------------------------------------------------------------------------------------|-------------------------------------------|--------------------------------------------------------------------------------|
+| `keybert` | embedding-based; best quality, uses a GPU when there is one                          | cosine similarity, [0, 1]                 | the embedding model (first use)                                                |
+| `yake`    | unsupervised statistical, CPU only (**AGPL-3.0**: a run that uses it is declared so) | inverted YAKE score, normalised to [0, 1] | —                                                                              |
+| `legacy`  | KER: counts the lemmas of nouns, proper nouns and adjectives                         | an occurrence count                       | `lines[].lemma` and `lines[].upos` (written by nlp-enrich); without them → 422 |
 
 Scores mean different things per method, so compare them only within one method and one list; every
 keyword carries `method` and `rank`.
@@ -100,7 +100,7 @@ document chunked, a chunk over the encoder's window).
 
 ## How it works
 
-The record's lines are joined per page and per document (`Trash` and `Empty` lines left out). One
+The record's lines are joined per page and per document (`Trash`, `Garbage`, `Inverted` and `Empty` lines left out). One
 call runs the chosen method over the document and, with `per_page`, over each page — KeyBERT in one
 batch — in a worker thread, inside one of `MAX_CONCURRENT_REQUESTS` slots. The batch CLI
 (`keywords.py`) shares the three method implementations: it reads CoNLL-U or TEITOK files instead of
@@ -161,15 +161,15 @@ Every error has one JSON body (hub `docs/agent_skill_strategy.md` §4.4, atrium-
 refusal adds `limit` (`{key, env, value, observed, unit}`); a request validation error adds FastAPI's list
 of problems as `errors`.
 
-| Status | `reason`         | When                                                                                                                  |
-|--------|------------------|-----------------------------------------------------------------------------------------------------------------------|
-| 413    | `limit_exceeded` | over `MAX_UPLOAD_MB` or `MAX_DOCUMENT_WORDS`                                                                          |
-| 422    | `invalid_record` | the `document_json` sent cannot be opened (not UTF-8 JSON, not an object, a newer `schema_version` major)            |
-| 422    | `limit_exceeded` | `num_keywords` over `MAX_KEYWORDS`                                                                                    |
-| 422    | `null`           | a record or text with nothing to read, the legacy method without lemmas, a value outside the spec's enums or bounds   |
-| 429    | `busy`           | every extraction slot taken; retry after `Retry-After` seconds                                                        |
-| 500    | `null`           | a method's package is missing or the KeyBERT model could not be loaded — the detail names the cause                   |
-| 501    | `null`           | `kind=controlled` alone: the controlled kind is not in this release                                                   |
+| Status | `reason`         | When                                                                                                                |
+|--------|------------------|---------------------------------------------------------------------------------------------------------------------|
+| 413    | `limit_exceeded` | over `MAX_UPLOAD_MB` or `MAX_DOCUMENT_WORDS`                                                                        |
+| 422    | `invalid_record` | the `document_json` sent cannot be opened (not UTF-8 JSON, not an object, a newer `schema_version` major)           |
+| 422    | `limit_exceeded` | `num_keywords` over `MAX_KEYWORDS`                                                                                  |
+| 422    | `null`           | a record or text with nothing to read, the legacy method without lemmas, a value outside the spec's enums or bounds |
+| 429    | `busy`           | every extraction slot taken; retry after `Retry-After` seconds                                                      |
+| 500    | `null`           | a method's package is missing or the KeyBERT model could not be loaded — the detail names the cause                 |
+| 501    | `null`           | `kind=controlled` alone: the controlled kind is not in this release                                                 |
 
 ## Shutdown behavior (issue #55)
 

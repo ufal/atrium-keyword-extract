@@ -55,6 +55,9 @@ def _record():
             },
             {"page": "2", "line": 2, "text": "garbage ~~ ##", "categ": "Trash"},
             {"page": "2", "line": 3, "text": "", "categ": "Empty"},
+            # digital-convert's decode verdict on a born-digital text layer that does not decode
+            {"page": "2", "line": 4, "text": "garbage sondì høeby", "categ": "Garbage"},
+            {"page": "2", "line": 5, "text": "garbage ǝʇɐɹǝdo", "categ": "Inverted"},
         ],
     }
 
@@ -107,9 +110,17 @@ def test_record_endpoint_gives_document_and_page_keywords(fake_keybert):
     assert body["doc_id"] == "AMCR-F-1" and body["kind"] == "statistical"
     assert [p["page"] for p in body["pages"]] == ["1", "2"]
     assert all(k["method"] == "keybert" for p in body["pages"] for k in p["keywords"])
-    # one batch: the document, then each page; Trash and Empty lines are not read
+    # one batch: the document, then each page; Trash, Garbage, Inverted and Empty lines are not read
     assert len(fake_keybert) == 1 and len(fake_keybert[0]) == 3
     assert "garbage" not in " ".join(fake_keybert[0])
+
+
+def test_the_skipped_categories_are_the_hub_registrys():
+    """`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES` is the one declaration downstream filters key off."""
+    from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES
+    from service import api
+
+    assert api._SKIPPED_CATEGORIES == frozenset(UNTRUSTWORTHY_LINE_CATEGORIES) | {"Empty"}
 
 
 def test_per_page_can_be_switched_off(fake_keybert):

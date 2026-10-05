@@ -60,16 +60,16 @@ curl -s -X POST localhost:8000/extract_keywords \
   -F kind=statistical -F method=keybert -F num_keywords=10
 ```
 
-The record is read: its `lines[].text` per page (lines labelled `Trash` or `Empty` are left out), and for the
+The record is read: its `lines[].text` per page (lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the
 legacy method its `lines[].lemma` and `lines[].upos`, which [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich)
 writes. In the pipeline it comes after nlp-enrich (and after digital-convert on the born-digital route), and its
 keywords can be projected into the TEITOK header by nlp-enrich's `/project_record`.
 
-| Method    | Needs                                  | Score                                     |
-|-----------|----------------------------------------|-------------------------------------------|
+| Method    | Needs                                   | Score                                     |
+|-----------|-----------------------------------------|-------------------------------------------|
 | `keybert` | the embedding model, a GPU if available | cosine similarity, [0, 1]                 |
-| `yake`    | nothing (CPU)                          | inverted YAKE score, normalised to [0, 1] |
-| `legacy`  | `lines[].lemma` / `lines[].upos`       | an occurrence count                       |
+| `yake`    | nothing (CPU)                           | inverted YAKE score, normalised to [0, 1] |
+| `legacy`  | `lines[].lemma` / `lines[].upos`        | an occurrence count                       |
 
 Scores are compared only within one method.
 
@@ -114,11 +114,11 @@ python3 keywords.py
 
 ### Backends
 
-| Flag value         | Method                                        | Dependencies                                | Score semantics                       | Best for                                  |
-|--------------------|-----------------------------------------------|---------------------------------------------|---------------------------------------|-------------------------------------------|
-| `legacy`           | Original KER — NOUN/PROPN/ADJ lemma frequency | none (stdlib only)                          | raw occurrence count                  | reproducing original ATRIUM results       |
-| `yake`             | YAKE — unsupervised statistical, CPU-only (**AGPL-3.0**) | `pip install yake`                  | normalised inverse YAKE score, [0, 1] | fast CPU runs, no model download          |
-| `keybert` *(default)* | KeyBERT — embedding-based, GPU-accelerated | `pip install keybert sentence-transformers` | cosine similarity, [0, 1]             | highest semantic quality, GPU recommended |
+| Flag value            | Method                                                   | Dependencies                                | Score semantics                       | Best for                                  |
+|-----------------------|----------------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------------------------------|
+| `legacy`              | Original KER — NOUN/PROPN/ADJ lemma frequency            | none (stdlib only)                          | raw occurrence count                  | reproducing original ATRIUM results       |
+| `yake`                | YAKE — unsupervised statistical, CPU-only (**AGPL-3.0**) | `pip install yake`                          | normalised inverse YAKE score, [0, 1] | fast CPU runs, no model download          |
+| `keybert` *(default)* | KeyBERT — embedding-based, GPU-accelerated               | `pip install keybert sentence-transformers` | cosine similarity, [0, 1]             | highest semantic quality, GPU recommended |
 
 You can override any `kw_config.txt` setting via the command line:
 
@@ -243,12 +243,12 @@ it replaces the copy here when the controlled kind moves.
 The code is **MIT**. The licence of a run's output is computed from the components it used, as declared in
 [`para_config.txt`](para_config.txt), and the most restrictive one wins:
 
-| Component                                          | Licence    | When                                  |
-|----------------------------------------------------|------------|---------------------------------------|
-| KER (legacy)                                       | MIT        | `method=legacy`                       |
-| KeyBERT, sentence-transformers, the embedding model | MIT / Apache-2.0 | `method=keybert`               |
-| **YAKE**                                           | **AGPL-3.0** | `method=yake` — a run that uses it is declared AGPL-3.0 |
-| AMČR and TEATER vocabularies                       | CC0        | the vocabulary build, the controlled kind |
+| Component                                           | Licence          | When                                                    |
+|-----------------------------------------------------|------------------|---------------------------------------------------------|
+| KER (legacy)                                        | MIT              | `method=legacy`                                         |
+| KeyBERT, sentence-transformers, the embedding model | MIT / Apache-2.0 | `method=keybert`                                        |
+| **YAKE**                                            | **AGPL-3.0**     | `method=yake` — a run that uses it is declared AGPL-3.0 |
+| AMČR and TEATER vocabularies                        | CC0              | the vocabulary build, the controlled kind               |
 
 The source document's own licence applies to its text.
 
