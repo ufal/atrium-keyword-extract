@@ -17,7 +17,7 @@
     "same_as_links": 13,
     "total": 1040
   },
-  "generated_utc": "2026-10-07T07:50:38Z",
+  "generated_utc": "2026-10-07T14:32:10Z",
   "generator": "vocab_build.py",
   "schema_version": 1,
   "sources": [
@@ -52,5 +52,5 @@
     "path": "data_samples/taxonomy_overrides.json",
     "sha256": "b205ee82f89a0c4f4ef46962b76b719b582649772192476b033d87915461dffe"
   },
-  "tool_version": "v1.0.0-beta"
+  "tool_version": "v1.1.0-beta"
 }
