@@ -46,6 +46,10 @@ curl -s -X POST localhost:8000/extract_keywords \
   -F "document_json=@CTX000000001.document.json;type=application/json" -F kind=both
 ```
 
+With the same variables, `ATRIUM_LIVE_BACKEND=1 pytest -rs tests/test_controlled_live.py` checks a backend
+end to end in two calls; `.github/workflows/controlled-live.yml` runs it weekly, on demand and on `test` pushes
+that touch the controlled kind.
+
 ## Endpoints
 
 | Method | Path                     | Purpose                                                                                                                                                                                                                    |

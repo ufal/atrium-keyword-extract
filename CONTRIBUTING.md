@@ -166,18 +166,20 @@ tests/
 
 **Per-repo targets:**
 
-| Repository               | Test file                  | Primary targets                                                                                                          |
-|--------------------------|----------------------------|--------------------------------------------------------------------------------------------------------------------------|
-| `atrium-keyword-extract` | `test_keywords.py`         | `_extract_surface_text`, `_extract_lemmas`, `_extract_legacy`, `extract_keywords`, `extract_from_texts`, `_sort_csv_file` |
-| `atrium-keyword-extract` | `test_api_service.py`      | the service in-process: methods, kinds, pages, limits, `busy`, the `CreateAction`                                        |
-| `atrium-keyword-extract` | `test_api_contract.py`     | every response held to the schema the published `openapi.json` declares                                                  |
-| `atrium-ocr-postprocess` | `test_text_util.py`        | density/ratio helpers, detectors, `categorize_line`, `compute_quality_score`                                             |
-| `atrium-translator`      | `test_utils.py`            | `_resolve_namespaces`, `validate_xml_with_xsd`, `process_alto_xml`, `process_amcr_xml`                                    |
+| Repository               | Test file              | Primary targets                                                                                                           |
+|--------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `atrium-keyword-extract` | `test_keywords.py`     | `_extract_surface_text`, `_extract_lemmas`, `_extract_legacy`, `extract_keywords`, `extract_from_texts`, `_sort_csv_file` |
+| `atrium-keyword-extract` | `test_api_service.py`  | the service in-process: methods, kinds, pages, limits, `busy`, the `CreateAction`                                         |
+| `atrium-keyword-extract` | `test_api_contract.py` | every response held to the schema the published `openapi.json` declares                                                   |
+| `atrium-ocr-postprocess` | `test_text_util.py`    | density/ratio helpers, detectors, `categorize_line`, `compute_quality_score`                                              |
+| `atrium-translator`      | `test_utils.py`        | `_resolve_namespaces`, `validate_xml_with_xsd`, `process_alto_xml`, `process_amcr_xml`                                    |
 
 **Heavy tests** — a test that loads a model checkpoint, calls an external API, or needs a
 GPU does not belong in the default suite. Put it behind the workflow that has the
-resource (`gpu-inference.yml`, `scheduled-smoke.yml`) rather than behind a marker, and
-say in the PR description what it requires.
+resource (`gpu-inference.yml`, `scheduled-smoke.yml`, `controlled-live.yml`) rather than behind a marker, and
+say in the PR description what it requires. The external-API case is `tests/test_controlled_live.py`:
+it skips unless `ATRIUM_LIVE_BACKEND=1`, and `controlled-live.yml` runs it against OpenRouter with the
+repository's `OPENROUTER_KEY` secret.
 
 **Fixtures** — small, self-contained files committed under `tests/fixtures/`. Add a
 minimal fixture in the same commit as any test that needs new sample data.

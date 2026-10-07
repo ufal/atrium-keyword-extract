@@ -28,6 +28,11 @@ PyYAML
 # requirements.txt — repeated here so a lane that installs only the test deps can still
 # collect tests/test_vocab_sources.py.
 lxml
+# The controlled kind's fixture (tests/conftest.py: `controlled`) imports openrouter_client, which
+# imports tqdm at module level. Also in requirements.txt — repeated here so the API meta-contract
+# lane, which installs only the test deps, runs tests/test_api_contract.py's controlled-kind tests
+# instead of erroring at their setup.
+tqdm
 # Optional heavy deps only if the suite truly needs them. transformers is installed by
 # scheduled-smoke.yml rather than here, but pulls tokenizers/safetensors, which is too much
 # for every PR. torch stays in gpu-inference.yml, where a GPU actually exists.

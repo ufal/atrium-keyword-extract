@@ -537,6 +537,46 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat as a zip; not pushed.
 
+## 2026-10-07 (later) — The API meta-contract lane installs `tqdm`
+* **Red since `f4b0118`:** API Meta-Contract ([run](https://github.com/ufal/atrium-keyword-extract/actions/runs/37629003315))
+  had 35 passed and 4 errors. The `controlled` fixture (`tests/conftest.py`) imports `openrouter_client`, which imports
+  `tqdm` at module level. The hub's reusable lane installs `requirements-test.txt` only, and `tqdm` was declared in
+  `requirements.txt` alone. The 980-test run of the previous entry had both files installed, so it could not see this.
+* **Fix:** `tqdm` repeated in `requirements-test.txt`, like `jsonschema` and `lxml`. The image was never affected: the
+  `api` stage inherits `requirements.txt`, and the service imports the clients only for a configured backend. The
+  release gate's `atrium_openapi.py check` passes on the test deps alone, before and after.
+* **Checks:** a fresh Python 3.11 venv with `requirements-test.txt` only: `tests/test_api_contract.py` +
+  `tests/test_openapi_contract.py` 39 passed (was 35 + 4 errors); `tests/test_service_requirements.py` 9 passed.
+
+  Files delivered in chat; not pushed.
+
+## 2026-10-07 (later) — The controlled kind against a real backend in CI
+* **Why:** every controlled-kind test stubs the model's chat function, so a provider that refuses the
+  request (the vocabulary's schema as `response_format`, about 120 KB; a prompt of about 50k tokens) or
+  replies that stop validating would stay green. The maintainer added an `OPENROUTER_KEY` secret here.
+* **`tests/test_controlled_live.py`:** the service's own warm-up against the configured backend, then one
+  `/extract_keywords` call (`kind=controlled`) with a schema-valid record after nlp-enrich, two lines. Asserts:
+  `/info` ready; the response against the published spec; both lines answered within the vocabulary, not
+  both meta-text; the record valid with its `enrichment` stamp and the entity's `pid`; the `CreateAction`
+  valid, naming the model and both vocabularies. The categories chosen are printed, not asserted. The
+  module skips unless `ATRIUM_LIVE_BACKEND=1` (the translator's live-backend switch); opted in without a
+  backend, it fails.
+* **`.github/workflows/controlled-live.yml`:** maps the secret to `OPENROUTER_API_KEY`; the model is the
+  manual run's input, else a repository variable `OPENROUTER_MODEL`, else `openai/gpt-4o-mini`. It runs on
+  demand, weekly, and on `test` pushes that touch the controlled kind's files, never on pull requests.
+  It installs `requirements-test.txt` only.
+* **Docs:** a CONTRIBUTING sentence under heavy tests, and a line in the service README.
+* **Checks:**
+  * against a local stand-in for OpenRouter's chat endpoint: 6 passed; both requests carried the key,
+    `X-Title`, the model and a `json_schema` response format;
+  * not opted in: 1 skipped; opted in without a key: fails, naming `OPENROUTER_API_KEY`;
+  * the full suite in the test-deps-only venv: 920 passed, 6 skipped;
+  * the hub's `workflow_lint.py` (v1) and actionlint: clean. The lint caught the first draft's concurrency
+    group, which let a push cancel the weekly run; `github.event_name` is now in the group.
+* **Not run:** a real OpenRouter call; there is no key in this sandbox.
+
+  Files delivered in chat; not pushed.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);
