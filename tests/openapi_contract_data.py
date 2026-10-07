@@ -22,10 +22,13 @@ SERVICES = [
 
 #: Settings besides every [limit] variable (which the test perturbs from tool_limits.LIMITS)
 #: that a deployment changes and that must not change the spec. DEFAULT_KW_METHOD is the one
-#: that did (atrium-project#32 round 2): it was the `kw_method` form default.
+#: that did (atrium-project#32 round 2): it was the `kw_method` form default. The controlled
+#: kind's backend and model are deployment choices too: they reach /info, never the spec.
 ENV_PERTURB = {
     "DEFAULT_KW_METHOD": "yake",
     "ALLOWED_ORIGINS": "https://example.org",
+    "LLM_BACKEND": "ollama",
+    "OLLAMA_MODEL": "qwen2.5:14b",
 }
 
 #: Every requirements file a lane or an image installs fastapi or pydantic from: the api image

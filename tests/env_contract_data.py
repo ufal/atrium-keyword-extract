@@ -9,13 +9,14 @@ from __future__ import annotations
 
 # Read by shipped code but deliberately absent from .env.example, each with a reason: the batch
 # CLIs (keywords.py, llm_run.py) have their own settings (kw_config.txt, llm_config.txt), distinct
-# from the api image's HTTP entrypoint. The api entrypoint (service/api.py) never imports these.
+# from the api image's HTTP entrypoint, and the prompt flags are keys of the config file, not
+# environment variables.
 NOT_PUBLISHED: dict[str, str] = {
     "HF_TOKEN": "read only by llm_run.py, the research LLM batch CLI (llm_run.py); service/api.py never imports it",
     "PARADATA_DIR": "read only by keywords.py, the batch CLI; not reachable from the service entrypoint",
-    "PROMPT_TEMPLATE": "read only by prompt_template.py via llm_run.py, the batch CLI; not reachable from the service entrypoint",
-    "PROMPT_GEO_GUARDRAIL": "read only by prompt_template.py via llm_run.py, the batch CLI; not reachable from the service entrypoint",
-    "PROMPT_VOCAB_GROUPING": "read only by prompt_template.py via llm_run.py, the batch CLI; not reachable from the service entrypoint",
+    "PROMPT_TEMPLATE": "a key of llm_config.txt (LLM_CONFIG), not an environment variable: prompt_template.py reads it from the config file's dict, for llm_run.py, the two batch clients and the service's controlled kind alike",
+    "PROMPT_GEO_GUARDRAIL": "a key of llm_config.txt (LLM_CONFIG), not an environment variable: prompt_template.py reads it from the config file's dict, for llm_run.py, the two batch clients and the service's controlled kind alike",
+    "PROMPT_VOCAB_GROUPING": "a key of llm_config.txt (LLM_CONFIG), not an environment variable: prompt_template.py reads it from the config file's dict, for llm_run.py, the two batch clients and the service's controlled kind alike",
 }
 
 # In .env.example but read by no Python in this repo — each with a reason.

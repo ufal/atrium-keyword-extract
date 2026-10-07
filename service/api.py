@@ -2,14 +2,21 @@
 service/api.py — FastAPI surface for atrium-keyword-extract.
 
 One service for the stage "keywords", ``POST /extract_keywords`` (atrium-keyword-extract#1): the
-record after nlp-enrich (or plain text) in, the document's and each page's keywords out, every one
-with its method, score and rank. Two kinds are meant to run here, chosen by ``kind``:
+record after nlp-enrich (or plain text) in, its keywords out. Two kinds run here, chosen by
+``kind``, and stay apart in the response:
 
 * ``statistical`` — KeyBERT (the default), YAKE, or the legacy KER method of nlp-enrich's
-  ``keywords.py``. Built.
-* ``controlled`` — the LLM over the AMČR and TEATER vocabularies and the entity links to AMČR and
-  AAT, which came from llm-enrich. Not in this release: a request for it alone is refused (501), and
-  ``kind=both`` runs the statistical kind and says in ``kinds`` that the controlled one was skipped.
+  ``keywords.py``: the document's and each page's keywords, every one with its method, score
+  and rank.
+* ``controlled`` — the LLM over the AMČR and TEATER vocabularies (atrium-keyword-extract#2), the
+  successor of llm-enrich's ``/extract_keywords``: per qualifying line, the vocabulary term that
+  describes it (``teater_category``, with the ``{source, id}`` records behind it) and the
+  keywords found in it, as the record's ``enrichment`` block; and the entity links to AMČR and
+  AAT (``entities[].pid``). The prompt is ``prompts/system_prompt.txt`` under the ``PROMPT_*``
+  flags of ``llm_config.txt`` — the GPU research path's prompt — and the model is reached
+  through an inference service (``LLM_BACKEND``: OpenRouter or a local Ollama), never loaded
+  into this image (``llm_client_shared.py``). A deployment without a configured backend answers
+  ``kind=controlled`` with 501, and ``kind=both`` reports the controlled kind as ``skipped``.
 
 The typed contract (atrium-project#32 round 2): every route declares its response model and its
 error statuses, so the committed ``service/openapi.json`` — attached to every release, and what the
@@ -18,9 +25,10 @@ AMČR pipeline generates its clients from — types every field. The models docu
 ``tests/test_api_contract.py`` validates real responses against the published schema. Every JSON
 success carries the run's Process Run Crate ``CreateAction`` as ``paradata`` (atrium-project#71).
 
-The record is read, not written: the ``keywords`` block of the record is atrium-project#73, so this
-release answers with the keywords in the response and leaves the record's blocks to the stages that
-own them today. Regenerate the spec after an API change::
+The record: when the controlled kind ran, ``document_json`` returns the record sent with
+keyword-extract's ``enrichment`` block (and its ``entities[].pid``) written and every other block
+as it came. The statistical keywords are answered in the response only: the record's
+``keywords`` block is atrium-project#73. Regenerate the spec after an API change::
 
     python atrium_openapi.py export --app service.api:app --out service/openapi.json
 """
@@ -31,6 +39,7 @@ import asyncio
 import json
 import logging
 import os
+import tempfile
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional
@@ -39,6 +48,7 @@ from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from pydantic import BaseModel, ConfigDict, Field
 
 from .atrium_service import (
+    AtriumDocument,
     AtriumHTTPError,
     CreateAction,
     InfoBase,
@@ -71,10 +81,18 @@ if str(_ROOT) not in sys.path:
 
 import atrium_rocrate  # noqa: E402
 import keywords as kw  # noqa: E402
+import llm_client_shared as llm  # noqa: E402
+import prompt_template  # noqa: E402
+import tool_limits  # noqa: E402
+from atrium_limits import LimitNotes  # noqa: E402
 from atrium_paradata import ParadataLogger  # noqa: E402
 from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES  # noqa: E402
 from tool_limits import (  # noqa: E402
     LIMITS,
+    LLM_MAX_CONSECUTIVE_ERRORS,
+    LLM_MAX_NEW_TOKENS,
+    LLM_MAX_RETRIES,
+    LLM_TIMEOUT,
     MAX_CONCURRENT_REQUESTS,
     MAX_DOCUMENT_WORDS,
     MAX_KEYWORDS,
@@ -116,12 +134,16 @@ _METHOD_HELP = {
 #: The untrustworthy ones are the hub registry's (`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES`):
 #: ocr-postprocess's `Trash`, and digital-convert's `Garbage` and `Inverted`, the lines of a born-digital
 #: text layer that does not decode. `Empty` has nothing to read. Until 2026-10-05 only `Trash` and
-#: `Empty` were left out here, so a born-digital record's mojibake was read as text.
+#: `Empty` were left out here, so a born-digital record's mojibake was read as text. The controlled
+#: kind leaves out the same lines (`llm_client_shared.should_process_line`).
 _SKIPPED_CATEGORIES = frozenset(UNTRUSTWORTHY_LINE_CATEGORIES) | {"Empty"}
 _KER_POS = frozenset({"NOUN", "PROPN", "ADJ"})
 
 #: Retry-After of a `busy` refusal: one extraction takes seconds to a minute.
 _BUSY_RETRY_AFTER_S = 15
+
+#: The controlled kind's backends: the inference service the model runs in.
+_BACKENDS = ("openrouter", "ollama")
 
 
 # ── the typed contract ─────────────────────────────────────────────────────────────────────
@@ -168,6 +190,83 @@ class KindOutcome(BaseModel):
     detail: Optional[str] = Field(description="Why it did not run, or null.")
 
 
+class CategoryId(BaseModel):
+    """One vocabulary record a controlled label stands for."""
+
+    model_config = ConfigDict(extra="allow")
+
+    source: str = Field(description="`amcr` or `teater`.")
+    id: str = Field(description="The record's id in its source (`HES-…` for AMČR).")
+
+
+class EnrichmentItem(BaseModel):
+    """The controlled keywords of one line: the vocabulary term that describes it, and what it says."""
+
+    model_config = ConfigDict(extra="allow")
+
+    page: Optional[str] = Field(
+        None, description="The line's page, as the record's `lines[].page` has it."
+    )
+    line: Optional[int] = Field(
+        None, description="The line's number within the page (`lines[].line`)."
+    )
+    extracted_keywords_cs: List[str] = Field(
+        description="The archaeological terms found in the line, in Czech."
+    )
+    extracted_keywords_en: List[str] = Field(
+        description="Their English translations, in the same order."
+    )
+    teater_category: str = Field(
+        description=(
+            "The vocabulary term the model chose for the line, by its label, or `Nerelevantní (meta-text)` for a "
+            "line that is not archaeology (its keyword lists are then empty)."
+        )
+    )
+    teater_category_ids: Optional[List[CategoryId]] = Field(
+        None,
+        description=(
+            "Every AMČR/TEATER record the label stands for: its own, and those of the same label the vocabulary "
+            "build merged into it. Empty for the meta-text label; absent when `EMIT_CATEGORY_IDS` is off."
+        ),
+    )
+    confidence_score: float = Field(
+        description="The model's confidence in `teater_category`, from 0 to 1."
+    )
+    citation: Optional[str] = Field(None, description="`[Source: <doc_id>, Page <page>]`.")
+
+
+class Enrichment(BaseModel):
+    """The controlled kind's result, as the record's `enrichment` block holds it."""
+
+    model_config = ConfigDict(extra="allow")
+
+    items: List[EnrichmentItem] = Field(
+        description="One item per line the model labelled, in record order; empty when it found nothing."
+    )
+
+
+class ControlledRun(BaseModel):
+    """How the controlled kind ran in this call."""
+
+    model_config = ConfigDict(extra="allow")
+
+    backend: str = Field(description="The inference service: `openrouter` or `ollama`.")
+    model: str = Field(description="The model id (`<model>@<host>` for Ollama).")
+    outcome: str = Field(
+        description=(
+            "`contributed` (items found), `empty` (the model was asked and found nothing), `not-asked` (no line "
+            "passed the quality filter) or `failed` (every call failed)."
+        )
+    )
+    stats: Dict[str, int] = Field(
+        description=(
+            "Lines `processed` (with a result), `attempted` (sent), `skipped_filter` (left out by the quality "
+            "filter), `skipped_error` (failed), `truncated` (reply cut at LLM_MAX_NEW_TOKENS), `aborted` (1 when "
+            "the document was given up, LLM_MAX_CONSECUTIVE_ERRORS) and then `unprocessed`."
+        )
+    )
+
+
 class ExtractResponse(BaseModel):
     """The keywords of the document and of its pages, and the run's paradata."""
 
@@ -187,6 +286,27 @@ class ExtractResponse(BaseModel):
     )
     kinds: List[KindOutcome] = Field(description="One entry per kind that was asked for.")
     words: int = Field(description="The words the keywords were extracted from.")
+    enrichment: Optional[Enrichment] = Field(
+        None,
+        description=(
+            "The controlled keywords, when the controlled kind ran and the model was asked: the record's "
+            "`enrichment` block."
+        ),
+    )
+    controlled: Optional[ControlledRun] = Field(
+        None, description="How the controlled kind ran, when it did."
+    )
+    document_json: Optional[AtriumDocument] = Field(
+        None,
+        description=(
+            "`/extract_keywords`, when the controlled kind ran and the model was asked: the record sent, with "
+            "keyword-extract's `enrichment` block and `entities[].pid` written and every other block as it came."
+        ),
+    )
+    document_json_schema_error: Optional[str] = Field(
+        None,
+        description="Only when the returned record does not validate: the schema error (the sent record's).",
+    )
     paradata: Optional[CreateAction] = Field(
         description="The call's provenance: its Process Run Crate `CreateAction` (atrium-project#71)."
     )
@@ -206,12 +326,54 @@ class Methods(BaseModel):
 
 
 class Kinds(BaseModel):
-    """The kinds of keywords: which this release runs, which are still to come."""
+    """The kinds of keywords: which this deployment runs now, which are still to come."""
 
     model_config = ConfigDict(extra="allow")
 
-    available: List[str]
-    planned: List[str]
+    available: List[str] = Field(
+        description="`statistical`, and `controlled` once its LLM backend is configured (see `controlled`)."
+    )
+    planned: List[str] = Field(description="Kinds still to come; none since the controlled kind.")
+
+
+class ControlledVocabulary(BaseModel):
+    """How much of the vocabulary reaches the model."""
+
+    model_config = ConfigDict(extra="allow")
+
+    terms: int = Field(
+        description="Terms in the vocabulary, with the meta-text label (themes withheld left out)."
+    )
+    prompt_terms: int = Field(description="Terms that fit the prompt (LLM_CONTEXT_WINDOW).")
+    tool_version: Optional[str] = Field(
+        None, description="The keyword-extract version that built it."
+    )
+
+
+class ControlledPrompt(BaseModel):
+    """The prompt in force (`llm_config.txt`)."""
+
+    model_config = ConfigDict(extra="allow")
+
+    geo_guardrail: str = Field(
+        description="`PROMPT_GEO_GUARDRAIL`: `strict`, `preference` or `off`."
+    )
+    vocabulary_grouping: str = Field(
+        description="`PROMPT_VOCAB_GROUPING`: `facet_sub`, `facet` or `flat`."
+    )
+
+
+class ControlledInfo(BaseModel):
+    """The controlled kind in this deployment."""
+
+    model_config = ConfigDict(extra="allow")
+
+    ready: bool = Field(description="Whether `kind=controlled` can run (else it is answered 501).")
+    detail: Optional[str] = Field(description="Why it cannot, or null.")
+    backend: Optional[str] = Field(description="`LLM_BACKEND`: `openrouter` or `ollama`.")
+    model: Optional[str] = Field(description="The model id; null until configured.")
+    vocabulary: Optional[ControlledVocabulary] = Field(description="Null until configured.")
+    prompt: Optional[ControlledPrompt] = Field(description="Null until configured.")
 
 
 class KeywordInfo(InfoBase):
@@ -219,6 +381,7 @@ class KeywordInfo(InfoBase):
 
     methods: Methods
     kinds: Kinds
+    controlled: ControlledInfo
 
 
 class ExtractTextRequest(BaseModel):
@@ -258,23 +421,189 @@ _semaphore = _Slots()
 _SERVICE_DIR = Path(__file__).resolve().parent
 _state = ServiceState()
 
+#: The controlled kind's warmed engine, or `{"error": reason, "backend": …}` when it is not available.
+_controlled: Dict[str, Any] = {}
+
 # (12-factor XI) No basicConfig() here -- this module is imported by api's own __main__ and by
 # tests; the entry point decides handlers and level. (issue #61)
 logger = logging.getLogger(__name__)
 
 
-def _warmup() -> None:
-    """Load the KeyBERT model when it is the default, so the first request does not pay for it.
+def _load_controlled() -> Dict[str, Any]:
+    """Build the controlled kind's engine (blocking; at startup). Raises with the reason.
 
-    Best effort: a service that cannot load it still starts and says so on the first request that
-    needs it, which is a 500 with the cause, not a pod that never becomes ready.
+    The backend's connection settings are checked first, so a deployment that does not configure
+    the controlled kind pays nothing for it: the vocabulary is loaded and the prompt rendered only
+    for a configured backend. The environment wins over the config file (``LLM_CONFIG``,
+    llm_config.txt), which also carries the ``PROMPT_*`` flags, ``VOCAB_PATH``,
+    ``EMIT_CATEGORY_IDS`` and the line-filter settings the GPU path reads.
     """
-    if DEFAULT_KW_METHOD != "keybert":
-        return
+    import requests
+
+    from vocab_manager import VocabularyManager, vocabulary_provenance
+
+    backend = os.getenv("LLM_BACKEND", "openrouter").strip().lower()
+    config_file = tool_limits.config_path()
+    config = llm.load_config(str(config_file)) if config_file.exists() else {}
+
+    if backend == "openrouter":
+        api_key = os.getenv("OPENROUTER_API_KEY") or config.get("OPENROUTER_API_KEY")
+        model = os.getenv("OPENROUTER_MODEL") or config.get("OPENROUTER_MODEL")
+        if not api_key:
+            raise RuntimeError("OPENROUTER_API_KEY is not set (LLM_BACKEND=openrouter)")
+        if not model:
+            raise RuntimeError("OPENROUTER_MODEL is not set (LLM_BACKEND=openrouter)")
+    elif backend == "ollama":
+        from ollama_client import DEFAULT_OLLAMA_HOST
+
+        host = (
+            os.getenv("OLLAMA_HOST") or config.get("OLLAMA_HOST") or DEFAULT_OLLAMA_HOST
+        ).rstrip("/")
+        model = os.getenv("OLLAMA_MODEL") or config.get("OLLAMA_MODEL")
+        if not model:
+            raise RuntimeError("OLLAMA_MODEL is not set (LLM_BACKEND=ollama)")
+    else:
+        raise RuntimeError(f"LLM_BACKEND={backend!r} is not one of {', '.join(_BACKENDS)}")
+
+    vocab_path = llm.repo_path(
+        os.getenv("VOCAB_PATH") or config.get("VOCAB_PATH", "data_samples/vocab/union_nested.json")
+    )
+    vocab_mgr = VocabularyManager(
+        vocab_path=str(vocab_path),
+        config_path=str(llm.repo_path(llm.TAXONOMY_CONFIG)),
+    )
+    # auto_sync=False: a missing vocabulary is a configuration fault, never a harvest.
+    vocab_data = vocab_mgr.load(auto_sync=False)
+    contradictions = llm.prompt_contradictions(vocab_mgr, config)
+    if contradictions:
+        raise RuntimeError("the prompt contradicts the vocabulary: " + "; ".join(contradictions))
+    excluded = llm.excluded_prompt_themes(vocab_mgr)
+    budget = tool_limits.vocab_prompt_budget_tokens()
+    prompt, labels = llm.build_system_prompt(
+        vocab_data, max_tokens=budget, excluded_themes=excluded, prompt_config=config
+    )
+    model_cls = llm.build_schema(labels)
+    id_lookup, strip_map = llm.category_maps(vocab_data, labels, excluded)
+
+    # The vocabulary cut (atrium-project#53): terms that do not fit the prompt budget are out of
+    # the model's reach. A warning, /info `controlled.vocabulary`, and a standing note per call.
+    total = llm.count_vocab_terms(vocab_data, excluded)
+    notes = LimitNotes()
+    cut = total - len(labels)
+    if cut > 0:
+        logger.warning(
+            "controlled kind: %d of %d vocabulary terms left out of the prompt -- they do not fit its "
+            "%d-token budget (LLM_CONTEXT_WINDOW %d - LLM_MAX_NEW_TOKENS - %d).",
+            cut,
+            total,
+            budget,
+            tool_limits.context_window(),
+            tool_limits.PROMPT_OVERHEAD_TOKENS,
+        )
+        notes.note(
+            "vocab_prompt_budget_tokens",
+            "trimmed",
+            cut,
+            f"{cut} of {total} vocabulary terms were left out of the prompt: they do not fit its "
+            f"{budget}-token budget; raise LLM_CONTEXT_WINDOW to include them",
+            value=budget,
+        )
+
+    session = requests.Session()
+    schema = model_cls.model_json_schema()
+    if backend == "openrouter":
+        from openrouter_client import _build_headers, make_chat_fn
+
+        headers = _build_headers(
+            api_key,
+            os.getenv("OPENROUTER_SITE_URL"),
+            os.getenv("OPENROUTER_APP_NAME", "atrium-keyword-extract"),
+        )
+        chat_fn = make_chat_fn(
+            session, headers, model, schema, LLM_MAX_RETRIES.get(), LLM_TIMEOUT.get(), None
+        )
+        model_id = model
+    else:
+        from ollama_client import make_chat_fn
+
+        chat_fn = make_chat_fn(
+            session,
+            host,
+            model,
+            schema,
+            LLM_MAX_RETRIES.get(),
+            LLM_TIMEOUT.get(),
+            num_ctx=tool_limits.context_window(),
+        )
+        model_id = f"{model}@{host}"
+
+    provenance = vocabulary_provenance(str(vocab_path))
+    return {
+        "backend": backend,
+        "model": model_id,
+        "prompt": prompt,
+        "model_cls": model_cls,
+        "chat_fn": chat_fn,
+        "id_lookup": id_lookup,
+        "strip_map": strip_map,
+        "emit_ids": config.get("EMIT_CATEGORY_IDS", "true").lower() == "true",
+        "filter_params": {
+            "include_non_text": config.get("INCLUDE_NON_TEXT", "true").lower() == "true",
+            "min_char_count": int(config.get("MIN_CHAR_COUNT", "3")),
+            "min_char_non_text": int(config.get("MIN_CHAR_NON_TEXT", "8")),
+            "min_alpha_ratio_non_text": float(config.get("MIN_ALPHA_RATIO_NON_TEXT", "0.40")),
+        },
+        "vocab_notes": notes,
+        "vocab_components": list(provenance.get("components") or []),
+        "vocabulary": {
+            "terms": total,
+            "prompt_terms": len(labels),
+            "tool_version": (provenance.get("vocab") or {}).get("tool_version"),
+        },
+        "prompt_info": {
+            "geo_guardrail": prompt_template.resolve_geo_guardrail(config),
+            "vocabulary_grouping": prompt_template.resolve_grouping(config),
+        },
+        # Where the flat vocabulary artifacts sit, for entities[].pid: beside the vocabulary the
+        # prompt was built from, so the two can never come from different builds.
+        "vocab_dir": str(vocab_path.parent),
+    }
+
+
+def _controlled_ready() -> bool:
+    return bool(_controlled.get("chat_fn")) and not _controlled.get("error")
+
+
+def _controlled_unavailable() -> str:
+    return str(_controlled.get("error") or "the LLM backend is not initialised")
+
+
+def _warmup() -> None:
+    """Load the KeyBERT model when it is the default, so the first request does not pay for it,
+    and build the controlled kind's engine when its backend is configured.
+
+    Best effort, both: a service that cannot load KeyBERT still starts and says so on the first
+    request that needs it, which is a 500 with the cause; one whose controlled kind cannot be
+    built still serves the statistical kind, and /info `controlled` says why.
+    """
+    if DEFAULT_KW_METHOD == "keybert":
+        try:
+            kw._get_keybert_model(kw.DEFAULT_KEYBERT_MODEL)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("keyword-extract: the KeyBERT model did not load at startup: %s", exc)
+    _controlled.clear()
     try:
-        kw._get_keybert_model(kw.DEFAULT_KEYBERT_MODEL)
+        _controlled.update(_load_controlled())
+        logger.info(
+            "keyword-extract: the controlled kind is ready (%s, %s)",
+            _controlled["backend"],
+            _controlled["model"],
+        )
     except Exception as exc:  # noqa: BLE001
-        logger.warning("keyword-extract: the KeyBERT model did not load at startup: %s", exc)
+        _controlled.update(
+            {"error": str(exc), "backend": os.getenv("LLM_BACKEND", "openrouter").strip().lower()}
+        )
+        logger.info("keyword-extract: the controlled kind is not available: %s", exc)
 
 
 @asynccontextmanager
@@ -292,8 +621,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="ATRIUM keyword-extract API",
     version=read_tool_version(_SERVICE_DIR.parent),
-    description="The record after nlp-enrich, or a text → keywords of the document and of each page, with the "
-    "method, score and rank of every keyword.",
+    description="The record after nlp-enrich, or a text → its statistical keywords (per document and page, with "
+    "the method, score and rank of every keyword) and its controlled keywords (the AMČR/TEATER vocabulary term "
+    "of each line, chosen by an LLM).",
     lifespan=lifespan,
     responses=error_responses(422, 500),
     generate_unique_id_function=operation_id,
@@ -317,6 +647,8 @@ class _Doc:
         self.lemmas: List[str] = []
         self.pages: List[Dict[str, Any]] = []  # {"page", "text", "lemmas"}
         self.words = 0
+        #: The controlled kind's rows: every line, the skipped ones too (they are context).
+        self.rows: List[Dict[str, Any]] = []
 
 
 def _lemma(line: Dict[str, Any]) -> Optional[str]:
@@ -359,6 +691,7 @@ def _doc_from_record(record: Dict[str, Any]) -> _Doc:
         ]
         doc.text = " ".join(p["text"] for p in doc.pages)
         doc.lemmas = [lemma for p in doc.pages for lemma in p["lemmas"]]
+        doc.rows = llm.record_rows(record)
     else:
         content = record.get("content")
         text = str((content or {}).get("text") or "").strip() if isinstance(content, dict) else ""
@@ -367,6 +700,7 @@ def _doc_from_record(record: Dict[str, Any]) -> _Doc:
                 422, "The record has no text: no `lines[].text` and no `content.text`."
             )
         doc.text = text
+        doc.rows = llm.text_rows(text)
     doc.words = len(doc.text.split())
     return doc
 
@@ -377,6 +711,7 @@ def _doc_from_text(text: str) -> _Doc:
     doc.words = len(doc.text.split())
     if not doc.text:
         raise HTTPException(422, "The text is empty.")
+    doc.rows = llm.text_rows(doc.text)
     return doc
 
 
@@ -419,18 +754,130 @@ def _check_size(doc: _Doc) -> None:
     MAX_DOCUMENT_WORDS.check(doc.words)
 
 
-def _paradata(
-    logger_: ParadataLogger, sent: List[Dict[str, Any]], doc_id: str, found: Dict[str, Any]
-) -> Dict[str, Any]:
-    """The call's CreateAction: what it was sent, and the keywords it answered with as its result."""
-    logger_.finalize()
-    result = [
-        atrium_rocrate.file_entity(
-            f"{doc_id}.keywords.json",
-            json.dumps(found, ensure_ascii=False, sort_keys=True).encode("utf-8"),
-            media_type="application/json",
+def _record_stem(record: Optional[Dict[str, Any]]) -> str:
+    """The file stem the sent record is written under while its block is added: its own `doc_id`
+    when that is a plain file name, else ``record`` (the record keeps its id either way)."""
+    doc_id = (record or {}).get("doc_id")
+    if (
+        isinstance(doc_id, str)
+        and doc_id not in ("", ".", "..")
+        and doc_id.isprintable()
+        and "/" not in doc_id
+        and "\\" not in doc_id
+        and len(doc_id.encode("utf-8")) <= 200
+    ):
+        return doc_id
+    return "record"
+
+
+def _note_line_limits(stats: Dict[str, int], notes: LimitNotes) -> None:
+    """The limits that shaped a controlled result, from ``enrich_rows``' counts."""
+    if stats.get("truncated"):
+        notes.note(
+            LLM_MAX_NEW_TOKENS,
+            "skipped",
+            stats["truncated"],
+            "line(s) whose reply was cut at LLM_MAX_NEW_TOKENS got no result",
         )
-    ]
+    if stats.get("aborted"):
+        notes.note(
+            LLM_MAX_CONSECUTIVE_ERRORS,
+            "stopped",
+            1,
+            "the document was given up after LLM_MAX_CONSECUTIVE_ERRORS failed lines in a row; "
+            f"{stats.get('unprocessed', 0)} line(s) after them were not sent",
+        )
+
+
+def _run_controlled(doc: _Doc, doc_id: str, engine: Dict[str, Any]):
+    """The controlled kind over the document's rows (a blocking call): results, stats, errors."""
+    errors: List[str] = []
+    results, stats = llm.enrich_rows(
+        doc.rows,
+        doc_id,
+        engine["chat_fn"],
+        engine["prompt"],
+        engine["model_cls"],
+        **engine["filter_params"],
+        max_consecutive_errors=LLM_MAX_CONSECUTIVE_ERRORS.get(),
+        errors=errors,
+    )
+    llm.attach_category_ids(results, engine["id_lookup"], engine["strip_map"], engine["emit_ids"])
+    return results, stats, errors
+
+
+def _write_record(
+    data: bytes,
+    record: Dict[str, Any],
+    results: List[dict],
+    pd: ParadataLogger,
+    engine: Dict[str, Any],
+) -> Dict[str, Any]:
+    """The sent record with keyword-extract's `enrichment` block and `entities[].pid` written.
+
+    Through ``llm_client_shared.write_document_record``, the repository's one record writer and
+    its Layer D gate (atrium-project#10, D4): the record's own invalidity refuses it, an inherited
+    one is passed through and said in ``document_json_schema_error``.
+    """
+    from atrium_document import FILE_SUFFIX, load_document
+
+    stem = _record_stem(record)
+    with tempfile.TemporaryDirectory() as tmp:
+        (Path(tmp) / f"{stem}{FILE_SUFFIX}").write_bytes(data)
+        try:
+            path = llm.write_document_record(
+                stem,
+                results,
+                Path(tmp),
+                run_id=pd.run_id,
+                run_uuid=pd.run_uuid,
+                paradata_ref=pd.paradata_ref,  # the run_uuid: the service writes no file
+                license_detail=pd.get_license_block(),
+                vocab_dir=engine.get("vocab_dir"),
+            )
+        except RuntimeError as exc:
+            # A record this service built wrong is a defect on this side: 500, never a 502.
+            raise HTTPException(500, f"Document record rejected by its own schema: {exc}") from exc
+        out: Dict[str, Any] = {"document_json": load_document(str(path))}
+    error = llm.schema_gate(out["document_json"], f"{stem}{FILE_SUFFIX}")
+    if error:
+        logger.warning("the returned record %s does not validate: %s", stem, error)
+        out["document_json_schema_error"] = error
+    return out
+
+
+def _paradata(
+    logger_: ParadataLogger,
+    sent: List[Dict[str, Any]],
+    doc_id: str,
+    found: Optional[Dict[str, Any]],
+    enrichment: Optional[Dict[str, Any]],
+    record: Optional[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """The call's CreateAction: what it was sent, and what it answered with as its result — the
+    statistical keywords, the controlled ones, and the record blocks it wrote."""
+    logger_.finalize()
+    result: List[Dict[str, Any]] = []
+    if found is not None:
+        result.append(
+            atrium_rocrate.file_entity(
+                f"{doc_id}.keywords.json",
+                json.dumps(found, ensure_ascii=False, sort_keys=True).encode("utf-8"),
+                media_type="application/json",
+            )
+        )
+    if enrichment is not None:
+        result.append(
+            atrium_rocrate.file_entity(
+                f"{doc_id}.enrichment.json",
+                json.dumps(enrichment, ensure_ascii=False, sort_keys=True).encode("utf-8"),
+                media_type="application/json",
+            )
+        )
+    if record is not None:
+        result.extend(
+            atrium_rocrate.block_entities(atrium_rocrate.blocks_written(record, logger_.run_uuid))
+        )
     return atrium_rocrate.create_action(logger_.record, inputs=sent, outputs=result)
 
 
@@ -443,15 +890,25 @@ async def _run(
     lang: str,
     per_page: bool,
     sent: List[Dict[str, Any]],
+    record: Optional[Dict[str, Any]] = None,
+    record_bytes: Optional[bytes] = None,
 ) -> Dict[str, Any]:
-    """The extraction of one request: the slot, the work, the response."""
-    if kind == "controlled":
+    """The extraction of one request: the slot, the work, the response.
+
+    ``record``/``record_bytes``: the record sent to ``/extract_keywords``, which the controlled kind
+    returns with its block; ``None`` for a text.
+    """
+    statistical = kind in ("statistical", "both")
+    controlled = kind in ("controlled", "both")
+    ready = _controlled_ready()
+    if kind == "controlled" and not ready:
         raise HTTPException(
             501,
-            "The controlled kind (the LLM over the AMČR and TEATER vocabularies) is not in this release of "
-            "keyword-extract; ask for kind=statistical or kind=both.",
+            "The controlled kind (the LLM over the AMČR and TEATER vocabularies) is not available in this "
+            f"deployment: {_controlled_unavailable()}. Configure LLM_BACKEND and its model (service/README.md), "
+            "or ask for kind=statistical.",
         )
-    if method == "legacy" and not doc.lemmas:
+    if statistical and method == "legacy" and not doc.lemmas:
         raise HTTPException(
             422,
             "The legacy (KER) method counts lemmas, and the input has none: send a record that nlp-enrich "
@@ -463,52 +920,125 @@ async def _run(
             "(MAX_CONCURRENT_REQUESTS).",
             retry_after_s=_BUSY_RETRY_AFTER_S,
         )
-    pd = ParadataLogger(
-        PROGRAM, {"kind": kind, "method": method, "num_keywords": num_keywords}, paradata_dir=None
-    )
+    engine = _controlled if (controlled and ready) else None
+    config: Dict[str, Any] = {"kind": kind, "method": method, "num_keywords": num_keywords}
+    if engine is not None:
+        config.update({"backend": engine["backend"], "model": engine["model"]})
+    pd = ParadataLogger(PROGRAM, config, paradata_dir=None)
     counts: Dict[str, Any] = {}
+    document_keywords: List[Any] = []
+    page_keywords: List[Any] = []
+    controlled_out: Optional[tuple] = None
     try:
         loop = asyncio.get_event_loop()
-        document_keywords, page_keywords = await loop.run_in_executor(
-            None, _extract, doc, method, num_keywords, lang, per_page, counts
-        )
-    except kw.KeywordBackendError as exc:
-        raise HTTPException(
-            500, f"The {method} method is not available in this image: {exc}"
-        ) from exc
+        if statistical:
+            try:
+                document_keywords, page_keywords = await loop.run_in_executor(
+                    None, _extract, doc, method, num_keywords, lang, per_page, counts
+                )
+            except kw.KeywordBackendError as exc:
+                raise HTTPException(
+                    500, f"The {method} method is not available in this image: {exc}"
+                ) from exc
+        if engine is not None:
+            controlled_out = await loop.run_in_executor(None, _run_controlled, doc, doc_id, engine)
     finally:
         _semaphore.release()
-    component = {"keybert": "keybert", "yake": "yake", "legacy": "ker"}[method]
-    pd.log_component(component)
-    if method == "keybert":
-        pd.log_component("sentence_transformers")
-        pd.log_component("keybert_model")
-    pd.log_success("keywords", len(document_keywords))
-    pd.log_document_success()
-    kw._note_keybert_limits(pd, counts)
-    pages = [
-        {"page": page["page"], "keywords": _keywords(method, found)}
-        for page, found in zip(doc.pages if per_page else [], page_keywords, strict=True)
-    ]
-    kinds = [{"kind": "statistical", "status": "ok", "detail": None}]
-    if kind == "both":
+
+    kinds: List[Dict[str, Any]] = []
+    found: Optional[Dict[str, Any]] = None
+    response: Dict[str, Any] = {}
+    if statistical:
+        component = {"keybert": "keybert", "yake": "yake", "legacy": "ker"}[method]
+        pd.log_component(component)
+        if method == "keybert":
+            pd.log_component("sentence_transformers")
+            pd.log_component("keybert_model")
+        pd.log_success("keywords", len(document_keywords))
+        kw._note_keybert_limits(pd, counts)
+        pages = [
+            {"page": page["page"], "keywords": _keywords(method, found_)}
+            for page, found_ in zip(doc.pages if per_page else [], page_keywords, strict=True)
+        ]
+        found = {"keywords": _keywords(method, document_keywords), "pages": pages}
+        kinds.append({"kind": "statistical", "status": "ok", "detail": None})
+
+    enrichment: Optional[Dict[str, Any]] = None
+    written: Optional[Dict[str, Any]] = None
+    if controlled and engine is None:
         kinds.append(
             {
                 "kind": "controlled",
                 "status": "skipped",
-                "detail": "not in this release of keyword-extract (atrium-keyword-extract#1)",
+                "detail": f"not available in this deployment: {_controlled_unavailable()}",
             }
         )
-    found = {"keywords": _keywords(method, document_keywords), "pages": pages}
+    elif controlled_out is not None:
+        results, stats, errors = controlled_out
+        outcome = llm.classify_outcome(results, stats)
+        notes = LimitNotes(engine["vocab_notes"].as_list())
+        _note_line_limits(stats, notes)
+        pd.note_limits(notes)
+        if outcome == llm.OUTCOME_FAILED:
+            failed = stats.get("skipped_error", 0)
+            # A reply cut at the cap is a limit's doing, not the backend's: when every failure
+            # was one, the controlled kind alone is refused as llm-enrich refused a cut document.
+            cut = stats.get("truncated", 0) == failed
+            if cut:
+                detail = (
+                    f"every reply ({failed} line(s)) was cut at {LLM_MAX_NEW_TOKENS.get()} tokens "
+                    "(LLM_MAX_NEW_TOKENS) and none is used"
+                )
+            else:
+                detail = f"every call to the LLM backend failed ({failed} line(s)): " + (
+                    errors[0] if errors else "no reply"
+                )
+            if kind == "controlled":
+                if cut:
+                    raise LLM_MAX_NEW_TOKENS.exceeded(
+                        None, detail=f"The model's {detail}; raise LLM_MAX_NEW_TOKENS."
+                    )
+                raise HTTPException(502, f"LLM backend error: {detail}")
+            kinds.append({"kind": "controlled", "status": "failed", "detail": detail})
+        else:
+            if llm.contributes_document_record(results, stats):
+                # The vocabularies are components of a run whose answers came from them.
+                for component in engine["vocab_components"]:
+                    pd.log_component(component)
+                enrichment = llm.enrichment_block(doc_id, results)
+                pd.log_success("enrichment", len(enrichment["items"]))
+                if record is not None and record_bytes is not None:
+                    written = await asyncio.get_event_loop().run_in_executor(
+                        None, _write_record, record_bytes, record, results, pd, engine
+                    )
+            detail = None
+            if outcome == llm.OUTCOME_NOT_ASKED:
+                detail = "no line passed the quality filter; the model was not asked"
+            kinds.append({"kind": "controlled", "status": "ok", "detail": detail})
+        response["controlled"] = {
+            "backend": engine["backend"],
+            "model": engine["model"],
+            "outcome": outcome,
+            "stats": {k: int(v) for k, v in stats.items()},
+        }
+
+    pd.log_document_success()
+    if enrichment is not None:
+        response["enrichment"] = enrichment
+    if written is not None:
+        response.update(written)
+    record_out = (written or {}).get("document_json")
     return {
         "doc_id": doc_id,
         "kind": kind,
         "method_requested": method,
-        "method_used": method,
-        **found,
+        "method_used": method if statistical else None,
+        "keywords": (found or {}).get("keywords", []),
+        "pages": (found or {}).get("pages", []),
         "kinds": kinds,
         "words": doc.words,
-        "paradata": _paradata(pd, sent, doc_id, found),
+        **response,
+        "paradata": _paradata(pd, sent, doc_id, found, enrichment, record_out),
         "limits_applied": pd.limits_applied,
     }
 
@@ -522,6 +1052,7 @@ async def _run(
     responses={200: {"model": KeywordInfo, "description": "Identity, limits, capabilities."}},
 )
 async def info() -> Dict[str, Any]:
+    ready = _controlled_ready()
     return build_info(
         app,
         SERVICE,
@@ -531,23 +1062,41 @@ async def info() -> Dict[str, Any]:
             "available": dict(_METHOD_HELP),
             "keybert_model": kw.DEFAULT_KEYBERT_MODEL,
         },
-        kinds={"available": ["statistical"], "planned": ["controlled"]},
+        kinds={
+            "available": ["statistical", "controlled"] if ready else ["statistical"],
+            "planned": [],
+        },
+        controlled={
+            "ready": ready,
+            "detail": None if ready else _controlled_unavailable(),
+            "backend": _controlled.get("backend"),
+            "model": _controlled.get("model"),
+            "vocabulary": _controlled.get("vocabulary"),
+            "prompt": _controlled.get("prompt_info"),
+        },
     )
 
 
 attach_health(app, state=_state)
 
-#: The statuses a call refuses or fails with (§4.4), beyond the app-wide 422/500.
-_EXTRACT_ERRORS = (413, 429, 501)
+#: The statuses a call refuses or fails with (§4.4), beyond the app-wide 422/500. 501: the controlled
+#: kind alone, in a deployment without an LLM backend; 502: that backend failed every call.
+_EXTRACT_ERRORS = (413, 429, 501, 502)
 
 _RECORD_HELP = (
     "The ATRIUM document record, after nlp-enrich: its `lines[].text` are read per page (lines categorised "
-    "`Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the legacy method its `lines[].lemma` and `lines[].upos`. A "
-    "record that cannot be opened is refused (422 `invalid_record`); one with no text, 422."
+    "`Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the legacy method its `lines[].lemma` and "
+    "`lines[].upos`. The controlled kind reads the same lines one by one, each with its neighbours as context, and "
+    "returns the record with its `enrichment` block. A record that cannot be opened is refused (422 "
+    "`invalid_record`); one with no text, 422."
 )
 _METHOD_PARAM_HELP = (
     "The statistical method: `keybert`, `yake` or `legacy`. Absent: the server's default (`/info` "
     "`methods.default`, the `DEFAULT_KW_METHOD` setting)."
+)
+_KIND_HELP = (
+    "`statistical`, `controlled` or `both`. `controlled` needs the deployment's LLM backend (`/info` "
+    "`controlled.ready`); with `both`, a controlled kind that cannot run is reported in `kinds`."
 )
 
 
@@ -563,7 +1112,7 @@ async def extract_keywords(
     document_json: UploadFile = File(  # noqa: B008
         ..., description=_RECORD_HELP, json_schema_extra={"contentMediaType": "application/json"}
     ),
-    kind: Kind = Form("both", description="`statistical`, `controlled` or `both`."),  # noqa: B008
+    kind: Kind = Form("both", description=_KIND_HELP),  # noqa: B008
     method: Optional[Method] = Form(None, description=_METHOD_PARAM_HELP),  # noqa: B008
     num_keywords: int = Form(
         20, ge=1, description="How many keywords per list; at most `max_keywords`."
@@ -595,6 +1144,8 @@ async def extract_keywords(
         lang,
         per_page,
         sent,
+        record=record,
+        record_bytes=data,
     )
 
 
@@ -607,7 +1158,10 @@ async def extract_keywords(
     },
 )
 async def extract_keywords_text(payload: ExtractTextRequest, request: Request):
-    """`/extract_keywords` on a plain text (§4.3, the JSON sibling of the upload endpoint)."""
+    """`/extract_keywords` on a plain text (§4.3, the JSON sibling of the upload endpoint).
+
+    The controlled kind reads the text's non-empty lines as the lines of one page.
+    """
     # The body is bounded like an upload (atrium-project#53).
     await check_body_size(request, MAX_UPLOAD.get(), "Request body")
     chosen = payload.method or DEFAULT_KW_METHOD

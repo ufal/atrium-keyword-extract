@@ -54,6 +54,12 @@ services:
       DEFAULT_KW_METHOD: ${DEFAULT_KW_METHOD:-keybert}
       HF_HOME: /cache/huggingface
       PORT: ${PORT:-8000}
+      # The controlled kind with LLM_BACKEND=ollama: the HOST's Ollama. The code default,
+      # http://localhost:11434, is this container's own loopback, where no Ollama runs.
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://host.docker.internal:11434}
+    # host.docker.internal resolves on Docker Desktop by itself; on Linux this maps it.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./data:/data
       - hf-cache:/cache/huggingface

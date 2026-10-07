@@ -9,6 +9,14 @@ list this prompt injects. Issue
 imports only the standard library, so every command below runs in a bare checkout — which
 is the point: a reviewer ruling on wording should be able to read the wording.
 
+**One prompt, three senders.** The research GPU run (`llm_run.py`), the two batch clients
+over an inference service (`openrouter_client.py`, `ollama_client.py`) and the service's
+controlled kind (`POST /extract_keywords`, `kind=controlled|both`) all render this template
+under the same `llm_config.txt` — the latter two through `llm_client_shared.py`, which until
+2026-10-07 carried a prompt literal of its own (llm-enrich's copy, without the M11/M12
+guardrail, the flags, the ids or the qualifier stripping). A test holds its untruncated prompt
+byte-identical to `prompt_full.txt`.
+
 ### What is in this directory
 
 | File                                                                                      | Kind      | Written by                            |
@@ -72,7 +80,8 @@ The two columns differ in one place, deliberately. The code default is `strict` 
 wording the pipeline used for its whole history, so a config that says nothing behaves as
 it always did. `llm_config.txt` states `preference` explicitly, because M11 changed it and
 a decision that size should be visible in the config rather than implied by a default.
-`llm_run.py` reads the config, so the shipped column is what actually runs.
+`llm_run.py`, the batch clients and the service read the config (the service: the file
+`LLM_CONFIG` names), so the shipped column is what actually runs.
 
 A flag naming a block the template does not define is an **error**, not a no-op, and so is
 an unrecognised `PROMPT_GEO_GUARDRAIL` or `PROMPT_VOCAB_GROUPING` value. A typo that
@@ -97,7 +106,10 @@ inconsistently and a score measures the contradiction rather than the model — 
 offered `Malta` and told never to pick it.
 
 `vocab_build.py` renders the configured prompt and refuses to build a vocabulary that
-disagrees with it, so the pairing cannot drift:
+disagrees with it, so the pairing cannot drift — and the batch clients and the service run
+the same check before sending anything (`llm_client_shared.prompt_contradictions`), for a
+run whose config differs from the one the build read: a client exits 1, and the service does
+not start its controlled kind, saying why in `/info` `controlled.detail`.
 
 | `PROMPT_GEO_GUARDRAIL` | `geo_guardrail.active` | Result                                  |
 |------------------------|------------------------|-----------------------------------------|
@@ -138,7 +150,9 @@ a different build.
 `--full` prints **4 719** bullets — the 4 718 vocabulary terms plus
 `Nerelevantní (meta-text)`, which is injected at index 0 and is not part of the vocabulary.
 It is the *untruncated* prompt: what a model with room for everything sees. At a tighter
-window `llm_run.py` drops a tail of terms; the instruction half is identical either way.
+window a tail of terms is dropped — by `llm_run.py` counting with the model's tokenizer, by
+the clients and the service estimating 4 characters per token (`LLM_CONTEXT_WINDOW`); the
+instruction half is identical either way.
 
 **`--diff` is the form a wording decision actually takes.** The whole M11/M12 guardrail
 change is two lines:
@@ -207,7 +221,9 @@ done
 
 `output_template.json` is the committed shape of one `<doc_id>_enriched.json`, so a
 consumer can read the contract without running the pipeline. The file the pipeline writes
-is a JSON **array** of records; the template documents that array.
+is a JSON **array** of records; the template documents that array. The batch clients write
+the same file; the service returns the same `enrichment` fields per line, as the items of the
+record's `enrichment` block (with `page`, `line` and a `citation`; `service/README.md`).
 
 | Field                                                                | From                                                                 |
 |----------------------------------------------------------------------|----------------------------------------------------------------------|
@@ -233,8 +249,8 @@ full set of `{source, id}` records it stands for — its own, plus every record 
 absorbed onto it.
 
 Set `EMIT_CATEGORY_IDS=false` in `llm_config.txt` to drop the field; that is M7's *"drop it
-if it will create some issues"*, and it is one config key rather than a code change. The
-prompt is identical either way — ids never enter it.
+if it will create some issues"*, and it is one config key rather than a code change — read by
+every sender. The prompt is identical either way — ids never enter it.
 
 ### Bracketed qualifiers are stripped back off
 
@@ -248,7 +264,9 @@ tell the château from the lock. The emitted `teater_category` is rewritten back
 Ten consecutive inference errors abandon a document and write
 `<doc_id>_enriched.abort.json` beside it: `aborted`, `abort_reason`,
 `processed_before_abort`, `errors_before_abort`, `timestamp_utc`. A document with an abort
-marker is incomplete by construction — do not score it as a low result.
+marker is incomplete by construction — do not score it as a low result. (That is
+`llm_run.py`. The batch clients and the service stop after `LLM_MAX_CONSECUTIVE_ERRORS`
+and say so in their stats — `aborted`, `unprocessed` — and the service in a `stopped` note.)
 
 ### Provenance
 

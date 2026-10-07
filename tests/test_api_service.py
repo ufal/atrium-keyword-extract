@@ -139,7 +139,21 @@ def test_legacy_without_lemmas_is_refused():
     assert r.status_code == 422 and "lemma" in r.json()["detail"]
 
 
-def test_both_kinds_runs_the_statistical_one_and_says_the_other_was_skipped():
+#: What the startup warm-up records in a deployment that configures no LLM backend.
+_NO_BACKEND = {
+    "error": "OPENROUTER_API_KEY is not set (LLM_BACKEND=openrouter)",
+    "backend": "openrouter",
+}
+
+
+@pytest.fixture
+def no_backend(monkeypatch):
+    monkeypatch.setattr(api, "_controlled", dict(_NO_BACKEND))
+
+
+def test_both_kinds_without_a_backend_runs_the_statistical_one_and_says_why_not_the_other(
+    no_backend,
+):
     body = client.post(
         "/extract_keywords_text", json={"text": TEXT, "method": "yake", "kind": "both"}
     ).json()
@@ -147,11 +161,14 @@ def test_both_kinds_runs_the_statistical_one_and_says_the_other_was_skipped():
         ("statistical", "ok"),
         ("controlled", "skipped"),
     ]
+    assert "OPENROUTER_API_KEY is not set" in body["kinds"][1]["detail"]
+    assert "enrichment" not in body and "controlled" not in body
 
 
-def test_the_controlled_kind_alone_is_not_in_this_release():
+def test_the_controlled_kind_alone_without_a_backend_is_501_naming_what_is_missing(no_backend):
     r = client.post("/extract_keywords_text", json={"text": TEXT, "kind": "controlled"})
     assert r.status_code == 501 and r.json()["status"] == 501
+    assert "OPENROUTER_API_KEY is not set" in r.json()["detail"]
 
 
 def test_an_unopenable_record_is_invalid_record():
@@ -209,8 +226,42 @@ def test_keybert_limits_that_shaped_the_result_are_reported(monkeypatch):
     ]
 
 
-def test_info_names_the_methods_and_kinds():
+def test_info_names_the_methods_and_kinds(no_backend):
     info = client.get("/info").json()
     assert info["methods"]["default"] == api.DEFAULT_KW_METHOD
     assert set(info["methods"]["available"]) == {"keybert", "yake", "legacy"}
-    assert info["kinds"] == {"available": ["statistical"], "planned": ["controlled"]}
+    assert info["kinds"] == {"available": ["statistical"], "planned": []}
+    assert info["controlled"] == {
+        "ready": False,
+        "detail": _NO_BACKEND["error"],
+        "backend": "openrouter",
+        "model": None,
+        "vocabulary": None,
+        "prompt": None,
+    }
+
+
+@pytest.mark.parametrize(
+    ("env", "reason"),
+    [
+        ({}, "OPENROUTER_API_KEY is not set"),
+        ({"OPENROUTER_API_KEY": "k"}, "OPENROUTER_MODEL is not set"),
+        ({"LLM_BACKEND": "ollama"}, "OLLAMA_MODEL is not set"),
+        ({"LLM_BACKEND": "vllm"}, "is not one of openrouter, ollama"),
+    ],
+)
+def test_the_warmup_records_why_the_controlled_kind_is_unavailable(monkeypatch, env, reason):
+    for name in (
+        "LLM_BACKEND",
+        "OPENROUTER_API_KEY",
+        "OPENROUTER_MODEL",
+        "OLLAMA_MODEL",
+        "LLM_CONFIG",
+    ):
+        monkeypatch.delenv(name, raising=False)
+    for name, value in env.items():
+        monkeypatch.setenv(name, value)
+    monkeypatch.setattr(api, "DEFAULT_KW_METHOD", "yake")  # no KeyBERT model to load
+    monkeypatch.setattr(api, "_controlled", {})
+    api._warmup()
+    assert reason in api._controlled["error"] and not api._controlled_ready()

@@ -508,6 +508,35 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat; the maintainer pushed the pairs as `57f2ce5`.
 
+## 2026-10-07 — The LLM half received: the 24 files reconciled, the controlled kind in the service
+* **#1/#2, the 24 files** digital-convert `31534d5` held differently (the list posted on #2 on 2026-10-05):
+  * 10 absent ones ported and adapted (`llm_client_shared.py`, `openrouter_client.py`, `ollama_client.py`,
+    `requirements_remote.txt`, six tests; `tests/test_service_document_json.py` now tests this service);
+  * merged: `llm_utils.py` (taken whole: offload auto-sizing, quoted config values, the counted prompt cut),
+    `llm_run.py`, `requirements_llm.txt`, `tests/test_limits.py`, `tests/test_llm_run.py`;
+  * kept, this side newer: `vocab_build.py`, `vocab-drift.yml`, `docker-compose.gpu.yaml`, `tests/test_llm_utils.py`,
+    and five vocabulary files that differ only in their generation stamps. File by file: plan 1 §A.
+* **The prompt reaches every sender.** The arrived `llm_client_shared.py` sent its own literal (the strict guardrail
+  after M11/M12, no `PROMPT_*` flag, no `teater_category_ids`, the qualifier left on). It now renders
+  `prompts/system_prompt.txt` like `llm_run.py`, attaches the ids, strips the qualifier, and refuses a guardrail
+  wording the vocabulary contradicts; a test pins its untruncated prompt to `prompts/prompt_full.txt`.
+* **Service:** `POST /extract_keywords` `kind=controlled|both`: line mode over the record's lines through
+  `LLM_BACKEND` (OpenRouter or Ollama); the record comes back with `enrichment` and `entities[].pid`; `/info`
+  `controlled` says what runs or why not. 501 without a backend, 502 when every call fails, 422 when every reply is
+  cut. The `LLM_*` limits joined `tool_limits.py`, `.env.example` and `service/README.md`; the spec is regenerated
+  (additive: the pinned oasdiff finds no breaking change against `v1.0.0-beta`); `.github/production-image.json`
+  gained the 5 files the entrypoint reaches; the images carry the built vocabulary (`.dockerignore`), no weights.
+* **Found on the way:**
+  * the clients and `llm_run.py` logged `llm_config.txt` whole into paradata, credentials included (now redacted);
+  * `requirements_llm.txt`'s `torch==2.7.0` made the GPU lane's install unsatisfiable next to `vllm>=0.30.0`;
+  * `llm_run.py --help` was read as a config path;
+  * `llm_run.py` stamped its paradata `nlp-enrich`.
+* **Checks:** 980 passed with a CPU torch (the 4 GPU-lane files skip without it); `ruff` clean; `prompt_template.py
+  --check`, `vocab_build.py --from-flat --skos --check` and the hub's `image_closure.py` clean.
+* **Dev logs:** #1 and #2 digests and plans refreshed (milestones as the live issues have them).
+
+  Files delivered in chat as a zip; not pushed.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

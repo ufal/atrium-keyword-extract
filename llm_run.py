@@ -25,6 +25,7 @@ from tqdm import tqdm  # noqa: E402
 import llm_utils  # noqa: E402  (side-effect: env-var guard + compat patches)
 import prompt_template  # noqa: E402
 from atrium_paradata import ParadataLogger  # noqa: E402
+from llm_client_shared import redact_secrets  # noqa: E402
 from llm_utils import (  # noqa: E402
     CONTEXT_RESERVED,
     _check_backend_deps,
@@ -325,9 +326,10 @@ def main(config_path: str = "llm_config.txt") -> None:
     provenance = vocabulary_provenance(VOCAB_PATH)
 
     logger = ParadataLogger(
-        program="nlp-enrich",
+        program="keyword-extract",
         config={
-            **config,
+            # HF_TOKEN may be in llm_config.txt; paradata is published with the record.
+            **redact_secrets(config),
             "output_dir_resolved": str(OUTPUT_DIR),
             "backend": BACKEND,
             "include_non_text": INCLUDE_NON_TEXT,
@@ -502,6 +504,17 @@ def main(config_path: str = "llm_config.txt") -> None:
                 total_input_tokens += doc_stats.get("total_input_tokens", 0)
                 total_output_tokens += doc_stats.get("total_output_tokens", 0)
                 total_inference_seconds += doc_stats.get("total_inference_seconds", 0.0)
+                if doc_stats.get("truncated_inputs"):
+                    # (atrium-project#53) llm_utils.process_document cut these prompts to the
+                    # model's input budget; the paradata says so.
+                    logger.note_limit(
+                        "llm_context_window",
+                        spec["context_window"],
+                        "trimmed",
+                        doc_stats["truncated_inputs"],
+                        "prompt(s) longer than the model's input budget (context window - "
+                        "CONTEXT_RESERVED) were cut at the end before inference",
+                    )
 
                 print(
                     f"  processed={doc_stats['processed']}, "
@@ -557,5 +570,18 @@ def main(config_path: str = "llm_config.txt") -> None:
 
 
 if __name__ == "__main__":
-    config_path = sys.argv[1] if len(sys.argv) > 1 else "llm_config.txt"
-    main(config_path)
+    import argparse
+
+    # One optional positional, as before (`python llm_run.py [llm_config.txt]`, the `llm`
+    # image's CMD); argparse only adds `--help`, which used to be read as a config path.
+    _parser = argparse.ArgumentParser(
+        description="LLM semantic enrichment of CSV/TEITOK inputs over the controlled "
+        "vocabulary: the research GPU path (vLLM or transformers)."
+    )
+    _parser.add_argument(
+        "config",
+        nargs="?",
+        default="llm_config.txt",
+        help="the run's KEY=VALUE config file (default: llm_config.txt)",
+    )
+    main(_parser.parse_args().config)

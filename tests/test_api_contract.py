@@ -308,3 +308,59 @@ def test_over_the_upload_limit_is_413_limit_exceeded(monkeypatch):
         client.post("/extract_keywords_text", json={"text": _TEXT * 20, "method": "yake"}),
     )
     assert body["reason"] == "limit_exceeded" and body["limit"]["key"] == "max_upload_mb"
+
+
+# --- the controlled kind (atrium-keyword-extract#1, #2): its responses against the same spec ------
+# The engine is the real one with the LLM call stubbed (tests/conftest.py: `controlled`).
+
+_RECORD = {
+    "schema_version": "1.0",
+    "record_type": "atrium-document",
+    "doc_id": "CTX1",
+    "lines": [{"page": "1", "line": 1, "text": "Výzkum odhalil základy gotického kostela."}],
+    "entities": [
+        {"page": "1", "line": 1, "surface": "kostela", "lemma": "kostel", "type_onto": "FAC"}
+    ],
+}
+
+
+def _post_record(**data):
+    files = {
+        "document_json": (
+            "r.document.json",
+            json.dumps(_RECORD, ensure_ascii=False),
+            "application/json",
+        )
+    }
+    return client.post("/extract_keywords", files=files, data=data)
+
+
+def test_the_controlled_kind_with_its_record_conforms_to_the_published_schema(controlled):
+    body = _conforms("post", "/extract_keywords", 200, _post_record(kind="both", method="yake"))
+    assert body["enrichment"]["items"][0]["teater_category"] == "kostel"
+    assert body["document_json"]["enrichment"] == body["enrichment"]
+    assert body["controlled"]["outcome"] == "contributed"
+
+
+def test_the_controlled_kind_on_a_text_conforms_to_the_published_schema(controlled):
+    body = _conforms(
+        "post",
+        "/extract_keywords_text",
+        200,
+        client.post("/extract_keywords_text", json={"text": _TEXT, "kind": "controlled"}),
+    )
+    assert body["enrichment"]["items"] and "document_json" not in body
+
+
+def test_a_backend_that_fails_every_call_is_a_502_error_body(controlled):
+    def failing(_messages):
+        raise RuntimeError("Ollama request failed after 3 attempts: connection refused")
+
+    controlled.chat.reply = failing
+    body = _conforms("post", "/extract_keywords", 502, _post_record(kind="controlled"))
+    assert body["status"] == 502 and body["reason"] is None
+
+
+def test_info_with_a_ready_controlled_kind_conforms_to_the_published_schema(controlled):
+    body = _conforms("get", "/info", 200, client.get("/info"))
+    assert body["controlled"]["ready"] is True

@@ -32,12 +32,14 @@ import os
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
 import csv  # noqa: E402
+import fnmatch  # noqa: E402
 import gc  # noqa: E402
 import json  # noqa: E402
+import math  # noqa: E402
 import sys as _sys_tc  # noqa: E402
 import time  # noqa: E402
 from pathlib import Path  # noqa: E402
-from typing import Any, Dict, List, Optional, Tuple  # noqa: E402
+from typing import Any, Dict, List, Optional, Tuple, Union  # noqa: E402
 
 import torch  # noqa: E402
 from tqdm import tqdm  # noqa: E402
@@ -404,6 +406,10 @@ _patch_tokenizer_compat()
 #   vllm_only           — Cannot be used with the transformers backend.
 #   recommended_tp      — Suggested tensor_parallel_size for vLLM.
 #   max_quant_ratio     — Override for _verify_quantization_effective threshold.
+#   weight_footprint_gb — Approx. serving-weight size in GB as stored on HF
+#                         (pre-quantized checkpoints: their real file size).
+#                         Last-resort source for CPU_OFFLOAD_GB=auto sizing —
+#                         the local HF cache / Hub API take precedence.
 #   notes               — Human-readable deployment notes.
 #
 # inference_defaults:
@@ -416,6 +422,9 @@ _patch_tokenizer_compat()
 #   gpu_memory_utilization— Fraction of each GPU's VRAM for vLLM (0.0–0.95)
 #   max_model_len         — Override for model's native context window (int|None)
 #   vllm_batch_size       — Lines per vLLM generate() call
+#   cpu_offload_gb        — GB of weights kept in CPU RAM (vLLM UVA zero-copy),
+#                           or "auto" to size from footprint vs. detected VRAM
+#                           at engine load (issue ufal/atrium-project#26)
 
 MODEL_REGISTRY: Dict[str, Dict] = {
     "qwen-3.6-35b-moe": {
@@ -424,6 +433,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
+        "weight_footprint_gb": 70,
         "is_moe": True,
         "load_in_4bit": True,  # Updated via correction
         "recommended_tp": 1,
@@ -442,6 +452,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": True,
+        "weight_footprint_gb": 52,
         "is_moe": True,
         "load_in_4bit": True,  # Updated via correction
         "recommended_tp": 2,
@@ -463,12 +474,14 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "load_in_4bit": True,  # Updated via correction
         "recommended_tp": 8,
         "min_vllm_version": "0.8.0",
+        "weight_footprint_gb": 470,  # BF16, ~2 bytes/param
         "inference_defaults": {
             "backend": "vllm",
             "tensor_parallel_size": 8,
             "gpu_memory_utilization": 0.88,
             "max_model_len": 16384,
             "vllm_batch_size": 8,
+            "cpu_offload_gb": "auto",  # sized at load; 0 where weights fit
         },
     },
     "llama4-maverick": {
@@ -481,12 +494,14 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "load_in_4bit": True,  # Updated via correction
         "recommended_tp": 8,
         "min_vllm_version": "0.8.0",
+        "weight_footprint_gb": 800,  # BF16, ~400 B total params
         "inference_defaults": {
             "backend": "vllm",
             "tensor_parallel_size": 8,
             "gpu_memory_utilization": 0.88,
             "max_model_len": 16384,
             "vllm_batch_size": 4,
+            "cpu_offload_gb": "auto",  # sized at load; 0 where weights fit
         },
     },
     # ------------------------------------------------------------------
@@ -498,6 +513,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
+        "weight_footprint_gb": 16,
         "inference_defaults": {
             "backend": "transformers",
             "tensor_parallel_size": 1,
@@ -512,6 +528,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
+        "weight_footprint_gb": 18,
         "inference_defaults": {
             "backend": "transformers",
             "tensor_parallel_size": 1,
@@ -526,6 +543,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.float16,
         "hf_token_required": False,
+        "weight_footprint_gb": 10,  # AWQ 4-bit
         "is_awq": True,
         "inference_defaults": {
             "backend": "transformers",
@@ -541,6 +559,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
+        "weight_footprint_gb": 30,
         "load_in_4bit": True,
         "inference_defaults": {
             "backend": "transformers",
@@ -556,6 +575,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": True,
+        "weight_footprint_gb": 24,
         "inference_defaults": {
             "backend": "transformers",
             "tensor_parallel_size": 1,
@@ -570,6 +590,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
+        "weight_footprint_gb": 15,
         "inference_defaults": {
             "backend": "transformers",
             "tensor_parallel_size": 1,
@@ -587,6 +608,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
+        "weight_footprint_gb": 54,
         "load_in_4bit": True,
         "notes": "Best accuracy/VRAM ratio for single-GPU runs.",
         "inference_defaults": {
@@ -603,6 +625,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": True,
+        "weight_footprint_gb": 62,
         "load_in_4bit": True,
         "notes": "Highest accuracy on single GPU (4-bit). Gated model.",
         "inference_defaults": {
@@ -619,6 +642,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": True,
+        "weight_footprint_gb": 141,  # BF16; BnB 4-bit (transformers) is ~35 GB
         "load_in_4bit": True,
         "recommended_tp": 2,
         "notes": (
@@ -643,6 +667,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "context_window": 8192,
         "is_gguf": True,
         "hf_token_required": False,
+        "weight_footprint_gb": 16,  # Q4_K_M
         "notes": "MoE via llama.cpp. BnB 4-bit unsupported (fused experts).",
         "inference_defaults": {
             "backend": "transformers",  # llama.cpp is reached via the transformers path
@@ -661,6 +686,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": True,
+        "weight_footprint_gb": 15,  # AWQ 4-bit
         "is_moe": True,
         "bnb_experts_broken": True,
         "is_awq": True,
@@ -687,6 +713,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "vllm_only": True,
         "recommended_tp": 8,
         "min_vllm_version": "0.8.0",
+        "weight_footprint_gb": 235,  # native FP8, ~1 byte/param
         "notes": (
             "FP8-quantised Qwen3 235B MoE. Weight footprint ≈ 235 GB — fits in "
             "8× A100 40 GB = 320 GB total (85 GB headroom for KV cache). "
@@ -705,6 +732,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "gpu_memory_utilization": 0.88,
             "max_model_len": 16384,
             "vllm_batch_size": 8,
+            "cpu_offload_gb": "auto",  # sized at load; 0 where weights fit
         },
     },
     "deepseek-v3": {
@@ -717,6 +745,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "bnb_experts_broken": True,
         "vllm_only": True,
         "recommended_tp": 4,
+        "weight_footprint_gb": 690,  # official FP8 checkpoint file size
         "notes": (
             "671B MoE. Official FP8 checkpoint: deepseek-ai/DeepSeek-V3-0324. "
             "Requires 8× A100 40 GB minimum in FP8 (exceeds available hardware). "
@@ -729,6 +758,7 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "gpu_memory_utilization": 0.92,
             "max_model_len": 16384,
             "vllm_batch_size": 4,
+            "cpu_offload_gb": "auto",  # sized at load; 0 where weights fit
         },
     },
     # ------------------------------------------------------------------
@@ -837,6 +867,31 @@ _ALWAYS_SKIP_CATEG = {"Empty", "Trash"}
 # ---------------------------------------------------------------------------
 
 
+def _unquote(value: str) -> str:
+    """Strip one matched pair of surrounding quotes from a config value.
+
+    Config files here are shell-flavoured KEY=VALUE, and both quoted and bare
+    values occur in the wild — this repo's own llm_config.txt writes them bare,
+    while generated configs (the cross-repo e2e workflow, deployment templates)
+    quote paths out of shell habit. Without this, a quoted value keeps its quote
+    characters and every path built from it is wrong by two bytes.
+
+    That is not hypothetical: `VOCAB_PATH="/workspace/work/…json"` parsed to a
+    path that could not exist, VocabularyManager fell through to auto-sync, and
+    the run produced a single-term enum that rejected every correct answer the
+    model gave. atrium-nlp-enrich's sibling parser (api_util/summarize_nt_udp.py)
+    has always stripped quotes; the two repos consume configs written by the same
+    hand, so differing on this is a trap rather than a design choice.
+
+    Only a MATCHED outer pair is removed, so a Windows path or a value with an
+    apostrophe inside survives untouched.
+    """
+    for quote in ('"', "'"):
+        if len(value) >= 2 and value.startswith(quote) and value.endswith(quote):
+            return value[1:-1]
+    return value
+
+
 def load_config(config_path: str = "llm_config.txt") -> Dict[str, str]:
     """Parse a KEY=VALUE config file, ignoring blank lines and # comments."""
     config: Dict[str, str] = {}
@@ -850,7 +905,7 @@ def load_config(config_path: str = "llm_config.txt") -> Dict[str, str]:
                 continue
             if "=" in line:
                 key, _, value = line.partition("=")
-                config[key.strip()] = value.strip()
+                config[key.strip()] = _unquote(value.strip())
     return config
 
 
@@ -938,7 +993,19 @@ def get_inference_defaults(
         # Type coercion
         if def_key == "backend":
             resolved[cfg_key] = raw.lower()
-        elif def_key in ("tensor_parallel_size", "vllm_batch_size", "cpu_offload_gb"):
+        elif def_key == "cpu_offload_gb":
+            # "auto" (issue #26) is sized at engine-load time from the model
+            # footprint vs. detected VRAM; otherwise an explicit integer GB.
+            if raw.strip().lower() == "auto":
+                resolved[cfg_key] = "auto"
+            else:
+                try:
+                    resolved[cfg_key] = int(raw) if raw else 0
+                except ValueError:
+                    raise ValueError(
+                        f"CPU_OFFLOAD_GB must be an integer or 'auto', got {raw!r}"
+                    ) from None
+        elif def_key in ("tensor_parallel_size", "vllm_batch_size"):
             resolved[cfg_key] = int(raw) if raw else 0
         elif def_key == "gpu_memory_utilization":
             resolved[cfg_key] = float(raw) if raw else 0.90
@@ -960,7 +1027,288 @@ def get_inference_defaults(
         resolved["BACKEND"] = "vllm"
         sources["BACKEND"] = "forced"
 
+    # CPU_OFFLOAD_GB=auto is a vLLM mechanism (UVA zero-copy weight spill);
+    # the transformers backend has no equivalent, so fall back to 0 there.
+    # For models larger than GPU VRAM the supported answer is BACKEND=vllm.
+    if resolved["CPU_OFFLOAD_GB"] == "auto" and resolved["BACKEND"] != "vllm":
+        print(
+            "[INFO] CPU_OFFLOAD_GB=auto applies to the vLLM backend only — using 0. "
+            "For models larger than GPU VRAM set BACKEND=vllm."
+        )
+        resolved["CPU_OFFLOAD_GB"] = 0
+        sources["CPU_OFFLOAD_GB"] = "forced"
+
     return resolved, sources
+
+
+# ---------------------------------------------------------------------------
+# 3b. CPU-offload auto-sizing — issue ufal/atrium-project#26
+# ---------------------------------------------------------------------------
+#
+# Runs models whose weight footprint exceeds GPU VRAM by spilling the surplus
+# into CPU RAM via vLLM's cpu_offload_gb (UVA zero-copy: the GPU stays the
+# sole compute engine and reads offloaded weights through a unified address
+# space, so no CPU cores are consumed — they stay free for the rest of the
+# pipeline). CPU_OFFLOAD_GB=auto sizes the spill at engine load:
+#
+#   offload = footprint − (VRAM × gpu_memory_utilization − KV reserve) × TP
+#
+# The footprint is measured from the local HF cache when possible (exact for
+# the quantization actually downloaded), the HF Hub API next, and the
+# registry's weight_footprint_gb estimate last. Offloaded weights cross the
+# PCIe bus on every forward pass — expect a 3–6× throughput penalty.
+# Quantization (FP8/AWQ/GGUF) remains the primary strategy; offload is what
+# lets a job run on a smaller-VRAM node at all.
+
+_KV_RESERVE_GB_PER_GPU = 4.0  # VRAM kept for KV cache / activations, per GPU
+_OFFLOAD_MARGIN_GB = 2.0  # safety margin added to the computed deficit
+_RAM_HEADROOM_GB = 24.0  # CPU RAM kept free for the pipeline + OS
+
+_WEIGHT_FILE_SUFFIXES = (".safetensors", ".bin", ".gguf")
+
+
+def _available_ram_gb() -> Optional[float]:
+    """MemAvailable from /proc/meminfo in GB; None where unreadable (non-Linux)."""
+    try:
+        with open("/proc/meminfo", "r", encoding="utf-8") as f:
+            for line in f:
+                if line.startswith("MemAvailable:"):
+                    return int(line.split()[1]) / 1024**2  # kB → GB
+    except (OSError, ValueError, IndexError):
+        pass
+    return None
+
+
+def _snapshot_weight_bytes(model_dir: Path, filename_pattern: Optional[str]) -> int:
+    """Largest per-snapshot sum of weight-file sizes under one HF cache entry."""
+    best = 0
+    snapshots = model_dir / "snapshots"
+    if not snapshots.is_dir():
+        return 0
+    for snap in snapshots.iterdir():
+        if not snap.is_dir():
+            continue
+        total = 0
+        for f in snap.rglob("*"):
+            if f.suffix.lower() not in _WEIGHT_FILE_SUFFIXES:
+                continue
+            if filename_pattern and not fnmatch.fnmatch(f.name, filename_pattern):
+                continue
+            try:
+                total += f.stat().st_size  # follows the blob symlink
+            except OSError:
+                continue
+        best = max(best, total)
+    return best
+
+
+def _hub_weight_bytes(hf_id: str, filename_pattern: Optional[str]) -> int:
+    """Total weight-file bytes reported by the HF Hub API; 0 when unreachable."""
+    try:
+        from huggingface_hub import HfApi  # noqa: E402
+
+        siblings = HfApi().model_info(hf_id, files_metadata=True).siblings or []
+    except Exception:
+        return 0
+    total = 0
+    for s in siblings:
+        if not s.size:
+            continue
+        name = Path(s.rfilename).name
+        if not name.lower().endswith(_WEIGHT_FILE_SUFFIXES):
+            continue
+        if filename_pattern and not fnmatch.fnmatch(name, filename_pattern):
+            continue
+        total += s.size
+    return total
+
+
+def estimate_weight_footprint_gb(model_key: str) -> Optional[float]:
+    """
+    Best-effort weight footprint of *model_key* in GB, trying in order:
+
+      1. Local HF cache (HF_HUB_CACHE / HF_HOME, read at call time) — exact
+         for the files actually downloaded, quantized variants included.
+      2. HF Hub API file metadata — needs network access; skipped offline.
+      3. The registry's ``weight_footprint_gb`` estimate.
+
+    Returns None (with a warning) when no source can answer — callers must
+    degrade gracefully.
+    """
+    spec = MODEL_REGISTRY.get(model_key)
+    if spec is None:
+        return None
+    hf_id = spec.get("hf_id", "")
+    pattern = spec.get("filename")  # GGUF repos hold several quantizations
+
+    # 1) Local HF cache. Env vars are read here (not at import) so SLURM jobs
+    #    and tests that retarget HF_HOME are honoured.
+    cache_dirs: List[Path] = []
+    for env_var, sub in (("HF_HUB_CACHE", ""), ("HF_HOME", "hub"), ("HF_HOME", "")):
+        root = os.environ.get(env_var)
+        if root:
+            cache_dirs.append(Path(root) / sub if sub else Path(root))
+    try:
+        from huggingface_hub.constants import HF_HUB_CACHE  # noqa: E402
+
+        cache_dirs.append(Path(HF_HUB_CACHE))
+    except Exception:
+        pass
+
+    entry_name = "models--" + hf_id.replace("/", "--")
+    seen = set()
+    for cache_dir in cache_dirs:
+        try:
+            resolved = cache_dir.resolve()
+        except OSError:
+            continue
+        if resolved in seen:
+            continue
+        seen.add(resolved)
+        nbytes = _snapshot_weight_bytes(cache_dir / entry_name, pattern)
+        if nbytes > 0:
+            gb = nbytes / 1024**3
+            print(f"[OFFLOAD] {model_key} weight footprint: {gb:.1f} GB (local HF cache)")
+            return gb
+
+    # 2) HF Hub API
+    nbytes = _hub_weight_bytes(hf_id, pattern)
+    if nbytes > 0:
+        gb = nbytes / 1024**3
+        print(f"[OFFLOAD] {model_key} weight footprint: {gb:.1f} GB (HF Hub API)")
+        return gb
+
+    # 3) Registry estimate
+    gb = spec.get("weight_footprint_gb")
+    if gb:
+        print(f"[OFFLOAD] {model_key} weight footprint: ~{float(gb):.0f} GB (registry estimate)")
+        return float(gb)
+
+    print(
+        f"[WARN] Cannot estimate the weight footprint of {model_key} "
+        f"(not in the local HF cache, Hub unreachable, no registry estimate)."
+    )
+    return None
+
+
+def resolve_auto_cpu_offload(
+    footprint_gb: float,
+    tensor_parallel_size: int,
+    gpu_memory_utilization: float,
+    per_gpu_vram_gb: float,
+    ram_available_gb: Optional[float],
+    kv_reserve_gb_per_gpu: float = _KV_RESERVE_GB_PER_GPU,
+    margin_gb: float = _OFFLOAD_MARGIN_GB,
+) -> int:
+    """
+    Pure budget math behind CPU_OFFLOAD_GB=auto — how many GB of weights must
+    spill to CPU RAM for the model to fit the GPU weight budget.
+
+    Returns 0 when the weights fit. Raises ValueError when even CPU RAM
+    cannot absorb the deficit (message includes the SLURM --mem fix).
+    """
+    vram_budget_gb = (
+        per_gpu_vram_gb * gpu_memory_utilization - kv_reserve_gb_per_gpu
+    ) * tensor_parallel_size
+    deficit_gb = footprint_gb - vram_budget_gb
+    if deficit_gb <= 0:
+        return 0
+    offload_gb = math.ceil(deficit_gb + margin_gb)
+    if ram_available_gb is not None and offload_gb > ram_available_gb - _RAM_HEADROOM_GB:
+        raise ValueError(
+            f"Model does not fit even with CPU offload: weights ≈ {footprint_gb:.0f} GB, "
+            f"GPU weight budget ≈ {vram_budget_gb:.0f} GB "
+            f"({tensor_parallel_size}× {per_gpu_vram_gb:.0f} GB × {gpu_memory_utilization:.2f} "
+            f"− {kv_reserve_gb_per_gpu:.0f} GB/GPU KV reserve) → needs {offload_gb} GB in "
+            f"CPU RAM, but only {ram_available_gb:.0f} GB is available "
+            f"({_RAM_HEADROOM_GB:.0f} GB reserved for the pipeline/OS). "
+            f"Request more memory in the SLURM job (--mem ≥ {offload_gb + 40}G), add GPUs "
+            f"(TENSOR_PARALLEL_SIZE), or pick a smaller / more-quantized MODEL_KEY."
+        )
+    return offload_gb
+
+
+def _size_cpu_offload(
+    model_key: str,
+    tensor_parallel_size: int,
+    gpu_memory_utilization: float,
+    explicit_offload_gb: Optional[int] = None,
+) -> int:
+    """
+    Resolve CPU_OFFLOAD_GB=auto (``explicit_offload_gb=None``) or sanity-check
+    an explicit value. Returns the offload GB to pass to vLLM.
+
+    Auto mode raises ValueError when the model cannot fit at all; with an
+    explicit value the same condition only warns (the operator decided).
+    """
+    auto_mode = explicit_offload_gb is None
+
+    if not torch.cuda.is_available():
+        if auto_mode:
+            print("[OFFLOAD] CPU_OFFLOAD_GB=auto: no CUDA devices visible — using 0.")
+            return 0
+        return explicit_offload_gb
+
+    footprint_gb = estimate_weight_footprint_gb(model_key)
+    if footprint_gb is None:
+        if auto_mode:
+            print(
+                "[WARN] CPU_OFFLOAD_GB=auto could not determine the model footprint — "
+                "using 0. Set CPU_OFFLOAD_GB=<int> manually if the model exceeds VRAM."
+            )
+            return 0
+        return explicit_offload_gb
+
+    per_gpu_vram_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3
+    ram_available_gb = _available_ram_gb()
+
+    try:
+        needed_gb = resolve_auto_cpu_offload(
+            footprint_gb=footprint_gb,
+            tensor_parallel_size=tensor_parallel_size,
+            gpu_memory_utilization=gpu_memory_utilization,
+            per_gpu_vram_gb=per_gpu_vram_gb,
+            ram_available_gb=ram_available_gb,
+        )
+    except ValueError:
+        if auto_mode:
+            raise
+        print(
+            f"[WARN] {model_key} (~{footprint_gb:.0f} GB of weights) is unlikely to fit: "
+            f"even CPU RAM cannot absorb the VRAM deficit on this node. Expect OOM — "
+            f"raise the job's --mem, add GPUs, or pick a smaller MODEL_KEY."
+        )
+        return explicit_offload_gb
+
+    if auto_mode:
+        budget_gb = (
+            per_gpu_vram_gb * gpu_memory_utilization - _KV_RESERVE_GB_PER_GPU
+        ) * tensor_parallel_size
+        ram_str = (
+            f"{ram_available_gb:.0f} GB RAM available"
+            if ram_available_gb is not None
+            else "RAM unknown"
+        )
+        print(
+            f"[OFFLOAD] CPU_OFFLOAD_GB=auto → {needed_gb} GB  "
+            f"(weights ≈ {footprint_gb:.0f} GB, GPU weight budget ≈ {budget_gb:.0f} GB on "
+            f"{tensor_parallel_size}× {per_gpu_vram_gb:.0f} GB, {ram_str})"
+        )
+        if needed_gb > 0:
+            print(
+                f"[OFFLOAD] Ensure the job requests enough CPU RAM (SLURM: "
+                f"--mem ≥ {needed_gb + 40}G). Offloaded weights cross PCIe every forward "
+                f"pass — expect a 3–6× throughput reduction; fine for overnight batch runs."
+            )
+        return needed_gb
+
+    if explicit_offload_gb < needed_gb:
+        print(
+            f"[WARN] {model_key} weights ≈ {footprint_gb:.0f} GB likely exceed the GPU "
+            f"weight budget: CPU_OFFLOAD_GB={explicit_offload_gb} looks insufficient — "
+            f"expect OOM. Suggested: CPU_OFFLOAD_GB={needed_gb} (or CPU_OFFLOAD_GB=auto)."
+        )
+    return explicit_offload_gb
 
 
 # ---------------------------------------------------------------------------
@@ -1250,7 +1598,7 @@ def load_vllm_engine(
     guided_decoding_backend: str = "xgrammar",
     enable_prefix_caching: bool = True,
     max_model_len: Optional[int] = None,
-    cpu_offload_gb: int = 0,
+    cpu_offload_gb: Union[int, str] = 0,
 ) -> Tuple[Any, Any, dict]:
     """
     Load a model via vLLM for high-throughput, multi-GPU inference.
@@ -1268,7 +1616,10 @@ def load_vllm_engine(
         to GPU on demand. Use on nodes whose GPU VRAM is insufficient for the
         model weights but whose CPU RAM is large enough (e.g. dll-4gpu3 or
         dll-8gpu both have 515 GB RAM). Reduces throughput by 3–6×; acceptable
-        for overnight batch runs.
+        for overnight batch runs. Pass ``"auto"`` to size the offload here at
+        load time from the measured weight footprint vs. detected VRAM and
+        available CPU RAM (issue ufal/atrium-project#26); explicit integers
+        are sanity-checked and a warning is printed when they look too small.
 
     Returns:
         (llm_engine, tokenizer, spec)
@@ -1310,6 +1661,23 @@ def load_vllm_engine(
             f"[WARN] {model_key} recommends tensor_parallel_size={recommended_tp} "
             f"but got {tensor_parallel_size}. "
             f"You may encounter out-of-memory errors."
+        )
+
+    # Resolve CPU offload — "auto" is sized here from the model footprint vs.
+    # detected VRAM (issue ufal/atrium-project#26); explicit integers get a
+    # fit sanity check that warns instead of failing.
+    if isinstance(cpu_offload_gb, str):
+        if cpu_offload_gb.strip().lower() != "auto":
+            raise ValueError(
+                f"CPU_OFFLOAD_GB must be an integer or 'auto', got {cpu_offload_gb!r}"
+            ) from None
+        cpu_offload_gb = _size_cpu_offload(model_key, tensor_parallel_size, gpu_memory_utilization)
+    else:
+        cpu_offload_gb = _size_cpu_offload(
+            model_key,
+            tensor_parallel_size,
+            gpu_memory_utilization,
+            explicit_offload_gb=cpu_offload_gb,
         )
 
     # Resolve dtype string for vLLM
@@ -1745,12 +2113,24 @@ def process_document(
 
             else:
                 prompt = _format_chat_prompt(messages, tokenizer, model_key)
-                inputs = tokenizer(
-                    prompt,
-                    return_tensors="pt",
-                    truncation=True,
-                    max_length=max_input_tokens,
-                ).to(model.device)
+                # (atrium-project#53) Tokenised whole, then cut to the input budget HERE,
+                # where it is counted: `truncation=True, max_length=` used to cut the end of
+                # the prompt -- the target line and the task -- without a word. The cut is
+                # the same (right side); what is new is the warning and the count, which
+                # llm_run.py records in the paradata as a `trimmed` note.
+                inputs = tokenizer(prompt, return_tensors="pt")
+                if inputs["input_ids"].shape[1] > max_input_tokens:
+                    stats["truncated_inputs"] = stats.get("truncated_inputs", 0) + 1
+                    print(
+                        f"  [WARN] {file_id} P{page_num} L{line_num}: prompt of "
+                        f"{inputs['input_ids'].shape[1]} tokens cut to {max_input_tokens} "
+                        "(context window - CONTEXT_RESERVED); its end, with the target "
+                        "line, is lost."
+                    )
+                    for key in ("input_ids", "attention_mask", "token_type_ids"):
+                        if key in inputs:
+                            inputs[key] = inputs[key][:, :max_input_tokens]
+                inputs = inputs.to(model.device)
 
                 _t0 = time.monotonic()
                 with torch.no_grad():

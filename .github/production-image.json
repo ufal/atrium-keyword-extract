@@ -7,21 +7,29 @@
     "fails too. Run it locally with: python ../atrium-project/tools/ci/image_closure.py",
     "--repo-root . --worktree",
     "The pilot pins `-api` (python -m service.api); `base` is the batch CLI of the same stage",
-    "(keywords.py), published, never pinned. The research LLM code (llm_run.py, llm_utils.py,",
-    "prompt_template.py, vocab_*.py, corpus_review.py) is built only into the `llm` target and is",
-    "unreachable from the entrypoint: the controlled kind (atrium-keyword-extract#1) joins this list",
-    "when the service gets it. api_util/teitok_read.py and bbox_scale.py are nlp-enrich's, pinned by",
-    "tests/test_vendored_teitok_parity.py."
+    "(keywords.py), published, never pinned. The controlled kind (atrium-keyword-extract#1, #2)",
+    "is in the closure since 2026-10-07: llm_client_shared.py and the two backend clients",
+    "(openrouter_client.py, ollama_client.py) call an inference service, prompt_template.py",
+    "renders prompts/system_prompt.txt, and vocab_manager.py reads the built vocabulary and",
+    "resolves entities[].pid; the image carries no model weights. The research GPU path",
+    "(llm_run.py, llm_utils.py) and the vocabulary build and review tools (vocab_build.py,",
+    "vocab_sources.py, vocab_review.py, corpus_review.py) stay out of it. api_util/teitok_read.py",
+    "and bbox_scale.py are nlp-enrich's, pinned by tests/test_vendored_teitok_parity.py."
   ],
   "image": "ghcr.io/ufal/atrium-keyword-extract-api",
   "target": "api",
   "entrypoint": "service/api.py",
-  "stage": "statistical keywords of the record or a text, with method and score: POST /extract_keywords, /extract_keywords_text",
+  "stage": "keywords of the record or a text: statistical (per document and page, with method and score) and controlled (the AMČR/TEATER vocabulary term of each line, by an LLM through an inference service): POST /extract_keywords, /extract_keywords_text",
   "core": [
     "service/__init__.py",
     "service/api.py",
     "keywords.py",
-    "tool_limits.py"
+    "tool_limits.py",
+    "llm_client_shared.py",
+    "openrouter_client.py",
+    "ollama_client.py",
+    "prompt_template.py",
+    "vocab_manager.py"
   ],
   "vendored": {
     "api_util/bbox_scale.py": "atrium-nlp-enrich",

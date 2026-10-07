@@ -8,9 +8,10 @@
     "is the only part a program should read; everything else is prose for humans.",
     "",
     "The model returns only the four fields under 'enrichment' that the constrained",
-    "schema declares (llm_run.build_schema). 'teater_category_ids' is attached AFTER",
-    "inference by _attach_category_ids and is absent when EMIT_CATEGORY_IDS=false;",
-    "the surrounding record fields (file_id … original_text) come from the input CSV.",
+    "schema declares (llm_run.build_schema, llm_client_shared.build_schema).",
+    "'teater_category_ids' is attached AFTER inference (llm_run._attach_category_ids,",
+    "llm_client_shared.attach_category_ids) and is absent when EMIT_CATEGORY_IDS=false;",
+    "the surrounding record fields (file_id … original_text) come from the input row.",
     "",
     "tests/test_prompt_template.py asserts these field names stay in step with the",
     "schema and with the examples in prompts/system_prompt.txt, so the three cannot",
@@ -18,7 +19,7 @@
   ],
   "file": "<OUTPUT_DIR>/<doc_id>_enriched.json",
   "shape": "array of records",
-  "written_by": "llm_run.py",
+  "written_by": "llm_run.py, openrouter_client.py, ollama_client.py",
   "sidecar_on_abort": {
     "file": "<OUTPUT_DIR>/<doc_id>_enriched.abort.json",
     "fields": {

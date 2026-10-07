@@ -1,3 +1,21 @@
+# requirements_llm.txt — the research `-llm` target: the GPU inference stack (transformers + vLLM)
+# that llm_run.py runs on. The `llm` Dockerfile stage builds FROM `base`, so requirements.txt is
+# installed underneath; the controlled kind of the service and the two batch clients
+# (openrouter_client.py, ollama_client.py) need none of this — their set is
+# requirements_remote.txt.
+#
+# NO STANDALONE `torch==` PIN, deliberately (atrium-project#10). vLLM pins torch EXACTLY --
+# `vllm 0.9.2` requires `torch==2.7.0`, `0.14.1` requires `2.9.1`, `0.22.0` requires `2.11.0`,
+# `0.27.1` requires `2.13.0` -- so a second torch pin in this file cannot coexist with any vllm but
+# the one matching it. The `torch==2.7.0` this file carried until 2026-10-07 made it unsatisfiable
+# next to `vllm>=0.30.0`: the Dockerfile's `llm` stage strips the line before installing (a guard
+# it keeps), but gpu-inference.yml installs this file as it is. llm-enrich dropped the pin for the
+# same reason (its copy, atrium-digital-convert 31534d5); torch is whatever vllm requires.
+#
+# `transformers>=4.57.6` stays as the FLOOR THIS REPO REQUIRES, but it is not the effective one:
+# recent vllm releases require `transformers>=5.5.3` and win. Dependabot ignores
+# `transformers >= 5.0.0`, which stops it PROPOSING a 5.x bump -- it does not stop pip resolving
+# one when vllm demands it.
 configparser
 tqdm
 requests
@@ -6,10 +24,7 @@ keybert
 openpyxl
 pandas
 pydantic==2.13.5
-Requests
 sentence_transformers==6.1.0
-torch==2.7.0
 transformers>=4.57.6
 yake
 vllm>=0.30.0
-

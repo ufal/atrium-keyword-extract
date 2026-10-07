@@ -142,7 +142,8 @@ FROM base AS llm
 USER root
 COPY requirements_llm.txt ./
 
-# Dynamically remove the strict torch==2.7.0 pin so vllm can install its required version
+# requirements_llm.txt carries no torch pin (vllm pins torch exactly; see the file's header). The
+# sed stays as a guard: a `torch==` line added back by hand would make the install unsatisfiable.
 RUN sed -i '/^torch==/d' requirements_llm.txt \
     && pip install \
         --extra-index-url https://download.pytorch.org/whl/cpu \

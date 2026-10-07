@@ -30,6 +30,11 @@ repository_fallback = https://github.com/ufal/atrium-keyword-extract
 #     the OAI-PMH Identify response for the whole repository; paradata written before
 #     that date says so. Conditional, because only the vocabulary build and the controlled
 #     kind touch them. Names and licences match atrium-translator's para_config.txt.
+#   * The controlled kind's language model has no row: the service and the batch clients
+#     call it in an inference service (LLM_BACKEND: OpenRouter or Ollama) and llm_run.py
+#     loads MODEL_KEY's weights, so its terms are the terms of whichever model a deployment
+#     picks. Every run records the model id in its paradata `config`; a per-model licence
+#     lookup is still open (it was a TODO in llm-enrich's para_config.txt too).
 ker                   = MIT        ; conditional ; legacy KER lemma-frequency keyword extraction (stdlib only)
 yake                  = AGPL-3.0   ; conditional ; YAKE statistical keyword extraction (LIAAD/yake)
 keybert               = MIT        ; conditional ; KeyBERT embedding-based keyword extraction

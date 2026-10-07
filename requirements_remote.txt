@@ -1,0 +1,12 @@
+# requirements_remote.txt — the controlled kind without a GPU stack: the batch clients
+# openrouter_client.py (BACKEND=openrouter) and ollama_client.py (BACKEND=ollama) over
+# llm_client_shared.py. Deliberately excludes torch/transformers/vllm/bitsandbytes
+# (requirements_llm.txt): the model runs in an inference service, never in this process.
+# The service's controlled kind needs nothing beyond requirements.txt and
+# service/requirements.txt, which carry these too.
+pydantic
+requests
+tqdm
+# atrium_document.validate_document() gates every record the clients write (Layer D,
+# atrium-project#10 D4); without jsonschema the gate degrades to one loud warning.
+jsonschema

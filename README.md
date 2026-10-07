@@ -16,22 +16,24 @@ with its score and rank:
 
 * **statistical** keywords — **KeyBERT** (the default), **YAKE** (selectable) and the legacy **KER**, from the
   document or from each of its pages;
-* **controlled** keywords — terms of the **AMČR** and **TEATER** vocabularies chosen by a language model, with
-  Czech and English labels, a thematic category and the supporting page, plus entity links to AMČR and AAT.
+* **controlled** keywords — per line, the term of the **AMČR** and **TEATER** vocabularies a language model
+  chooses for it (with the AMČR/TEATER records behind the term), the Czech and English keywords found in the line,
+  and the page and line it came from, plus entity links to AMČR and AAT.
 
 One service, `POST /extract_keywords`, takes the ATRIUM document record after nlp-enrich and answers with the
-keywords of the document and of its pages. This repository is where both kinds live: it was assembled on
+statistical keywords of the document and of its pages, and the record with its controlled keywords written in
+(the `enrichment` block). This repository is where both kinds live: it was assembled on
 1 October 2026 from the keyword extraction of [atrium-nlp-enrich](https://github.com/ufal/atrium-nlp-enrich)
 (`keywords.py`) and of `atrium-llm-enrich` (the LLM engine and the vocabulary code), after the meeting of
 30 September (atrium-keyword-extract#1; atrium-project#72). nlp-enrich keeps only the LINDAT calls (UDPipe,
 NameTag) and what is built from them.
 
 > [!NOTE]
-> **State of this release.** The statistical kind is built, as a service and as a command-line tool. The
-> controlled kind is still being moved: its LLM and vocabulary code is in this repository as a **research target**
-> (`llm_run.py`, `vocab_*.py`, [`prompts/`](prompts); the `llm` Docker target), and the service reports it as
-> `skipped` (`kind=both`) or refuses it with 501 (`kind=controlled`). The `keywords` block of the record is
-> atrium-project#73; until it lands the keywords are in the response, with the run's `CreateAction`.
+> **State of this branch.** Both kinds run in the service. The controlled kind calls a language model in an
+> inference service — OpenRouter, or a local Ollama — configured by `LLM_BACKEND`; a deployment without one answers
+> `kind=controlled` with 501 and reports it `skipped` under `kind=both`. Its quality is not evaluated yet: the
+> evaluation rubric (D1) of atrium-keyword-extract#2 is open, so treat its output as research output. The
+> `keywords` block of the record is atrium-project#73; until it lands the statistical keywords are in the response.
 
 ---
 
@@ -40,7 +42,7 @@ NameTag) and what is built from them.
 - [The service](#the-service)
 - [Setup](#setup)
 - [The batch CLI: `keywords.py`](#the-batch-cli-keywordspy)
-- [The vocabulary and the controlled kind (research target)](#the-vocabulary-and-the-controlled-kind-research-target)
+- [The controlled kind and the vocabulary](#the-controlled-kind-and-the-vocabulary)
 - [Licences](#licences)
 - [Docker](#docker)
 - [Contributing and contacts](#contributing-and-contacts)
@@ -58,6 +60,11 @@ python -m service.api                  # PORT / HOST; default 0.0.0.0:8000
 curl -s -X POST localhost:8000/extract_keywords \
   -F "document_json=@CTX000000001.document.json;type=application/json" \
   -F kind=statistical -F method=keybert -F num_keywords=10
+
+# both kinds, with the controlled one's backend configured
+OPENROUTER_API_KEY=sk-... OPENROUTER_MODEL=openai/gpt-4o-mini python -m service.api
+curl -s -X POST localhost:8000/extract_keywords \
+  -F "document_json=@CTX000000001.document.json;type=application/json" -F kind=both
 ```
 
 The record is read: its `lines[].text` per page (lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the
@@ -221,22 +228,44 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, �
 
 ---
 
-## The vocabulary and the controlled kind (research target)
+## The controlled kind and the vocabulary
 
-The controlled kind maps text onto the AMČR keyword lists and the TEATER thesaurus with a language model whose output
-is constrained to the vocabulary's terms. Its code is here as a research target until the service takes it over:
+The controlled kind maps each line onto the AMČR keyword lists and the TEATER thesaurus with a language model whose
+answer is constrained to the vocabulary's terms (a JSON schema whose category is an enum of all 4719 of them). One
+prompt serves every path: [`prompts/system_prompt.txt`](prompts/system_prompt.txt), whose blocks the `PROMPT_*` flags
+of `llm_config.txt` select — [`prompts/RUNBOOK.md`](prompts/RUNBOOK.md) explains each — followed by the vocabulary
+and the examples; `python3 prompt_template.py --preview` prints it. Each answer carries the AMČR/TEATER records behind
+the chosen term (`teater_category_ids`), and a homonym the vocabulary build qualified (`zámek (sídlo elity)`) comes
+back as its plain label.
+
+| Path                                               | Model                                    | Reads                                                        | Writes                                                          |
+|----------------------------------------------------|------------------------------------------|--------------------------------------------------------------|-----------------------------------------------------------------|
+| the service, `kind=controlled\|both`               | an inference service: OpenRouter, Ollama | the record's lines                                           | the record's `enrichment` block, `entities[].pid`               |
+| `openrouter_client.py`, `ollama_client.py` (batch) | the same                                 | records, CSV, TEITOK (per line); `.md`/`.txt` (per document) | `<doc_id>_enriched.json`, the record with `--document-json-out` |
+| `llm_run.py` (research, GPU)                       | local weights, vLLM or transformers      | CSV, TEITOK                                                  | `<doc_id>_enriched.json`                                        |
+
+The first two share `llm_client_shared.py`, which needs no GPU stack (`requirements_remote.txt`); the third is the
+bake-off path of atrium-keyword-extract#2 (`llm_utils.py`, `requirements_llm.txt`, the `llm` Docker target).
+
+```bash
+pip install -r requirements_remote.txt
+export OPENROUTER_API_KEY=sk-...
+python openrouter_client.py --input CTX000000001.document.json --model openai/gpt-4o-mini \
+  --document-json-out CTX000000001.kw.document.json
+python ollama_client.py --input data_samples/DOC_LINE_CATEG --model qwen2.5:14b
+```
+
+The vocabulary:
 
 * `vocab_sources.py`, `vocab_build.py`, `vocab_review.py`, `vocab_manager.py` — harvest the AMČR and TEATER vocabularies,
   build the nested union, review it; the built files are in [`data_samples/vocab`](data_samples/vocab) (see its
   [RUNBOOK](data_samples/vocab/RUNBOOK.md)). The vocabularies are **CC0**; the build is to be published as a versioned
   release asset for the translator and the end-to-end test.
-* `llm_run.py`, `llm_utils.py`, `prompt_template.py`, [`prompts/`](prompts) — the local-model batch run
-  (`docker compose --profile llm run kw-llm`), configured by `llm_config.txt`.
 * `corpus_review.py` — the vocabulary-gap review used for the TEATER experiment.
 
-The LLM engine and the vocabulary code existed twice, in nlp-enrich and in llm-enrich, and partly diverged; this
-repository is where they exist once. The copy that carries the service path and the later fixes is llm-enrich's, and
-it replaces the copy here when the controlled kind moves.
+The LLM engine and the vocabulary code existed twice, in nlp-enrich and in llm-enrich, and partly diverged. This
+repository holds the one copy: nlp-enrich's came with the repository, and llm-enrich's (atrium-digital-convert
+`31534d5`) was merged into it on 2026-10-07 — its remote clients, its service path and its later engine fixes.
 
 ## Licences
 
@@ -250,15 +279,17 @@ The code is **MIT**. The licence of a run's output is computed from the componen
 | **YAKE**                                            | **AGPL-3.0**     | `method=yake` — a run that uses it is declared AGPL-3.0 |
 | AMČR and TEATER vocabularies                        | CC0              | the vocabulary build, the controlled kind               |
 
-The source document's own licence applies to its text.
+The language model of the controlled kind has no row: its terms depend on the model a deployment chooses
+(`OPENROUTER_MODEL`, `OLLAMA_MODEL`, `MODEL_KEY`), whose id every run records in its paradata. The source document's
+own licence applies to its text.
 
 ## Docker
 
-| Target | Image                                          | What it is                                                         |
-|--------|------------------------------------------------|--------------------------------------------------------------------|
-| `api`  | `ghcr.io/ufal/atrium-keyword-extract-api`      | the service — **the production image**                             |
-| `base` | `ghcr.io/ufal/atrium-keyword-extract`          | the batch CLI (`keywords.py`)                                      |
-| `llm`  | `ghcr.io/ufal/atrium-keyword-extract-llm`      | the research LLM batch run, GPU                                    |
+| Target | Image                                     | What it is                                                          |
+|--------|-------------------------------------------|---------------------------------------------------------------------|
+| `api`  | `ghcr.io/ufal/atrium-keyword-extract-api` | the service, both kinds — **the production image** (no LLM weights) |
+| `base` | `ghcr.io/ufal/atrium-keyword-extract`     | the batch CLI (`keywords.py`)                                       |
+| `llm`  | `ghcr.io/ufal/atrium-keyword-extract-llm` | the research LLM batch run, GPU                                     |
 
 ```bash
 docker compose --profile api up                       # the service on :8000

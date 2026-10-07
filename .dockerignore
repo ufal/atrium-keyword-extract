@@ -11,7 +11,19 @@ __pycache__/
 venv-kw/
 venv/
 env/
+# Excluded wholesale -- samples, audits and review sheets the runtime never reads -- except the
+# built vocabulary the controlled kind and llm_run.py read (atrium-keyword-extract#1, #2): the
+# nested vocabulary and its provenance sidecar (VOCAB_PATH), the two flat files beside it that
+# resolve entities[].pid, and the taxonomy VocabularyManager reads to decide which themes reach
+# the prompt and which geographic guardrail it must agree with. Without them an image's
+# llm_config.txt names files the image does not carry, and the controlled kind cannot start.
 data_samples/
+!data_samples/taxonomy_config.json
+!data_samples/taxonomy_overrides.json
+!data_samples/vocab/union_nested.json
+!data_samples/vocab/union_nested.meta.json
+!data_samples/vocab/amcr_flat.json
+!data_samples/vocab/teater_flat.json
 # Not runtime (atrium-project#69, roadmap H5): ker_data/ holds two IDF pickles (26 MB) that
 # no shipped code reads; the test suite runs on the CI runner; the dev logs are
 # documentation.
@@ -19,9 +31,9 @@ ker_data/
 tests/
 agent_dev_logs/
 # Vocabulary review tools, run from a checkout (README: the review sheets), never from an
-# image: no published target's entrypoint (keywords.py, llm_run.py, service/api.py)
-# reaches them (atrium-project#72, "research off the release line"). They leave this
-# repository when the controlled kind moves into the service (atrium-keyword-extract#1).
+# image: no published target's entrypoint (keywords.py, llm_run.py, service/api.py,
+# openrouter_client.py, ollama_client.py) reaches them (atrium-project#72, "research off the
+# release line"; .github/production-image.json is the api image's closure).
 corpus_review.py
 vocab_review.py
 TEMP/
