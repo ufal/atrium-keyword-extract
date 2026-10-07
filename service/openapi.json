@@ -3,7 +3,7 @@
   "info": {
     "title": "ATRIUM keyword-extract API",
     "description": "The record after nlp-enrich, or a text → its statistical keywords (per document and page, with the method, score and rank of every keyword) and its controlled keywords (the AMČR/TEATER vocabulary term of each line, chosen by an LLM).",
-    "version": "1.0.0-beta",
+    "version": "1.1.0-beta",
     "x-atrium-service": "atrium-keyword-extract",
     "x-atrium-service-previous": "atrium-nlp-enrich"
   },
