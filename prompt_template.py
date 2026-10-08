@@ -556,7 +556,7 @@ def write_sheets(
 #
 # A reviewer deciding whether a rule is worth its tokens should not have to start a GPU
 # job to find out what the model is currently told. `--preview` prints the rendered
-# instruction text with the term list elided; `--full` prints the real thing, all 4 719
+# instruction text with the term list elided; `--full` prints the real thing, all 4 712
 # terms of it, which is the version to redirect into a file and read or diff between
 # builds; `--diff` shows what changes between two flag settings, which is the form a
 # wording decision actually takes.

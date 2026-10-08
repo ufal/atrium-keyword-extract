@@ -228,14 +228,40 @@ def test_the_b5_terms_keep_their_reviewed_facet_after_reinstatement(cs, facet, i
     assert ids <= reachable, f"{cs!r} lost ids: {ids - reachable}"
 
 
-def test_reinstatement_added_the_two_context_facets_and_moved_nothing_else():
+def test_reinstatement_added_the_two_context_facets_and_a1_moved_only_teater_1():
     """Q1 and Q2 land in their own facets so either can be retired on its own (M11's
-    "evaluate later"), and the eight archaeological facets keep every term they had."""
+    "evaluate later"). A1-facets (@david-spacil, comment 6057405985) then changed two
+    rules and nothing else: `teater:1` (Theory and approaches, 95 terms) moved into
+    Methods, and `heslar:jazyk` (a document's language) was excluded. Eight of its nine
+    terms left Cultural & Geographic Context; `latina` stays, now offered by TEATER 2770,
+    which dedup had folded into the AMCR record. `Malta (stát)` is the one term the
+    malta split added there."""
     nested, _audit = _built_union()
-    assert len(nested["Cultural & Geographic Context"]) == 972
-    assert len(nested["Related Disciplines & Society"]) == 1666
-    assert sum(len(t) for t in nested.values()) == 4718
+    assert len(nested["Cultural & Geographic Context"]) == 965
+    assert len(nested["Related Disciplines & Society"]) == 1571
+    assert len(nested["Methods"]) == 293
+    assert sum(len(t) for t in nested.values()) == 4711
     assert nested.get("Other", {}) == {}
+
+
+@pytest.mark.parametrize(
+    "cs", ["archeolog", "archeologická lokalita", "archeologický nález", "archeologický kontext"]
+)
+def test_teater_1_renders_under_methods(cs):
+    """A1-facets: archaeology's own theory terms are Methods, not a related discipline,
+    and so no longer sit in the facet a tight context window drops first."""
+    nested, _audit = _built_union()
+    assert cs in nested["Methods"]
+    assert cs not in nested["Related Disciplines & Society"]
+
+
+def test_the_language_list_is_gone_and_latina_survives_through_teater():
+    nested, _audit = _built_union()
+    offered = {cs for terms in nested.values() for cs in terms}
+    for cs in ("čeština", "němčina", "angličtina", "nerelevantní"):
+        assert cs not in offered, f"{cs!r} is still offered"
+    latina = nested["Cultural & Geographic Context"]["latina"]
+    assert (latina["source"], latina["source_id"]) == ("teater", "2770")
 
 
 def test_the_reinstated_facets_sit_last_in_the_prompt():
@@ -272,10 +298,12 @@ def test_each_m13_split_offers_both_senses(qualified, bare, facet, winner_id):
     assert any(bare in terms for terms in nested.values()), f"{bare!r} lost its bare entry"
 
 
-def test_the_seven_splits_are_the_whole_verdict_set():
+def test_the_eight_splits_are_the_whole_verdict_set():
+    """M13's seven, plus `malta` from the nine groups reviewed on 2026-10-08."""
     nested, _audit = _built_union()
     split = {cs for terms in nested.values() for cs, e in terms.items() if e.get("bare_cs")}
     assert split == {
+        "Malta (stát)",
         "komunikace (aktivita)",
         "kost (předmět)",
         "pastvina/louka (nálezové okolnosti)",
@@ -284,6 +312,19 @@ def test_the_seven_splits_are_the_whole_verdict_set():
         "zámek (sídlo elity)",
         "žároviště (spálená vrstva)",
     }
+
+
+def test_malta_the_country_is_selectable_and_mortar_keeps_the_bare_label():
+    """The runbook's live homonym: M11's country names put `HES-001366` (Malta) into a
+    group held by three mortar records, and the bare label went to mortar, so the
+    country was not selectable and a line about Malta reported a Material id. Split
+    on the record that LEAVES the group (@david-spacil, comment 6057405985)."""
+    nested, _audit = _built_union()
+    country = nested["Cultural & Geographic Context"]["Malta (stát)"]
+    assert (country["source_id"], country["bare_cs"]) == ("HES-001366", "Malta")
+    mortar = nested["Material"]["malta"]
+    assert mortar["source_id"] == "HES-000910"
+    assert "HES-001366" not in {d["id"] for d in mortar.get("discarded_ids") or []}
 
 
 def test_no_record_that_survives_exclusion_is_lost_by_dedup_or_splitting():

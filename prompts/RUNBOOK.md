@@ -61,7 +61,7 @@ the run banner, so a log always says what the model was told. Token figures are 
 at 3.35 chars/token, not tokenised — read them as relative weights.
 
 **Why the costs are on the same page as the wording.** The instructions and the term list
-compete for one budget. At 8 192 tokens the whole prompt admits 419 of 4 718 terms, so
+compete for one budget. At 8 192 tokens the whole prompt admits 419 of 4 711 terms, so
 `examples` at ~146 tokens is worth roughly 40 terms there. At 128k it is free. The trade is
 real only at the small end — see [`context_budget.csv`](../data_samples/vocab/context_budget.csv).
 
@@ -137,7 +137,7 @@ vocabulary command rewrites it. Run `--write` (§3) in the same commit.
 ```bash
 python3 prompt_template.py --blocks       # which rules are on, and what each costs
 python3 prompt_template.py --preview      # the instruction text, term list elided
-python3 prompt_template.py --full         # the whole prompt: instructions + all 4 719 labels
+python3 prompt_template.py --full         # the whole prompt: instructions + all 4 712 labels
 python3 prompt_template.py --diff PROMPT_GEO_GUARDRAIL=strict PROMPT_GEO_GUARDRAIL=preference
 python3 prompt_template.py --write        # regenerate the four committed sheets
 python3 prompt_template.py --check        # exit 1 if a sheet is out of date
@@ -147,7 +147,7 @@ Modifiers: `--set KEY=VALUE` (repeatable) overrides a flag for one command witho
 `llm_config.txt`; `--config PATH` reads flags from a different file; `--vocab PATH` renders
 a different build.
 
-`--full` prints **4 719** bullets — the 4 718 vocabulary terms plus
+`--full` prints **4 712** bullets — the 4 711 vocabulary terms plus
 `Nerelevantní (meta-text)`, which is injected at index 0 and is not part of the vocabulary.
 It is the *untruncated* prompt: what a model with room for everything sees. At a tighter
 window a tail of terms is dropped — by `llm_run.py` counting with the model's tokenizer, by

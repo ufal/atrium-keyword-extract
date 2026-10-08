@@ -8,7 +8,7 @@ Ported from llm-enrich's test of the same name (atrium-digital-convert 31534d5),
 the ``document_json`` part of llm-enrich's ``/extract_keywords``: what is pinned is still the
 accretion guarantee (the record's other blocks come back untouched) and Layer D on the way out
 (atrium-project#10, D4). The engine is the real one — the shipped vocabulary, the prompt
-``llm_config.txt`` configures, the 4719-term schema — with the LLM call stubbed
+``llm_config.txt`` configures, the 4712-term schema — with the LLM call stubbed
 (``tests/conftest.py``: ``controlled``), so no network is needed.
 """
 

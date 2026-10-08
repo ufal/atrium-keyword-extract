@@ -103,7 +103,7 @@ document's first lines and the current heading as context. The model answers in 
 The prompt is the research GPU path's (`llm_run.py`): `prompts/system_prompt.txt` with the blocks the
 `PROMPT_*` flags of `llm_config.txt` select, then the vocabulary in the `PROMPT_VOCAB_GROUPING` layout,
 then the examples — `python3 prompt_template.py --preview` prints it, and `prompts/RUNBOOK.md` explains
-every block and flag. The vocabulary is `data_samples/vocab/union_nested.json` (4718 terms, built by
+every block and flag. The vocabulary is `data_samples/vocab/union_nested.json` (4711 terms, built by
 `vocab_build.py`; `data_samples/vocab/RUNBOOK.md`). A service whose configured guardrail wording
 contradicts the vocabulary (`PROMPT_GEO_GUARDRAIL` against `taxonomy_config.json`'s `geo_guardrail`)
 does not start the controlled kind, and `/info` `controlled.detail` says why.

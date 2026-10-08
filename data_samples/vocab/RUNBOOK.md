@@ -145,27 +145,17 @@ you mean to hand the bare word to the next record in the group. The column is co
 the same rule the build uses, and three tests hold it to what the built vocabulary actually
 says.
 
-> ⚠️ **`malta` — a live homonym that no column flags, and the one worth looking at
-> first.** M11 reinstated the 250 country names, which brought `amcr:HES-001366`
-> (*Malta*, the country) into a label group already held by three mortar records.
-> `record_sort_key` sorts AMCR before TEATER and low ident first, so the bare label
-> `malta` goes to `HES-000910` — **mortar, in `Material`** — and the country survives
-> only as a `discarded_ids` entry on it. The country `Malta` is currently **not
-> selectable by the model at all**, and `teater_category_ids` would report a line about
-> Malta as a Material term.
+> ✅ **`malta` — split on 2026-10-08.** M11's country names brought `amcr:HES-001366`
+> (*Malta*, the country) into a label group held by three mortar records, and the bare
+> label went to `HES-000910` (mortar, `Material`), so the country was not selectable.
+> @david-spacil ruled it a split (comment 6057405985): `HES-001366` carries
+> `qualifier_cs: "stát"` and is offered as `Malta (stát)`; the mortar records keep `malta`.
 >
-> Both signals point the wrong way here: all four records read `aat_verdict = agreeing`
-> (the class this runbook tells you to deprioritise), and the glosses *mortar* / *Malta*
-> are far enough apart that dissimilarity does not rank them together either. The fix,
-> if @david-spacil rules it a split, is one `qualifier_cs` on `HES-001366`.
->
-> **Which member carries the qualifier is now visible, but still not enforced.** The
-> group's four rows read `holds_bare_label = yes` on `HES-000910` and blank on the other
-> three, so the sheet says plainly that the plain word is a mortar record. Qualifying the
-> country is correct and leaves `malta` where it is; qualifying `HES-000910` instead hands
-> `malta` to `HES-000992` — a different mortar record — and that build is green, validates,
-> and separates the wrong concept. No test can rule which concept deserves the bare word;
-> the column exists so the choice is made with the answer in front of you.
+> The lesson stays: both signals pointed the wrong way (all four records `agreeing`,
+> glosses far apart), and qualifying `HES-000910` instead would have handed `malta` to
+> `HES-000992`, another mortar record, in a build that is green and validates. Read
+> `holds_bare_label` before writing any qualifier; no test can rule which concept
+> deserves the bare word.
 
 Reading `facet_census.csv`: one row per facet, in render order. `cumulative_tokens` is
 the column that explains truncation — a facet is cut when everything *ahead* of it has
@@ -210,7 +200,7 @@ pass `--force` if shrinking really is intended.
 > ⚠️ **The committed corpus sheets are stale, and the guard is why.**
 > `corpus_review.meta.json` records `vocabulary_single_word_terms: 1017` — computed
 > against the **2 074**-term vocabulary, before M11 reinstated 2 638 terms. Against
-> today's 4 718 those denominators are wrong. They cannot be refreshed on a machine
+> today's 4 711 those denominators are wrong. They cannot be refreshed on a machine
 > without the real corpus, because the guard correctly refuses to replace 19-document
 > evidence with 3-document placeholders. **Re-run `python3 corpus_review.py --all` on
 > the machine that has the issue #19 documents** and commit the result; it is a
@@ -240,19 +230,25 @@ covers **single-word terms only** — `zlomek keramiky` is never matched.
 
 ---
 
-## Making the A1-facets call — the one decision still open
+## The A1-facets call — ruled 2026-10-08
 
-@david-spacil owns where the 2 638 terms M11 reinstated actually live. Today the tooling
-proposes two facets at `priority: 0`, both last in render order:
+@david-spacil owns where the terms M11 reinstated live. He kept the proposed layout, two
+facets at `priority: 0`, both last in render order, with two changes (comment 6057405985):
+`teater:1` (Theory and approaches, archaeology's own terms) renders under `Methods`, and
+`heslar:jazyk` (the language a document is written in: metadata, not content) is excluded.
 
-| Facet                           | Terms | Holds                                                                |
-|---------------------------------|------:|----------------------------------------------------------------------|
-| `Cultural & Geographic Context` |   972 | Q1 — countries, ethnic groups, historical regions, dynasties         |
-| `Related Disciplines & Society` | 1 666 | Q2 — cross-disciplinary, professions, society, theory, battles, wars |
+| Facet                           | Terms | Holds                                                                           |
+|---------------------------------|------:|---------------------------------------------------------------------------------|
+| `Cultural & Geographic Context` |   965 | Q1 without `heslar:jazyk` — countries, ethnic groups, regions, dynasties        |
+| `Related Disciplines & Society` | 1 571 | Q2 without `teater:1` — cross-disciplinary, professions, society, battles, wars |
 
-That is a **proposal, not a ruling**. `facet_census.csv` is the sheet to rule from:
-`top_rules` names exactly the map values a different layout would flip, and
-`cumulative_tokens` shows what each facet costs where it sits.
+`latina` stays offered, by TEATER 2770, which dedup had folded into the excluded AMČR
+record. Moving `teater:1` up costs space at the small end: at 32k the last 60 terms of
+`Cultural & Geographic Context` are now cut as well; from 128k nothing is.
+
+`facet_census.csv` is the sheet for the next such call: `top_rules` names exactly the map
+values a different layout would flip, and `cumulative_tokens` shows what each facet costs
+where it sits.
 
 ### The move, and what catches a mistake
 
@@ -330,9 +326,9 @@ reports every problem at once, not one per rebuild).
 | Which instruction reaches the model at all     | `prompts/system_prompt.txt` holds the text as `[[blocks]]` in render order; `llm_config.txt`'s `PROMPT_*` flags choose which render. The run banner prints the on/off list                                                                                                                     |
 | The geographic guardrail's wording             | `llm_config.txt` → `PROMPT_GEO_GUARDRAIL` = `strict` / `preference` / `off`, paired with `taxonomy_config.json` → `geo_guardrail.active`. `vocab_build.py` renders the selected block and refuses a build where the two disagree                                                               |
 | What one enrichment record looks like          | `prompts/output_template.json` — the committed shape of `<doc_id>_enriched.json`, held in step with the schema and the prompt's own examples by test                                                                                                                                           |
-| **Reading the prompt without a GPU run**       | `python3 prompt_template.py --blocks` (what is on) · `--preview` (instructions, terms elided) · `--full` (the whole prompt, all 4 718 terms) · `--diff KEY=A KEY=B` (what a flag change does to the wording). All four are committed under `prompts/`                                          |
+| **Reading the prompt without a GPU run**       | `python3 prompt_template.py --blocks` (what is on) · `--preview` (instructions, terms elided) · `--full` (the whole prompt, all 4 711 terms) · `--diff KEY=A KEY=B` (what a flag change does to the wording). All four are committed under `prompts/`                                          |
 | **A committed sheet after any prompt change**  | `python3 prompt_template.py --write`, then commit `prompts/prompt_*.txt`. `--check` is the gate, and `vocab-drift.yml` runs it on every PR, so a stale sheet fails CI rather than misleading a reviewer                                                                                        |
 | **Whether the facet grouping matters**         | `llm_config.txt` → `PROMPT_VOCAB_GROUPING` = `facet_sub` / `facet` / `flat`. Same terms, same truncation; only the headers move. `facet` vs `flat` isolates the headers, `facet_sub` vs `facet` the source's second level. Costs 126 terms at 32k, nothing at 128k                             |
-| **Whether a model can still hold it**          | `context_budget.csv` — per context window and facet, how much survives truncation. At 32k only the probation facet is cut; at 8k 419 of 4 718 terms reach the model                                                                                                                            |
+| **Whether a model can still hold it**          | `context_budget.csv` — per context window and facet, how much survives truncation. At 32k the two probation facets are cut (`Related Disciplines & Society` whole, the last 60 terms of `Cultural & Geographic Context`); at 8k 419 of 4 711 terms reach the model                                                                                                                            |
 | **Which facet a reinstated branch lands in**   | `taxonomy_config.json` → the `teater_branch_map` value, **plus** the facet's own `priority` / `in_prompt` block if it is a new one. `facet_census.csv` is the evidence: contents, feeding rules, cost and cut point, one row per facet. This is **A1-facets**                                  |
 | Nothing                                        | a generated CSV. Every sheet in this directory is rebuilt from the two files above; hand-editing one is discarded on the next run.                                                                                                                                                             |

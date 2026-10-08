@@ -162,6 +162,14 @@
     },
     {
       "match": {
+        "source": "amcr",
+        "id": "HES-001366"
+      },
+      "qualifier_cs": "stát",
+      "reason": "malta: the country (HES-001366, zeme) joined a label group held by three mortar records when M11 reinstated the country names, and the bare label went to HES-000910 (objekt_specifikace, Material), so the country was not selectable. Split ruled by @david-spacil (comment 6057405985); the mortar records keep the bare 'malta'."
+    },
+    {
+      "match": {
         "source": "teater",
         "id": "605"
       },

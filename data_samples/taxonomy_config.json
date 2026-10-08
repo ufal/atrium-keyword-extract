@@ -123,7 +123,6 @@
       ],
       "covers": [
         "heslar:zeme",
-        "heslar:jazyk",
         "teater:2560",
         "teater:2900",
         "teater:3076"
@@ -164,7 +163,7 @@
       "pamatkova_ochrana": "Location & Admin",
       "stav_dochovani": "Location & Admin",
       "zeme": "Cultural & Geographic Context",
-      "jazyk": "Cultural & Geographic Context",
+      "jazyk": "__exclude__",
       "letiste": "__exclude__",
       "dokument_licence": "__exclude__",
       "dokument_format": "__exclude__",
@@ -191,7 +190,7 @@
       "140": "Methods",
       "220": "Location & Admin",
       "253": "Location & Admin",
-      "1": "Related Disciplines & Society",
+      "1": "Methods",
       "288": "Related Disciplines & Society",
       "3094": "Related Disciplines & Society",
       "3549": "Related Disciplines & Society",
@@ -271,6 +270,10 @@
       "heslar:ext_zdroj_typ": {
         "status": "settled",
         "reason": "5 bibliographic source types (kniha, článek v časopise) — citation format of an external reference, not a topic. motyc 5424905539."
+      },
+      "heslar:jazyk": {
+        "status": "settled",
+        "reason": "9 entries (čeština, němčina, latina) — the AMCR list of a document's language: metadata, not content; includes the non-term 'nerelevantní'. david-spacil 6057405985."
       },
       "heslar:jistota_urceni": {
         "status": "settled",

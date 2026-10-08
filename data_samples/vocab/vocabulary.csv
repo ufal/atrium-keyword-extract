@@ -87,14 +87,6 @@ muzeum/skanzen,museum/open-air museum
 polygon archeologického průzkumu,archaeological survey polygon
 přírodní útvar s lidskou aktivitou,inhabited natural landform
 zaniklý/historický areál,deserted/historical site
-čeština,Czech
-němčina,German
-angličtina,English
-francouzština,French
-slovenština,Slovak
-latina,Latin
-ruština,Russian
-nerelevantní,irrelevant
 bez ochrany,unprotected
 kulturní památka,listed monument
 národní kulturní památka,listed national monument
@@ -1025,7 +1017,6 @@ mikrostratigrafie,microstratigraphy
 paleoklimatologie,paleoclimatology
 experimentální archeologie,experimental archaeology
 střední/mladší doba laténská (ltc1–2),Middle/Late La Tène Period (LtC1–2)
-italština,Italian
 zaniklá lokalita,buried site
 lokalita pod zástavbou,site in built environment
 nadzemní relikty,aboveground remains
@@ -3346,6 +3337,7 @@ bitva u platají (479 př. kr. : plataje : zaniklé město),Battle of Plataea
 římská antická civilizace,ancient Roman civilization
 gladiátorské hry,gladiatorial games
 gladiátor,gladiator
+latina,Latin
 biblická latina,Biblical Latin language
 církevní latina,liturgical Latin
 vulgární latina,vulgar Latin

@@ -231,7 +231,7 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, �
 ## The controlled kind and the vocabulary
 
 The controlled kind maps each line onto the AMČR keyword lists and the TEATER thesaurus with a language model whose
-answer is constrained to the vocabulary's terms (a JSON schema whose category is an enum of all 4719 of them). One
+answer is constrained to the vocabulary's terms (a JSON schema whose category is an enum of all 4712 of them). One
 prompt serves every path: [`prompts/system_prompt.txt`](prompts/system_prompt.txt), whose blocks the `PROMPT_*` flags
 of `llm_config.txt` select — [`prompts/RUNBOOK.md`](prompts/RUNBOOK.md) explains each — followed by the vocabulary
 and the examples; `python3 prompt_template.py --preview` prints it. Each answer carries the AMČR/TEATER records behind

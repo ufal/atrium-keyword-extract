@@ -601,6 +601,43 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat.
 
+## 2026-10-08 — The A1 facet layout and the malta split (#2)
+* **Why:** @david-spacil's calls of 8 October (comment 6057405985): A1-facets, the nine collision groups the
+  reinstatement added, and the D1 rubric. The next release is the first to carry the vocabulary asset, so it
+  carries the approved layout.
+* **`data_samples/taxonomy_config.json`:** `teater_branch_map["1"]` (Theory and approaches, 95 terms) → `Methods`;
+  `heslar_map["jazyk"]` → `__exclude__`, registered in `_exclusions` as `settled` with his reason (a document's
+  language: metadata, not content; includes `nerelevantní`); `heslar:jazyk` leaves `geo_guardrail.covers`, since
+  the register check refuses a covered rule excluded for any reason other than `open_geo_ethnic`.
+* **`data_samples/taxonomy_overrides.json`:** `amcr:HES-001366` gets `qualifier_cs: "stát"`. The country is offered
+  as `Malta (stát)`; mortar (`HES-000910`) keeps the bare `malta`. The other eight groups merge, which the build
+  already did.
+* **Regenerated** in the runbook's order: the three nestings, sidecars and placement audits, `vocabulary.csv`
+  (`union.skos.ttl` is unchanged: it carries the sources' records, not the layout), the review sheets
+  (`facet_census.csv`, `context_budget.csv`, `exclusion_impact.csv`, `reinstatement_preview.csv`,
+  `specificity_pairs.csv`) and `prompts/prompt_full.txt`. 4,718 terms → 4,711: Methods 198 → 293,
+  Cultural & Geographic Context 972 → 965 (eight language names out, `Malta (stát)` in; `latina` stays as
+  TEATER 2770, which dedup had folded into the excluded AMČR record), Related Disciplines & Society 1,666 → 1,571.
+* **What the move costs:** at a 32k window `Cultural & Geographic Context` is now cut too (905 of 965 kept;
+  Related Disciplines & Society was already cut and is now dropped whole). From 128k nothing is cut.
+* **Tests:** `tests/test_vocab_build.py` (facet counts, teater:1 under Methods, the language list gone with
+  `latina` kept, the malta split, eight splits in the verdict set) and `tests/test_vocab_review.py` (jazyk
+  settled, out of `covers`; the Q1 reinstatement test no longer lists it). The 7 new tests and the 2 rewritten
+  ones fail on the previous vocabulary.
+* **Docs:** `data_samples/vocab/RUNBOOK.md` (the A1 section records the ruling; the malta warning is resolved;
+  counts and truncation figures), `6.D-eval.decision-package.md` (a "Decided 2026-10-08" block: D1-a … D1-f,
+  narrower-than-gold is wrong with its own cell, split homonyms scored on the qualified form resolved from
+  `teater_category_ids`), the counts in `prompts/RUNBOOK.md`, `README.md`, `service/README.md` and three comments.
+* **Not changed:** `atrium_vocab.py`, the hub-shared module. Its mirror maps still say `jazyk` → Cultural &
+  Geographic Context and `1` → Related Disciplines & Society; nothing checks them against the config, and fixing
+  them means a hub change and six revendors, so it waits for the next shared-module round.
+* **Checks:** full suite 926 passed, 6 skipped; ruff clean; `vocab_build.py --from-flat --check` and
+  `prompt_template.py --check` clean; the release workflow's vocabulary step run locally passes
+  (4,711 terms), and after a simulated bump it refuses the stale stamp until `vocab_build.py --from-flat --skos`
+  re-stamps it.
+
+  Files delivered in chat; not pushed.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

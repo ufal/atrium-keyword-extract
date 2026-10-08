@@ -1372,7 +1372,7 @@ def write_document_record(
 # ---------------------------------------------------------------------------
 #
 # The whole-document request goes out as `response_format: {"type": "json_object"}`
-# unless --structured-outputs is passed, and the E2E does not pass it: with a 4719-value
+# unless --structured-outputs is passed, and the E2E does not pass it: with a 4712-value
 # enum the json_schema variant is far larger than most providers accept, and
 # --provider-data-collection deny narrows routing to providers whose structured-output
 # support varies. So the shape is enforced by the PROMPT, and the prompt is advice.

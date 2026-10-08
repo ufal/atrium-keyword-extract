@@ -509,17 +509,32 @@ def test_exclusion_impact_settled_and_open_totals_reconcile():
 
 @pytest.mark.parametrize(
     "rule",
-    ["heslar:zeme", "heslar:jazyk", "teater:2560", "teater:2900", "teater:3076"],
+    ["heslar:zeme", "teater:2560", "teater:2900", "teater:3076"],
 )
 def test_the_q1_lists_are_no_longer_excluded_at_all(rule):
     """O3/O4 Q1 was the set of lists the guardrail's own wording named. M11 reinstated
     every one of them, so none should appear in the exclusion sheet — a Q1 rule still
-    listed here would mean the ruling was only half applied."""
+    listed here would mean the ruling was only half applied. `heslar:jazyk` is the one
+    exception, excluded again on other grounds (next test)."""
     _require_flat()
     manager = _shipped_manager()
     per_source = vb._load_flat(VOCAB_DIR)
     rows = vr.exclusion_impact_rows(per_source, manager)
     assert rule not in {r["rule"] for r in rows}
+
+
+def test_the_language_list_is_excluded_as_metadata_and_left_the_guardrail_scope():
+    """A1-facets (@david-spacil, comment 6057405985): `heslar:jazyk` names the language a
+    document is written in, which is metadata, not content. It is settled, not an open
+    geographic question, so it also leaves `geo_guardrail.covers` — the register check
+    refuses a covered rule excluded for any reason other than open_geo_ethnic."""
+    _require_flat()
+    manager = _shipped_manager()
+    rows = {r["rule"]: r for r in vr.exclusion_impact_rows(vb._load_flat(VOCAB_DIR), manager)}
+    assert rows["heslar:jazyk"]["status"] == "settled (M4)"
+    assert rows["heslar:jazyk"]["term_count"] == 9
+    assert "6057405985" in manager.exclusion_notes()["heslar:jazyk"]["reason"]
+    assert "heslar:jazyk" not in manager.geo_guardrail()["covers"]
 
 
 def test_exclusion_impact_technical_amcr_lists_are_settled_not_open():

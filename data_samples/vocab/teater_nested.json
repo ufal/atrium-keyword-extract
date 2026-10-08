@@ -12124,6 +12124,14 @@
   },
   "Finds Context": {},
   "Methods": {
+    "ASEP (databáze)": {
+      "cs": "ASEP (databáze)",
+      "en": "ASEP (database)",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "75",
+      "discarded_ids": []
+    },
     "GPS (navigační systém)": {
       "cs": "GPS (navigační systém)",
       "en": "global positioning system",
@@ -12148,6 +12156,14 @@
       "source_id": "184",
       "discarded_ids": []
     },
+    "abraze": {
+      "cs": "abraze",
+      "en": "abrasion",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "52",
+      "discarded_ids": []
+    },
     "absolutní chronologie": {
       "cs": "absolutní chronologie",
       "en": "absolute chronology",
@@ -12156,12 +12172,28 @@
       "source_id": "190",
       "discarded_ids": []
     },
+    "amatérska archeologie": {
+      "cs": "amatérska archeologie",
+      "en": "amateur archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "19",
+      "discarded_ids": []
+    },
     "analogie": {
       "cs": "analogie",
       "en": "analogy",
       "sub": "komparativní výzkum",
       "source": "teater",
       "source_id": "207",
+      "discarded_ids": []
+    },
+    "analýza": {
+      "cs": "analýza",
+      "en": "analysis",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "88",
       "discarded_ids": []
     },
     "analýza hlavních komponent": {
@@ -12212,6 +12244,30 @@
       "source_id": "144",
       "discarded_ids": []
     },
+    "archeogenetika": {
+      "cs": "archeogenetika",
+      "en": "archaeogenetics",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "20",
+      "discarded_ids": []
+    },
+    "archeolog": {
+      "cs": "archeolog",
+      "en": "archaeologist",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "4",
+      "discarded_ids": []
+    },
+    "archeologická data": {
+      "cs": "archeologická data",
+      "en": "archaeological data",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "53",
+      "discarded_ids": []
+    },
     "archeologická klasifikace": {
       "cs": "archeologická klasifikace",
       "en": "archaeological classification",
@@ -12220,12 +12276,36 @@
       "source_id": "205",
       "discarded_ids": []
     },
+    "archeologická kultura": {
+      "cs": "archeologická kultura",
+      "en": "archaeological culture",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "54",
+      "discarded_ids": []
+    },
+    "archeologická lokalita": {
+      "cs": "archeologická lokalita",
+      "en": "archaeological site",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "55",
+      "discarded_ids": []
+    },
     "archeologická mapa": {
       "cs": "archeologická mapa",
       "en": "archaeological map",
       "sub": "dokumentace",
       "source": "teater",
       "source_id": "198",
+      "discarded_ids": []
+    },
+    "archeologická transformace": {
+      "cs": "archeologická transformace",
+      "en": "archaeological transformation",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "62",
       "discarded_ids": []
     },
     "archeologické datování": {
@@ -12244,6 +12324,78 @@
       "source_id": "103",
       "discarded_ids": []
     },
+    "archeologický nález": {
+      "cs": "archeologický nález",
+      "en": "archaeological find",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "56",
+      "discarded_ids": []
+    },
+    "archeologický pramen": {
+      "cs": "archeologický pramen",
+      "en": "archaeological source",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "57",
+      "discarded_ids": []
+    },
+    "archeologie": {
+      "cs": "archeologie",
+      "en": "archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "2",
+      "discarded_ids": []
+    },
+    "archeologie skalních převisů": {
+      "cs": "archeologie skalních převisů",
+      "en": "rockshelter archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "21",
+      "discarded_ids": []
+    },
+    "archeologie starověku": {
+      "cs": "archeologie starověku",
+      "en": "ancient archeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "42",
+      "discarded_ids": []
+    },
+    "archeologie středověku": {
+      "cs": "archeologie středověku",
+      "en": "medieval archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "43",
+      "discarded_ids": []
+    },
+    "archeoložka": {
+      "cs": "archeoložka",
+      "en": "women archaeologist",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "5",
+      "discarded_ids": []
+    },
+    "archeometrie": {
+      "cs": "archeometrie",
+      "en": "archaeometry",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "22",
+      "discarded_ids": []
+    },
+    "artefakt": {
+      "cs": "artefakt",
+      "en": "artefact",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "58",
+      "discarded_ids": []
+    },
     "atomová absorbční spektrometrie": {
       "cs": "atomová absorbční spektrometrie",
       "en": "atomic absorption spectroscopy",
@@ -12260,6 +12412,14 @@
       "source_id": "179",
       "discarded_ids": []
     },
+    "biblická archeologie": {
+      "cs": "biblická archeologie",
+      "en": "biblical archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "44",
+      "discarded_ids": []
+    },
     "chemická analýza": {
       "cs": "chemická analýza",
       "en": "chemical analysis",
@@ -12274,6 +12434,22 @@
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "156",
+      "discarded_ids": []
+    },
+    "cirkevní archeologie": {
+      "cs": "cirkevní archeologie",
+      "en": "Christian archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "23",
+      "discarded_ids": []
+    },
+    "databáze": {
+      "cs": "databáze",
+      "en": "database",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "74",
       "discarded_ids": []
     },
     "dendrochronologická analýza": {
@@ -12324,6 +12500,14 @@
       "source_id": "278",
       "discarded_ids": []
     },
+    "diskurzivní analýza": {
+      "cs": "diskurzivní analýza",
+      "en": "discourse analysis",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "76",
+      "discarded_ids": []
+    },
     "dokumentace": {
       "cs": "dokumentace",
       "en": "documentation",
@@ -12340,6 +12524,14 @@
       "source_id": "120",
       "discarded_ids": []
     },
+    "duchovní život": {
+      "cs": "duchovní život",
+      "en": "spiritual life",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "13",
+      "discarded_ids": []
+    },
     "dálkový průzkum Země": {
       "cs": "dálkový průzkum Země",
       "en": "remote sensing",
@@ -12348,12 +12540,44 @@
       "source_id": "119",
       "discarded_ids": []
     },
+    "dějiny archeologie": {
+      "cs": "dějiny archeologie",
+      "en": "history of archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "3",
+      "discarded_ids": []
+    },
+    "ekofakt": {
+      "cs": "ekofakt",
+      "en": "ecofact",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "59",
+      "discarded_ids": [
+        {
+          "source": "teater",
+          "id": "1918",
+          "scheme": "1788",
+          "cs": "ekofakt",
+          "en": "ecofact"
+        }
+      ]
+    },
     "elektronová mikroskopie": {
       "cs": "elektronová mikroskopie",
       "en": "electron microscopy",
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "147",
+      "discarded_ids": []
+    },
+    "environmentální archeologie": {
+      "cs": "environmentální archeologie",
+      "en": "environmental archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "24",
       "discarded_ids": []
     },
     "environmentální skenovací elektronová mikroskopie": {
@@ -12364,12 +12588,36 @@
       "source_id": "149",
       "discarded_ids": []
     },
+    "evolucionistická archeologie": {
+      "cs": "evolucionistická archeologie",
+      "en": "evolutionary archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "6",
+      "discarded_ids": []
+    },
+    "experimentální archeologie": {
+      "cs": "experimentální archeologie",
+      "en": "experimental archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "25",
+      "discarded_ids": []
+    },
     "faktorová analýza": {
       "cs": "faktorová analýza",
       "en": "factor analysis",
       "sub": "statistická analýza",
       "source": "teater",
       "source_id": "279",
+      "discarded_ids": []
+    },
+    "falzifikát": {
+      "cs": "falzifikát",
+      "en": "forgery",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "60",
       "discarded_ids": []
     },
     "fosfátová analýza": {
@@ -12388,6 +12636,14 @@
       "source_id": "196",
       "discarded_ids": []
     },
+    "fragmentarizace (archeologická transformace)": {
+      "cs": "fragmentarizace (archeologická transformace)",
+      "en": "fragmentarization (archaeological transformation)",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "64",
+      "discarded_ids": []
+    },
     "fytolitová analýza": {
       "cs": "fytolitová analýza",
       "en": "phytolith analysis",
@@ -12403,6 +12659,22 @@
       "source": "teater",
       "source_id": "153",
       "discarded_ids": []
+    },
+    "geoarcheologie": {
+      "cs": "geoarcheologie",
+      "en": "geoarchaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "26",
+      "discarded_ids": [
+        {
+          "source": "teater",
+          "id": "317",
+          "scheme": "288",
+          "cs": "geoarcheologie",
+          "en": "geoarchaeology"
+        }
+      ]
     },
     "geochemická metoda": {
       "cs": "geochemická metoda",
@@ -12452,12 +12724,36 @@
         }
       ]
     },
+    "germánská archeologie": {
+      "cs": "germánská archeologie",
+      "en": "Germanic archeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "45",
+      "discarded_ids": []
+    },
     "gravimetrie": {
       "cs": "gravimetrie",
       "en": "gravimetry",
       "sub": "archeologické výzkumy",
       "source": "teater",
       "source_id": "134",
+      "discarded_ids": []
+    },
+    "heuristika": {
+      "cs": "heuristika",
+      "en": "heuristic",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "90",
+      "discarded_ids": []
+    },
+    "historická archeologie": {
+      "cs": "historická archeologie",
+      "en": "historical archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "46",
       "discarded_ids": []
     },
     "hmotnostní spektrometrie": {
@@ -12484,12 +12780,44 @@
       "source_id": "182",
       "discarded_ids": []
     },
+    "horizont (archeologie)": {
+      "cs": "horizont (archeologie)",
+      "en": "horizon (archaeology)",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "69",
+      "discarded_ids": []
+    },
     "horizontální stratigrafie": {
       "cs": "horizontální stratigrafie",
       "en": "horizontal stratigraphy",
       "sub": "archeologické datování",
       "source": "teater",
       "source_id": "193",
+      "discarded_ids": []
+    },
+    "hospodářské poměry": {
+      "cs": "hospodářské poměry",
+      "en": "economic conditions",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "14",
+      "discarded_ids": []
+    },
+    "import": {
+      "cs": "import",
+      "en": "import",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "70",
+      "discarded_ids": []
+    },
+    "industrie": {
+      "cs": "industrie",
+      "en": "industry",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "71",
       "discarded_ids": []
     },
     "infračervená spektroskopie": {
@@ -12500,6 +12828,14 @@
       "source_id": "183",
       "discarded_ids": []
     },
+    "intruze": {
+      "cs": "intruze",
+      "en": "intrusion",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "72",
+      "discarded_ids": []
+    },
     "izotopový výzkum": {
       "cs": "izotopový výzkum",
       "en": "isotopic analysis",
@@ -12508,12 +12844,36 @@
       "source_id": "157",
       "discarded_ids": []
     },
+    "kastelologie": {
+      "cs": "kastelologie",
+      "en": "castellology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "27",
+      "discarded_ids": []
+    },
     "kategorizace a klasifikace": {
       "cs": "kategorizace a klasifikace",
       "en": "categorization and classification",
       "sub": "kategorizace a klasifikace",
       "source": "teater",
       "source_id": "204",
+      "discarded_ids": []
+    },
+    "klasická archeologie": {
+      "cs": "klasická archeologie",
+      "en": "classical archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "47",
+      "discarded_ids": []
+    },
+    "kognitivní archeologie": {
+      "cs": "kognitivní archeologie",
+      "en": "cognitive archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "28",
       "discarded_ids": []
     },
     "komparativní výzkum": {
@@ -12580,12 +12940,52 @@
       "source_id": "216",
       "discarded_ids": []
     },
+    "krajinná archeologie": {
+      "cs": "krajinná archeologie",
+      "en": "landscape archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "29",
+      "discarded_ids": []
+    },
     "kresebná dokumentace": {
       "cs": "kresebná dokumentace",
       "en": "drawn documentation",
       "sub": "dokumentace",
       "source": "teater",
       "source_id": "199",
+      "discarded_ids": []
+    },
+    "kritika (vědecká metodologie)": {
+      "cs": "kritika (vědecká metodologie)",
+      "en": "critics (scientific methodology)",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "91",
+      "discarded_ids": []
+    },
+    "kulturně historická archeologie": {
+      "cs": "kulturně historická archeologie",
+      "en": "cultural-historical archeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "7",
+      "discarded_ids": []
+    },
+    "kvantitativní transformace": {
+      "cs": "kvantitativní transformace",
+      "en": "quantitative transformation",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "63",
+      "discarded_ids": []
+    },
+    "letecká archeologie": {
+      "cs": "letecká archeologie",
+      "en": "aerial archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "30",
       "discarded_ids": []
     },
     "letecká fotogrammetrie": {
@@ -12684,12 +13084,28 @@
       "source_id": "162",
       "discarded_ids": []
     },
+    "montánní archeologie": {
+      "cs": "montánní archeologie",
+      "en": "mining archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "31",
+      "discarded_ids": []
+    },
     "málo destruktivní metoda": {
       "cs": "málo destruktivní metoda",
       "en": "less destructive method",
       "sub": "archeologické výzkumy",
       "source": "teater",
       "source_id": "111",
+      "discarded_ids": []
+    },
+    "nedestruktivní archeologie": {
+      "cs": "nedestruktivní archeologie",
+      "en": "non-destructive archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "32",
       "discarded_ids": []
     },
     "nedestruktivní metoda výzkumu": {
@@ -12732,6 +13148,22 @@
       "source_id": "252",
       "discarded_ids": []
     },
+    "názorný model": {
+      "cs": "názorný model",
+      "en": "visual model",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "77",
+      "discarded_ids": []
+    },
+    "oborová terminologie": {
+      "cs": "oborová terminologie",
+      "en": "terminology (professional)",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "86",
+      "discarded_ids": []
+    },
     "odlitek": {
       "cs": "odlitek",
       "en": "casting",
@@ -12762,6 +13194,14 @@
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "166",
+      "discarded_ids": []
+    },
+    "paradigma vědy": {
+      "cs": "paradigma vědy",
+      "en": "paradigma of science",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "78",
       "discarded_ids": []
     },
     "parazitologická diagnostika": {
@@ -12796,6 +13236,54 @@
       "source_id": "105",
       "discarded_ids": []
     },
+    "podmořská archeologie": {
+      "cs": "podmořská archeologie",
+      "en": "maritime archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "33",
+      "discarded_ids": []
+    },
+    "podvodní archeologie": {
+      "cs": "podvodní archeologie",
+      "en": "underwater archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "34",
+      "discarded_ids": []
+    },
+    "popularizace vědy": {
+      "cs": "popularizace vědy",
+      "en": "popularization of science",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "79",
+      "discarded_ids": []
+    },
+    "postdepoziční transformace": {
+      "cs": "postdepoziční transformace",
+      "en": "post-depositional transformation",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "66",
+      "discarded_ids": []
+    },
+    "postprocesuální archeologie": {
+      "cs": "postprocesuální archeologie",
+      "en": "post-processual archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "8",
+      "discarded_ids": []
+    },
+    "poststrukturalismus": {
+      "cs": "poststrukturalismus",
+      "en": "post-structuralism",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "80",
+      "discarded_ids": []
+    },
     "povrchový nález": {
       "cs": "povrchový nález",
       "en": "surface find",
@@ -12828,6 +13316,14 @@
       "source_id": "281",
       "discarded_ids": []
     },
+    "predepoziční transformace": {
+      "cs": "predepoziční transformace",
+      "en": "pre-depositional transformation",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "67",
+      "discarded_ids": []
+    },
     "predikční model": {
       "cs": "predikční model",
       "en": "predictive model",
@@ -12836,12 +13332,36 @@
       "source_id": "282",
       "discarded_ids": []
     },
+    "prehistorická archeologie": {
+      "cs": "prehistorická archeologie",
+      "en": "prehistoric archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "48",
+      "discarded_ids": []
+    },
+    "procesuální archeologie": {
+      "cs": "procesuální archeologie",
+      "en": "processual archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "9",
+      "discarded_ids": []
+    },
     "prostorová analýza": {
       "cs": "prostorová analýza",
       "en": "spatial analysis",
       "sub": "prostorová analýza",
       "source": "teater",
       "source_id": "274",
+      "discarded_ids": []
+    },
+    "prostorová archeologie": {
+      "cs": "prostorová archeologie",
+      "en": "spatial archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "35",
       "discarded_ids": []
     },
     "prostorová statistika": {
@@ -12860,12 +13380,28 @@
         }
       ]
     },
+    "průmyslová archeologie": {
+      "cs": "průmyslová archeologie",
+      "en": "industrial archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "36",
+      "discarded_ids": []
+    },
     "pylová analýza": {
       "cs": "pylová analýza",
       "en": "pollen analysis",
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "171",
+      "discarded_ids": []
+    },
+    "předmět bádání (archeologie)": {
+      "cs": "předmět bádání (archeologie)",
+      "en": "research subject",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "11",
       "discarded_ids": []
     },
     "předstihový archeologický výzkum": {
@@ -12876,12 +13412,36 @@
       "source_id": "106",
       "discarded_ids": []
     },
+    "přírodní fakt": {
+      "cs": "přírodní fakt",
+      "en": "biofact",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "61",
+      "discarded_ids": []
+    },
+    "přístupy (archeologie)": {
+      "cs": "přístupy (archeologie)",
+      "en": "approaches",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "17",
+      "discarded_ids": []
+    },
     "radiokarbonové datování": {
       "cs": "radiokarbonové datování",
       "en": "radiocarbon dating",
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "172",
+      "discarded_ids": []
+    },
+    "redukce (archeologická transformace)": {
+      "cs": "redukce (archeologická transformace)",
+      "en": "reduction (archaeological transformation)",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "65",
       "discarded_ids": []
     },
     "relativní chronologie": {
@@ -12948,6 +13508,14 @@
       "source_id": "107",
       "discarded_ids": []
     },
+    "romantická archeologie": {
+      "cs": "romantická archeologie",
+      "en": "romantic archeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "10",
+      "discarded_ids": []
+    },
     "satelitní navigační systém": {
       "cs": "satelitní navigační systém",
       "en": "satellite navigation system",
@@ -12978,6 +13546,22 @@
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "148",
+      "discarded_ids": []
+    },
+    "slovanská archeologie": {
+      "cs": "slovanská archeologie",
+      "en": "Slavic archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "50",
+      "discarded_ids": []
+    },
+    "sociální struktura": {
+      "cs": "sociální struktura",
+      "en": "social structure",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "16",
       "discarded_ids": []
     },
     "sonda": {
@@ -13018,6 +13602,30 @@
       "sub": "analýzy, posudky (metody spracování)",
       "source": "teater",
       "source_id": "175",
+      "discarded_ids": []
+    },
+    "speleoarcheologie": {
+      "cs": "speleoarcheologie",
+      "en": "speleoarchaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "39",
+      "discarded_ids": []
+    },
+    "společenské poměry": {
+      "cs": "společenské poměry",
+      "en": "social conditions",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "15",
+      "discarded_ids": []
+    },
+    "společnost": {
+      "cs": "společnost",
+      "en": "society",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "12",
       "discarded_ids": []
     },
     "srovnávací metoda": {
@@ -13076,12 +13684,76 @@
         }
       ]
     },
+    "struktura": {
+      "cs": "struktura",
+      "en": "structure",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "82",
+      "discarded_ids": []
+    },
+    "strukturalismus": {
+      "cs": "strukturalismus",
+      "en": "structuralism",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "81",
+      "discarded_ids": []
+    },
+    "subobory průřezové (tematické) (archeologie)": {
+      "cs": "subobory průřezové (tematické) (archeologie)",
+      "en": "cross-sectional subfields (thematic) (archeology)",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "18",
+      "discarded_ids": []
+    },
+    "subobory systémové (chronologické, historické) (archeologie)": {
+      "cs": "subobory systémové (chronologické, historické) (archeologie)",
+      "en": "system subfields (chronological, historical) (archeology)",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "41",
+      "discarded_ids": []
+    },
+    "symbol": {
+      "cs": "symbol",
+      "en": "symbol",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "83",
+      "discarded_ids": []
+    },
+    "sympozium": {
+      "cs": "sympozium",
+      "en": "symposium",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "84",
+      "discarded_ids": []
+    },
+    "syntéza (vědecká metodologie)": {
+      "cs": "syntéza (vědecká metodologie)",
+      "en": "synthesis (scientific methodology)",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "92",
+      "discarded_ids": []
+    },
     "sádrový odlitek": {
       "cs": "sádrový odlitek",
       "en": "gypsum casting",
       "sub": "konzervátorsko-restaurátorské metody",
       "source": "teater",
       "source_id": "215",
+      "discarded_ids": []
+    },
+    "sídelní archeologie": {
+      "cs": "sídelní archeologie",
+      "en": "settlement archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "38",
       "discarded_ids": []
     },
     "technologický proces": {
@@ -13092,12 +13764,28 @@
       "source_id": "187",
       "discarded_ids": []
     },
+    "teorie - terminologie (archeologie)": {
+      "cs": "teorie - terminologie (archeologie)",
+      "en": "theory - terminology (archaeology)",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "51",
+      "discarded_ids": []
+    },
     "teorie systémů": {
       "cs": "teorie systémů",
       "en": "system theory",
       "sub": "statistická analýza",
       "source": "teater",
       "source_id": "286",
+      "discarded_ids": []
+    },
+    "terminologie": {
+      "cs": "terminologie",
+      "en": "terminology",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "85",
       "discarded_ids": []
     },
     "termografie": {
@@ -13156,6 +13844,14 @@
       "source_id": "150",
       "discarded_ids": []
     },
+    "trasologie": {
+      "cs": "trasologie",
+      "en": "traceology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "40",
+      "discarded_ids": []
+    },
     "trojrozměrné modelování": {
       "cs": "trojrozměrné modelování",
       "en": "three-dimensional modelling",
@@ -13196,6 +13892,94 @@
       "source_id": "203",
       "discarded_ids": []
     },
+    "věda - obecná hesla": {
+      "cs": "věda - obecná hesla",
+      "en": "science - general entries",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "73",
+      "discarded_ids": []
+    },
+    "vědecká informace": {
+      "cs": "vědecká informace",
+      "en": "scientific information",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "95",
+      "discarded_ids": []
+    },
+    "vědecká metodologie": {
+      "cs": "vědecká metodologie",
+      "en": "scientific methodology",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "87",
+      "discarded_ids": []
+    },
+    "vědecká publikace": {
+      "cs": "vědecká publikace",
+      "en": "scientific publication",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "100",
+      "discarded_ids": []
+    },
+    "vědecká teorie": {
+      "cs": "vědecká teorie",
+      "en": "scientific theory",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "93",
+      "discarded_ids": []
+    },
+    "vědecké instituce a organizace": {
+      "cs": "vědecké instituce a organizace",
+      "en": "scientific institutions and organizations",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "96",
+      "discarded_ids": []
+    },
+    "vědecký omyl": {
+      "cs": "vědecký omyl",
+      "en": "scientific error",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "97",
+      "discarded_ids": []
+    },
+    "vědecký podvod": {
+      "cs": "vědecký podvod",
+      "en": "scientific falsification",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "98",
+      "discarded_ids": []
+    },
+    "vědecký program": {
+      "cs": "vědecký program",
+      "en": "scientific program",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "99",
+      "discarded_ids": []
+    },
+    "vědecký časopis": {
+      "cs": "vědecký časopis",
+      "en": "scientific journal",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "94",
+      "discarded_ids": []
+    },
+    "vědní politika": {
+      "cs": "vědní politika",
+      "en": "scientific policy",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "101",
+      "discarded_ids": []
+    },
     "zjišťovací archeologický výzkum": {
       "cs": "zjišťovací archeologický výzkum",
       "en": "evaluation excavation",
@@ -13210,6 +13994,38 @@
       "sub": "archeologické výzkumy",
       "source": "teater",
       "source_id": "110",
+      "discarded_ids": []
+    },
+    "římská archeologie": {
+      "cs": "římská archeologie",
+      "en": "Roman archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "49",
+      "discarded_ids": []
+    },
+    "říční archeologie": {
+      "cs": "říční archeologie",
+      "en": "river archaeology",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "37",
+      "discarded_ids": []
+    },
+    "archeologický kontext": {
+      "cs": "archeologický kontext",
+      "en": "archaeological context",
+      "sub": "archeologie",
+      "source": "teater",
+      "source_id": "68",
+      "discarded_ids": []
+    },
+    "kontextuální analýza": {
+      "cs": "kontextuální analýza",
+      "en": "contextual analysis",
+      "sub": "věda - obecná hesla",
+      "source": "teater",
+      "source_id": "89",
       "discarded_ids": []
     }
   },
@@ -19426,14 +20242,6 @@
     }
   },
   "Related Disciplines & Society": {
-    "ASEP (databáze)": {
-      "cs": "ASEP (databáze)",
-      "en": "ASEP (database)",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "75",
-      "discarded_ids": []
-    },
     "Agnus Dei": {
       "cs": "Agnus Dei",
       "en": "Lamb of God",
@@ -19690,14 +20498,6 @@
       "source_id": "3118",
       "discarded_ids": []
     },
-    "abraze": {
-      "cs": "abraze",
-      "en": "abrasion",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "52",
-      "discarded_ids": []
-    },
     "absolutismus": {
       "cs": "absolutismus",
       "en": "absolutism",
@@ -19762,14 +20562,6 @@
       "source_id": "3167",
       "discarded_ids": []
     },
-    "amatérska archeologie": {
-      "cs": "amatérska archeologie",
-      "en": "amateur archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "19",
-      "discarded_ids": []
-    },
     "ambrotypie": {
       "cs": "ambrotypie",
       "en": "ambrotype",
@@ -19792,14 +20584,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "608",
-      "discarded_ids": []
-    },
-    "analýza": {
-      "cs": "analýza",
-      "en": "analysis",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "88",
       "discarded_ids": []
     },
     "analýza uměleckého díla": {
@@ -20058,28 +20842,12 @@
       "source_id": "292",
       "discarded_ids": []
     },
-    "archeogenetika": {
-      "cs": "archeogenetika",
-      "en": "archaeogenetics",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "20",
-      "discarded_ids": []
-    },
     "archeografie": {
       "cs": "archeografie",
       "en": "archaeography",
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "625",
-      "discarded_ids": []
-    },
-    "archeolog": {
-      "cs": "archeolog",
-      "en": "archaeologist",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "4",
       "discarded_ids": []
     },
     "archeologická antropologie": {
@@ -20090,108 +20858,12 @@
       "source_id": "3891",
       "discarded_ids": []
     },
-    "archeologická data": {
-      "cs": "archeologická data",
-      "en": "archaeological data",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "53",
-      "discarded_ids": []
-    },
-    "archeologická kultura": {
-      "cs": "archeologická kultura",
-      "en": "archaeological culture",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "54",
-      "discarded_ids": []
-    },
-    "archeologická lokalita": {
-      "cs": "archeologická lokalita",
-      "en": "archaeological site",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "55",
-      "discarded_ids": []
-    },
-    "archeologická transformace": {
-      "cs": "archeologická transformace",
-      "en": "archaeological transformation",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "62",
-      "discarded_ids": []
-    },
-    "archeologický nález": {
-      "cs": "archeologický nález",
-      "en": "archaeological find",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "56",
-      "discarded_ids": []
-    },
-    "archeologický pramen": {
-      "cs": "archeologický pramen",
-      "en": "archaeological source",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "57",
-      "discarded_ids": []
-    },
-    "archeologie": {
-      "cs": "archeologie",
-      "en": "archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "2",
-      "discarded_ids": []
-    },
-    "archeologie skalních převisů": {
-      "cs": "archeologie skalních převisů",
-      "en": "rockshelter archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "21",
-      "discarded_ids": []
-    },
-    "archeologie starověku": {
-      "cs": "archeologie starověku",
-      "en": "ancient archeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "42",
-      "discarded_ids": []
-    },
-    "archeologie středověku": {
-      "cs": "archeologie středověku",
-      "en": "medieval archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "43",
-      "discarded_ids": []
-    },
-    "archeoložka": {
-      "cs": "archeoložka",
-      "en": "women archaeologist",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "5",
-      "discarded_ids": []
-    },
     "archeometalurgie": {
       "cs": "archeometalurgie",
       "en": "archaeometallurgy",
       "sub": "hraniční obory",
       "source": "teater",
       "source_id": "312",
-      "discarded_ids": []
-    },
-    "archeometrie": {
-      "cs": "archeometrie",
-      "en": "archaeometry",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "22",
       "discarded_ids": []
     },
     "archeozoologie": {
@@ -20328,14 +21000,6 @@
       "sub": "písmo",
       "source": "teater",
       "source_id": "3570",
-      "discarded_ids": []
-    },
-    "artefakt": {
-      "cs": "artefakt",
-      "en": "artefact",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "58",
       "discarded_ids": []
     },
     "asimilace (sociologie)": {
@@ -20552,14 +21216,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "807",
-      "discarded_ids": []
-    },
-    "biblická archeologie": {
-      "cs": "biblická archeologie",
-      "en": "biblical archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "44",
       "discarded_ids": []
     },
     "biedermeier": {
@@ -20930,14 +21586,6 @@
       "source_id": "3242",
       "discarded_ids": []
     },
-    "cirkevní archeologie": {
-      "cs": "cirkevní archeologie",
-      "en": "Christian archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "23",
-      "discarded_ids": []
-    },
     "cisterciačky": {
       "cs": "cisterciačky",
       "en": "Cistercian nuns",
@@ -21098,14 +21746,6 @@
       "source_id": "3563",
       "discarded_ids": []
     },
-    "databáze": {
-      "cs": "databáze",
-      "en": "database",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "74",
-      "discarded_ids": []
-    },
     "datování uměleckého díla": {
       "cs": "datování uměleckého díla",
       "en": "dating of art works",
@@ -21240,14 +21880,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "632",
-      "discarded_ids": []
-    },
-    "diskurzivní analýza": {
-      "cs": "diskurzivní analýza",
-      "en": "discourse analysis",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "76",
       "discarded_ids": []
     },
     "distribuční mapa": {
@@ -21466,14 +22098,6 @@
       "source_id": "3634",
       "discarded_ids": []
     },
-    "duchovní život": {
-      "cs": "duchovní život",
-      "en": "spiritual life",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "13",
-      "discarded_ids": []
-    },
     "duše": {
       "cs": "duše",
       "en": "soul",
@@ -21552,14 +22176,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "588",
-      "discarded_ids": []
-    },
-    "dějiny archeologie": {
-      "cs": "dějiny archeologie",
-      "en": "history of archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "3",
       "discarded_ids": []
     },
     "dějiny architektury": {
@@ -21778,22 +22394,6 @@
       "source_id": "512",
       "discarded_ids": []
     },
-    "ekofakt": {
-      "cs": "ekofakt",
-      "en": "ecofact",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "59",
-      "discarded_ids": [
-        {
-          "source": "teater",
-          "id": "1918",
-          "scheme": "1788",
-          "cs": "ekofakt",
-          "en": "ecofact"
-        }
-      ]
-    },
     "ekonomická antropologie": {
       "cs": "ekonomická antropologie",
       "en": "economic anthropology",
@@ -21896,14 +22496,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "882",
-      "discarded_ids": []
-    },
-    "environmentální archeologie": {
-      "cs": "environmentální archeologie",
-      "en": "environmental archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "24",
       "discarded_ids": []
     },
     "environmentální geologie": {
@@ -22098,14 +22690,6 @@
       "source_id": "3894",
       "discarded_ids": []
     },
-    "evolucionistická archeologie": {
-      "cs": "evolucionistická archeologie",
-      "en": "evolutionary archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "6",
-      "discarded_ids": []
-    },
     "evoluční antropologie": {
       "cs": "evoluční antropologie",
       "en": "evolutionary anthropology",
@@ -22146,14 +22730,6 @@
       "source_id": "741",
       "discarded_ids": []
     },
-    "experimentální archeologie": {
-      "cs": "experimentální archeologie",
-      "en": "experimental archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "25",
-      "discarded_ids": []
-    },
     "expresionismus (umění)": {
       "cs": "expresionismus (umění)",
       "en": "expressionism (art)",
@@ -22184,14 +22760,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "639",
-      "discarded_ids": []
-    },
-    "falzifikát": {
-      "cs": "falzifikát",
-      "en": "forgery",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "60",
       "discarded_ids": []
     },
     "farnost": {
@@ -22434,14 +23002,6 @@
       "source_id": "461",
       "discarded_ids": []
     },
-    "fragmentarizace (archeologická transformace)": {
-      "cs": "fragmentarizace (archeologická transformace)",
-      "en": "fragmentarization (archaeological transformation)",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "64",
-      "discarded_ids": []
-    },
     "fragmenty rukopisů": {
       "cs": "fragmenty rukopisů",
       "en": "manuscript fragments",
@@ -22601,22 +23161,6 @@
       "source": "teater",
       "source_id": "4124",
       "discarded_ids": []
-    },
-    "geoarcheologie": {
-      "cs": "geoarcheologie",
-      "en": "geoarchaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "26",
-      "discarded_ids": [
-        {
-          "source": "teater",
-          "id": "317",
-          "scheme": "288",
-          "cs": "geoarcheologie",
-          "en": "geoarchaeology"
-        }
-      ]
     },
     "geochemie": {
       "cs": "geochemie",
@@ -22906,14 +23450,6 @@
       "source_id": "926",
       "discarded_ids": []
     },
-    "germánská archeologie": {
-      "cs": "germánská archeologie",
-      "en": "Germanic archeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "45",
-      "discarded_ids": []
-    },
     "gerontokracie": {
       "cs": "gerontokracie",
       "en": "gerontocracy",
@@ -23130,14 +23666,6 @@
       "source_id": "3794",
       "discarded_ids": []
     },
-    "heuristika": {
-      "cs": "heuristika",
-      "en": "heuristic",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "90",
-      "discarded_ids": []
-    },
     "hieratické písmo": {
       "cs": "hieratické písmo",
       "en": "hieratic script",
@@ -23168,14 +23696,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "396",
-      "discarded_ids": []
-    },
-    "historická archeologie": {
-      "cs": "historická archeologie",
-      "en": "historical archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "46",
       "discarded_ids": []
     },
     "historická chronologie": {
@@ -23338,14 +23858,6 @@
       "source_id": "3845",
       "discarded_ids": []
     },
-    "horizont (archeologie)": {
-      "cs": "horizont (archeologie)",
-      "en": "horizon (archaeology)",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "69",
-      "discarded_ids": []
-    },
     "hornická geologie": {
       "cs": "hornická geologie",
       "en": "mining geology",
@@ -23416,14 +23928,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "590",
-      "discarded_ids": []
-    },
-    "hospodářské poměry": {
-      "cs": "hospodářské poměry",
-      "en": "economic conditions",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "14",
       "discarded_ids": []
     },
     "hraniční obory": {
@@ -23674,14 +24178,6 @@
       "source_id": "4150",
       "discarded_ids": []
     },
-    "import": {
-      "cs": "import",
-      "en": "import",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "70",
-      "discarded_ids": []
-    },
     "impresionismus": {
       "cs": "impresionismus",
       "en": "impressionism",
@@ -23696,14 +24192,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "4141",
-      "discarded_ids": []
-    },
-    "industrie": {
-      "cs": "industrie",
-      "en": "industry",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "71",
       "discarded_ids": []
     },
     "industriální společnost": {
@@ -23760,14 +24248,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "456",
-      "discarded_ids": []
-    },
-    "intruze": {
-      "cs": "intruze",
-      "en": "intrusion",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "72",
       "discarded_ids": []
     },
     "islám": {
@@ -24090,14 +24570,6 @@
       "source_id": "3628",
       "discarded_ids": []
     },
-    "kastelologie": {
-      "cs": "kastelologie",
-      "en": "castellology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "27",
-      "discarded_ids": []
-    },
     "katastr nemovitostí": {
       "cs": "katastr nemovitostí",
       "en": "cadastre",
@@ -24224,14 +24696,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "516",
-      "discarded_ids": []
-    },
-    "klasická archeologie": {
-      "cs": "klasická archeologie",
-      "en": "classical archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "47",
       "discarded_ids": []
     },
     "klasické členění (genetika)": {
@@ -24408,14 +24872,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "653",
-      "discarded_ids": []
-    },
-    "kognitivní archeologie": {
-      "cs": "kognitivní archeologie",
-      "en": "cognitive archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "28",
       "discarded_ids": []
     },
     "kognitivní psychologie": {
@@ -24746,14 +25202,6 @@
       "source_id": "870",
       "discarded_ids": []
     },
-    "krajinná archeologie": {
-      "cs": "krajinná archeologie",
-      "en": "landscape archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "29",
-      "discarded_ids": []
-    },
     "kraniometrie": {
       "cs": "kraniometrie",
       "en": "craniometry",
@@ -24808,14 +25256,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "465",
-      "discarded_ids": []
-    },
-    "kritika (vědecká metodologie)": {
-      "cs": "kritika (vědecká metodologie)",
-      "en": "critics (scientific methodology)",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "91",
       "discarded_ids": []
     },
     "kronikář": {
@@ -24978,28 +25418,12 @@
       "source_id": "3885",
       "discarded_ids": []
     },
-    "kulturně historická archeologie": {
-      "cs": "kulturně historická archeologie",
-      "en": "cultural-historical archeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "7",
-      "discarded_ids": []
-    },
     "kurfiřt": {
       "cs": "kurfiřt",
       "en": "prince-elector",
       "sub": "sociálni stratifikace",
       "source": "teater",
       "source_id": "3651",
-      "discarded_ids": []
-    },
-    "kvantitativní transformace": {
-      "cs": "kvantitativní transformace",
-      "en": "quantitative transformation",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "63",
       "discarded_ids": []
     },
     "kvietismus": {
@@ -25264,14 +25688,6 @@
       "sub": "pěstování plodin, chov a lov",
       "source": "teater",
       "source_id": "3197",
-      "discarded_ids": []
-    },
-    "letecká archeologie": {
-      "cs": "letecká archeologie",
-      "en": "aerial archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "30",
       "discarded_ids": []
     },
     "letokruh": {
@@ -26426,14 +26842,6 @@
       "source_id": "716",
       "discarded_ids": []
     },
-    "montánní archeologie": {
-      "cs": "montánní archeologie",
-      "en": "mining archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "31",
-      "discarded_ids": []
-    },
     "morfologie člověka": {
       "cs": "morfologie člověka",
       "en": "human morphology",
@@ -26672,14 +27080,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "520",
-      "discarded_ids": []
-    },
-    "nedestruktivní archeologie": {
-      "cs": "nedestruktivní archeologie",
-      "en": "non-destructive archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "32",
       "discarded_ids": []
     },
     "nejstarší náboženské systémy": {
@@ -26938,14 +27338,6 @@
       "source_id": "3596",
       "discarded_ids": []
     },
-    "názorný model": {
-      "cs": "názorný model",
-      "en": "visual model",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "77",
-      "discarded_ids": []
-    },
     "náčelnictví": {
       "cs": "náčelnictví",
       "en": "chiefdom",
@@ -27176,14 +27568,6 @@
       "sub": "válečnictví",
       "source": "teater",
       "source_id": "3537",
-      "discarded_ids": []
-    },
-    "oborová terminologie": {
-      "cs": "oborová terminologie",
-      "en": "terminology (professional)",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "86",
       "discarded_ids": []
     },
     "obrazový pramen": {
@@ -27746,14 +28130,6 @@
       "source_id": "676",
       "discarded_ids": []
     },
-    "paradigma vědy": {
-      "cs": "paradigma vědy",
-      "en": "paradigma of science",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "78",
-      "discarded_ids": []
-    },
     "pastevec": {
       "cs": "pastevec",
       "en": "herdsmen",
@@ -28042,22 +28418,6 @@
       "source_id": "987",
       "discarded_ids": []
     },
-    "podmořská archeologie": {
-      "cs": "podmořská archeologie",
-      "en": "maritime archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "33",
-      "discarded_ids": []
-    },
-    "podvodní archeologie": {
-      "cs": "podvodní archeologie",
-      "en": "underwater archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "34",
-      "discarded_ids": []
-    },
     "pohan": {
       "cs": "pohan",
       "en": "pagan",
@@ -28178,14 +28538,6 @@
       "source_id": "841",
       "discarded_ids": []
     },
-    "popularizace vědy": {
-      "cs": "popularizace vědy",
-      "en": "popularization of science",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "79",
-      "discarded_ids": []
-    },
     "populační hustota": {
       "cs": "populační hustota",
       "en": "population density",
@@ -28226,14 +28578,6 @@
       "source_id": "306",
       "discarded_ids": []
     },
-    "postdepoziční transformace": {
-      "cs": "postdepoziční transformace",
-      "en": "post-depositional transformation",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "66",
-      "discarded_ids": []
-    },
     "postimpresionismus": {
       "cs": "postimpresionismus",
       "en": "post-impressionism",
@@ -28248,22 +28592,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "4165",
-      "discarded_ids": []
-    },
-    "postprocesuální archeologie": {
-      "cs": "postprocesuální archeologie",
-      "en": "post-processual archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "8",
-      "discarded_ids": []
-    },
-    "poststrukturalismus": {
-      "cs": "poststrukturalismus",
-      "en": "post-structuralism",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "80",
       "discarded_ids": []
     },
     "poststrukturální antropologie": {
@@ -28442,22 +28770,6 @@
       "source_id": "506",
       "discarded_ids": []
     },
-    "predepoziční transformace": {
-      "cs": "predepoziční transformace",
-      "en": "pre-depositional transformation",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "67",
-      "discarded_ids": []
-    },
-    "prehistorická archeologie": {
-      "cs": "prehistorická archeologie",
-      "en": "prehistoric archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "48",
-      "discarded_ids": []
-    },
     "preindustriální město": {
       "cs": "preindustriální město",
       "en": "preindustrial city",
@@ -28514,28 +28826,12 @@
       "source_id": "3130",
       "discarded_ids": []
     },
-    "procesuální archeologie": {
-      "cs": "procesuální archeologie",
-      "en": "processual archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "9",
-      "discarded_ids": []
-    },
     "prosopografie": {
       "cs": "prosopografie",
       "en": "prosopography",
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "586",
-      "discarded_ids": []
-    },
-    "prostorová archeologie": {
-      "cs": "prostorová archeologie",
-      "en": "spatial archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "35",
       "discarded_ids": []
     },
     "prostorová věda": {
@@ -28640,14 +28936,6 @@
       "sub": "právo",
       "source": "teater",
       "source_id": "3608",
-      "discarded_ids": []
-    },
-    "průmyslová archeologie": {
-      "cs": "průmyslová archeologie",
-      "en": "industrial archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "36",
       "discarded_ids": []
     },
     "psací potřeba": {
@@ -28826,14 +29114,6 @@
       "source_id": "836",
       "discarded_ids": []
     },
-    "předmět bádání (archeologie)": {
-      "cs": "předmět bádání (archeologie)",
-      "en": "research subject",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "11",
-      "discarded_ids": []
-    },
     "přelidnění": {
       "cs": "přelidnění",
       "en": "overpopulation",
@@ -28882,28 +29162,12 @@
       "source_id": "4167",
       "discarded_ids": []
     },
-    "přírodní fakt": {
-      "cs": "přírodní fakt",
-      "en": "biofact",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "61",
-      "discarded_ids": []
-    },
     "přírodní národy": {
       "cs": "přírodní národy",
       "en": "indigenous people",
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "567",
-      "discarded_ids": []
-    },
-    "přístupy (archeologie)": {
-      "cs": "přístupy (archeologie)",
-      "en": "approaches",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "17",
       "discarded_ids": []
     },
     "půda": {
@@ -29000,14 +29264,6 @@
       "sub": "obecná hesla (společnost)",
       "source": "teater",
       "source_id": "3565",
-      "discarded_ids": []
-    },
-    "redukce (archeologická transformace)": {
-      "cs": "redukce (archeologická transformace)",
-      "en": "reduction (archaeological transformation)",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "65",
       "discarded_ids": []
     },
     "regionální dějiny": {
@@ -29160,14 +29416,6 @@
       "sub": "sociálni stratifikace",
       "source": "teater",
       "source_id": "3646",
-      "discarded_ids": []
-    },
-    "romantická archeologie": {
-      "cs": "romantická archeologie",
-      "en": "romantic archeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "10",
       "discarded_ids": []
     },
     "romantický historismus": {
@@ -29578,14 +29826,6 @@
       "source_id": "3335",
       "discarded_ids": []
     },
-    "slovanská archeologie": {
-      "cs": "slovanská archeologie",
-      "en": "Slavic archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "50",
-      "discarded_ids": []
-    },
     "slovanská liturgie": {
       "cs": "slovanská liturgie",
       "en": "Slavic liturgy",
@@ -29778,14 +30018,6 @@
       "source_id": "3556",
       "discarded_ids": []
     },
-    "sociální struktura": {
-      "cs": "sociální struktura",
-      "en": "social structure",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "16",
-      "discarded_ids": []
-    },
     "sociální systém": {
       "cs": "sociální systém",
       "en": "social system",
@@ -29842,14 +30074,6 @@
       "source_id": "1021",
       "discarded_ids": []
     },
-    "speleoarcheologie": {
-      "cs": "speleoarcheologie",
-      "en": "speleoarchaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "39",
-      "discarded_ids": []
-    },
     "speleologie": {
       "cs": "speleologie",
       "en": "speleology",
@@ -29890,14 +30114,6 @@
       "source_id": "3622",
       "discarded_ids": []
     },
-    "společenské poměry": {
-      "cs": "společenské poměry",
-      "en": "social conditions",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "15",
-      "discarded_ids": []
-    },
     "společenské postavení": {
       "cs": "společenské postavení",
       "en": "social status",
@@ -29912,14 +30128,6 @@
       "sub": "obecná hesla (společnost)",
       "source": "teater",
       "source_id": "3561",
-      "discarded_ids": []
-    },
-    "společnost": {
-      "cs": "společnost",
-      "en": "society",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "12",
       "discarded_ids": []
     },
     "společnosti": {
@@ -30098,28 +30306,12 @@
       "source_id": "725",
       "discarded_ids": []
     },
-    "struktura": {
-      "cs": "struktura",
-      "en": "structure",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "82",
-      "discarded_ids": []
-    },
     "struktura osídlení": {
       "cs": "struktura osídlení",
       "en": "settlement patterns",
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "905",
-      "discarded_ids": []
-    },
-    "strukturalismus": {
-      "cs": "strukturalismus",
-      "en": "structuralism",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "81",
       "discarded_ids": []
     },
     "strukturní geologie": {
@@ -30354,22 +30546,6 @@
       "source_id": "1024",
       "discarded_ids": []
     },
-    "subobory průřezové (tematické) (archeologie)": {
-      "cs": "subobory průřezové (tematické) (archeologie)",
-      "en": "cross-sectional subfields (thematic) (archeology)",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "18",
-      "discarded_ids": []
-    },
-    "subobory systémové (chronologické, historické) (archeologie)": {
-      "cs": "subobory systémové (chronologické, historické) (archeologie)",
-      "en": "system subfields (chronological, historical) (archeology)",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "41",
-      "discarded_ids": []
-    },
     "surrealismus (umění)": {
       "cs": "surrealismus (umění)",
       "en": "surrealism (art)",
@@ -30402,14 +30578,6 @@
       "source_id": "389",
       "discarded_ids": []
     },
-    "symbol": {
-      "cs": "symbol",
-      "en": "symbol",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "83",
-      "discarded_ids": []
-    },
     "symbolické místo": {
       "cs": "symbolické místo",
       "en": "symbolic place",
@@ -30426,28 +30594,12 @@
       "source_id": "3847",
       "discarded_ids": []
     },
-    "sympozium": {
-      "cs": "sympozium",
-      "en": "symposium",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "84",
-      "discarded_ids": []
-    },
     "synoda": {
       "cs": "synoda",
       "en": "synod",
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "788",
-      "discarded_ids": []
-    },
-    "syntéza (vědecká metodologie)": {
-      "cs": "syntéza (vědecká metodologie)",
-      "en": "synthesis (scientific methodology)",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "92",
       "discarded_ids": []
     },
     "systematická mineralogie": {
@@ -30480,14 +30632,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "622",
-      "discarded_ids": []
-    },
-    "sídelní archeologie": {
-      "cs": "sídelní archeologie",
-      "en": "settlement archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "38",
       "discarded_ids": []
     },
     "sídelní areál": {
@@ -30618,14 +30762,6 @@
       "source_id": "835",
       "discarded_ids": []
     },
-    "teorie - terminologie (archeologie)": {
-      "cs": "teorie - terminologie (archeologie)",
-      "en": "theory - terminology (archaeology)",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "51",
-      "discarded_ids": []
-    },
     "teorie strukturace": {
       "cs": "teorie strukturace",
       "en": "Structuration theory",
@@ -30648,14 +30784,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "4122",
-      "discarded_ids": []
-    },
-    "terminologie": {
-      "cs": "terminologie",
-      "en": "terminology",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "85",
       "discarded_ids": []
     },
     "tiskař": {
@@ -30768,14 +30896,6 @@
       "sub": "kult",
       "source": "teater",
       "source_id": "3163",
-      "discarded_ids": []
-    },
-    "trasologie": {
-      "cs": "trasologie",
-      "en": "traceology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "40",
       "discarded_ids": []
     },
     "tribalismus": {
@@ -31826,94 +31946,6 @@
       "source_id": "479",
       "discarded_ids": []
     },
-    "věda - obecná hesla": {
-      "cs": "věda - obecná hesla",
-      "en": "science - general entries",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "73",
-      "discarded_ids": []
-    },
-    "vědecká informace": {
-      "cs": "vědecká informace",
-      "en": "scientific information",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "95",
-      "discarded_ids": []
-    },
-    "vědecká metodologie": {
-      "cs": "vědecká metodologie",
-      "en": "scientific methodology",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "87",
-      "discarded_ids": []
-    },
-    "vědecká publikace": {
-      "cs": "vědecká publikace",
-      "en": "scientific publication",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "100",
-      "discarded_ids": []
-    },
-    "vědecká teorie": {
-      "cs": "vědecká teorie",
-      "en": "scientific theory",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "93",
-      "discarded_ids": []
-    },
-    "vědecké instituce a organizace": {
-      "cs": "vědecké instituce a organizace",
-      "en": "scientific institutions and organizations",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "96",
-      "discarded_ids": []
-    },
-    "vědecký omyl": {
-      "cs": "vědecký omyl",
-      "en": "scientific error",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "97",
-      "discarded_ids": []
-    },
-    "vědecký podvod": {
-      "cs": "vědecký podvod",
-      "en": "scientific falsification",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "98",
-      "discarded_ids": []
-    },
-    "vědecký program": {
-      "cs": "vědecký program",
-      "en": "scientific program",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "99",
-      "discarded_ids": []
-    },
-    "vědecký časopis": {
-      "cs": "vědecký časopis",
-      "en": "scientific journal",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "94",
-      "discarded_ids": []
-    },
-    "vědní politika": {
-      "cs": "vědní politika",
-      "en": "scientific policy",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "101",
-      "discarded_ids": []
-    },
     "vědy o Zemi": {
       "cs": "vědy o Zemi",
       "en": "Earth sciences",
@@ -32610,14 +32642,6 @@
       "source_id": "2782",
       "discarded_ids": []
     },
-    "římská archeologie": {
-      "cs": "římská archeologie",
-      "en": "Roman archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "49",
-      "discarded_ids": []
-    },
     "římská občanská válka 49-45 př. Kr.": {
       "cs": "římská občanská válka 49-45 př. Kr.",
       "en": "Caesar's Civil War",
@@ -32656,14 +32680,6 @@
       "sub": "právo",
       "source": "teater",
       "source_id": "3616",
-      "discarded_ids": []
-    },
-    "říční archeologie": {
-      "cs": "říční archeologie",
-      "en": "river archaeology",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "37",
       "discarded_ids": []
     },
     "říční doprava": {
@@ -32858,14 +32874,6 @@
       "source_id": "651",
       "discarded_ids": []
     },
-    "archeologický kontext": {
-      "cs": "archeologický kontext",
-      "en": "archaeological context",
-      "sub": "archeologie",
-      "source": "teater",
-      "source_id": "68",
-      "discarded_ids": []
-    },
     "barokní architektura": {
       "cs": "barokní architektura",
       "en": "baroque architecture",
@@ -32904,14 +32912,6 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "585",
-      "discarded_ids": []
-    },
-    "kontextuální analýza": {
-      "cs": "kontextuální analýza",
-      "en": "contextual analysis",
-      "sub": "věda - obecná hesla",
-      "source": "teater",
-      "source_id": "89",
       "discarded_ids": []
     },
     "neobarokní sloh": {

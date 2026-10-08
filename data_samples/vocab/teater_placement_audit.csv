@@ -2279,55 +2279,100 @@ způsob provedení (objekty),method of implementation (features),teater,2553,243
 červenofigurová keramika,red-figure ware,teater,2467,2430,materiál objektu/předmětu,Material,teater:2430,0
 český granát,Czech garnet,teater,2438,2430,materiál objektu/předmětu,Material,teater:2430,0
 železo,iron,teater,2489,2430,materiál objektu/předmětu,Material,teater:2430,0
+ASEP (databáze),ASEP (database),teater,75,1,věda - obecná hesla,Methods,teater:1,0
 GPS (navigační systém),global positioning system,teater,130,102,archeologické výzkumy,Methods,teater:102,0
 Galileo (navigační systém),Galileo (navigation system),teater,129,102,archeologické výzkumy,Methods,teater:102,0
 Ramanova spektrometrie,Raman spectroscopy,teater,184,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+abraze,abrasion,teater,52,1,archeologie,Methods,teater:1,0
 absolutní chronologie,absolute chronology,teater,190,140,archeologické datování,Methods,teater:140,0
+amatérska archeologie,amateur archaeology,teater,19,1,archeologie,Methods,teater:1,0
 analogie,analogy,teater,207,140,komparativní výzkum,Methods,teater:140,0
+analýza,analysis,teater,88,1,věda - obecná hesla,Methods,teater:1,0
 analýza hlavních komponent,principal components analysis,teater,276,140,statistická analýza,Methods,teater:140,0
 analýza rozptylu,analysis of variance,teater,277,140,statistická analýza,Methods,teater:140,0
 "analýzy, posudky (metody spracování)","analyses, reviews (processing methods)",teater,141,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 antrakologická analýza,anthracological analysis,teater,142,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 antropologický výzkum,anthropological research,teater,143,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 archeogenetická analýza,archaeogenetic analysis,teater,144,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+archeogenetika,archaeogenetics,teater,20,1,archeologie,Methods,teater:1,0
+archeolog,archaeologist,teater,4,1,archeologie,Methods,teater:1,0
+archeologická data,archaeological data,teater,53,1,archeologie,Methods,teater:1,0
 archeologická klasifikace,archaeological classification,teater,205,140,kategorizace a klasifikace,Methods,teater:140,0
+archeologická kultura,archaeological culture,teater,54,1,archeologie,Methods,teater:1,0
+archeologická lokalita,archaeological site,teater,55,1,archeologie,Methods,teater:1,0
 archeologická mapa,archaeological map,teater,198,140,dokumentace,Methods,teater:140,0
+archeologická transformace,archaeological transformation,teater,62,1,archeologie,Methods,teater:1,0
 archeologické datování,archaeological dating,teater,189,140,archeologické datování,Methods,teater:140,0
 archeologické výzkumy,archaeological research,teater,103,102,archeologické výzkumy,Methods,teater:102,0
+archeologický kontext,archaeological context,teater,68,1,archeologie,Methods,teater:1,0
+archeologický nález,archaeological find,teater,56,1,archeologie,Methods,teater:1,0
+archeologický pramen,archaeological source,teater,57,1,archeologie,Methods,teater:1,0
+archeologie,archaeology,teater,2,1,archeologie,Methods,teater:1,0
+archeologie skalních převisů,rockshelter archaeology,teater,21,1,archeologie,Methods,teater:1,0
+archeologie starověku,ancient archeology,teater,42,1,archeologie,Methods,teater:1,0
+archeologie středověku,medieval archaeology,teater,43,1,archeologie,Methods,teater:1,0
+archeoložka,women archaeologist,teater,5,1,archeologie,Methods,teater:1,0
+archeometrie,archaeometry,teater,22,1,archeologie,Methods,teater:1,0
+artefakt,artefact,teater,58,1,archeologie,Methods,teater:1,0
 atomová absorbční spektrometrie,atomic absorption spectroscopy,teater,178,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 atomová emisní spektrometrie,atomic emission spectroscopy,teater,179,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+biblická archeologie,biblical archaeology,teater,44,1,archeologie,Methods,teater:1,0
 chemická analýza,chemical analysis,teater,155,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 chromatografická analýza,chromatographic analysis,teater,156,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+cirkevní archeologie,Christian archaeology,teater,23,1,archeologie,Methods,teater:1,0
+databáze,database,teater,74,1,věda - obecná hesla,Methods,teater:1,0
 dendrochronologická analýza,tree-ring analysis,teater,145,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 destruktivní metoda výzkumu,destructive method,teater,104,102,archeologické výzkumy,Methods,teater:102,0
 detekce kovů,metal detection,teater,112,102,archeologické výzkumy,Methods,teater:102,0
 diatomární analýza,diatom analysis,teater,146,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 digitální model terénu,digital elevation model,teater,124,102,archeologické výzkumy,Methods,teater:102,0
 diskriminační analýza,discriminant analysis,teater,278,140,statistická analýza,Methods,teater:140,0
+diskurzivní analýza,discourse analysis,teater,76,1,věda - obecná hesla,Methods,teater:1,0
 dokumentace,documentation,teater,195,140,dokumentace,Methods,teater:140,0
 družicová geodezie,satellite geodesy,teater,120,102,archeologické výzkumy,Methods,teater:102,0
+duchovní život,spiritual life,teater,13,1,archeologie,Methods,teater:1,0
 dálkový průzkum Země,remote sensing,teater,119,102,archeologické výzkumy,Methods,teater:102,0
+dějiny archeologie,history of archaeology,teater,3,1,archeologie,Methods,teater:1,0
+ekofakt,ecofact,teater,59,1,archeologie,Methods,teater:1,0
 elektronová mikroskopie,electron microscopy,teater,147,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+environmentální archeologie,environmental archaeology,teater,24,1,archeologie,Methods,teater:1,0
 environmentální skenovací elektronová mikroskopie,environmental scanning electron microscopy,teater,149,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+evolucionistická archeologie,evolutionary archaeology,teater,6,1,archeologie,Methods,teater:1,0
+experimentální archeologie,experimental archaeology,teater,25,1,archeologie,Methods,teater:1,0
 faktorová analýza,factor analysis,teater,279,140,statistická analýza,Methods,teater:140,0
+falzifikát,forgery,teater,60,1,archeologie,Methods,teater:1,0
 fosfátová analýza,phosphate analysis,teater,151,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 fotografická dokumentace,photodocumentation,teater,196,140,dokumentace,Methods,teater:140,0
+fragmentarizace (archeologická transformace),fragmentarization (archaeological transformation),teater,64,1,archeologie,Methods,teater:1,0
 fytolitová analýza,phytolith analysis,teater,152,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 geoarcheologická analýza,geoarchaeological analysis,teater,153,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+geoarcheologie,geoarchaeology,teater,26,1,archeologie,Methods,teater:1,0
 geochemická metoda,geochemical prospecting method,teater,138,102,archeologické výzkumy,Methods,teater:102,0
 geoelektrický průzkum,electric prospecting,teater,133,102,archeologické výzkumy,Methods,teater:102,0
 geofyzikální průzkum,geophysical survey,teater,132,102,archeologické výzkumy,Methods,teater:102,0
 geografické informační systémy,geographic information systems,teater,197,140,dokumentace,Methods,teater:140,0
 geologický výzkum,geological research,teater,154,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+germánská archeologie,Germanic archeology,teater,45,1,archeologie,Methods,teater:1,0
 gravimetrie,gravimetry,teater,134,102,archeologické výzkumy,Methods,teater:102,0
+heuristika,heuristic,teater,90,1,věda - obecná hesla,Methods,teater:1,0
+historická archeologie,historical archaeology,teater,46,1,archeologie,Methods,teater:1,0
 hmotnostní spektrometrie,mass spectrometry,teater,180,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 hmotnostní spektrometrie s indukčně vázaným plazmatem,inductively coupled plasma mass spectrometry,teater,181,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 hmotnostní spektrometrie s indukčně vázaným plazmatem a laserovou ablací,inductively coupled plasma mass spectrometry with laser ablation,teater,182,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+horizont (archeologie),horizon (archaeology),teater,69,1,archeologie,Methods,teater:1,0
 horizontální stratigrafie,horizontal stratigraphy,teater,193,140,archeologické datování,Methods,teater:140,0
+hospodářské poměry,economic conditions,teater,14,1,archeologie,Methods,teater:1,0
+import,import,teater,70,1,archeologie,Methods,teater:1,0
+industrie,industry,teater,71,1,archeologie,Methods,teater:1,0
 infračervená spektroskopie,infrared spectroscopy,teater,183,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+intruze,intrusion,teater,72,1,archeologie,Methods,teater:1,0
 izotopový výzkum,isotopic analysis,teater,157,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+kastelologie,castellology,teater,27,1,archeologie,Methods,teater:1,0
 kategorizace a klasifikace,categorization and classification,teater,204,140,kategorizace a klasifikace,Methods,teater:140,0
+klasická archeologie,classical archaeology,teater,47,1,archeologie,Methods,teater:1,0
+kognitivní archeologie,cognitive archaeology,teater,28,1,archeologie,Methods,teater:1,0
 komparativní výzkum,comparative research,teater,206,140,komparativní výzkum,Methods,teater:140,0
+kontextuální analýza,contextual analysis,teater,89,1,věda - obecná hesla,Methods,teater:1,0
 konzervace,conservation,teater,210,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
 konzervování muzejních exponátů,conservation of museum exhibits,teater,211,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
 konzervování památek,antiquities conservation,teater,212,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
@@ -2335,7 +2380,12 @@ konzervátorsko-restaurátorské metody,conservation-restoration methods,teater,
 kopie,facsimile,teater,213,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
 korespondeční analýza,correspondence analysis,teater,280,140,statistická analýza,Methods,teater:140,0
 koroze,corrosion,teater,216,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
+krajinná archeologie,landscape archaeology,teater,29,1,archeologie,Methods,teater:1,0
 kresebná dokumentace,drawn documentation,teater,199,140,dokumentace,Methods,teater:140,0
+kritika (vědecká metodologie),critics (scientific methodology),teater,91,1,věda - obecná hesla,Methods,teater:1,0
+kulturně historická archeologie,cultural-historical archeology,teater,7,1,archeologie,Methods,teater:1,0
+kvantitativní transformace,quantitative transformation,teater,63,1,archeologie,Methods,teater:1,0
+letecká archeologie,aerial archaeology,teater,30,1,archeologie,Methods,teater:1,0
 letecká fotogrammetrie,aerial photogrammetry,teater,122,102,archeologické výzkumy,Methods,teater:102,0
 letecké laserové skenování,irborne laser scanning survey,teater,123,102,archeologické výzkumy,Methods,teater:102,0
 letecké snímkování,aerial photography,teater,126,102,archeologické výzkumy,Methods,teater:102,0
@@ -2348,30 +2398,50 @@ metalografická analýza,metallographic analysis,teater,160,140,"analýzy, posud
 metalurgická analýza,metallurgical analysis,teater,161,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 mikrosondáž,shovel test,teater,113,102,archeologické výzkumy,Methods,teater:102,0
 mineralogická analýza,mineralogical analysis,teater,162,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+montánní archeologie,mining archaeology,teater,31,1,archeologie,Methods,teater:1,0
 málo destruktivní metoda,less destructive method,teater,111,102,archeologické výzkumy,Methods,teater:102,0
+nedestruktivní archeologie,non-destructive archaeology,teater,32,1,archeologie,Methods,teater:1,0
 nedestruktivní metoda výzkumu,non-destructive method,teater,118,102,archeologické výzkumy,Methods,teater:102,0
 neurónová aktivační analýza,neutron activation analysis,teater,163,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 numismatická analýza,numismatic analysis,teater,164,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 náhodný nález,chance find,teater,114,102,archeologické výzkumy,Methods,teater:102,0
 nálezová správa,site report,teater,252,140,nálezová správa,Methods,teater:140,0
+názorný model,visual model,teater,77,1,věda - obecná hesla,Methods,teater:1,0
+oborová terminologie,terminology (professional),teater,86,1,věda - obecná hesla,Methods,teater:1,0
 odlitek,casting,teater,200,140,dokumentace,Methods,teater:140,0
 ortofotomapa,orthophotomap,teater,125,102,archeologické výzkumy,Methods,teater:102,0
 osteologická analýza,osteological analysis,teater,165,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 paleoentomologická analýza,palaeoentomology,teater,166,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+paradigma vědy,paradigma of science,teater,78,1,věda - obecná hesla,Methods,teater:1,0
 parazitologická diagnostika,parasitological diagnostics,teater,167,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 pedologický výzkum,pedological research,teater,168,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 petrografická analýza,petrological analysis,teater,169,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 plošný odkryv,open area excavation,teater,105,102,archeologické výzkumy,Methods,teater:102,0
+podmořská archeologie,maritime archaeology,teater,33,1,archeologie,Methods,teater:1,0
+podvodní archeologie,underwater archaeology,teater,34,1,archeologie,Methods,teater:1,0
+popularizace vědy,popularization of science,teater,79,1,věda - obecná hesla,Methods,teater:1,0
+postdepoziční transformace,post-depositional transformation,teater,66,1,archeologie,Methods,teater:1,0
+postprocesuální archeologie,post-processual archaeology,teater,8,1,archeologie,Methods,teater:1,0
+poststrukturalismus,post-structuralism,teater,80,1,věda - obecná hesla,Methods,teater:1,0
 povrchový nález,surface find,teater,115,102,archeologické výzkumy,Methods,teater:102,0
 povrchový sběr,fieldwalking survey,teater,116,102,archeologické výzkumy,Methods,teater:102,0
 počítačová tomografie,computed tomography,teater,170,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 pravděpodobnostní metoda,probabilistic methods,teater,281,140,statistická analýza,Methods,teater:140,0
+predepoziční transformace,pre-depositional transformation,teater,67,1,archeologie,Methods,teater:1,0
 predikční model,predictive model,teater,282,140,statistická analýza,Methods,teater:140,0
+prehistorická archeologie,prehistoric archaeology,teater,48,1,archeologie,Methods,teater:1,0
+procesuální archeologie,processual archaeology,teater,9,1,archeologie,Methods,teater:1,0
 prostorová analýza,spatial analysis,teater,274,140,prostorová analýza,Methods,teater:140,0
+prostorová archeologie,spatial archaeology,teater,35,1,archeologie,Methods,teater:1,0
 prostorová statistika,spatial statistics,teater,283,140,statistická analýza,Methods,teater:140,0
+průmyslová archeologie,industrial archaeology,teater,36,1,archeologie,Methods,teater:1,0
 pylová analýza,pollen analysis,teater,171,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+předmět bádání (archeologie),research subject,teater,11,1,archeologie,Methods,teater:1,0
 předstihový archeologický výzkum,development-led excavation,teater,106,102,archeologické výzkumy,Methods,teater:102,0
+přírodní fakt,biofact,teater,61,1,archeologie,Methods,teater:1,0
+přístupy (archeologie),approaches,teater,17,1,archeologie,Methods,teater:1,0
 radiokarbonové datování,radiocarbon dating,teater,172,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+redukce (archeologická transformace),reduction (archaeological transformation),teater,65,1,archeologie,Methods,teater:1,0
 relativní chronologie,relative chronology,teater,191,140,archeologické datování,Methods,teater:140,0
 rentgenová fluorescenční analýza,X-ray fluorescence analysis,teater,173,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 replika,replica,teater,214,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
@@ -2380,37 +2450,66 @@ restaurování muzejních exponátů,restoration of museum exhibits,teater,218,1
 restaurování památek,antiquities restoration,teater,219,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
 restaurátorský průzkum,restoration research,teater,174,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 revizní výzkum,revision excavation,teater,107,102,archeologické výzkumy,Methods,teater:102,0
+romantická archeologie,romantic archeology,teater,10,1,archeologie,Methods,teater:1,0
 satelitní navigační systém,satellite navigation system,teater,128,102,archeologické výzkumy,Methods,teater:102,0
 satelitní snímek,satellite imaging,teater,131,102,archeologické výzkumy,Methods,teater:102,0
 shluková analýza,cluster analysis,teater,284,140,statistická analýza,Methods,teater:140,0
 skenovací elektronová mikroskopie,scanning electron microscopy,teater,148,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+slovanská archeologie,Slavic archaeology,teater,50,1,archeologie,Methods,teater:1,0
+sociální struktura,social structure,teater,16,1,archeologie,Methods,teater:1,0
 sonda,test pit,teater,108,102,archeologické výzkumy,Methods,teater:102,0
 spektrografická analýza,spectrograph analysis,teater,176,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 spektrometrie,spectrometry,teater,177,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 spektrometrie s indukčně vázaným plazmatem,inductively coupled plasma spectrometry,teater,185,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 spektrální analýza,spectrum analysis,teater,175,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+speleoarcheologie,speleoarchaeology,teater,39,1,archeologie,Methods,teater:1,0
+společenské poměry,social conditions,teater,15,1,archeologie,Methods,teater:1,0
+společnost,society,teater,12,1,archeologie,Methods,teater:1,0
 srovnávací metoda,comparative methods,teater,208,140,komparativní výzkum,Methods,teater:140,0
 statistická analýza,statistical analysis,teater,275,140,statistická analýza,Methods,teater:140,0
 statistické vzorkování,statistical sampling,teater,285,140,statistická analýza,Methods,teater:140,0
 stavebně-historický průzkum,constructional-historical research,teater,186,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 stratigrafie,stratigraphy,teater,192,140,archeologické datování,Methods,teater:140,0
+struktura,structure,teater,82,1,věda - obecná hesla,Methods,teater:1,0
+strukturalismus,structuralism,teater,81,1,věda - obecná hesla,Methods,teater:1,0
+subobory průřezové (tematické) (archeologie),cross-sectional subfields (thematic) (archeology),teater,18,1,archeologie,Methods,teater:1,0
+"subobory systémové (chronologické, historické) (archeologie)","system subfields (chronological, historical) (archeology)",teater,41,1,archeologie,Methods,teater:1,0
+symbol,symbol,teater,83,1,věda - obecná hesla,Methods,teater:1,0
+sympozium,symposium,teater,84,1,věda - obecná hesla,Methods,teater:1,0
+syntéza (vědecká metodologie),synthesis (scientific methodology),teater,92,1,věda - obecná hesla,Methods,teater:1,0
 sádrový odlitek,gypsum casting,teater,215,140,konzervátorsko-restaurátorské metody,Methods,teater:140,0
+sídelní archeologie,settlement archaeology,teater,38,1,archeologie,Methods,teater:1,0
 technologický proces,chaine operatoire,teater,187,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+teorie - terminologie (archeologie),theory - terminology (archaeology),teater,51,1,archeologie,Methods,teater:1,0
 teorie systémů,system theory,teater,286,140,statistická analýza,Methods,teater:140,0
+terminologie,terminology,teater,85,1,věda - obecná hesla,Methods,teater:1,0
 termografie,thermography,teater,127,102,archeologické výzkumy,Methods,teater:102,0
 termoluminiscenční datování,thermoluminiscence dating,teater,188,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
 termometrie,thermometry,teater,137,102,archeologické výzkumy,Methods,teater:102,0
 terénní archeologická dokumentace,field archaeological documentation,teater,201,140,dokumentace,Methods,teater:140,0
 topografické mapování,topographical mapping,teater,139,102,archeologické výzkumy,Methods,teater:102,0
 transmisní elektronová mikroskopie,transmission electron microscopy,teater,150,140,"analýzy, posudky (metody spracování)",Methods,teater:140,0
+trasologie,traceology,teater,40,1,archeologie,Methods,teater:1,0
 trojrozměrné modelování,three-dimensional modelling,teater,202,140,dokumentace,Methods,teater:140,0
 typologie,typology,teater,287,140,typologie,Methods,teater:140,0
 vertikální stratigrafie,vertical stratigraphy,teater,194,140,archeologické datování,Methods,teater:140,0
 vertikální řez,vertical section,teater,117,102,archeologické výzkumy,Methods,teater:102,0
 videozáznam,video recording,teater,203,140,dokumentace,Methods,teater:140,0
+věda - obecná hesla,science - general entries,teater,73,1,věda - obecná hesla,Methods,teater:1,0
+vědecká informace,scientific information,teater,95,1,věda - obecná hesla,Methods,teater:1,0
+vědecká metodologie,scientific methodology,teater,87,1,věda - obecná hesla,Methods,teater:1,0
+vědecká publikace,scientific publication,teater,100,1,věda - obecná hesla,Methods,teater:1,0
+vědecká teorie,scientific theory,teater,93,1,věda - obecná hesla,Methods,teater:1,0
+vědecké instituce a organizace,scientific institutions and organizations,teater,96,1,věda - obecná hesla,Methods,teater:1,0
+vědecký omyl,scientific error,teater,97,1,věda - obecná hesla,Methods,teater:1,0
+vědecký podvod,scientific falsification,teater,98,1,věda - obecná hesla,Methods,teater:1,0
+vědecký program,scientific program,teater,99,1,věda - obecná hesla,Methods,teater:1,0
+vědecký časopis,scientific journal,teater,94,1,věda - obecná hesla,Methods,teater:1,0
+vědní politika,scientific policy,teater,101,1,věda - obecná hesla,Methods,teater:1,0
 zjišťovací archeologický výzkum,evaluation excavation,teater,109,102,archeologické výzkumy,Methods,teater:102,0
 záchranný výzkum (archeologie),rescue excavation,teater,110,102,archeologické výzkumy,Methods,teater:102,0
-ASEP (databáze),ASEP (database),teater,75,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
+římská archeologie,Roman archaeology,teater,49,1,archeologie,Methods,teater:1,0
+říční archeologie,river archaeology,teater,37,1,archeologie,Methods,teater:1,0
 Agnus Dei,Lamb of God,teater,3796,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 Bar micva,Bar Mitzvah,teater,3886,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 Barbizonská škola,Barbizon school,teater,3780,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2444,7 +2543,6 @@ Trojice,Trinity,teater,745,288,příbuzné obory,Related Disciplines & Society,t
 Vídeňská škola dějin umění,Vienna School of Art History,teater,3783,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 Zarathuštra,Zoroaster,teater,3823,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 abatyše,abbess,teater,3118,3094,kult,Related Disciplines & Society,teater:3094,0
-abraze,abrasion,teater,52,1,archeologie,Related Disciplines & Society,teater:1,0
 absolutismus,absolutism,teater,3667,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 absolutní monarchie,absolute monarchy,teater,3678,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 adamité,Adamites,teater,696,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2453,11 +2551,9 @@ agnosticizmus,agnosticism,teater,3825,288,příbuzné obory,Related Disciplines 
 akční umění,action art,teater,459,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 alchymie,Alchemy,teater,3840,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 alžbětinky,Sisters of Charity of St. Elizabeth,teater,3167,3094,kult,Related Disciplines & Society,teater:3094,0
-amatérska archeologie,amateur archaeology,teater,19,1,archeologie,Related Disciplines & Society,teater:1,0
 ambrotypie,ambrotype,teater,3774,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 anabaptisté,Anabaptism,teater,735,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 analytická chemie,analytical chemistry,teater,608,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-analýza,analysis,teater,88,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 analýza uměleckého díla,artwork analysis,teater,3777,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 anathéma,anathema,teater,3813,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 anatomie člověka,human anatomy,teater,362,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2490,24 +2586,9 @@ archanděl,archangel,teater,3827,288,příbuzné obory,Related Disciplines & Soc
 archeoastronomie,archaeoastronomy,teater,290,288,hraniční obory,Related Disciplines & Society,teater:288,0
 archeobiologie,archaeobiology,teater,291,288,hraniční obory,Related Disciplines & Society,teater:288,0
 archeobotanika,archaeobotany,teater,292,288,hraniční obory,Related Disciplines & Society,teater:288,0
-archeogenetika,archaeogenetics,teater,20,1,archeologie,Related Disciplines & Society,teater:1,0
 archeografie,archaeography,teater,625,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-archeolog,archaeologist,teater,4,1,archeologie,Related Disciplines & Society,teater:1,0
 archeologická antropologie,archaeological anthropology,teater,3891,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-archeologická data,archaeological data,teater,53,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologická kultura,archaeological culture,teater,54,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologická lokalita,archaeological site,teater,55,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologická transformace,archaeological transformation,teater,62,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologický kontext,archaeological context,teater,68,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologický nález,archaeological find,teater,56,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologický pramen,archaeological source,teater,57,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologie,archaeology,teater,2,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologie skalních převisů,rockshelter archaeology,teater,21,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologie starověku,ancient archeology,teater,42,1,archeologie,Related Disciplines & Society,teater:1,0
-archeologie středověku,medieval archaeology,teater,43,1,archeologie,Related Disciplines & Society,teater:1,0
-archeoložka,women archaeologist,teater,5,1,archeologie,Related Disciplines & Society,teater:1,0
 archeometalurgie,archaeometallurgy,teater,312,288,hraniční obory,Related Disciplines & Society,teater:288,0
-archeometrie,archaeometry,teater,22,1,archeologie,Related Disciplines & Society,teater:1,0
 archeozoologie,archaeozoology,teater,301,288,hraniční obory,Related Disciplines & Society,teater:288,0
 archerotypie,collodion process,teater,3772,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 architekt,architect,teater,3786,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2525,7 +2606,6 @@ arianismus,Arianism,teater,698,288,příbuzné obory,Related Disciplines & Socie
 aristokracie,aristocracy,teater,3650,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
 armáda,army,teater,3516,3094,válečnictví,Related Disciplines & Society,teater:3094,0
 arménské písmo,Armenian script,teater,3570,3549,písmo,Related Disciplines & Society,teater:3549,0
-artefakt,artefact,teater,58,1,archeologie,Related Disciplines & Society,teater:1,0
 asimilace (sociologie),assimilation,teater,417,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 askeze,asceticism,teater,3854,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 astrologie,astrology,teater,3841,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2557,7 +2637,6 @@ bekyně (křesťanské hnutí),Beguines,teater,700,288,příbuzné obory,Related
 benediktini,Benedictines,teater,3140,3094,kult,Related Disciplines & Society,teater:3094,0
 benediktinky,Benedictine nuns,teater,3169,3094,kult,Related Disciplines & Society,teater:3094,0
 benediktinská spiritualita,Benedictine spirituality,teater,807,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-biblická archeologie,biblical archaeology,teater,44,1,archeologie,Related Disciplines & Society,teater:1,0
 biedermeier,biedermeier,teater,510,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 biogeochemie,biogeochemistry,teater,946,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 biogeografické členění,biogeographical classification,teater,879,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2604,7 +2683,6 @@ chtonické božstvo,earth deity,teater,3830,288,příbuzné obory,Related Discip
 cihlář,brickmaker,teater,3243,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 cihlářská hlína,brick clay,teater,3268,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 cihlářství,brickmaking,teater,3242,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
-cirkevní archeologie,Christian archaeology,teater,23,1,archeologie,Related Disciplines & Society,teater:1,0
 cisterciačky,Cistercian nuns,teater,3172,3094,kult,Related Disciplines & Society,teater:3094,0
 cisterciáci,Cistercians,teater,3143,3094,kult,Related Disciplines & Society,teater:3094,0
 cisterciácká spiritualita,Cistercian spirituality,teater,808,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2625,7 +2703,6 @@ dadaismus (umění),dadaism (art),teater,511,288,příbuzné obory,Related Disci
 dagerotypie,daguerreotype,teater,3771,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 daně,taxes,teater,3428,3094,"správa, písemnictví",Related Disciplines & Society,teater:3094,0
 dar,gift,teater,3563,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
-databáze,database,teater,74,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 datování uměleckého díla,dating of art works,teater,470,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 demografické chování,demographic behavior,teater,404,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 demografický vývoj,demographic transition,teater,405,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2643,7 +2720,6 @@ difuzionistická antropologie,diffusionism,teater,3893,288,příbuzné obory,Rel
 diktatura,dictatorship,teater,3672,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 diktatura proletariátu,dictatorship of the proletariat,teater,3673,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 diplomatika,diplomacy,teater,632,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-diskurzivní analýza,discourse analysis,teater,76,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 distribuční mapa,distribution map,teater,3564,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
 dlaždič,tile maker,teater,3251,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 dlaždičské práce,pavements,teater,3250,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
@@ -2671,7 +2747,6 @@ drůbež,poultry,teater,3228,3094,"pěstování plodin, chov a lov",Related Disc
 dualismus,dualism,teater,3820,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 duch,ghost,teater,3835,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 duchovenstvo,clergy,teater,3634,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
-duchovní život,spiritual life,teater,13,1,archeologie,Related Disciplines & Society,teater:1,0
 duše,soul,teater,3836,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 dvorská společnost,courtly society,teater,3688,3549,společnosti,Related Disciplines & Society,teater:3549,0
 dynamismus,dynamism,teater,687,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2682,7 +2757,6 @@ démonolatrie,demonolatry,teater,3790,288,příbuzné obory,Related Disciplines 
 dórský stavební řád,doric order,teater,3748,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 dějepisná mapa,history map,teater,1030,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 dějiny,history,teater,588,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-dějiny archeologie,history of archaeology,teater,3,1,archeologie,Related Disciplines & Society,teater:1,0
 dějiny architektury,architectural history,teater,428,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 dějiny archivnictví,history of keeping archives,teater,630,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 dějiny dějepisectví,History of Historiography,teater,3716,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2710,7 +2784,6 @@ dělostřelectvo,artillery,teater,3519,3094,válečnictví,Related Disciplines &
 dětská úmrtnost,children mortality,teater,412,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 dřevorubec,logger,teater,3514,3094,těžba,Related Disciplines & Society,teater:3094,0
 eklekticismus (umění),eclecticism,teater,512,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-ekofakt,ecofact,teater,59,1,archeologie,Related Disciplines & Society,teater:1,0
 ekonomická antropologie,economic anthropology,teater,394,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 ekonomická elita,economic elite,teater,3625,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
 ekonomická geografie,economic geography,teater,897,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2724,7 +2797,6 @@ emblematika,emblematics,teater,634,288,příbuzné obory,Related Disciplines & S
 emblém,emblem,teater,635,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 enkláva,enclave,teater,4139,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 enviromentální geografie,environmental geography,teater,882,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-environmentální archeologie,environmental archaeology,teater,24,1,archeologie,Related Disciplines & Society,teater:1,0
 environmentální geologie,environmental geology,teater,932,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 epigrafika,epigraphy,teater,636,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 epištola,carta,teater,3804,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2749,18 +2821,15 @@ evangelium,gospel,teater,740,288,příbuzné obory,Related Disciplines & Society
 evangelizace,evangelization,teater,750,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 evidence obyvatelstva,civil registration,teater,415,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 evolucionistická antropologie,evolutionistic anthropology,teater,3894,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-evolucionistická archeologie,evolutionary archaeology,teater,6,1,archeologie,Related Disciplines & Society,teater:1,0
 evoluční antropologie,evolutionary anthropology,teater,3895,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 evoluční genetika,evolutionary genetics,teater,580,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 evoluční paleobiologie,evolutionary paleobiology,teater,327,288,hraniční obory,Related Disciplines & Society,teater:288,0
 exarcha,Exarch,teater,3805,3094,kult,Related Disciplines & Society,teater:3094,0
 exkomunikace,excommunication,teater,741,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-experimentální archeologie,experimental archaeology,teater,25,1,archeologie,Related Disciplines & Society,teater:1,0
 expresionismus (umění),expressionism (art),teater,513,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 extenzivní zemědělství,extensive agriculture,teater,3216,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
 faksimile,facsimile,teater,631,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 faleristika,faleristics,teater,639,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-falzifikát,forgery,teater,60,1,archeologie,Related Disciplines & Society,teater:1,0
 farnost,parish,teater,780,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 farář,priest,teater,3098,3094,kult,Related Disciplines & Society,teater:3094,0
 farářka,woman priest,teater,3099,3094,kult,Related Disciplines & Society,teater:3094,0
@@ -2791,7 +2860,6 @@ fosilní červ,fossil worm,teater,335,288,hraniční obory,Related Disciplines &
 fosilní člověk,fossil man,teater,364,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 fosilní živočich,fossil animal,teater,334,288,hraniční obory,Related Disciplines & Society,teater:288,0
 fotografie,photography,teater,461,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-fragmentarizace (archeologická transformace),fragmentarization (archaeological transformation),teater,64,1,archeologie,Related Disciplines & Society,teater:1,0
 fragmenty rukopisů,manuscript fragments,teater,657,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 fraktura (písmo),black letter,teater,3581,3549,písmo,Related Disciplines & Society,teater:3549,0
 františkáni,Franciscans,teater,3145,3094,kult,Related Disciplines & Society,teater:3094,0
@@ -2812,7 +2880,6 @@ genetika rostlin,plant genetics,teater,577,288,příbuzné obory,Related Discipl
 genetika člověka,human genetics,teater,576,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 genetika živočichů,animal genetics,teater,578,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 genius loci,genius loci,teater,4124,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-geoarcheologie,geoarchaeology,teater,26,1,archeologie,Related Disciplines & Society,teater:1,0
 geochemie,geochemistry,teater,945,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 geochronologie,geochronology,teater,947,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 geodetické měření,geodetic measurement,teater,934,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2849,7 +2916,6 @@ geomorfologický útvar,geomorphological feature,teater,954,288,příbuzné obor
 geomorfologie,geomorphology,teater,951,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 georadar,ground-penetrating radar,teater,940,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 geosféra,geosphere,teater,926,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-germánská archeologie,Germanic archeology,teater,45,1,archeologie,Related Disciplines & Society,teater:1,0
 gerontokracie,gerontocracy,teater,3675,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 gilbertini,Gilbertines,teater,3146,3094,kult,Related Disciplines & Society,teater:3094,0
 glaciologie,glaciology,teater,963,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2877,12 +2943,10 @@ heraldika,heraldry,teater,642,288,příbuzné obory,Related Disciplines & Societ
 heretik,heretic,teater,704,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 hereze,heresy,teater,695,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 heterodoxie,heterodoxy,teater,3794,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-heuristika,heuristic,teater,90,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 hieratické písmo,hieratic script,teater,3575,3549,písmo,Related Disciplines & Society,teater:3549,0
 hieroglyfy,hieroglyphics,teater,3576,3549,písmo,Related Disciplines & Society,teater:3549,0
 hinduismus,Hinduism,teater,823,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 historická antropologie,historical antropology,teater,396,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-historická archeologie,historical archaeology,teater,46,1,archeologie,Related Disciplines & Society,teater:1,0
 historická chronologie,historical chronology,teater,646,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 historická demografie,historical demography,teater,426,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 historická geografie,historical geography,teater,888,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2903,7 +2967,6 @@ hodinář,watchmaker,teater,3259,3094,řemeslná práce,Related Disciplines & So
 hodinářství,watch making,teater,3258,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 hody (etnografie),feast,teater,546,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 homeopatická magie,Homeopathic magic,teater,3845,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-horizont (archeologie),horizon (archaeology),teater,69,1,archeologie,Related Disciplines & Society,teater:1,0
 hornická geologie,mining geology,teater,965,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 hornictví,mining,teater,3448,3094,těžba,Related Disciplines & Society,teater:3094,0
 hornina,rock,teater,992,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -2913,7 +2976,6 @@ horní regál,Bergregal,teater,3611,3549,právo,Related Disciplines & Society,te
 horník,miner,teater,3484,3094,těžba,Related Disciplines & Society,teater:3094,0
 hospodářská písemnost,business document,teater,600,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 hospodářské dějiny,economic history,teater,590,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-hospodářské poměry,economic conditions,teater,14,1,archeologie,Related Disciplines & Society,teater:1,0
 hraniční obory,cross-bordering disciplines,teater,289,288,hraniční obory,Related Disciplines & Society,teater:288,0
 hrnčíř,potter,teater,3261,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 hrnčířská značka,factory mark,teater,3262,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
@@ -2945,10 +3007,8 @@ ilustrace,illustration,teater,3284,3094,řemeslná práce,Related Disciplines & 
 ilustrátor,illustrator,teater,3289,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 ilustrátorka,woman illustrator,teater,3290,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 imaginativní geografie,imaginative geography,teater,4150,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-import,import,teater,70,1,archeologie,Related Disciplines & Society,teater:1,0
 impresionismus,impressionism,teater,3765,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 industrializace,industrialization,teater,4141,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-industrie,industry,teater,71,1,archeologie,Related Disciplines & Society,teater:1,0
 industriální společnost,industrial society,teater,3689,3549,společnosti,Related Disciplines & Society,teater:3549,0
 inkolát,inkolat,teater,3593,3549,právní institut,Related Disciplines & Society,teater:3549,0
 inkrustace,incrustation,teater,3264,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
@@ -2957,7 +3017,6 @@ intarzie,intarsia,teater,3393,3094,řemeslná práce,Related Disciplines & Socie
 integrální antropologie,integral anthropology,teater,3899,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 interpretace textů,interpretation of texts,teater,585,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 interpretace uměleckého díla,art interpretation,teater,456,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-intruze,intrusion,teater,72,1,archeologie,Related Disciplines & Society,teater:1,0
 islám,Islam,teater,3795,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 iónský stavební řád,ionic order,teater,3749,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 jamkový email,champlevé,teater,3378,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
@@ -2998,7 +3057,6 @@ karneval,carnival,teater,547,288,příbuzné obory,Related Disciplines & Society
 kartografie,cartography,teater,1028,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kartuziánská spiritualita,Carthusian spirituality,teater,814,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kasta,caste,teater,3628,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
-kastelologie,castellology,teater,27,1,archeologie,Related Disciplines & Society,teater:1,0
 katastr nemovitostí,cadastre,teater,1032,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 katastrální mapa,cadastral maps,teater,1033,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kataři,Cathari,teater,710,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3015,7 +3073,6 @@ kinantropologie,kinanthropology,teater,3900,288,příbuzné obory,Related Discip
 klaristky,Clares,teater,3176,3094,kult,Related Disciplines & Society,teater:3094,0
 klaristky kapucínky,Poor Clares,teater,3177,3094,kult,Related Disciplines & Society,teater:3094,0
 klasicismus,classicism,teater,516,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-klasická archeologie,classical archaeology,teater,47,1,archeologie,Related Disciplines & Society,teater:1,0
 klasické členění (genetika),classical classification,teater,579,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 klima,climate,teater,1037,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 klimatická změna,climate change,teater,1040,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3038,7 +3095,6 @@ kněžka,priestess,teater,3112,3094,kult,Related Disciplines & Society,teater:30
 kněžská spiritualita,priest’s spirituality,teater,803,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kodex,codex,teater,659,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kodikologie,codicology,teater,653,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-kognitivní archeologie,cognitive archaeology,teater,28,1,archeologie,Related Disciplines & Society,teater:1,0
 kognitivní psychologie,cognitive psychology,teater,3859,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kojenecká úmrtnost,infant mortality,teater,413,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kolonie,colony,teater,4142,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3059,7 +3115,6 @@ konkordát,concordat,teater,791,288,příbuzné obory,Related Disciplines & Soci
 konkrétní (společenské třídy),concrete (social class),teater,3632,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
 konstituční monarchie,constitutional monarchy,teater,3679,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 kontaktní magie,contagious magic,teater,3846,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-kontextuální analýza,contextual analysis,teater,89,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 konvence (umění),convention (art),teater,474,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 konšel,town councillor,teater,3431,3094,"správa, písemnictví",Related Disciplines & Society,teater:3094,0
 korintský stavební řád,corinthian order,teater,3750,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3080,7 +3135,6 @@ koželužství,tannery,teater,3319,3094,řemeslná práce,Related Disciplines & 
 kožená knižní vazba,leather binding,teater,654,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kožešník,furrier,teater,3321,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 krajina,landscape,teater,870,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-krajinná archeologie,landscape archaeology,teater,29,1,archeologie,Related Disciplines & Society,teater:1,0
 kraniometrie,craniometry,teater,357,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kras,karst,teater,955,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 krasová oblast,karst area,teater,956,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3088,7 +3142,6 @@ krasový útvar,karst form,teater,957,288,příbuzné obory,Related Disciplines 
 krejčovství,tailors trade,teater,3325,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 krejčí,tailor,teater,3326,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 kresba,drawing,teater,465,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-kritika (vědecká metodologie),critics (scientific methodology),teater,91,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 kronikář,chronicler,teater,3707,3094,"správa, písemnictví",Related Disciplines & Society,teater:3094,0
 kronikářka,woman chronicler,teater,3708,3094,"správa, písemnictví",Related Disciplines & Society,teater:3094,0
 kronikářství,chronicles,teater,3706,3094,"správa, písemnictví",Related Disciplines & Society,teater:3094,0
@@ -3109,9 +3162,7 @@ kulturní systém,cultural system,teater,377,288,příbuzné obory,Related Disci
 kulturní tradice,cultural tradition,teater,378,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kulturní vliv,cultural influence,teater,571,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kulturní vzor,pattern of culture,teater,3885,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-kulturně historická archeologie,cultural-historical archeology,teater,7,1,archeologie,Related Disciplines & Society,teater:1,0
 kurfiřt,prince-elector,teater,3651,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
-kvantitativní transformace,quantitative transformation,teater,63,1,archeologie,Related Disciplines & Society,teater:1,0
 kvietismus,quietism,teater,711,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 kyselost půdy,soil acidity,teater,981,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 křest,baptism,teater,381,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3145,7 +3196,6 @@ legát,Legat,teater,3116,3094,kult,Related Disciplines & Society,teater:3094,0
 lenní právo,feudal law,teater,3612,3549,právo,Related Disciplines & Society,teater:3549,0
 les,forest,teater,853,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 lesní hospodářství,forest management,teater,3197,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
-letecká archeologie,aerial archaeology,teater,30,1,archeologie,Related Disciplines & Society,teater:1,0
 letokruh,tree ring,teater,295,288,hraniční obory,Related Disciplines & Society,teater:288,0
 lidová kultura,folk culture,teater,558,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 lidová tradice,folk tradition,teater,559,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3288,7 +3338,6 @@ monofyzitismus,Monophysitism,teater,715,288,příbuzné obory,Related Discipline
 monogram,monogram,teater,633,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 monoteismus,monotheism,teater,692,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 montanismus,Montanism,teater,716,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-montánní archeologie,mining archaeology,teater,31,1,archeologie,Related Disciplines & Society,teater:1,0
 morfologie člověka,human morphology,teater,373,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 morfometrie,morphometry,teater,3876,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 morfoskopie,morphoscopy,teater,3877,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3319,7 +3368,6 @@ nadloží,overburden,teater,986,288,příbuzné obory,Related Disciplines & Soci
 naturalismus (umění),naturalism (art),teater,519,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 natěračství,painter’s trade,teater,3342,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 nazarénismus (umění),nazarene movement,teater,520,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-nedestruktivní archeologie,non-destructive archaeology,teater,32,1,archeologie,Related Disciplines & Society,teater:1,0
 nejstarší náboženské systémy,oldest religious systems,teater,684,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 nemocniční řeholní řád,hospitaler order,teater,3134,3094,kult,Related Disciplines & Society,teater:3094,0
 neobarokní sloh,neo–Baroque,teater,3746,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3353,7 +3401,6 @@ námořní doprava,maritime transport,teater,3194,3094,obchod,Related Discipline
 námořní obchod,maritime commerce,teater,3186,3094,obchod,Related Disciplines & Society,teater:3094,0
 nápis,inscription,teater,638,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 nástupnické právo,succession law,teater,3596,3549,právní institut,Related Disciplines & Society,teater:3549,0
-názorný model,visual model,teater,77,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 náčelnictví,chiefdom,teater,3680,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 obchod,trade,teater,3182,3094,obchod,Related Disciplines & Society,teater:3094,0
 obchodnice,merchantwoman,teater,3190,3094,obchod,Related Disciplines & Society,teater:3094,0
@@ -3383,7 +3430,6 @@ objekt (religionistika),object (religious science),teater,681,288,příbuzné ob
 objekt (sedimentologie),object (sedimentology),teater,1000,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 objekt/subobor (historiografie),object/subfield (historiography),teater,587,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 obléhání,siege,teater,3537,3094,válečnictví,Related Disciplines & Society,teater:3094,0
-oborová terminologie,terminology (professional),teater,86,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 obrazový pramen,Visual Source,teater,3725,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 obrazový pramen symbolický,Symbolic Visual Source,teater,3726,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 obrazový pramen vlastní,Primary Visual Source,teater,3727,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3457,7 +3503,6 @@ papežství,papacy,teater,784,288,příbuzné obory,Related Disciplines & Societ
 papyrologie,papyrology,teater,674,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 papyrový rukopis,papyrus manuscript,teater,675,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 papyrový svitek,papyrus scroll,teater,676,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-paradigma vědy,paradigma of science,teater,78,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 pastevec,herdsmen,teater,3211,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
 pastevectví,pastoralism,teater,3209,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
 pastevní chov,grazing,teater,3212,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
@@ -3493,8 +3538,6 @@ poddaný,retainer,teater,3645,3549,sociálni stratifikace,Related Disciplines & 
 podkovář,farrier,teater,3356,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 podkovářství,farriery,teater,3355,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 podloží,bedrock,teater,987,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-podmořská archeologie,maritime archaeology,teater,33,1,archeologie,Related Disciplines & Society,teater:1,0
-podvodní archeologie,underwater archaeology,teater,34,1,archeologie,Related Disciplines & Society,teater:1,0
 pohan,pagan,teater,826,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 pohanství,paganism,teater,825,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 pohoří,mountain range,teater,960,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3510,17 +3553,13 @@ politické dějiny,political history,teater,592,288,příbuzné obory,Related Di
 polyteismus,polytheism,teater,822,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 pomocné vědy historické,auxiliary sciences of history,teater,624,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 popisná statistika,descriptive statistics,teater,841,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-popularizace vědy,popularization of science,teater,79,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 populační hustota,population density,teater,409,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 populační růst,population growth,teater,407,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 porod,childbirth,teater,385,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 porodnost,natality,teater,410,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 porážka zvířat,slaughter,teater,306,288,hraniční obory,Related Disciplines & Society,teater:288,0
-postdepoziční transformace,post-depositional transformation,teater,66,1,archeologie,Related Disciplines & Society,teater:1,0
 postimpresionismus,post-impressionism,teater,526,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 postmodernismus,Postmodernism,teater,4165,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-postprocesuální archeologie,post-processual archaeology,teater,8,1,archeologie,Related Disciplines & Society,teater:1,0
-poststrukturalismus,post-structuralism,teater,80,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 poststrukturální antropologie,poststructuralism,teater,3902,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 posvícení,kermesse,teater,549,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 poustevnice,anchoress,teater,3124,3094,kult,Related Disciplines & Society,teater:3094,0
@@ -3543,8 +3582,6 @@ pravoslavný kněz,Orthodox priest,teater,3108,3094,kult,Related Disciplines & S
 pravoslaví,Orthodox Eastern,teater,731,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 pravěká společnost,prehistoric society,teater,3693,3549,společnosti,Related Disciplines & Society,teater:3549,0
 pravěké umění,prehistoric art,teater,506,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-predepoziční transformace,pre-depositional transformation,teater,67,1,archeologie,Related Disciplines & Society,teater:1,0
-prehistorická archeologie,prehistoric archaeology,teater,48,1,archeologie,Related Disciplines & Society,teater:1,0
 preindustriální město,preindustrial city,teater,4145,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 prelát,prelate,teater,3129,3094,kult,Related Disciplines & Society,teater:3094,0
 premonstráti,Premonstratensians,teater,3160,3094,kult,Related Disciplines & Society,teater:3094,0
@@ -3552,9 +3589,7 @@ premonstrátky,Premonstratensian nuns,teater,3178,3094,kult,Related Disciplines 
 premonstrátská spiritualita,Premonstratensian spirituality,teater,815,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 primogenitura,primogeniture,teater,3597,3549,právní institut,Related Disciplines & Society,teater:3549,0
 probošt,provost,teater,3130,3094,kult,Related Disciplines & Society,teater:3094,0
-procesuální archeologie,processual archaeology,teater,9,1,archeologie,Related Disciplines & Society,teater:1,0
 prosopografie,prosopography,teater,586,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-prostorová archeologie,spatial archaeology,teater,35,1,archeologie,Related Disciplines & Society,teater:1,0
 prostorová věda,Theoretical Geography,teater,4166,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 protestantská liturgie,Protestant liturgy,teater,763,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 protoindustrializace,proto-industrialization,teater,4146,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3568,7 +3603,6 @@ právní dějiny,history of law,teater,593,288,příbuzné obory,Related Discipl
 právní institut,legal institute,teater,3592,3549,právní institut,Related Disciplines & Society,teater:3549,0
 právník,lawyer,teater,3442,3094,"správa, písemnictví",Related Disciplines & Society,teater:3094,0
 právo,law,teater,3608,3549,právo,Related Disciplines & Society,teater:3549,0
-průmyslová archeologie,industrial archaeology,teater,36,1,archeologie,Related Disciplines & Society,teater:1,0
 psací potřeba,writer’s tool,teater,673,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 psychohistorie,Psychohistory,teater,3718,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 psychologie náboženství,psychology of religion,teater,3869,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3591,16 +3625,13 @@ předmět (archeobotanika),subject (archaeobotany),teater,299,288,hraniční obo
 předmět (demografie),subject (demography),teater,423,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 předmět (dějiny umění),subject (art history),teater,481,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 předmět (religionistika),subject (religious science),teater,836,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-předmět bádání (archeologie),research subject,teater,11,1,archeologie,Related Disciplines & Society,teater:1,0
 přelidnění,overpopulation,teater,408,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 přihrádkový email,cloisonné,teater,3380,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 příbuzenství,kinship,teater,3663,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 příbuzné disciplíny (geologie),related disciplines (geology),teater,931,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 příbuzné obory,Related disciplines,teater,352,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 přírodní determinismus,(Natural) Determinism,teater,4167,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-přírodní fakt,biofact,teater,61,1,archeologie,Related Disciplines & Society,teater:1,0
 přírodní národy,indigenous people,teater,567,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-přístupy (archeologie),approaches,teater,17,1,archeologie,Related Disciplines & Society,teater:1,0
 půda,soil,teater,985,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 půdní profil,soil profile,teater,988,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 půdní rozbor,soil testing,teater,983,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3613,7 +3644,6 @@ raně křesťanské umění,early Christian art,teater,3737,288,příbuzné obor
 rašeliniště,peat bog,teater,860,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 ražba (mincovnictví),stamp (coinage),teater,3339,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 reciprocita,reciprocity,teater,3565,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
-redukce (archeologická transformace),reduction (archaeological transformation),teater,65,1,archeologie,Related Disciplines & Society,teater:1,0
 regionální dějiny,regional history,teater,594,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 regionální geografie,regional geography,teater,893,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 regionální geologie,regional geology,teater,996,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3636,7 +3666,6 @@ rokoko,rococo,teater,3739,288,příbuzné obory,Related Disciplines & Society,te
 rokoková architektura,rococo architecture,teater,3752,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 rokokové malířství,rococo painting,teater,3760,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 rolník,peasant,teater,3646,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
-romantická archeologie,romantic archeology,teater,10,1,archeologie,Related Disciplines & Society,teater:1,0
 romantický historismus,romantic historicism,teater,3742,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 románská architektura,romanesque architecture,teater,436,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 románské malířství,romanesque painting,teater,444,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3688,7 +3717,6 @@ slavnost,festival,teater,542,288,příbuzné obory,Related Disciplines & Society
 slavnostní průvod,festive procession,teater,550,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 slavnostní vjezd,festive entry,teater,551,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 slitina,alloy,teater,3335,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
-slovanská archeologie,Slavic archaeology,teater,50,1,archeologie,Related Disciplines & Society,teater:1,0
 slovanská liturgie,Slavic liturgy,teater,765,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 složky armády,division of army,teater,3518,3094,válečnictví,Related Disciplines & Society,teater:3094,0
 sládek,brewmaster,teater,3351,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
@@ -3713,7 +3741,6 @@ sociální mobilita,social mobility,teater,3559,3549,obecná hesla (společnost)
 sociální nerovnost,social inequality,teater,3554,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
 sociální původ,social origin,teater,3555,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
 sociální strategie,social strategy,teater,3556,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
-sociální struktura,social structure,teater,16,1,archeologie,Related Disciplines & Society,teater:1,0
 sociální systém,social system,teater,3658,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 sokolnictví,falconry,teater,3208,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
 somatometrie,somatometry,teater,3875,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3721,16 +3748,13 @@ soukenictví,drapery,teater,3702,3094,řemeslná práce,Related Disciplines & So
 soukeník,clothweaver,teater,3703,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 soukromá písemnost,private letter,teater,601,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 soutok,confluence,teater,1021,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-speleoarcheologie,speleoarchaeology,teater,39,1,archeologie,Related Disciplines & Society,teater:1,0
 speleologie,speleology,teater,1007,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 spiritualita,spirituality,teater,800,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 spirituální františkáni,Franciscan Spirituals,teater,723,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 společenská elita,social elite,teater,3627,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
 společenská třída,social class,teater,3622,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
-společenské poměry,social conditions,teater,15,1,archeologie,Related Disciplines & Society,teater:1,0
 společenské postavení,social status,teater,3560,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
 společenské vztahy,social relations,teater,3561,3549,obecná hesla (společnost),Related Disciplines & Society,teater:3549,0
-společnost,society,teater,12,1,archeologie,Related Disciplines & Society,teater:1,0
 společnosti,societies,teater,3687,3549,společnosti,Related Disciplines & Society,teater:3549,0
 spravedlivá válka,just war,teater,3539,3094,válečnictví,Related Disciplines & Society,teater:3094,0
 spraš,loess,teater,1006,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3754,9 +3778,7 @@ stavovský stát,State of the Estates,teater,3683,3549,sociální systém,Relate
 stavy,Estates,teater,3648,3549,sociálni stratifikace,Related Disciplines & Society,teater:3549,0
 step,steppe,teater,862,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 strigolnici,strigolniki,teater,725,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-struktura,structure,teater,82,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 struktura osídlení,settlement patterns,teater,905,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-strukturalismus,structuralism,teater,81,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 strukturní geologie,structural geology,teater,921,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 strukturální antropologie,structural anthropology,teater,399,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 stránkování,pagination,teater,665,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3785,23 +3807,17 @@ subobor (paleontologie),subfield (palaentology),teater,321,288,hraniční obory,
 subobor (paleozoologie),subfield (paleozoology),teater,340,288,hraniční obory,Related Disciplines & Society,teater:288,0
 subobor (religionistika),subfield (religious science),teater,3909,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 subobory (hydrologie),subfield (hydrology),teater,1024,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-subobory průřezové (tematické) (archeologie),cross-sectional subfields (thematic) (archeology),teater,18,1,archeologie,Related Disciplines & Society,teater:1,0
-"subobory systémové (chronologické, historické) (archeologie)","system subfields (chronological, historical) (archeology)",teater,41,1,archeologie,Related Disciplines & Society,teater:1,0
 surrealismus (umění),surrealism (art),teater,530,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 svatba,wedding,teater,386,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 svatební zvyk,wedding custom,teater,387,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 svěcení kněží,ordination,teater,389,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-symbol,symbol,teater,83,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 symbolické místo,symbolic place,teater,4148,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 sympatetická magie,sympathetic magic,teater,3847,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-sympozium,symposium,teater,84,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 synoda,synod,teater,788,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-syntéza (vědecká metodologie),synthesis (scientific methodology),teater,92,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 systematická mineralogie,systematic mineralogy,teater,978,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 systematická paleobotanika,systematic paleobotany,teater,332,288,hraniční obory,Related Disciplines & Society,teater:288,0
 systematická paleozoologie,systematic zoopaleontology,teater,343,288,hraniční obory,Related Disciplines & Society,teater:288,0
 sémiotika,semiotics,teater,622,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-sídelní archeologie,settlement archaeology,teater,38,1,archeologie,Related Disciplines & Society,teater:1,0
 sídelní areál,settlement area,teater,4147,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 sídelní geografie,urban geography,teater,902,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 sídlo,residential area,teater,4137,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -3818,11 +3834,9 @@ tektonika,tectonics,teater,943,288,příbuzné obory,Related Disciplines & Socie
 templáři,Templars,teater,3162,3094,kult,Related Disciplines & Society,teater:3094,0
 teokracie,theocracy,teater,3684,3549,sociální systém,Related Disciplines & Society,teater:3549,0
 teologie,theology,teater,835,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-teorie - terminologie (archeologie),theory - terminology (archaeology),teater,51,1,archeologie,Related Disciplines & Society,teater:1,0
 teorie strukturace,Structuration theory,teater,4169,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 "teorie, metody a myšlení (geografie)","theory, methods and thinking (geography)",teater,4155,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 teplomilná doubrava,Quercetea pubescentis,teater,4122,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-terminologie,terminology,teater,85,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 tiskař,printer,teater,3384,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 tiskařka,woman printer,teater,3385,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 tiskařství,printing,teater,3382,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
@@ -3837,7 +3851,6 @@ totemismus,totemism,teater,690,288,příbuzné obory,Related Disciplines & Socie
 trapistická spiritualita,Trappist spirituality,teater,817,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 trapistky,Trappist nuns,teater,3179,3094,kult,Related Disciplines & Society,teater:3094,0
 trapisté,Trappists,teater,3163,3094,kult,Related Disciplines & Society,teater:3094,0
-trasologie,traceology,teater,40,1,archeologie,Related Disciplines & Society,teater:1,0
 tribalismus,tribalism,teater,568,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 tribut,tribute,teater,3607,3549,právní institut,Related Disciplines & Society,teater:3549,0
 trojpolní systém hospodaření,open field system,teater,3219,3094,"pěstování plodin, chov a lov",Related Disciplines & Society,teater:3094,0
@@ -3969,17 +3982,6 @@ výpal keramiky,ceramics firing,teater,3281,3094,řemeslná práce,Related Disci
 výroba dřevěného uhlí,production of charcoal,teater,3404,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 vývoj jazyka,language evolution,teater,618,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 význam (umění),significance (art),teater,479,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-věda - obecná hesla,science - general entries,teater,73,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecká informace,scientific information,teater,95,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecká metodologie,scientific methodology,teater,87,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecká publikace,scientific publication,teater,100,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecká teorie,scientific theory,teater,93,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecké instituce a organizace,scientific institutions and organizations,teater,96,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecký omyl,scientific error,teater,97,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecký podvod,scientific falsification,teater,98,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecký program,scientific program,teater,99,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědecký časopis,scientific journal,teater,94,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
-vědní politika,scientific policy,teater,101,1,věda - obecná hesla,Related Disciplines & Society,teater:1,0
 vědy o Zemi,Earth sciences,teater,850,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 věk obyvatelstva,age of population,teater,406,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 věštba,divination,teater,3851,288,příbuzné obory,Related Disciplines & Society,teater:288,0
@@ -4068,13 +4070,11 @@ zúčastněné pozorování,participant observation,teater,3882,288,příbuzné 
 řezbářský výrobek,woodcarving product,teater,3396,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 řezbářství,woodcarving,teater,3392,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 římská antická architektura,ancient Roman architecture,teater,2782,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-římská archeologie,Roman archaeology,teater,49,1,archeologie,Related Disciplines & Society,teater:1,0
 římská občanská válka 49-45 př. Kr.,Caesar's Civil War,teater,2799,2557,války,Related Disciplines & Society,teater:3091,0
 římské antické malířství,ancient Roman painting,teater,3757,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 římské antické sochařství,ancient Roman sculpture,teater,448,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 římské občanské války (80-33 př. Kr.),Roman Civil Wars,teater,2798,2557,války,Related Disciplines & Society,teater:3091,0
 římské právo,Roman law,teater,3616,3549,právo,Related Disciplines & Society,teater:3549,0
-říční archeologie,river archaeology,teater,37,1,archeologie,Related Disciplines & Society,teater:1,0
 říční doprava,river transport,teater,3195,3094,obchod,Related Disciplines & Society,teater:3094,0
 říční koryto,river channel,teater,1020,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 šaman,shaman,teater,3788,3094,kult,Related Disciplines & Society,teater:3094,0

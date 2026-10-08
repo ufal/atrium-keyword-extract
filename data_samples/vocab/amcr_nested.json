@@ -6339,13 +6339,6 @@
           "scheme": "predmet_specifikace",
           "cs": "malta",
           "en": "mortar"
-        },
-        {
-          "source": "amcr",
-          "id": "HES-001366",
-          "scheme": "zeme",
-          "cs": "Malta",
-          "en": "Malta"
         }
       ]
     },
@@ -8897,6 +8890,15 @@
       "source_id": "HES-001205",
       "discarded_ids": []
     },
+    "Malta (stát)": {
+      "cs": "Malta",
+      "en": "Malta",
+      "sub": "zeme",
+      "source": "amcr",
+      "source_id": "HES-001366",
+      "discarded_ids": [],
+      "bare_cs": "Malta"
+    },
     "Man": {
       "cs": "Man",
       "en": "Isle of Man",
@@ -9745,70 +9747,6 @@
       "source_id": "HES-001427",
       "discarded_ids": []
     },
-    "angličtina": {
-      "cs": "angličtina",
-      "en": "English",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000169",
-      "discarded_ids": []
-    },
-    "francouzština": {
-      "cs": "francouzština",
-      "en": "French",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000170",
-      "discarded_ids": []
-    },
-    "italština": {
-      "cs": "italština",
-      "en": "Italian",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-001448",
-      "discarded_ids": []
-    },
-    "latina": {
-      "cs": "latina",
-      "en": "Latin",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000172",
-      "discarded_ids": []
-    },
-    "nerelevantní": {
-      "cs": "nerelevantní",
-      "en": "irrelevant",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000174",
-      "discarded_ids": []
-    },
-    "němčina": {
-      "cs": "němčina",
-      "en": "German",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000168",
-      "discarded_ids": []
-    },
-    "ruština": {
-      "cs": "ruština",
-      "en": "Russian",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000173",
-      "discarded_ids": []
-    },
-    "slovenština": {
-      "cs": "slovenština",
-      "en": "Slovak",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000171",
-      "discarded_ids": []
-    },
     "Ázerbájdžán": {
       "cs": "Ázerbájdžán",
       "en": "Azerbaijan",
@@ -9855,14 +9793,6 @@
       "sub": "zeme",
       "source": "amcr",
       "source_id": "HES-001249",
-      "discarded_ids": []
-    },
-    "čeština": {
-      "cs": "čeština",
-      "en": "Czech",
-      "sub": "jazyk",
-      "source": "amcr",
-      "source_id": "HES-000167",
       "discarded_ids": []
     },
     "Řecko": {

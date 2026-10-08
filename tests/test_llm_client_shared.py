@@ -715,7 +715,7 @@ def test_enrichment_block_of_an_empty_run_is_schema_valid(tmp_path):
 # The digital smoke's first run against enrichable content got five items whose CONTENT
 # was right — "sonda, valove teleso", "zlomky keramiky, rany stredovek" — and whose every
 # field was the wrong type, so all five were thrown away and the document aborted. The
-# request goes out as plain `json_object` (a 4719-value enum is too big for the
+# request goes out as plain `json_object` (a 4712-value enum is too big for the
 # json_schema variant on most providers), so the shape is enforced by the prompt, and the
 # document-level prompt had no worked example at all.
 

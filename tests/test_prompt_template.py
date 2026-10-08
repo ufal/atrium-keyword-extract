@@ -395,7 +395,7 @@ def test_the_metatext_example_shows_empty_keyword_arrays():
 # would still run, still look plausible, and quietly render a different prompt than the
 # one under test elsewhere. `_reference_terms` / `_reference_block` below are the
 # pre-extraction code, kept as the independent second opinion, and the first test asserts
-# byte equality against the real 4 718-term artifact.
+# byte equality against the real 4 711-term artifact.
 
 VOCAB_FILE = REPO_ROOT / "data_samples" / "vocab" / "union_nested.json"
 

@@ -6,6 +6,7 @@ heslar:dokument_material,dokument_material,25,24,,1,284,False
 heslar:letfoto_tvar,letfoto_tvar,16,16,,0,235,False
 heslar:dokument_rada,dokument_rada,14,14,,0,183,False
 heslar:dohlednost,dohlednost,12,12,,0,73,False
+heslar:jazyk,jazyk,9,8,,1,51,False
 heslar:pocasi,pocasi,8,8,,0,70,False
 heslar:dokument_ulozeni,dokument_ulozeni,7,7,,0,84,False
 heslar:dokument_licence,dokument_licence,7,7,,0,244,False
