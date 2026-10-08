@@ -139,6 +139,94 @@ jobs:
           python atrium_openapi.py compare --base "$RUNNER_TEMP/previous.openapi.json" --rev dist/openapi.json \
             --para-config para_config.txt --require-oasdiff --summary "$GITHUB_STEP_SUMMARY"
 
+      # ── The vocabulary as a release asset (atrium-keyword-extract#1, atrium-project#72) ──
+      # The AMČR keyword lists and the TEATER thesaurus are CC0, and the translator and the hub's
+      # E2E read the built vocabulary instead of rebuilding it (a harvest needs two upstream
+      # services). The asset is the committed data_samples/vocab files, packed the same way for
+      # every release: a zip with a fixed timestamp and file order, so the same files give the
+      # same checksum, and `<zip>.sha256` beside it.
+      #
+      # Two gates first. `vocab_build.py --check` proves the committed nesting is what the
+      # taxonomy config produces (the vocab-drift lane's check, repeated here because a release
+      # gate does not rely on another workflow's run). It blanks `tool_version`, so the sidecars'
+      # stamp is compared here against para_config.txt: data labelled with another release's
+      # version is the one provenance error the asset would otherwise carry. The fix is
+      # `python vocab_build.py --from-flat --skos`, then commit. A dry run (workflow_dispatch on
+      # a branch) runs the same gates, which is how to find out before tagging.
+      - name: Package the vocabulary (CC0)
+        env:
+          TAG_REF: ${{ github.ref_type == 'tag' && github.ref_name || '' }}
+        run: |
+          python vocab_build.py --from-flat --skos --check
+          python - <<'PY'
+          import configparser
+          import hashlib
+          import json
+          import os
+          import zipfile
+          from pathlib import Path
+
+          vocab = Path("data_samples/vocab")
+          config = configparser.ConfigParser()
+          config.read("para_config.txt", encoding="utf-8")
+          version = config.get("tool", "version")
+          tag = os.environ.get("TAG_REF", "")
+          assert not tag or tag == version, f"tag {tag} is not para_config.txt's version {version}"
+
+          sidecars = [f"{name}_nested.meta.json" for name in ("union", "amcr", "teater")]
+          metas = {name: json.loads((vocab / name).read_text(encoding="utf-8")) for name in sidecars}
+          stale = {name: meta.get("tool_version") for name, meta in metas.items() if meta.get("tool_version") != version}
+          assert not stale, (
+              f"the vocabulary sidecars are stamped {stale}, not {version}: run "
+              "`python vocab_build.py --from-flat --skos` and commit the result before tagging"
+          )
+          licences = {src["name"]: src.get("license") for meta in metas.values() for src in meta.get("sources", [])}
+          assert licences and set(licences.values()) == {"CC0"}, f"a source is not CC0: {licences}"
+
+          files = sorted(
+              [f"{name}_nested.json" for name in ("union", "amcr", "teater")]
+              + sidecars
+              + [f"{name}_flat.{ext}" for name in ("amcr", "teater") for ext in ("json", "csv")]
+              + ["union.skos.ttl", "vocabulary.csv"]
+          )
+          total = metas["union_nested.meta.json"]["counts"]["total"]
+          sha = os.environ.get("GITHUB_SHA", "unknown")[:12]
+          readme = "\n".join(
+              [
+                  f"ATRIUM vocabulary {version} ({total} terms)",
+                  "",
+                  "The AMCR keyword lists (the `heslo` set of https://api.aiscr.cz/2.2/oai) and the TEATER thesaurus",
+                  "(https://teater.aiscr.cz/), arranged into facets for atrium-keyword-extract. Both sources are CC0,",
+                  "as stated by their rights holder (AMCR, atrium-project#6); so is this archive.",
+                  "",
+                  f"Built by atrium-keyword-extract {version} ({sha}) with `python vocab_build.py --from-flat --skos`,",
+                  "from the flat harvests in this archive.",
+                  "",
+                  "  union_nested.json        the vocabulary the pipeline reads (VOCAB_PATH): both sources nested into facets",
+                  "  union_nested.meta.json   its provenance: source endpoints, record counts, tool version, taxonomy hashes",
+                  "  amcr_nested.json, teater_nested.json (+ .meta.json)  the same nesting for one source alone",
+                  "  amcr_flat.*, teater_flat.*  the harvests, every field the source gave",
+                  "  union.skos.ttl           the SKOS view, under the sources' own URIs",
+                  "  vocabulary.csv           the union as a Czech-English glossary (source_lemma, target_translation)",
+                  "",
+                  "Verify the archive with the .sha256 file published beside it.",
+                  "",
+              ]
+          )
+          out = Path("dist")
+          out.mkdir(exist_ok=True)
+          name = f"atrium-vocabulary-{version}.zip"
+          with zipfile.ZipFile(out / name, "w", zipfile.ZIP_DEFLATED) as archive:
+              for arcname, data in [("README.txt", readme.encode("utf-8"))] + [(f, (vocab / f).read_bytes()) for f in files]:
+                  info = zipfile.ZipInfo(arcname, date_time=(1980, 1, 1, 0, 0, 0))
+                  info.compress_type = zipfile.ZIP_DEFLATED
+                  info.external_attr = 0o644 << 16
+                  archive.writestr(info, data)
+          digest = hashlib.sha256((out / name).read_bytes()).hexdigest()
+          (out / f"{name}.sha256").write_text(f"{digest}  {name}\n", encoding="utf-8")
+          print(f"{name}: {len(files)} files, {total} terms, sha256 {digest}")
+          PY
+
       - name: Create GitHub Release
         if: github.ref_type == 'tag'
         # SHA-pinned: this action holds `contents: write`. A moving tag can be
@@ -146,8 +234,8 @@ jobs:
         # aquasecurity/trivy-action in 2026-03 (GHSA-69fq-xp46-6x23). Dependabot
         # keeps the SHA and the trailing version comment in step (#18).
         #
-        # The spec is attached in this same step, when the release is created: an immutable
-        # release (atrium-project#40) refuses assets added after it is published.
+        # The spec and the vocabulary are attached in this same step, when the release is created:
+        # an immutable release (atrium-project#40) refuses assets added after it is published.
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3.0.3
         with:
           generate_release_notes: true
@@ -155,3 +243,5 @@ jobs:
           files: |
             dist/openapi.json
             dist/openapi.json.sha256
+            dist/atrium-vocabulary-*.zip
+            dist/atrium-vocabulary-*.zip.sha256

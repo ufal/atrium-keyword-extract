@@ -577,6 +577,30 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat; not pushed.
 
+## 2026-10-07 (evening) — A release carries the vocabulary
+* **Why:** the translator's glossary and the hub's E2E read the built vocabulary, and building it takes a harvest
+  of two upstream services. A release asset is the stable copy (atrium-project#72, #1 here).
+* **`.github/workflows/release.yml`:** a step "Package the vocabulary (CC0)" before "Create GitHub Release" packs the
+  committed `data_samples/vocab` files as `atrium-vocabulary-<version>.zip` (fixed timestamp and file order, so the
+  same files give the same checksum) with a `.sha256`, and both are attached by the step that creates the release,
+  because an immutable release refuses assets added afterwards. Gates first: `vocab_build.py --check` (the committed
+  nesting is what the taxonomy config produces); the tag equals `para_config.txt`'s version; the three sidecars are
+  stamped with that version (`--check` blanks `tool_version`, so the stamp is compared in the step); every source
+  is CC0. A `workflow_dispatch` on a branch runs the gates without a tag.
+* **`CONTRIBUTING.md`:** item 5 under the vocabulary gates: after the version bump, `python3 vocab_build.py
+  --from-flat --skos`, commit, then tag.
+* **Checks:** the step run locally on `test`: `atrium-vocabulary-v1.1.0-beta.zip`, 12 files, 4,718 terms, the same
+  checksum on a second run; a wrong tag and a stale stamp each stop it; actionlint and the hub's `workflow_lint.py`
+  clean.
+* **Not changed:** no `llm_api` row in `para_config.txt`. The file records the missing row as an open item (the
+  licence is the chosen model's, and a per-model lookup is still to be written); adding a blanket row would make
+  every controlled-kind record "maximally restrictive" before hub #6 has settled what an output licence means.
+* **For the maintainer:** the asset appears from the next tag; `v1.1.0-beta`, already released, has none.
+* **Dev logs:** the pairs of #1 and #2 refreshed: `v1.1.0-beta` is released, the unpushed list is down to the
+  vocabulary asset, and the live lane is recorded.
+
+  Files delivered in chat.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

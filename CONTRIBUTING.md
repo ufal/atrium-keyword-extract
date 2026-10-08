@@ -253,6 +253,12 @@ nothing failing. Three gates now catch it, and all three run on every PR
    Full procedure and the decision tables:
    [`data_samples/vocab/RUNBOOK.md`](data_samples/vocab/RUNBOOK.md) and
    [`prompts/RUNBOOK.md`](prompts/RUNBOOK.md).
+5. **A release carries the vocabulary.** `release.yml` packs the committed vocabulary (CC0) as
+`atrium-vocabulary-<version>.zip` with its `.sha256`, which the translator and the hub's E2E
+can read instead of rebuilding it. `vocab_build.py --check` blanks `tool_version`, so the
+release compares the sidecars' stamp with `para_config.txt` itself and stops on a mismatch.
+After bumping the version, run `python3 vocab_build.py --from-flat --skos`, commit the result,
+and only then tag; a `workflow_dispatch` dry run of the release shows the same gates.
 
 ---
 
