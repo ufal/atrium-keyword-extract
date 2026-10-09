@@ -1212,7 +1212,7 @@ PROGRAM = "keyword-extract"
 
 def write_document_record(
     doc_id: str,
-    results: List[dict],
+    results: Optional[List[dict]],
     record_dir: Path,
     run_id: Optional[str] = None,
     paradata_ref: str = "",
@@ -1222,13 +1222,20 @@ def write_document_record(
     used_markdown_input: bool = False,
     vocab_dir: Optional[str] = None,
     run_uuid: Optional[str] = None,
+    keywords: Optional[Dict[str, Any]] = None,
 ) -> Optional[Path]:
-    """Write/update this document's paired record, contributing keyword-extract's block only.
+    """Write/update this document's paired record, contributing keyword-extract's blocks only.
 
     Reads ``<record_dir>/<doc_id>.document.json`` as the baseline when it exists and
     writes it back with the ``enrichment`` block replaced — every other tool's block
     passes through untouched. With no baseline present the record is just this tool's
     own part, which is the intended standalone behaviour.
+
+    ``keywords`` is the statistical kind's ``keywords`` block (atrium-project#73,
+    ``{"document": [...], "pages": [...]}``), written beside ``enrichment`` and never merged
+    into it. ``results=None`` means the controlled kind did not contribute: neither
+    ``enrichment`` nor ``entities[].pid`` is written, so a statistical-only call records its
+    keywords without claiming a controlled verdict.
 
     The one exception to "own block only" is this stage's single declared field in
     somebody else's block: ``entities[].pid``, granted by
@@ -1311,18 +1318,25 @@ def write_document_record(
         paradata_ref=paradata_ref,
         out_dir=str(record_dir),
     ) as doc:
-        # doc.doc_id, not doc_id: the citations name the record's document, which is the
-        # baseline's id whenever it differs from the one derived from the input (#68).
-        doc.set_block("enrichment", enrichment_block(doc.doc_id, results))
+        if results is not None:
+            # doc.doc_id, not doc_id: the citations name the record's document, which is the
+            # baseline's id whenever it differs from the one derived from the input (#68).
+            doc.set_block("enrichment", enrichment_block(doc.doc_id, results))
 
-        # The one field this stage has in a block it does not own. merge_block, not set_block:
-        # `entities` is nlp-enrich's, and a wholesale write would erase the morphology and
-        # spans it holds. Reading the block back through get_block() is what supplies the
-        # rows to patch — they are the baseline's, so a standalone run (no baseline, no
-        # entities) resolves nothing and merges nothing, and the block is not created.
-        pid_rows = entity_pid_rows(doc.get_block("entities") or [], vocab_dir)
-        if pid_rows:
-            doc.merge_block("entities", pid_rows, own_fields=["pid"])
+            # The one field this stage has in a block it does not own. merge_block, not
+            # set_block: `entities` is nlp-enrich's, and a wholesale write would erase the
+            # morphology and spans it holds. Reading the block back through get_block() is what
+            # supplies the rows to patch — they are the baseline's, so a standalone run (no
+            # baseline, no entities) resolves nothing and merges nothing, and the block is not
+            # created.
+            pid_rows = entity_pid_rows(doc.get_block("entities") or [], vocab_dir)
+            if pid_rows:
+                doc.merge_block("entities", pid_rows, own_fields=["pid"])
+
+        if keywords is not None:
+            # The statistical kind's own block (atrium-project#73): a whole block, replaced on a
+            # re-run, beside `enrichment` and never merged into it.
+            doc.set_block("keywords", keywords)
 
         if enriched_path is not None:
             doc.add_derived_from("enriched", str(enriched_path))

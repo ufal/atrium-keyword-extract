@@ -638,6 +638,29 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat; not pushed.
 
+## 2026-10-09 — The `keywords` block (atrium-project#73); v1.2.0-beta carries the vocabulary
+* **`llm_client_shared.write_document_record()`** takes an optional `keywords` block; `results=None` leaves
+  `enrichment` and `entities[].pid` alone.
+* **`service/api.py`:** `_run()` writes the record once, at the end, when a record was sent and the statistical kind
+  ran or the controlled kind contributed: `keywords = {document, pages}` from the same lists the response returns,
+  `enrichment` from the controlled results. `kind=both` puts both blocks into one record and never mixes them;
+  `/extract_keywords_text` writes no record. The `document_json` description says so (spec regenerated).
+* **Tests:** `tests/test_api_service.py` (5 new: the statistical kind writes the block, `per_page=false`, a rerun
+  replaces it, a seed's `doc_id` is kept, the text endpoint returns no record); `tests/test_service_document_json.py`:
+  the two tests that encoded "the statistical kind writes no record" now assert the new contract.
+* **Docs:** README, `service/README.md` (the record paragraph, the table row, the example, the kinds).
+* `atrium_document.py`, `atrium_document.schema.json`, `service/atrium_service.py`,
+  `tests/test_document_originators.py` and `tests/test_schema_freeze.py` re-vendored from the hub.
+* **Version `v1.2.0-beta`:** `CITATION.cff`, the `CONTRIBUTING.md` row, `para_config.txt`, the spec's `info.version`.
+  `python vocab_build.py --from-flat --skos` restamped the three sidecars (`tool_version`, `generated_utc`; the
+  vocabulary unchanged, `--check` up to date), so `release.yml`'s gate passes and the tag attaches
+  `atrium-vocabulary-v1.2.0-beta.zip`.
+* **Checks:** 965 passed, 5 skipped; ruff check and format clean; spec current; image closure OK; `vocab_build.py
+  --from-flat --skos --check` up to date.
+* **Dev logs:** the pair of #1 refreshed.
+
+  Files delivered in chat.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

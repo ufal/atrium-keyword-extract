@@ -10,10 +10,11 @@ run's **paradata** (a Process Run Crate `CreateAction`):
 | `statistical` | the keywords of the document and of each page, every one with its method, score and rank: KeyBERT (the default), YAKE, or the legacy KER method — the methods of nlp-enrich's `keywords.py`                 | nothing                                                                                        |
 | `controlled`  | per line, the AMČR/TEATER vocabulary term that describes it and the keywords found in it, chosen by an LLM (atrium-keyword-extract#2), with entity links to AMČR and AAT — llm-enrich's `/extract_keywords` | an LLM backend (`LLM_BACKEND`); without one, asked for alone → 501, with `kind=both` `skipped` |
 
-The record: when the controlled kind ran, the response's `document_json` is the record sent with
-keyword-extract's `enrichment` block (and `entities[].pid`) written and every other block as it came.
-The statistical keywords are answered in the response only: the record's `keywords` block is
-atrium-project#73.
+The record: the response's `document_json` is the record sent, with keyword-extract's blocks written and
+every other block as it came — `keywords` when the statistical kind ran (atrium-project#73: the same
+document and page lists as the response, every keyword with its method, score and rank), and `enrichment`
+(with `entities[].pid`) when the controlled kind contributed. The two kinds are never merged into one
+list, and a re-run replaces each block whole.
 
 ## Quick start
 
@@ -57,7 +58,7 @@ that touch the controlled kind.
 | GET    | `/info`                  | service id, endpoints, the methods (default, descriptions, the KeyBERT model), the kinds available, `controlled` (ready or why not, backend, model, vocabulary, prompt), `limits` and `limits_meta`, `openapi_sha256`      |
 | GET    | `/health`                | liveness — 200 always, even mid-shutdown                                                                                                                                                                                   |
 | GET    | `/ready`                 | readiness — 503 until the startup warm-up (the KeyBERT model when it is the default; the controlled kind's vocabulary and prompt when it is configured) has finished, 200 while serving, 503 the instant `SIGTERM` arrives |
-| POST   | `/extract_keywords`      | **the entry point** — the record as an upload (`document_json`): statistical keywords per document and per page, controlled keywords per line, and the record with its `enrichment` block                                  |
+| POST   | `/extract_keywords`      | **the entry point** — the record as an upload (`document_json`): statistical keywords per document and per page, controlled keywords per line, and the record with its `keywords` and `enrichment` blocks                  |
 | POST   | `/extract_keywords_text` | the same on a plain text in a JSON body (no pages, no record)                                                                                                                                                              |
 
 ### `POST /extract_keywords` (multipart form)
@@ -135,7 +136,8 @@ term get a `pid` with the term's AMČR URI and its AAT exact match (`vocab_manag
   }]},
   "controlled": {"backend": "openrouter", "model": "openai/gpt-4o-mini", "outcome": "contributed",
                  "stats": {"processed": 37, "attempted": 37, "skipped_filter": 5, "skipped_error": 0, "truncated": 0, "aborted": 0}},
-  "document_json": { "doc_id": "CTX000000001", "lines": ["…"], "enrichment": {"items": ["…"]}, "…": "…" },
+  "document_json": { "doc_id": "CTX000000001", "lines": ["…"], "enrichment": {"items": ["…"]},
+                     "keywords": {"document": ["…"], "pages": ["…"]}, "…": "…" },
   "paradata": { "@type": "CreateAction", "…": "…" },
   "limits_applied": []
 }
@@ -143,10 +145,11 @@ term get a `pid` with the term's AMČR URI and its AAT exact match (`vocab_manag
 
 `kinds` has one entry per kind asked for: `ok` (it ran), `skipped` (asked for with the other and not
 available here) or `failed` (the LLM backend failed every call; the statistical keywords still come
-back). `controlled.outcome` separates a model that was asked and found nothing (`empty`: an `enrichment`
-block with no items is still written) from one that was never asked (`not-asked`: no line passed the
-filter, nothing written). `document_json_schema_error` appears when the returned record does not validate
-— only ever because the record sent did not.
+back, and so does the record with its `keywords` block). `controlled.outcome` separates a model that was
+asked and found nothing (`empty`: an `enrichment` block with no items is still written) from one that was
+never asked (`not-asked`: no line passed the filter, no `enrichment` written). `document_json` is absent only
+when neither kind wrote a block. `document_json_schema_error` appears when the returned record does not
+validate — only ever because the record sent did not.
 
 `paradata` is the run's Process Run Crate `CreateAction` (atrium-project#71): its `@id` is the run's
 `run_uuid`, `object` is what the call was sent, `result` the keywords it answered with and the record

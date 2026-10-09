@@ -178,7 +178,20 @@ def test_kind_both_returns_both_kinds_apart(controlled, monkeypatch):
     assert [k["kind"] for k in body["kinds"]] == ["statistical", "controlled"]
     assert all(k["status"] == "ok" for k in body["kinds"])
     assert {k["method"] for k in body["keywords"]} == {"yake"}
-    assert body["enrichment"]["items"] and "keywords" not in body["document_json"]
+    # One record, each kind in its own block (atrium-project#73), never one list.
+    record = body["document_json"]
+    assert record["keywords"] == {"document": body["keywords"], "pages": body["pages"]}
+    assert record["enrichment"] == body["enrichment"] and body["enrichment"]["items"]
+    assert not any(
+        {"method", "rank", "score"} & set(item) for item in record["enrichment"]["items"]
+    )
+    stamps = record["assembled"]["blocks"]
+    assert stamps["keywords"]["program"] == stamps["enrichment"]["program"] == "keyword-extract"
+    assert (
+        stamps["keywords"]["run_uuid"]
+        == stamps["enrichment"]["run_uuid"]
+        == body["paradata"]["@id"]
+    )
 
 
 def test_every_call_failing_is_a_502_for_the_controlled_kind_alone(controlled, monkeypatch):
@@ -212,7 +225,9 @@ def test_with_kind_both_a_failed_controlled_kind_does_not_cost_the_statistical_k
     statistical, controlled_kind = body["kinds"]
     assert statistical["status"] == "ok" and body["keywords"]
     assert controlled_kind["status"] == "failed" and "HTTP 401" in controlled_kind["detail"]
-    assert "enrichment" not in body and "document_json" not in body
+    # The record still gets the statistical keywords, and no controlled verdict (atrium-project#73).
+    assert "enrichment" not in body and "enrichment" not in body["document_json"]
+    assert body["document_json"]["keywords"]["document"] == body["keywords"]
 
 
 def test_no_record_is_written_when_no_line_reached_the_model(controlled):

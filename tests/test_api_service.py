@@ -115,6 +115,54 @@ def test_record_endpoint_gives_document_and_page_keywords(fake_keybert):
     assert "garbage" not in " ".join(fake_keybert[0])
 
 
+def test_the_statistical_kind_writes_the_records_keywords_block(fake_keybert):
+    """atrium-project#73: the record comes back with `keywords` — the same document and page lists
+    as the response, stamped keyword-extract — and every other block as it came."""
+    record = _record()
+    record["entities"] = [{"page": "1", "line": 1, "char_span": [0, 8], "surface": "Keramika"}]
+    body = _post_record(record, kind="statistical", method="keybert", num_keywords="2").json()
+    out = body["document_json"]
+    assert out["keywords"] == {"document": body["keywords"], "pages": body["pages"]}
+    assert [p["page"] for p in out["keywords"]["pages"]] == ["1", "2"]
+    assert all(k["method"] == "keybert" for k in out["keywords"]["document"])
+    stamp = out["assembled"]["blocks"]["keywords"]
+    assert stamp["program"] == "keyword-extract" and stamp["run_uuid"] == body["paradata"]["@id"]
+    # Nothing of the controlled kind is written, and the other blocks pass through.
+    assert "enrichment" not in out and "enrichment" not in out["assembled"]["blocks"]
+    assert out["entities"] == record["entities"] and out["lines"] == record["lines"]
+    assert out["doc_id"] == "AMCR-F-1"
+    names = [entity.get("name") for entity in body["paradata"]["result"]]
+    assert "keywords" in names
+
+
+def test_document_keywords_only_make_an_empty_page_list(fake_keybert):
+    body = _post_record(_record(), method="keybert", per_page="false").json()
+    assert body["document_json"]["keywords"] == {"document": body["keywords"], "pages": []}
+
+
+def test_a_rerun_replaces_the_block_with_the_new_methods_lists(fake_keybert):
+    """One run, one method: a second run over the returned record replaces `keywords` whole."""
+    first = _post_record(_record(), method="keybert", num_keywords="2").json()["document_json"]
+    second = _post_record(first, method="legacy", num_keywords="3").json()
+    methods = {k["method"] for k in second["document_json"]["keywords"]["document"]}
+    methods |= {
+        k["method"] for p in second["document_json"]["keywords"]["pages"] for k in p["keywords"]
+    }
+    assert methods == {"legacy"}
+
+
+def test_a_seed_keeps_its_id_when_the_keywords_are_written(fake_keybert):
+    record = dict(_record(), doc_id="AMCR-F-1/seed")  # not a file name: written as `record`
+    body = _post_record(record, method="keybert").json()
+    assert body["document_json"]["doc_id"] == "AMCR-F-1/seed"
+    assert body["document_json"]["keywords"]["document"] == body["keywords"]
+
+
+def test_text_input_returns_no_record():
+    body = client.post("/extract_keywords_text", json={"text": TEXT, "method": "yake"}).json()
+    assert "document_json" not in body and body["keywords"]
+
+
 def test_the_skipped_categories_are_the_hub_registrys():
     """`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES` is the one declaration downstream filters key off."""
     from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES

@@ -32,8 +32,8 @@ NameTag) and what is built from them.
 > **State of this branch.** Both kinds run in the service. The controlled kind calls a language model in an
 > inference service — OpenRouter, or a local Ollama — configured by `LLM_BACKEND`; a deployment without one answers
 > `kind=controlled` with 501 and reports it `skipped` under `kind=both`. Its quality is not evaluated yet: the
-> evaluation rubric (D1) of atrium-keyword-extract#2 is open, so treat its output as research output. The
-> `keywords` block of the record is atrium-project#73; until it lands the statistical keywords are in the response.
+> evaluation rubric (D1) of atrium-keyword-extract#2 is open, so treat its output as research output. Since
+> v1.2.0-beta the statistical keywords are also written into the record, as its `keywords` block (atrium-project#73).
 
 ---
 

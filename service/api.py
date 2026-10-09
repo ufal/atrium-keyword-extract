@@ -25,10 +25,11 @@ AMČR pipeline generates its clients from — types every field. The models docu
 ``tests/test_api_contract.py`` validates real responses against the published schema. Every JSON
 success carries the run's Process Run Crate ``CreateAction`` as ``paradata`` (atrium-project#71).
 
-The record: when the controlled kind ran, ``document_json`` returns the record sent with
-keyword-extract's ``enrichment`` block (and its ``entities[].pid``) written and every other block
-as it came. The statistical keywords are answered in the response only: the record's
-``keywords`` block is atrium-project#73. Regenerate the spec after an API change::
+The record: ``/extract_keywords`` returns the record sent, as ``document_json``, with
+keyword-extract's blocks written and every other block as it came: ``keywords`` when the
+statistical kind ran (atrium-project#73: the same document and page lists as the response), and
+``enrichment`` (with its ``entities[].pid``) when the controlled kind contributed. The two kinds are
+never merged into one list. Regenerate the spec after an API change::
 
     python atrium_openapi.py export --app service.api:app --out service/openapi.json
 """
@@ -299,8 +300,10 @@ class ExtractResponse(BaseModel):
     document_json: Optional[AtriumDocument] = Field(
         None,
         description=(
-            "`/extract_keywords`, when the controlled kind ran and the model was asked: the record sent, with "
-            "keyword-extract's `enrichment` block and `entities[].pid` written and every other block as it came."
+            "`/extract_keywords`: the record sent, with keyword-extract's blocks written and every other block as "
+            "it came — `keywords` when the statistical kind ran (the same document and page lists as above), and "
+            "`enrichment` with `entities[].pid` when the controlled kind ran and the model was asked. Absent when "
+            "neither kind wrote anything, and for `/extract_keywords_text`."
         ),
     )
     document_json_schema_error: Optional[str] = Field(
@@ -809,11 +812,14 @@ def _run_controlled(doc: _Doc, doc_id: str, engine: Dict[str, Any]):
 def _write_record(
     data: bytes,
     record: Dict[str, Any],
-    results: List[dict],
     pd: ParadataLogger,
-    engine: Dict[str, Any],
+    results: Optional[List[dict]] = None,
+    engine: Optional[Dict[str, Any]] = None,
+    keywords: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
-    """The sent record with keyword-extract's `enrichment` block and `entities[].pid` written.
+    """The sent record with keyword-extract's blocks written: ``keywords`` (the statistical kind,
+    atrium-project#73) and ``enrichment`` with ``entities[].pid`` (the controlled kind's ``results``),
+    whichever this call produced.
 
     Through ``llm_client_shared.write_document_record``, the repository's one record writer and
     its Layer D gate (atrium-project#10, D4): the record's own invalidity refuses it, an inherited
@@ -833,7 +839,8 @@ def _write_record(
                 run_uuid=pd.run_uuid,
                 paradata_ref=pd.paradata_ref,  # the run_uuid: the service writes no file
                 license_detail=pd.get_license_block(),
-                vocab_dir=engine.get("vocab_dir"),
+                vocab_dir=(engine or {}).get("vocab_dir"),
+                keywords=keywords,
             )
         except RuntimeError as exc:
             # A record this service built wrong is a defect on this side: 500, never a 502.
@@ -965,6 +972,8 @@ async def _run(
 
     enrichment: Optional[Dict[str, Any]] = None
     written: Optional[Dict[str, Any]] = None
+    #: The controlled kind's results when they go into the record (None: it contributed nothing).
+    contributed: Optional[List[dict]] = None
     if controlled and engine is None:
         kinds.append(
             {
@@ -1007,10 +1016,7 @@ async def _run(
                     pd.log_component(component)
                 enrichment = llm.enrichment_block(doc_id, results)
                 pd.log_success("enrichment", len(enrichment["items"]))
-                if record is not None and record_bytes is not None:
-                    written = await asyncio.get_event_loop().run_in_executor(
-                        None, _write_record, record_bytes, record, results, pd, engine
-                    )
+                contributed = results
             detail = None
             if outcome == llm.OUTCOME_NOT_ASKED:
                 detail = "no line passed the quality filter; the model was not asked"
@@ -1022,6 +1028,19 @@ async def _run(
             "stats": {k: int(v) for k, v in stats.items()},
         }
 
+    # One record write for both kinds, each into its own block (atrium-project#73): the
+    # statistical lists exactly as answered above, and the controlled results when they count.
+    keywords_block = (
+        {"document": found["keywords"], "pages": found["pages"]} if found is not None else None
+    )
+    if (
+        record is not None
+        and record_bytes is not None
+        and (keywords_block or contributed is not None)
+    ):
+        written = await asyncio.get_event_loop().run_in_executor(
+            None, _write_record, record_bytes, record, pd, contributed, engine, keywords_block
+        )
     pd.log_document_success()
     if enrichment is not None:
         response["enrichment"] = enrichment
