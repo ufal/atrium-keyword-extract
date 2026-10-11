@@ -152,7 +152,10 @@ a different build.
 It is the *untruncated* prompt: what a model with room for everything sees. At a tighter
 window a tail of terms is dropped — by `llm_run.py` counting with the model's tokenizer, by
 the clients and the service estimating 4 characters per token (`LLM_CONTEXT_WINDOW`); the
-instruction half is identical either way.
+instruction half is identical either way. `llm_run.py` fits the prompt to the window the
+model is served with — under vLLM that is `MAX_MODEL_LEN` when set, 16 384 by default for the
+four large models, where about 1 400 terms fit. It and the service record a cut in the
+paradata as a `vocab_prompt_budget_tokens` note; the batch clients print it.
 
 **`--diff` is the form a wording decision actually takes.** The whole M11/M12 guardrail
 change is two lines:
@@ -204,7 +207,7 @@ three modes give **two clean contrasts** rather than one scale:
 * `facet_sub` vs `facet` — the source's own second level, headers and adjacency together.
 
 The cost side is already measured: the headers buy their place at 8 192 tokens (419 terms
-grouped vs 445 flat) and at 32 768 (3 106 vs 3 232), and cost nothing at 128k where
+grouped vs 445 flat) and at 32 768 (3 080 vs 3 201), and cost nothing at 128k where
 everything fits. Whether they *help* is unmeasured — it needs the corpus and the D1 rubric,
 not code. Tracked as **A2-grouping**.
 

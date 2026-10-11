@@ -74,7 +74,7 @@ concept (issue atrium-project#51). Three things about it are deliberate and wort
 before editing it:
 
 * **It is built from the raw harvest, not from the nested artifacts.** The nesting stage
-  deduplicates by label (624 collisions on the current build) and drops the `__exclude__`
+  deduplicates by label (622 collisions on the current build) and drops the `__exclude__`
   lists; both are right for a prompt glossary and are data loss for a concept graph, where
   each of those terms has its own URI. Curation stays in the nested files.
 * **No URI is minted for a source concept.** Subjects are `https://api.aiscr.cz/id/HES-…`
@@ -182,8 +182,8 @@ demo documents (`CTX000000001-3`, 91 tokens). The real 16 reports (`CTX192100040
 `CTX195603828`, …) arrive as the zip attachment on issue
 [#19](https://github.com/ufal/atrium-nlp-enrich/issues/19) and are untracked. So:
 
-- On a machine with the real corpus, these sheets are **evidence** (19 documents,
-  2172 lines).
+- On a machine with the real corpus, these sheets are **evidence** (19 documents — the 16
+  reports and the 3 demo files — 2172 lines).
 - On a clean checkout, they are a **smoke test** (3 documents, 4 hits).
 
 Every run prints its corpus size before writing anything — read that line first:
@@ -328,7 +328,7 @@ reports every problem at once, not one per rebuild).
 | What one enrichment record looks like          | `prompts/output_template.json` — the committed shape of `<doc_id>_enriched.json`, held in step with the schema and the prompt's own examples by test                                                                                                                                           |
 | **Reading the prompt without a GPU run**       | `python3 prompt_template.py --blocks` (what is on) · `--preview` (instructions, terms elided) · `--full` (the whole prompt, all 4 711 terms) · `--diff KEY=A KEY=B` (what a flag change does to the wording). All four are committed under `prompts/`                                          |
 | **A committed sheet after any prompt change**  | `python3 prompt_template.py --write`, then commit `prompts/prompt_*.txt`. `--check` is the gate, and `vocab-drift.yml` runs it on every PR, so a stale sheet fails CI rather than misleading a reviewer                                                                                        |
-| **Whether the facet grouping matters**         | `llm_config.txt` → `PROMPT_VOCAB_GROUPING` = `facet_sub` / `facet` / `flat`. Same terms, same truncation; only the headers move. `facet` vs `flat` isolates the headers, `facet_sub` vs `facet` the source's second level. Costs 126 terms at 32k, nothing at 128k                             |
-| **Whether a model can still hold it**          | `context_budget.csv` — per context window and facet, how much survives truncation. At 32k the two probation facets are cut (`Related Disciplines & Society` whole, the last 60 terms of `Cultural & Geographic Context`); at 8k 419 of 4 711 terms reach the model                                                                                                                            |
+| **Whether the facet grouping matters**         | `llm_config.txt` → `PROMPT_VOCAB_GROUPING` = `facet_sub` / `facet` / `flat`. Same terms, same truncation; only the headers move. `facet` vs `flat` isolates the headers, `facet_sub` vs `facet` the source's second level. Costs 121 terms at 32k, nothing at 128k                             |
+| **Whether a model can still hold it**          | `context_budget.csv` — per context window and facet, how much survives truncation. At 32k the two probation facets are cut (`Related Disciplines & Society` whole, the last 60 terms of `Cultural & Geographic Context`); at 8k 419 of 4 711 terms reach the model                             |
 | **Which facet a reinstated branch lands in**   | `taxonomy_config.json` → the `teater_branch_map` value, **plus** the facet's own `priority` / `in_prompt` block if it is a new one. `facet_census.csv` is the evidence: contents, feeding rules, cost and cut point, one row per facet. This is **A1-facets**                                  |
 | Nothing                                        | a generated CSV. Every sheet in this directory is rebuilt from the two files above; hand-editing one is discarded on the next run.                                                                                                                                                             |

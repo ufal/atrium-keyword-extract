@@ -1590,6 +1590,28 @@ def load_model_and_tokenizer(
 # ---------------------------------------------------------------------------
 
 
+def _structured_outputs_engine_kwargs(backend: str) -> Dict[str, Any]:
+    """The engine argument that selects the guided-decoding backend, as the installed
+    vLLM spells it.
+
+    ``guided_decoding_backend`` became ``structured_outputs_config={"backend": ...}`` in
+    vLLM 0.11, and from 0.12 on the old name is an unknown ``EngineArgs`` field that
+    fails the engine load. The engine's own fields decide, so one call works on either
+    side of the rename.
+    """
+    try:
+        import dataclasses  # noqa: E402
+
+        from vllm.engine.arg_utils import EngineArgs  # noqa: E402
+
+        fields = {f.name for f in dataclasses.fields(EngineArgs)}
+    except Exception:  # an EngineArgs we cannot introspect: assume a current vLLM
+        fields = {"structured_outputs_config"}
+    if "structured_outputs_config" in fields:
+        return {"structured_outputs_config": {"backend": backend}}
+    return {"guided_decoding_backend": backend}
+
+
 def load_vllm_engine(
     model_key: str,
     hf_token: Optional[str] = None,
@@ -1733,7 +1755,7 @@ def load_vllm_engine(
         tensor_parallel_size=tensor_parallel_size,
         gpu_memory_utilization=gpu_memory_utilization,
         enable_prefix_caching=enable_prefix_caching,
-        guided_decoding_backend=guided_decoding_backend,
+        **_structured_outputs_engine_kwargs(guided_decoding_backend),
         dtype=dtype_str,
         trust_remote_code=spec.get("trust_remote_code", False),
         # Separate tokenizer threads speed up batched prompt formatting
@@ -1994,7 +2016,6 @@ def _format_chat_prompt(
 
 def process_document(
     input_path: Path,
-    csv_path: Path,
     model: Any,
     tokenizer: Any,
     parser: Any,  # lmformatenforcer.JsonSchemaParser
@@ -2010,8 +2031,14 @@ def process_document(
     min_alpha_ratio_non_text: float = 0.40,
 ) -> Tuple[List[dict], Dict[str, int]]:
     """
-    Run LLM inference over every qualifying line in a single CSV document
-    using the HuggingFace Transformers backend.
+    Run LLM inference over every qualifying line in a single input document
+    (CSV or ``*.teitok.xml``, see ``read_input_rows``) using the HuggingFace
+    Transformers backend.
+
+    ``max_input_tokens`` is the budget the system prompt was fitted to (context
+    window - CONTEXT_RESERVED); the 512 tokens CONTEXT_RESERVED holds beyond the
+    output are this line's user message, so a prompt is cut only where it would
+    leave no room for MAX_NEW_TOKENS of output.
 
     Returns:
         (enriched_lines, stats)
@@ -2039,9 +2066,8 @@ def process_document(
     }
     consecutive_errors = 0
     page_num = line_num = 0  # ensure defined for error messages
+    input_limit = max_input_tokens + CONTEXT_RESERVED - MAX_NEW_TOKENS
 
-    # with open(csv_path, "r", encoding="utf-8") as f:
-    #     rows = list(csv.DictReader(f))
     rows = read_input_rows(input_path)
 
     if is_gguf:
@@ -2117,19 +2143,21 @@ def process_document(
                 # where it is counted: `truncation=True, max_length=` used to cut the end of
                 # the prompt -- the target line and the task -- without a word. The cut is
                 # the same (right side); what is new is the warning and the count, which
-                # llm_run.py records in the paradata as a `trimmed` note.
+                # llm_run.py records in the paradata as a `trimmed` note. The limit is
+                # input_limit, not max_input_tokens: a system prompt truncated to fill
+                # max_input_tokens would otherwise push every line's target past the cut.
                 inputs = tokenizer(prompt, return_tensors="pt")
-                if inputs["input_ids"].shape[1] > max_input_tokens:
+                if inputs["input_ids"].shape[1] > input_limit:
                     stats["truncated_inputs"] = stats.get("truncated_inputs", 0) + 1
                     print(
                         f"  [WARN] {file_id} P{page_num} L{line_num}: prompt of "
-                        f"{inputs['input_ids'].shape[1]} tokens cut to {max_input_tokens} "
-                        "(context window - CONTEXT_RESERVED); its end, with the target "
+                        f"{inputs['input_ids'].shape[1]} tokens cut to {input_limit} "
+                        "(context window - MAX_NEW_TOKENS); its end, with the target "
                         "line, is lost."
                     )
                     for key in ("input_ids", "attention_mask", "token_type_ids"):
                         if key in inputs:
-                            inputs[key] = inputs[key][:, :max_input_tokens]
+                            inputs[key] = inputs[key][:, :input_limit]
                 inputs = inputs.to(model.device)
 
                 _t0 = time.monotonic()
@@ -2244,9 +2272,36 @@ def process_document(
 # ---------------------------------------------------------------------------
 
 
+def _guided_json_sampling_params(schema: dict, max_tokens: int) -> Any:
+    """Greedy ``SamplingParams`` whose output is constrained to ``schema``, in the
+    installed vLLM's own terms.
+
+    vLLM renamed guided decoding to "structured outputs" in 0.11 and removed the old
+    names in 0.12: ``StructuredOutputsParams`` passed as ``structured_outputs=`` from
+    then on, ``GuidedDecodingParams`` passed as ``guided_decoding=`` before. The schema
+    goes in ``json`` under both names — neither class ever had a ``json_schema`` field.
+    """
+    from vllm import SamplingParams  # noqa: E402
+
+    try:
+        from vllm.sampling_params import StructuredOutputsParams  # noqa: E402
+    except ImportError:  # vLLM < 0.11
+        from vllm.sampling_params import GuidedDecodingParams  # noqa: E402
+
+        return SamplingParams(
+            temperature=0.0,
+            max_tokens=max_tokens,
+            guided_decoding=GuidedDecodingParams(json=schema),
+        )
+    return SamplingParams(
+        temperature=0.0,
+        max_tokens=max_tokens,
+        structured_outputs=StructuredOutputsParams(json=schema),
+    )
+
+
 def process_document_vllm(
     input_path: Path,
-    csv_path: Path,
     llm_engine: Any,  # vllm.LLM
     tokenizer: Any,
     system_prompt: str,
@@ -2260,8 +2315,8 @@ def process_document_vllm(
     min_alpha_ratio_non_text: float = 0.40,
 ) -> Tuple[List[dict], Dict[str, int]]:
     """
-    Run batched LLM inference over every qualifying line in a single CSV document
-    using the vLLM backend.
+    Run batched LLM inference over every qualifying line in a single input document
+    (CSV or ``*.teitok.xml``) using the vLLM backend.
 
     Differences from ``process_document`` (transformers backend):
       • Lines are submitted in mini-batches (``batch_size``) for high throughput.
@@ -2278,8 +2333,7 @@ def process_document_vllm(
         (enriched_lines, stats)  — same schema as ``process_document``.
     """
     try:
-        from vllm import SamplingParams  # noqa: E402
-        from vllm.sampling_params import GuidedDecodingParams  # noqa: E402
+        import vllm  # noqa: F401, E402
     except ImportError as exc:
         raise ImportError(
             "vLLM is required for process_document_vllm. Install with: pip install vllm"
@@ -2304,12 +2358,7 @@ def process_document_vllm(
 
     # Build the guided-decoding sampling params once and reuse for all batches.
     schema_dict = EnrichmentModel.model_json_schema()
-    guided = GuidedDecodingParams(json_schema=schema_dict)
-    sampling_params = SamplingParams(
-        temperature=0.0,
-        max_tokens=MAX_NEW_TOKENS,
-        guided_decoding=guided,
-    )
+    sampling_params = _guided_json_sampling_params(schema_dict, MAX_NEW_TOKENS)
 
     # First pass: collect all qualifying lines with their row metadata.
     # This keeps the batch-submission logic clean and makes it easy to

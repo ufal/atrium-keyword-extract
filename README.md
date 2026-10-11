@@ -32,7 +32,8 @@ NameTag) and what is built from them.
 > **State of this branch.** Both kinds run in the service. The controlled kind calls a language model in an
 > inference service — OpenRouter, or a local Ollama — configured by `LLM_BACKEND`; a deployment without one answers
 > `kind=controlled` with 501 and reports it `skipped` under `kind=both`. Its quality is not evaluated yet: the
-> evaluation rubric (D1) of atrium-keyword-extract#2 is open, so treat its output as research output. Since
+> evaluation rubric (D1) of atrium-keyword-extract#2 was decided on 8 October 2026, but the annotated corpus and
+> the scorer (D2) do not exist yet, so treat its output as research output. Since
 > v1.2.0-beta the statistical keywords are also written into the record, as its `keywords` block (atrium-project#73).
 
 ---
@@ -231,7 +232,8 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, �
 ## The controlled kind and the vocabulary
 
 The controlled kind maps each line onto the AMČR keyword lists and the TEATER thesaurus with a language model whose
-answer is constrained to the vocabulary's terms (a JSON schema whose category is an enum of all 4712 of them). One
+answer is constrained to the vocabulary's terms (a JSON schema whose category is an enum of its 4711 terms and the
+meta-text answer `Nerelevantní (meta-text)`). One
 prompt serves every path: [`prompts/system_prompt.txt`](prompts/system_prompt.txt), whose blocks the `PROMPT_*` flags
 of `llm_config.txt` select — [`prompts/RUNBOOK.md`](prompts/RUNBOOK.md) explains each — followed by the vocabulary
 and the examples; `python3 prompt_template.py --preview` prints it. Each answer carries the AMČR/TEATER records behind
@@ -254,6 +256,24 @@ python openrouter_client.py --input CTX000000001.document.json --model openai/gp
   --document-json-out CTX000000001.kw.document.json
 python ollama_client.py --input data_samples/DOC_LINE_CATEG --model qwen2.5:14b
 ```
+
+The research run on a GPU node:
+
+```bash
+pip install -r requirements.txt -r requirements_llm.txt   # vLLM brings its own torch pin
+$EDITOR llm_config.txt     # MODEL_KEY; INPUT_DIR (line CSVs or *.teitok.xml), OUTPUT_DIR, PARADATA_DIR
+python llm_run.py          # or: python llm_run.py <another config>
+```
+
+It writes `<OUTPUT_DIR>_<model>/<doc_id>_enriched.json` per document (and `<doc_id>_enriched.abort.json` after ten
+consecutive errors), skips a document whose output already exists, so a stopped job resumes (delete an aborted
+document's two files to redo it), and writes a paradata record naming the vocabulary build and the sha256 of the
+prompt it used. The whole prompt is about 47k tokens: a model served with a smaller window, including the large vLLM
+models at their default `MAX_MODEL_LEN` of 16384, sees only a prefix of the vocabulary, and the paradata records how
+many terms were cut. With `BACKEND=transformers` every line re-reads the whole prompt; vLLM computes it once and
+reuses it (prefix caching). The `llm` image carries no sample inputs, and whatever it writes outside `/data` goes
+with the container, so point `INPUT_DIR`, `OUTPUT_DIR` and `PARADATA_DIR` under `/data` in the `llm_config.txt` the
+compose file mounts.
 
 The vocabulary:
 

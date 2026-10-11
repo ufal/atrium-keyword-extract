@@ -63,6 +63,10 @@ MODEL_KEY=qwen-3.6-27b-it
 # =============================================================================
 # Paths
 # =============================================================================
+# Output goes to <OUTPUT_DIR>_<MODEL_KEY>/, and a document whose output is already there
+# is skipped. Give each variant of one model (PROMPT_* flags, VOCAB_PATH, MAX_MODEL_LEN)
+# its own OUTPUT_DIR, or the second run skips every document; paradata's
+# config.prompt.sha256 tells the variants apart.
 INPUT_DIR=data_samples/DOC_LINE_CATEG
 OUTPUT_DIR=data_samples/KW_PER_DOC_LLM
 VOCAB_PATH=data_samples/vocab/union_nested.json
@@ -146,11 +150,15 @@ MIN_ALPHA_RATIO_NON_TEXT=0.4
 # Larger = higher GPU utilisation; lower = less memory pressure.
 # VLLM_BATCH_SIZE=8
 
-# Override the model's native context window to reduce KV-cache memory.
+# Override the model's native context window to reduce KV-cache memory (vLLM only).
 # Required for llama4-maverick (1 M token native window causes OOM otherwise).
-# Already set by the model default for all large models — only override if
-# you need a different value than the model default of 16 384.
-# MAX_MODEL_LEN=16384
+# The four large vLLM models default to 16 384, and the system prompt is fitted to the
+# window the engine serves: the whole prompt — 4 711 terms and the instructions — is
+# about 47k tokens (estimated at 3.35 chars/token), so at 16 384 only ~1 400 terms
+# (Chronology, Activity Area, Feature, part of Artefact) reach the model, and the run's
+# paradata records the cut as a `vocab_prompt_budget_tokens` note. For a run over the
+# whole vocabulary set 65536, and size the KV cache / CPU offload for it.
+# MAX_MODEL_LEN=65536
 
 # GB of model weights to keep in CPU RAM when GPU VRAM is insufficient.
 # Useful configurations (requires vLLM ≥ 0.8.x for Qwen3 MoE):
@@ -165,7 +173,8 @@ MIN_ALPHA_RATIO_NON_TEXT=0.4
 #
 # CPU_OFFLOAD_GB=0
 
-# Guided-decoding engine (vLLM only): xgrammar (default, fastest) | outlines
+# Guided-decoding engine (vLLM only): xgrammar (default, fastest) | guidance | outlines
+# | lm-format-enforcer — vLLM's structured-outputs backend
 # GUIDED_DECODING_BACKEND=xgrammar
 
 # Disable Automatic Prefix Caching — not recommended; reduces throughput.

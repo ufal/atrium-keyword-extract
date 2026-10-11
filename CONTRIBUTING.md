@@ -208,7 +208,7 @@ Each documentation file has one target audience and one responsibility. Rules ar
 | `service/README.md`                      | API consumers           | REST endpoints, environment variables, limits, errors, the OpenAPI contract             |
 | `data_samples/vocab/RUNBOOK.md`          | **Vocabulary curators** | Every vocabulary script and flag, the eight review sheets, where a decision is recorded |
 | `prompts/RUNBOOK.md`                     | **Prompt reviewers**    | The prompt blocks and their flags, the guardrail's two halves, the output contract      |
-| `data_samples/vocab/6.*.md`              | Domain reviewers        | One open question each, framed with numbers from the sheets beside them                 |
+| `data_samples/vocab/6.*.md`              | Domain reviewers        | One question each, with numbers from the sheets beside them; its ruling heads the file  |
 | `agent_dev_logs/DEVLOG.md`               | Maintainers             | Per-issue history: digests, plans, decisions                                            |
 
 * **Do not duplicate rules:** if a rule is defined in `CONTRIBUTING.md`, other files

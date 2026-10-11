@@ -6,15 +6,21 @@ over every CSV file in INPUT_DIR and writes per-document JSON enrichment
 files to OUTPUT_DIR.
 """
 
-__import__("pysqlite3")
-import sys  # noqa: E402
+import sys
 
-sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+# pysqlite3(-binary) stands in for a system SQLite too old for the inference stack, where a
+# node has one. It is in no requirements file, so it is optional: without it the standard
+# library's sqlite3 stays, instead of the run dying on its first line.
+try:
+    __import__("pysqlite3")
+    sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
+except ImportError:
+    pass
 import datetime  # noqa: E402
 import enum  # noqa: E402
+import hashlib  # noqa: E402
 import json  # noqa: E402
 import os  # noqa: E402
-import sys  # noqa: E402
 from pathlib import Path  # noqa: E402
 from typing import Any, Dict, List, Optional, Set, Tuple  # noqa: E402
 
@@ -407,18 +413,53 @@ def main(config_path: str = "llm_config.txt") -> None:
             raise
 
         log_gpu_memory(label="after model load")
-        max_input_tokens = spec["context_window"] - CONTEXT_RESERVED
+        # The window the model is served with. vLLM caps it at MAX_MODEL_LEN and rejects a
+        # longer prompt outright, so the vocabulary is fitted to that, not to the native
+        # window — and prefix caching does not change it: it saves recomputing the prompt,
+        # not the room it takes.
+        context_window = spec["context_window"]
+        if BACKEND == "vllm" and MAX_MODEL_LEN:
+            context_window = min(context_window, MAX_MODEL_LEN)
+        max_input_tokens = context_window - CONTEXT_RESERVED
 
-        skip_trunc = BACKEND == "vllm" and ENABLE_PREFIX_CACHING
         system_prompt, surviving_terms, id_lookup, strip_map = build_system_prompt(
             vocab_data,
             tokenizer,
             max_tokens=max_input_tokens,
-            skip_truncation=skip_trunc,
             excluded_themes=excluded_themes,
             prompt_config=config,
         )
         EnrichmentModel = build_schema(surviving_terms)
+
+        # What the model was told, as one fingerprint (D3): the instructions, the flags, the
+        # vocabulary build, its grouping and its truncation all change it, so two runs with
+        # the same sha256 got the same system prompt, whatever checkout they ran from.
+        prompt_sha256 = hashlib.sha256(system_prompt.encode("utf-8")).hexdigest()
+        logger.config["prompt"] = {
+            "sha256": prompt_sha256,
+            "terms_offered": len(surviving_terms) - 1,
+            "context_window": context_window,
+        }
+        print(
+            f"  prompt: sha256 {prompt_sha256[:16]}…, {len(surviving_terms) - 1} vocabulary "
+            f"terms offered, served window {context_window} tokens"
+        )
+
+        # The vocabulary cut, recorded as the service records it (atrium-project#53): a term
+        # past the budget is out of the model's reach, so a run scored against the whole
+        # vocabulary has to say how much of it the model was offered.
+        offered = len(prompt_template.vocabulary_terms(vocab_data, excluded_themes))
+        vocab_cut = offered - len(surviving_terms)
+        if vocab_cut > 0:
+            logger.note_limit(
+                "vocab_prompt_budget_tokens",
+                max_input_tokens,
+                "trimmed",
+                vocab_cut,
+                f"{vocab_cut} of {offered - 1} vocabulary terms were left out of the prompt: they "
+                f"do not fit its {max_input_tokens}-token budget (context window {context_window} "
+                "- CONTEXT_RESERVED); raise MAX_MODEL_LEN or use a model with a larger window",
+            )
 
         if BACKEND == "vllm":
             print("=== vLLM guided decoding: JSON schema registered ===")
@@ -463,7 +504,7 @@ def main(config_path: str = "llm_config.txt") -> None:
             try:
                 if BACKEND == "vllm":
                     enriched_results, doc_stats = process_document_vllm(
-                        input_path=input_file,  # WAS: csv_path=csv_file
+                        input_path=input_file,
                         llm_engine=llm_engine,
                         tokenizer=tokenizer,
                         system_prompt=system_prompt,
@@ -478,7 +519,7 @@ def main(config_path: str = "llm_config.txt") -> None:
                     )
                 else:
                     enriched_results, doc_stats = process_document(
-                        csv_path=input_file,
+                        input_path=input_file,
                         model=model,
                         tokenizer=tokenizer,
                         parser=parser,
@@ -509,11 +550,11 @@ def main(config_path: str = "llm_config.txt") -> None:
                     # model's input budget; the paradata says so.
                     logger.note_limit(
                         "llm_context_window",
-                        spec["context_window"],
+                        context_window,
                         "trimmed",
                         doc_stats["truncated_inputs"],
                         "prompt(s) longer than the model's input budget (context window - "
-                        "CONTEXT_RESERVED) were cut at the end before inference",
+                        "MAX_NEW_TOKENS) were cut at the end before inference",
                     )
 
                 print(
