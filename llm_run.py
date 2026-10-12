@@ -482,6 +482,7 @@ def main(config_path: str = "llm_config.txt") -> None:
         else:
             print("=== Compiling JSON Schema State Machine (lmformatenforcer) ===")
             llm_utils._patch_tokenizer_compat()
+            llm_utils._patch_lmfe_enum_index()
             from lmformatenforcer import JsonSchemaParser
             from lmformatenforcer.integrations.transformers import (
                 build_transformers_prefix_allowed_tokens_fn,

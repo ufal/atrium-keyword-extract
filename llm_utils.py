@@ -34,6 +34,7 @@ os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 import copy  # noqa: E402
 import csv  # noqa: E402
 import fnmatch  # noqa: E402
+import functools  # noqa: E402
 import gc  # noqa: E402
 import importlib.util  # noqa: E402
 import json  # noqa: E402
@@ -121,6 +122,66 @@ def _patch_tokenizer_compat() -> bool:
 
 
 _patch_tokenizer_compat()  # Pass 1 — lazy stub
+
+
+def _patch_lmfe_enum_index() -> bool:
+    """Answer lm-format-enforcer's "which character can come next" for an enum from an index.
+
+    ``StringParsingState.get_allowed_characters`` scans every allowed string on each call,
+    and the token search calls it at every tokenizer-trie node it visits. With the
+    4,712-label teater_category enum that was ~7.5 s of every line on a 22k-token
+    vocabulary (35k calls, 163M ``startswith``) -- more than the model, once the prompt
+    is cached -- and more with the 250k-token vocabularies of Gemma and Qwen. The index,
+    built once per enum, maps every prefix of every label to the characters that can
+    follow it; the answer is the same, and outside an enum string the original runs.
+    """
+    try:
+        from lmformatenforcer import jsonschemaparser  # noqa: E402
+    except ImportError:
+        return False
+    state_class = getattr(jsonschemaparser, "StringParsingState", None)
+    whitespace = getattr(jsonschemaparser, "WHITESPACE_CHARACTERS", None)
+    if state_class is None or whitespace is None:
+        return False
+    original = state_class.get_allowed_characters
+    if getattr(original, "_atrium_enum_index", False):
+        return True
+    indexes: Dict[int, Tuple[Any, Dict[str, str], set]] = {}
+
+    def index_for(strings: Any) -> Tuple[Dict[str, str], set]:
+        entry = indexes.get(id(strings))
+        if entry is None or entry[0] is not strings:
+            following: Dict[str, set] = {}
+            for s in strings:
+                for i in range(len(s)):
+                    following.setdefault(s[:i], set()).add(s[i])
+            entry = (strings, {p: "".join(c) for p, c in following.items()}, set(strings))
+            indexes[id(strings)] = entry  # holds `strings`, so its id is never reused
+        return entry[1], entry[2]
+
+    @functools.wraps(original)
+    def get_allowed_characters(self: Any) -> str:
+        strings = getattr(self, "allowed_strings", None)
+        parsed = getattr(self, "parsed_string", None)
+        if (
+            not strings
+            or parsed is None
+            or not getattr(self, "seen_opening_quote", False)
+            or getattr(self, "seen_closing_quote", True)
+            or getattr(self, "regex_parser", None)
+        ):
+            return original(self)
+        following, complete = index_for(strings)
+        allowed = following.get(parsed, "")
+        if getattr(self, "require_closing_quote", True) and parsed in complete:
+            allowed += '"'
+        if not parsed and not getattr(self, "require_opening_quote", True):
+            allowed += whitespace
+        return allowed
+
+    get_allowed_characters._atrium_enum_index = True  # type: ignore[attr-defined]
+    state_class.get_allowed_characters = get_allowed_characters
+    return True
 
 
 # ---------------------------------------------------------------------------

@@ -318,6 +318,35 @@ def test_out_of_memory_with_the_prompt_cache_falls_back_to_the_full_prefill(tmp_
     assert stats["cached_prefix_lines"] == 0 and cache == {}
 
 
+def test_the_enum_index_answers_as_lm_format_enforcer_does(monkeypatch):
+    """The index replaces a scan of all 4,712 labels per call (~7.5 s of every line); the
+    characters it allows after every prefix must be the ones the scan allows."""
+    jsp = pytest.importorskip("lmformatenforcer.jsonschemaparser")
+    state = jsp.StringParsingState
+    original = getattr(state.get_allowed_characters, "__wrapped__", state.get_allowed_characters)
+    monkeypatch.setattr(state, "get_allowed_characters", original)
+    labels = ["kost", "kostel", "kostelík", "malta", "Malta (stát)", "zámek", "zámek (sídlo elity)"]
+    schema = {
+        "type": "object",
+        "properties": {"c": {"type": "string", "enum": labels}},
+        "required": ["c"],
+    }
+
+    def allowed_after_each_character(text):
+        parser = jsp.JsonSchemaParser(schema)
+        allowed = [set(parser.get_allowed_characters())]
+        for character in text:
+            parser = parser.add_character(character)
+            allowed.append(set(parser.get_allowed_characters()))
+        return allowed
+
+    texts = ['{"c": "' + label + '"}' for label in labels] + ['{"c":  "zám', '{ "c" : "ko']
+    expected = [allowed_after_each_character(t) for t in texts]
+    assert llm_utils._patch_lmfe_enum_index()
+    assert state.get_allowed_characters is not original
+    assert [allowed_after_each_character(t) for t in texts] == expected
+
+
 def test_rope_scaling_keeps_the_models_own_theta(monkeypatch):
     """transformers 5 keeps rope_theta inside rope_parameters, and its rope_scaling setter
     replaces the whole dict: YaRN has to be merged in, not set over it."""
