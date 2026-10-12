@@ -357,6 +357,8 @@ def test_rope_scaling_keeps_the_models_own_theta(monkeypatch):
     spec = MODEL_REGISTRY["qwen3-8b"]
     config = llm_utils._rope_scaled_config(spec)
     assert config.rope_parameters == {"rope_theta": 1_000_000.0, **spec["rope_scaling"]}
+    # vLLM takes the served window from here, and does not scale it by the YaRN factor
+    assert config.max_position_embeddings == spec["context_window"]
     assert llm_utils._rope_scaled_config(MODEL_REGISTRY["qwen-3.6-27b-it"]) is None
 
 

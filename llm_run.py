@@ -436,6 +436,8 @@ def main(config_path: str = "llm_config.txt") -> None:
         context_window = spec["context_window"]
         if BACKEND == "vllm" and MAX_MODEL_LEN:
             context_window = min(context_window, MAX_MODEL_LEN)
+        if spec.get("served_max_model_len"):
+            context_window = min(context_window, spec["served_max_model_len"])
         max_input_tokens = context_window - CONTEXT_RESERVED
 
         system_prompt, surviving_terms, id_lookup, strip_map = build_system_prompt(

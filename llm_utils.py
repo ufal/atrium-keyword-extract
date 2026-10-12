@@ -636,7 +636,9 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "backend": "vllm",
             "tensor_parallel_size": 2,
             "gpu_memory_utilization": 0.90,
-            "max_model_len": None,
+            # The whole prompt and the output, with room to spare; a sequence this long
+            # takes ~9 GB of KV cache per GPU at tp=2, beside 4.7 GB of weights.
+            "max_model_len": 98304,
             "vllm_batch_size": 16,
         },
     },
@@ -1575,6 +1577,11 @@ def _rope_scaled_config(spec: dict, hf_token: Optional[str] = None) -> Optional[
     transformers 5 keeps ``rope_theta`` inside ``rope_parameters``, so the scaling is
     merged into that dict rather than set over it (its ``rope_scaling`` setter replaces
     the whole dict, theta included). transformers 4 takes it as ``rope_scaling``.
+
+    ``max_position_embeddings`` is raised to the registry's ``context_window``, as a
+    YaRN checkpoint states it: vLLM >= 0.30 takes the served window from it and no
+    longer multiplies it by the YaRN factor, so without it the engine stayed at 32,768
+    and refused the prompt (qwen2.5-14b-awq, 2026-10-12).
     """
     scaling = spec.get("rope_scaling")
     if not scaling:
@@ -1597,6 +1604,9 @@ def _rope_scaled_config(spec: dict, hf_token: Optional[str] = None) -> Optional[
         text_config.rope_parameters = {**current, **scaling}
     else:
         text_config.rope_scaling = dict(scaling)
+    window = spec.get("context_window")
+    if window and (getattr(text_config, "max_position_embeddings", None) or 0) < window:
+        text_config.max_position_embeddings = window
     return config
 
 
@@ -1912,12 +1922,28 @@ def load_vllm_engine(
     rope_config = _rope_scaled_config(spec, hf_token)
     if rope_config is not None:
         text_config = rope_config.get_text_config()
-        engine_kwargs["hf_overrides"] = (
-            {"rope_parameters": dict(text_config.rope_parameters)}
-            if hasattr(text_config, "rope_parameters")
-            else {"rope_scaling": dict(spec["rope_scaling"])}
-        )
+        engine_kwargs["hf_overrides"] = {
+            **(
+                {"rope_parameters": dict(text_config.rope_parameters)}
+                if hasattr(text_config, "rope_parameters")
+                else {"rope_scaling": dict(spec["rope_scaling"])}
+            ),
+            "max_position_embeddings": text_config.max_position_embeddings,
+        }
         print(f"    rope scaling: {spec['rope_scaling']}")
+
+    # The allocator setting at the top of this module is for the transformers backend.
+    # vLLM's workers are separate processes that inherit it, and re-import this module,
+    # so it is switched off in the environment they start from. Expandable segments
+    # allocate memory that CUDA cannot share between processes, and vLLM's custom
+    # all-reduce shares its CUDA-graph buffers that way: with tensor_parallel_size=2
+    # every worker died on "custom_all_reduce.cuh: 'invalid argument'" (2x A30,
+    # 2026-10-12). vLLM sizes and manages its own memory.
+    alloc_conf = os.environ.get("PYTORCH_CUDA_ALLOC_CONF", "")
+    if "expandable_segments:True" in alloc_conf:
+        os.environ["PYTORCH_CUDA_ALLOC_CONF"] = alloc_conf.replace(
+            "expandable_segments:True", "expandable_segments:False"
+        )
 
     if hf_token:
         os.environ.setdefault("HF_TOKEN", hf_token)
@@ -1964,6 +1990,12 @@ def load_vllm_engine(
     # and token counting (used in build_system_prompt).
     tokenizer = llm_engine.get_tokenizer()
 
+    # The window the engine settled on, whatever MAX_MODEL_LEN asked for: the prompt is
+    # fitted to it, since vLLM refuses a longer one outright.
+    served = getattr(getattr(llm_engine, "model_config", None), "max_model_len", None)
+    if isinstance(served, int) and served > 0:
+        print(f"    served window: {served} tokens")
+        spec = {**spec, "served_max_model_len": served}
     return llm_engine, tokenizer, spec
 
 

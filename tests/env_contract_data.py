@@ -14,6 +14,7 @@ from __future__ import annotations
 NOT_PUBLISHED: dict[str, str] = {
     "HF_TOKEN": "read only by llm_run.py, the research LLM batch CLI (llm_run.py); service/api.py never imports it",
     "PARADATA_DIR": "read only by keywords.py, the batch CLI; not reachable from the service entrypoint",
+    "PYTORCH_CUDA_ALLOC_CONF": "PyTorch's own allocator setting, not one of this repo's: llm_utils.py, imported only by llm_run.py (the research LLM batch CLI), sets expandable segments for the transformers backend and switches them off for vLLM's workers",
     "PROMPT_TEMPLATE": "a key of llm_config.txt (LLM_CONFIG), not an environment variable: prompt_template.py reads it from the config file's dict, for llm_run.py, the two batch clients and the service's controlled kind alike",
     "PROMPT_GEO_GUARDRAIL": "a key of llm_config.txt (LLM_CONFIG), not an environment variable: prompt_template.py reads it from the config file's dict, for llm_run.py, the two batch clients and the service's controlled kind alike",
     "PROMPT_VOCAB_GROUPING": "a key of llm_config.txt (LLM_CONFIG), not an environment variable: prompt_template.py reads it from the config file's dict, for llm_run.py, the two batch clients and the service's controlled kind alike",
