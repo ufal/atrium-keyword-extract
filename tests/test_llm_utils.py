@@ -377,8 +377,9 @@ def test_prequantized_checkpoints_run_on_vllm():
 
 def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkeypatch):
     """vLLM's workers inherit PYTORCH_CUDA_ALLOC_CONF, and its custom all-reduce cannot share
-    expandable-segment memory: with two GPUs every start died. A multimodal checkpoint runs
-    text-only, and the window the engine serves comes back for the prompt budget."""
+    expandable-segment memory: with two GPUs every start died. FlashInfer's sampler needs
+    nvcc, which the GPU nodes lack: every start died in the warmup. A multimodal checkpoint
+    runs text-only, and the window the engine serves comes back for the prompt budget."""
     import os
     import sys
     import types
@@ -387,7 +388,11 @@ def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkey
 
     class LLM:
         def __init__(self, **kwargs):
-            seen.update(kwargs, alloc_conf=os.environ.get("PYTORCH_CUDA_ALLOC_CONF"))
+            seen.update(
+                kwargs,
+                alloc_conf=os.environ.get("PYTORCH_CUDA_ALLOC_CONF"),
+                flashinfer_sampler=os.environ.get("VLLM_USE_FLASHINFER_SAMPLER"),
+            )
             self.model_config = types.SimpleNamespace(max_model_len=kwargs["max_model_len"])
 
         def get_tokenizer(self):
@@ -395,14 +400,20 @@ def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkey
 
     monkeypatch.setitem(sys.modules, "vllm", types.SimpleNamespace(LLM=LLM, __version__="0.31.0"))
     monkeypatch.setenv("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+    monkeypatch.delenv("VLLM_USE_FLASHINFER_SAMPLER", raising=False)
     monkeypatch.setattr(llm_utils, "_size_cpu_offload", lambda *a, **k: 0)
     _, _, spec = llm_utils.load_vllm_engine(
         "qwen-3.5-35b-moe-gptq", tensor_parallel_size=2, max_model_len=131072
     )
     assert seen["language_model_only"] is True and seen["tensor_parallel_size"] == 2
     assert seen["alloc_conf"] == "expandable_segments:False"
+    assert seen["flashinfer_sampler"] == "0"
     assert spec["served_max_model_len"] == 131072
     assert "served_max_model_len" not in MODEL_REGISTRY["qwen-3.5-35b-moe-gptq"]
+
+    monkeypatch.setenv("VLLM_USE_FLASHINFER_SAMPLER", "1")  # a node with nvcc may want it
+    llm_utils.load_vllm_engine("gemma-4-12b-it-qat", tensor_parallel_size=1, max_model_len=65536)
+    assert seen["flashinfer_sampler"] == "1"
 
 
 COMMIT = "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0"

@@ -2227,6 +2227,12 @@ def load_vllm_engine(
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = alloc_conf.replace(
             "expandable_segments:True", "expandable_segments:False"
         )
+    # Our requests decode greedily, but vLLM (0.31) samples with FlashInfer's top-k/top-p
+    # kernel by default and runs it in its start-up warmup. FlashInfer compiles that
+    # kernel on first use with nvcc, which the GPU nodes lack: every start died on
+    # "Could not find nvcc" (gemma-4-12b-it-qat, 2026-10-12). vLLM's own Triton
+    # sampler needs no compiler. A value set in the environment is kept.
+    os.environ.setdefault("VLLM_USE_FLASHINFER_SAMPLER", "0")
 
     if hf_token:
         os.environ.setdefault("HF_TOKEN", hf_token)
