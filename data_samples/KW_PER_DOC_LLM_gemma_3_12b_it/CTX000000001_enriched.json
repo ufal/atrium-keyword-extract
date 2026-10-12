@@ -1,0 +1,105 @@
+[
+    {
+        "file_id": "CTX000000001",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9215,
+        "original_text": "Výzkumná zpráva č. 1/2024 — Hradiště u Horní Mezí",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výzkum",
+                "hradiště"
+            ],
+            "extracted_keywords_en": [
+                "research",
+                "hillfort"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9302,
+        "original_text": "Terénní výzkum provedl Jan Novotný v červnu 2024.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výzkum",
+                "terénní",
+                "Jan Novotný"
+            ],
+            "extracted_keywords_en": [
+                "research",
+                "field",
+                "Jan Novotný"
+            ],
+            "teater_category": "archeologické výzkumy",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "103"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9268,
+        "original_text": "Nalezená keramika pochází z raného středověku.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika",
+                "raného středověku"
+            ],
+            "extracted_keywords_en": [
+                "ceramics",
+                "Early Middle Ages"
+            ],
+            "teater_category": "doba stěhování národů",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000342"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000408"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 2,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9087,
+        "original_text": "Výzkum byl financován z projektu DEMO.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    }
+]

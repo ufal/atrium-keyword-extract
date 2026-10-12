@@ -1,0 +1,129 @@
+[
+    {
+        "file_id": "CTX000000002",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9012,
+        "original_text": "HRADIŠTĚ U HORNÍ MEZÍ",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hradiště"
+            ],
+            "extracted_keywords_en": [
+                "hillfort"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 1.0,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9,
+        "original_text": "Lokalita: okr. Horní Mezi",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9156,
+        "original_text": "Sonda II odkryla část valového tělesa.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Sonda",
+                "val"
+            ],
+            "extracted_keywords_en": [
+                "pit trench",
+                "rampart"
+            ],
+            "teater_category": "val",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000534"
+                },
+                {
+                    "source": "teater",
+                    "id": "1638"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9101,
+        "original_text": "Eva Procházková dokumentovala nálezy.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 3,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9,
+        "original_text": "Mocnost kulturní vrstvy činila 40 cm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kulturní vrstva"
+            ],
+            "extracted_keywords_en": [
+                "cultural layer"
+            ],
+            "teater_category": "kulturní vrstva",
+            "confidence_score": 1.0,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1752"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 4,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9143,
+        "original_text": "Soubor nálezů byl uložen v depozitáři.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]

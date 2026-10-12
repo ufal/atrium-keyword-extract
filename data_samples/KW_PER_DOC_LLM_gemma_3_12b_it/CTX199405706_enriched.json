@@ -1,0 +1,114 @@
+[
+    {
+        "file_id": "CTX199405706",
+        "page": 1,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "504 ONDREJOV, okr. Praha-východ",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "okr",
+                "Praha-východ",
+                "Bubníkova usedlost",
+                "kostra",
+                "hrob",
+                "pece"
+            ],
+            "extracted_keywords_en": [
+                "district",
+                "Prague-east",
+                "Bubník's farmstead",
+                "skeleton",
+                "grave",
+                "kiln"
+            ],
+            "teater_category": "hrob",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000427"
+                },
+                {
+                    "source": "teater",
+                    "id": "1655"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX199405706",
+        "page": 1,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8027,
+        "original_text": "504/1 DAT: 1820. KULT: 7. LOK: Bubníkova usedlost. NALEZ: kostr. hrob.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kostra",
+                "hrob",
+                "usedlost",
+                "pece"
+            ],
+            "extracted_keywords_en": [
+                "skeleton",
+                "grave",
+                "farmstead",
+                "kiln"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX199405706",
+        "page": 1,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.8141,
+        "original_text": "OKOL: kopání základu hrnčíř, pece. ULOŽ: 7. LIT: Kalina b. d. A,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "základy",
+                "hrnčíř",
+                "pece"
+            ],
+            "extracted_keywords_en": [
+                "foundations",
+                "potter",
+                "kiln"
+            ],
+            "teater_category": "areál nezemědělské výroby",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000078"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000088"
+                },
+                {
+                    "source": "teater",
+                    "id": "1275"
+                }
+            ]
+        }
+    }
+]

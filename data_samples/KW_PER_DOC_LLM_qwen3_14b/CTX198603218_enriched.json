@@ -1,0 +1,694 @@
+[
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8443,
+        "original_text": "479. TUROVEC, o. Nová Ves u Chýnova, okr. Tábor",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.8144,
+        "original_text": "1980-81 - KULT: Středověk. LOK: ZSV Kravín, ca 6,5km JV od Tábora; Ikm sev. od silnice",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Středověk",
+                "ZSV Kravín",
+                "zaniklé středověké vesnice"
+            ],
+            "extracted_keywords_en": [
+                "Middle Ages",
+                "Kravín village",
+                "abandoned medieval village"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.8506,
+        "original_text": "Planá n.Luž. - Turovec-Chýnov; v lese s pomístním názvem \"Stará ves\" /\"Pustá ves\"/. ZM 23-133 Tábor,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "planá",
+                "středověké vesnice",
+                "ZSV"
+            ],
+            "extracted_keywords_en": [
+                "planar",
+                "medieval village",
+                "ZSV"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8529,
+        "original_text": "217 od Z a 65 mm od J s.č. OKOL: Systematický výzkum zaniklé středověké vesnice Kravín. NÁLEZ:",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vesnice Kravín",
+                "zaniklé středověké vesnice"
+            ],
+            "extracted_keywords_en": [
+                "village of Kravín",
+                "medieval village"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9265,
+        "original_text": "Po předchozích výzkumech v letech 1965-1967 a 1973-1974 odkryt jeden z dalších objektů ZSV, tentokrát",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "geodeticko-topografický průzkum"
+            ],
+            "extracted_keywords_en": [
+                "geodetic-topographic survey"
+            ],
+            "teater_category": "metody, analýzy (dějiny umění)",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "453"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9459,
+        "original_text": "jako součást \"Experimentu na středověkém objektu\", prováděném ve spolupráci AÚ ČSAV Praha a MHRH",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.987,
+        "original_text": "Tábor. Výzkumem měla být ověřena vypovídací schopnost geodeticko-topografického průzkumu v detailní",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "geodeticko-topografický průzkum",
+                "vypovídací schopnost"
+            ],
+            "extracted_keywords_en": [
+                "geodetic-topographic survey",
+                "evidential capacity"
+            ],
+            "teater_category": "metody, analýzy (archeobotanika)",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "293"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9932,
+        "original_text": "situaci jednoho z objektů. Archeologický výzkum byl zařazen do výzkumného úkolu systematického zkoumání",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "archeologický výzkum",
+                "systematické zkoumání"
+            ],
+            "extracted_keywords_en": [
+                "archaeological research",
+                "systematic examination"
+            ],
+            "teater_category": "archeologická klasifikace",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "205"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.963,
+        "original_text": "ZSV tzv. husitského období na Táborskú. Výzkumem byl zjištěn jednoprostorový obytný objekt zemnicové-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "ZSV",
+                "husitského období",
+                "zemnicového typu",
+                "obytný objekt",
+                "otevřený ohniště",
+                "zásobní jáma",
+                "svahovitá vstupní šíje",
+                "kamenná plenta"
+            ],
+            "extracted_keywords_en": [
+                "ZSV",
+                "Hussite period",
+                "pit house type",
+                "residential structure",
+                "open fireplace",
+                "storage pit",
+                "sloping entrance passage",
+                "stone plinth"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.9575,
+        "original_text": "ho typu s prostým otevřeným ohništěm, zásobní jámou, svahovitou vstupní šíjí a kamennou plentou podél",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zemnice",
+                "ohniště",
+                "zásobní jáma",
+                "svahovitá vstupní šíja",
+                "kamenná plenta"
+            ],
+            "extracted_keywords_en": [
+                "pit house",
+                "fireplace",
+                "storage pit",
+                "sloping entrance passage",
+                "stone plinth"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "podpovrchových částí stěn. Objekt dosahoval rozměrů 500-540 x 220-270 cm s delší osou V - Z. Jihovýchodně",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "podpovrchové části stěn",
+                "obytný objekt",
+                "zemnicový typ",
+                "otevřené ohniště",
+                "zásobní jáma",
+                "svahovitá vstupní šíja",
+                "kamenná plenta"
+            ],
+            "extracted_keywords_en": [
+                "subsurface parts of walls",
+                "residential structure",
+                "pit house type",
+                "open fireplace",
+                "storage pit",
+                "sloping entrance passage",
+                "stone plinth"
+            ],
+            "teater_category": "obytné budovy",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1538"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 12,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "od tohoto objektu, 350 cm od stěn a 250 cm od počátku vchodu do něj, byly odkryty zbytky povrchové stavby.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "povrchová stavba",
+                "sídelní jednotka",
+                "dům",
+                "hospodářská stavba"
+            ],
+            "extracted_keywords_en": [
+                "surface structure",
+                "settlement unit",
+                "house",
+                "agricultural building"
+            ],
+            "teater_category": "sídlo elity",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000013"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000085"
+                },
+                {
+                    "source": "teater",
+                    "id": "1423"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Rozkládala se na ploše cca 500 x 500 cm a její stěny byly shodně orientovány s obytným objektem. Získaný",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "studna",
+                "obytný objekt",
+                "hospodářská stavba"
+            ],
+            "extracted_keywords_en": [
+                "well",
+                "residential building",
+                "farm building"
+            ],
+            "teater_category": "sídlo elity",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000013"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000085"
+                },
+                {
+                    "source": "teater",
+                    "id": "1423"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9248,
+        "original_text": "materiál této sídelní jednotky /dům + oddělená hospodářská stavba/ je datován do první poloviny 15.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sídelní jednotka",
+                "dům",
+                "hospodářská stavba",
+                "první polovina 15. století"
+            ],
+            "extracted_keywords_en": [
+                "settlement unit",
+                "house",
+                "agricultural building",
+                "first half of the 15th century"
+            ],
+            "teater_category": "sídlo elity",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000013"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000085"
+                },
+                {
+                    "source": "teater",
+                    "id": "1423"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.8626,
+        "original_text": "století. Mezi objekty č. 1 /dům/ a č. 3 /povrchová stavba/byla odkryta oválná studna, prostě vyhloubená",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "studna",
+                "odkalovač"
+            ],
+            "extracted_keywords_en": [
+                "well",
+                "sinker"
+            ],
+            "teater_category": "objekt zemědělské výroby",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1613"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 16,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "do podloží, dosahující průměru 140-175cm a hloubky 410 cm. Ve středu dna bylo zjištěno pravidelné kruhovité",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "studna",
+                "podloží",
+                "kruhovité zahloubení",
+                "odkalovač"
+            ],
+            "extracted_keywords_en": [
+                "well",
+                "subsoil",
+                "circular depression",
+                "sinker"
+            ],
+            "teater_category": "studna",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000514"
+                },
+                {
+                    "source": "teater",
+                    "id": "1783"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "zahloubení o průměru 60cm a hloubce 20 cm, sloužící jako odkalovač. Objekt je datován do konce 13.,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zahloubení",
+                "odkalovač",
+                "studna",
+                "konec 13. století",
+                "přelom 13.-14. století"
+            ],
+            "extracted_keywords_en": [
+                "depression",
+                "sinker",
+                "well",
+                "end of 13th century",
+                "turn of 13th-14th century"
+            ],
+            "teater_category": "stavba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000603"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "či na přelom 13.-14. stol. V roce 1981 byla dále provedena preparace částí objektů z let 1973-1974a u jednoho",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "studna",
+                "roubená",
+                "ložený kámen"
+            ],
+            "extracted_keywords_en": [
+                "well",
+                "half-timbered",
+                "laid stone"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.937,
+        "original_text": "z nich byla odkryta 810 cm hluboká studna, roubená na sucho loženým kamením, dosahující vnitřního",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "studna",
+                "roubená",
+                "ložený kámen"
+            ],
+            "extracted_keywords_en": [
+                "well",
+                "half-timbered",
+                "laid stone"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.905,
+        "original_text": "průměru 80-90cm. Materiál datuje objekt do první poloviny 15. stol. ULOŽ: MHRH Tábor. LIT: Shrnuta",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "studna",
+                "roubená na sucho",
+                "ložený kamení"
+            ],
+            "extracted_keywords_en": [
+                "well",
+                "dry-stone rubble",
+                "dry-stone walling"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.8891,
+        "original_text": "in: Krajíc R. , Přehled archeologických výzkumů středověku na Táborskú/se zaměřením na ZSO/, Archeologické",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 22,
+        "categ": "Noisy",
+        "quality_score": 0.7833,
+        "original_text": "výzkumy v jižních Čechách 1, 1983, 101-105.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "archeologické výzkumy",
+                "středověk",
+                "jižních Čechách"
+            ],
+            "extracted_keywords_en": [
+                "archaeological research",
+                "medieval period",
+                "Southern Bohemia"
+            ],
+            "teater_category": "archeologická lokalita",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "55"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198603218",
+        "page": 1,
+        "line": 23,
+        "categ": "Noisy",
+        "quality_score": 0.7515,
+        "original_text": "R. Krajíc",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]

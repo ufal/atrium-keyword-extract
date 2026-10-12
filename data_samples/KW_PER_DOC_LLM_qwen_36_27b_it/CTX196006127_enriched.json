@@ -1,0 +1,892 @@
+[
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9353,
+        "original_text": "OBEC",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.8789,
+        "original_text": "Žinkovy",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "OKRES",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.8775,
+        "original_text": "I lzeň- jih",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.8009,
+        "original_text": "vir -Blovice)",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.6869,
+        "original_text": "Č. poř.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.9548,
+        "original_text": "ČÍSLO PARCELY",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9307,
+        "original_text": "NÁZEV TRATI",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.8952,
+        "original_text": "Potenštejn",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Potenštejn"
+            ],
+            "extracted_keywords_en": [
+                "Potenštejn"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.9399,
+        "original_text": "Kultura",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9772,
+        "original_text": "středověk",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "středověk"
+            ],
+            "extracted_keywords_en": [
+                "Middle Ages"
+            ],
+            "teater_category": "středověk",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000380"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000414"
+                },
+                {
+                    "source": "teater",
+                    "id": "1237"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9187,
+        "original_text": "ČÍSLO MAPY",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9514,
+        "original_text": "Druh nálezu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.8917,
+        "original_text": "keramika",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "ceramic"
+            ],
+            "teater_category": "keramika",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000933"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000979"
+                },
+                {
+                    "source": "teater",
+                    "id": "2457"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9041,
+        "original_text": "a kosti",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kosti"
+            ],
+            "extracted_keywords_en": [
+                "bones"
+            ],
+            "teater_category": "kost",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000939"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000985"
+                },
+                {
+                    "source": "teater",
+                    "id": "2476"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9477,
+        "original_text": "Literatura A. Sedláček, lístopisný slovnik historický,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.912,
+        "original_text": "Uložení",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.8448,
+        "original_text": "čís. inv.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 37,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Dno 20. dubna l%0 jsem na výsva správee 6kresního muzea v Blovi-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.8463,
+        "original_text": "eích o ním prohlódla zříceninu hrd \"ku Poten3te jna, k.o. Žinkovy.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zřícenina",
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "ruins",
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 39,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Ze zřiceníny \"je odkryto adivo v Síří asi 2 m tvořící téměž tverec",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zřícenina",
+                "hradiště",
+                "tvar"
+            ],
+            "extracted_keywords_en": [
+                "ruins",
+                "hillfort",
+                "shape"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 40,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "o straně 40 - 50 m s vehodem ve výchoní stně. V zemině ol hozené při",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zřícenina",
+                "hradek",
+                "vchod",
+                "zeď"
+            ],
+            "extracted_keywords_en": [
+                "ruins",
+                "fortified manor",
+                "entrance",
+                "wall"
+            ],
+            "teater_category": "hrádek",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1428"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 41,
+        "categ": "Clear",
+        "quality_score": 0.895,
+        "original_text": "o krývání alive jsme nalez2í ein slomkry keramiky posdn hradištní",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zlomky keramiky",
+                "pozdní hradištní"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "Final Hillfort Period"
+            ],
+            "teater_category": "pozdněhradištní období",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000326"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 42,
+        "categ": "Clear",
+        "quality_score": 0.8946,
+        "original_text": "ho a atředověkého charaktera a četné zvířeeí kost1. rádei je",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika",
+                "zvířecí kosti"
+            ],
+            "extracted_keywords_en": [
+                "pottery",
+                "animal bones"
+            ],
+            "teater_category": "pozdněhradištní období",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000326"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 44,
+        "categ": "Clear",
+        "quality_score": 0.9603,
+        "original_text": "umístn na ostrožnu. Která vybíhá smžrem k západu o epadá ostře dolů",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "ostrožna"
+            ],
+            "extracted_keywords_en": [
+                "spur"
+            ],
+            "teater_category": "výšinné sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000069"
+                },
+                {
+                    "source": "teater",
+                    "id": "1456"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 45,
+        "categ": "Clear",
+        "quality_score": 0.9704,
+        "original_text": "k dnešnímu zámkcu. Od východu je chránn mohutnýn příčným valen se",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "příčný val",
+                "příkop"
+            ],
+            "extracted_keywords_en": [
+                "transverse rampart",
+                "moat"
+            ],
+            "teater_category": "val",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000534"
+                },
+                {
+                    "source": "teater",
+                    "id": "1638"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 46,
+        "categ": "Clear",
+        "quality_score": 0.9661,
+        "original_text": "širokým příkopem; popsaná stavba není na nejvyšším bode ostrožny.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "příkop",
+                "ostrožna"
+            ],
+            "extracted_keywords_en": [
+                "moat",
+                "spur"
+            ],
+            "teater_category": "příkop",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000508"
+                },
+                {
+                    "source": "teater",
+                    "id": "1637"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 47,
+        "categ": "Clear",
+        "quality_score": 0.9619,
+        "original_text": "Tato se smren k západu zvedá, jsou na ní zbytky Siltová vže umí-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zbytky",
+                "věž"
+            ],
+            "extracted_keywords_en": [
+                "remains",
+                "tower"
+            ],
+            "teater_category": "věž",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000509"
+                },
+                {
+                    "source": "teater",
+                    "id": "1639"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 48,
+        "categ": "Clear",
+        "quality_score": 0.9132,
+        "original_text": "stné vně ji ho západní ho rohu stavby; terén zle je velmi nerový a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "terén",
+                "nerovný"
+            ],
+            "extracted_keywords_en": [
+                "terrain",
+                "uneven"
+            ],
+            "teater_category": "nespecifikovaný reliéfní útvar",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000567"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000585"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 49,
+        "categ": "Clear",
+        "quality_score": 0.9443,
+        "original_text": "pravpodobně kryje zíeeniny njakých dalších stavb. Val, který",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "val",
+                "základy"
+            ],
+            "extracted_keywords_en": [
+                "rampart",
+                "foundations"
+            ],
+            "teater_category": "val",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000534"
+                },
+                {
+                    "source": "teater",
+                    "id": "1638"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 50,
+        "categ": "Clear",
+        "quality_score": 0.9512,
+        "original_text": "obepíná celý vrebol kopoc, je zde trojnásobný, přičemš nejméně snatel",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "val"
+            ],
+            "extracted_keywords_en": [
+                "rampart"
+            ],
+            "teater_category": "val",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000534"
+                },
+                {
+                    "source": "teater",
+                    "id": "1638"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 51,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "ný je val vnější.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "val"
+            ],
+            "extracted_keywords_en": [
+                "rampart"
+            ],
+            "teater_category": "val",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000534"
+                },
+                {
+                    "source": "teater",
+                    "id": "1638"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 52,
+        "categ": "Clear",
+        "quality_score": 0.9057,
+        "original_text": "fálezy ze sběru byly předány Ol v Blovicích.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 53,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Hrúdek byl posteven v !• 12521259 Ptou z Křimic, trval v eúbělm",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hradek"
+            ],
+            "extracted_keywords_en": [
+                "fortified manor"
+            ],
+            "teater_category": "hrádek",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1428"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 54,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "13. a 1. stol* , počátkem 16. stole byl již zpustlý a vrch zarost-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hradiště",
+                "13. století",
+                "14. století",
+                "16. století"
+            ],
+            "extracted_keywords_en": [
+                "hillfort",
+                "13th century",
+                "14th century",
+                "16th century"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 55,
+        "categ": "Noisy",
+        "quality_score": 0.7068,
+        "original_text": "1$ 4 . Sedláčelt, Místopisný slovník historický, str.721).",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 56,
+        "categ": "Clear",
+        "quality_score": 0.9761,
+        "original_text": "Pokud nálezy hradištní keranikry souvisí se hrdkem, nebo pokud by",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hradištní keramika",
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "hillfort ceramics",
+                "hillfort"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 57,
+        "categ": "Clear",
+        "quality_score": 0.8314,
+        "original_text": "patrily otarším ocí^Q-nl slovonskému, nebylo při zbžné pronlídce",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 58,
+        "categ": "Noisy",
+        "quality_score": 0.6175,
+        "original_text": "možno zjistit. $) /. (ren. - Ald, ,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX196006127",
+        "page": 1,
+        "line": 59,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "8.12.1960. Ar. V. Stefgnovi-Seldov /",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]

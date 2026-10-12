@@ -1,0 +1,81 @@
+[
+    {
+        "file_id": "CTX000000001",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9215,
+        "original_text": "Výzkumná zpráva č. 1/2024 — Hradiště u Horní Mezí",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9302,
+        "original_text": "Terénní výzkum provedl Jan Novotný v červnu 2024.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9268,
+        "original_text": "Nalezená keramika pochází z raného středověku.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika",
+                "raný středověk"
+            ],
+            "extracted_keywords_en": [
+                "ceramics",
+                "Early Middle Ages"
+            ],
+            "teater_category": "raný středověk",
+            "confidence_score": 0.98,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000385"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000412"
+                },
+                {
+                    "source": "teater",
+                    "id": "1238"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 2,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9087,
+        "original_text": "Výzkum byl financován z projektu DEMO.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
