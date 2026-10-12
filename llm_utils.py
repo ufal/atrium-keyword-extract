@@ -31,6 +31,7 @@ import os
 
 os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 
+import copy  # noqa: E402
 import csv  # noqa: E402
 import fnmatch  # noqa: E402
 import gc  # noqa: E402
@@ -400,7 +401,14 @@ _patch_tokenizer_compat()
 #   torch_dtype         — Compute dtype for transformers backend.
 #   hf_token_required   — Whether a HF_TOKEN is needed to download the model.
 #   load_in_4bit        — Use BitsAndBytes 4-bit NF4 quantization (transformers).
-#   is_awq              — Model is pre-quantized AWQ; use autoawq loader.
+#   is_awq              — Model is pre-quantized AWQ. vLLM loads it natively; the
+#                         transformers backend needs gptqmodel (autoawq, which it used
+#                         to need, does not install beside transformers 5).
+#   rope_scaling        — RoPE scaling to apply at load (both backends), for a model
+#                         whose context_window is reached only with it: Qwen2.5 and
+#                         Qwen3 are trained to 32k and reach 128k with YaRN, which their
+#                         checkpoints leave off. Without it a ~58k-token prompt runs
+#                         past every position the model was trained on.
 #   is_gguf             — GGUF file; use llama.cpp loader.
 #   is_moe              — Mixture-of-Experts architecture.
 #   bnb_experts_broken  — BnB 4-bit fails on fused expert blocks; use vLLM.
@@ -511,6 +519,12 @@ MODEL_REGISTRY: Dict[str, Dict] = {
     "qwen3-8b": {
         "hf_id": "Qwen/Qwen3-8B",
         "context_window": 131072,
+        # Trained to 32k; context_window is the 128k Qwen documents for YaRN, off in the checkpoint.
+        "rope_scaling": {
+            "rope_type": "yarn",
+            "factor": 4.0,
+            "original_max_position_embeddings": 32768,
+        },
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
@@ -541,14 +555,25 @@ MODEL_REGISTRY: Dict[str, Dict] = {
     "qwen2.5-14b-awq": {
         "hf_id": "Qwen/Qwen2.5-14B-Instruct-AWQ",
         "context_window": 131072,
+        # Trained to 32k; context_window is the 128k Qwen documents for YaRN, off in the checkpoint.
+        "rope_scaling": {
+            "rope_type": "yarn",
+            "factor": 4.0,
+            "original_max_position_embeddings": 32768,
+        },
         "trust_remote_code": False,
         "torch_dtype": torch.float16,
         "hf_token_required": False,
         "weight_footprint_gb": 10,  # AWQ 4-bit
         "is_awq": True,
+        "notes": (
+            "vLLM by default: it runs AWQ natively, while the transformers backend needs "
+            "gptqmodel. Two GPUs on 24 GB cards (the ~58k-token prompt's KV cache is ~11 GB); "
+            "TENSOR_PARALLEL_SIZE=1 on a 48 GB card."
+        ),
         "inference_defaults": {
-            "backend": "transformers",
-            "tensor_parallel_size": 1,
+            "backend": "vllm",
+            "tensor_parallel_size": 2,
             "gpu_memory_utilization": 0.90,
             "max_model_len": None,
             "vllm_batch_size": 16,
@@ -557,6 +582,12 @@ MODEL_REGISTRY: Dict[str, Dict] = {
     "qwen3-14b": {
         "hf_id": "OpenPipe/Qwen3-14B-Instruct",
         "context_window": 131072,
+        # Trained to 32k; context_window is the 128k Qwen documents for YaRN, off in the checkpoint.
+        "rope_scaling": {
+            "rope_type": "yarn",
+            "factor": 4.0,
+            "original_max_position_embeddings": 32768,
+        },
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
@@ -1407,6 +1438,13 @@ def _check_backend_deps(backend: str, model_key: str) -> None:
                 "requirements_llm.txt lists:\n"
                 f"    pip install {' '.join(missing)}\n"
             ) from None
+        if spec.get("is_awq") and importlib.util.find_spec("gptqmodel") is None:
+            raise ImportError(
+                f"\n  {model_key} is an AWQ checkpoint: transformers loads it through gptqmodel,"
+                " which is not installed.\n"
+                "  Remove the BACKEND=transformers override (vLLM runs AWQ natively), or:\n"
+                "    pip install gptqmodel\n"
+            ) from None
         # Soft warning: BnB availability
         try:
             import bitsandbytes  # noqa: F401
@@ -1468,6 +1506,37 @@ def count_tokens(text: str, tokenizer: Any) -> int:
         # llama_cpp.Llama acts as both model and tokenizer
         return len(tokenizer.tokenize(text.encode("utf-8")))
     return len(tokenizer.encode(text))
+
+
+def _rope_scaled_config(spec: dict, hf_token: Optional[str] = None) -> Optional[Any]:
+    """The model's config with the registry's ``rope_scaling`` applied; None without one.
+
+    transformers 5 keeps ``rope_theta`` inside ``rope_parameters``, so the scaling is
+    merged into that dict rather than set over it (its ``rope_scaling`` setter replaces
+    the whole dict, theta included). transformers 4 takes it as ``rope_scaling``.
+    """
+    scaling = spec.get("rope_scaling")
+    if not scaling:
+        return None
+    from transformers import AutoConfig  # noqa: E402
+
+    config = AutoConfig.from_pretrained(
+        spec["hf_id"],
+        trust_remote_code=spec.get("trust_remote_code", False),
+        token=hf_token or None,
+    )
+    text_config = config.get_text_config()
+    if hasattr(text_config, "rope_parameters"):
+        current = dict(text_config.rope_parameters or {})
+        if current and all(isinstance(v, dict) for v in current.values()):
+            raise ValueError(
+                f"{spec['hf_id']}: rope_scaling is applied to one set of RoPE parameters, "
+                f"and this model has one per layer type ({', '.join(current)})."
+            ) from None
+        text_config.rope_parameters = {**current, **scaling}
+    else:
+        text_config.rope_scaling = dict(scaling)
+    return config
 
 
 def load_model_and_tokenizer(
@@ -1541,33 +1610,11 @@ def load_model_and_tokenizer(
     if getattr(tokenizer, "pad_token", None) is None:
         tokenizer.pad_token = getattr(tokenizer, "eos_token", None)
 
-    is_awq = spec.get("is_awq", False)
-
-    # --- AWQ path ---
-    if is_awq:
-        try:
-            from awq import AutoAWQForCausalLM  # noqa: E402
-        except ImportError as exc:
-            raise ImportError(
-                f"Model '{model_key}' requires autoawq:\n  pip install autoawq"
-            ) from exc
-        model = AutoAWQForCausalLM.from_quantized(
-            hf_id,
-            fuse_layers=False,
-            device_map="auto",
-            token=hf_token or None,
-        )
-        if not hasattr(model, "device"):
-            model.device = next(model.parameters()).device
-        import warnings  # noqa: E402
-
-        warnings.filterwarnings("ignore", category=DeprecationWarning, module="awq")
-        model.eval()
-        return model, tokenizer, spec
-
-    # --- Standard transformers path (BnB / plain fp16/bf16) ---
+    # --- Standard transformers path (BnB / AWQ / plain fp16/bf16) ---
+    # An AWQ checkpoint carries its own quantization_config, which from_pretrained applies
+    # (through gptqmodel, checked in _check_backend_deps); BnB is never stacked on it.
     bnb_config = None
-    if spec.get("load_in_4bit"):
+    if spec.get("load_in_4bit") and not spec.get("is_awq"):
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_compute_dtype=spec["torch_dtype"],
@@ -1585,6 +1632,12 @@ def load_model_and_tokenizer(
     )
     if bnb_config is not None:
         load_kwargs["quantization_config"] = bnb_config
+    rope_config = _rope_scaled_config(spec, hf_token)
+    if rope_config is not None:
+        load_kwargs["config"] = rope_config
+        print(
+            f"[INFO] RoPE scaling for the {spec['context_window']}-token window: {spec['rope_scaling']}"
+        )
 
     # Enforce explicit memory capping for large MoE clusters (to resolve meta tensors and memory offloading)
     if spec.get("is_moe") and spec.get("load_in_4bit"):
@@ -1794,6 +1847,16 @@ def load_vllm_engine(
 
     if cpu_offload_gb > 0:
         engine_kwargs["cpu_offload_gb"] = cpu_offload_gb
+
+    rope_config = _rope_scaled_config(spec, hf_token)
+    if rope_config is not None:
+        text_config = rope_config.get_text_config()
+        engine_kwargs["hf_overrides"] = (
+            {"rope_parameters": dict(text_config.rope_parameters)}
+            if hasattr(text_config, "rope_parameters")
+            else {"rope_scaling": dict(spec["rope_scaling"])}
+        )
+        print(f"    rope scaling: {spec['rope_scaling']}")
 
     if hf_token:
         os.environ.setdefault("HF_TOKEN", hf_token)
@@ -2036,9 +2099,174 @@ def _format_chat_prompt(
         )
 
 
+def _prompt_token_ids(prompt: str, tokenizer: Any) -> List[int]:
+    """Token ids of a prompt rendered by ``_format_chat_prompt``, with its BOS counted once.
+
+    The chat templates of Gemma, Llama and Mistral write the BOS token into the rendered
+    text, and tokenising that text adds a second one in front of it; Gemma in particular
+    is known to degrade on a doubled BOS. Tokenising without special tokens would lose
+    the BOS of a template that leaves it to the tokenizer, so only an actual duplicate is
+    dropped. Qwen has no BOS: nothing changes there.
+    """
+    ids = list(tokenizer.encode(prompt))
+    bos = getattr(tokenizer, "bos_token_id", None)
+    if bos is not None and len(ids) > 1 and ids[0] == bos and ids[1] == bos:
+        del ids[0]
+    return ids
+
+
 # ---------------------------------------------------------------------------
 # 10. Transformers backend — document processor
 # ---------------------------------------------------------------------------
+
+
+def _reset_format_enforcer(prefix_function: Any) -> None:
+    """Drop lm-format-enforcer's per-sequence states once a line is generated.
+
+    Its TokenEnforcer keys a state by the WHOLE token sequence, prompt included, for every
+    generated token, and never evicts. With the ~58k-token prompt that is ~2 MB per token,
+    ~117 MB per line, kept for the whole run: a 50 GB job runs out of host memory after some
+    400 lines. Each line is a generation of its own, so nothing is lost; the allowed-token
+    cache, keyed by parser state, stays.
+    """
+    states = getattr(getattr(prefix_function, "token_enforcer", None), "prefix_states", None)
+    if isinstance(states, dict):
+        states.clear()
+
+
+def build_prompt_cache(
+    model: Any,
+    tokenizer: Any,
+    system_prompt: str,
+    model_key: str,
+    prefill_chunk_size: Optional[int] = None,
+    margin: int = 8,
+) -> Optional[Dict[str, Any]]:
+    """Prefill, once per run, the part of every line's prompt that never changes.
+
+    Every line sends the same system prompt (the instructions and the whole vocabulary,
+    ~58k tokens) ahead of a few hundred tokens of its own, and generate() re-reads all of
+    it per line: nearly all of a line's ~80 s on 2x A30. Here the chat template is
+    rendered with a placeholder user turn, and the text before the placeholder -- the
+    shared prefix -- is run through the model once; process_document then starts each
+    line from the resulting cache.
+
+    The prefix's last ``margin`` tokens are left out, so that a merge across the boundary
+    between the prefix and a line's own text cannot make the cached tokens disagree with
+    that line's tokenisation; process_document still checks every line and gives a line
+    that does not start with these tokens the full prefill.
+
+    Returns the cache (see ``prefill_prompt_cache``), or None when there is nothing to
+    share: a template that does not put the system prompt ahead of the user turn, or a
+    model whose cache cannot be reused this way.
+    """
+    marker = "\ue000ATRIUM-LINE\ue000"  # private-use characters: never in a prompt
+    rendered = _format_chat_prompt(
+        [{"role": "system", "content": system_prompt}, {"role": "user", "content": marker}],
+        tokenizer,
+        model_key,
+    )
+    cut = rendered.find(marker)
+    if cut <= 0:
+        return None
+    ids = _prompt_token_ids(rendered[:cut], tokenizer)[:-margin]
+    if not ids:
+        return None
+    return prefill_prompt_cache(model, ids, prefill_chunk_size, pad_token_id=tokenizer.pad_token_id)
+
+
+def prefill_prompt_cache(
+    model: Any,
+    ids: List[int],
+    prefill_chunk_size: Optional[int] = None,
+    pad_token_id: Optional[int] = None,
+) -> Optional[Dict[str, Any]]:
+    """Run ``ids`` through the model into a DynamicCache that lines can start from.
+
+    Returns ``{"ids": ids, "cache": DynamicCache, "shared": [bool per layer]}``. A
+    ``shared`` layer is a plain full-attention one: a line extends it, ``generate``
+    concatenating rather than writing in place, and ``_rewind_prompt_cache`` cuts it
+    back to the prefix afterwards, so the big part of the cache is never copied. Any
+    other layer -- a sliding window (Gemma), a linear-attention state (Qwen3.5/3.6) --
+    loses or overwrites what the next line needs, and each line gets a copy of it
+    (``_line_cache``); those are small.
+
+    Every cached tensor is then cut down to its own size: a sliding-window layer keeps
+    its window as a view into the last prefill chunk, a buffer up to ~8x the window that
+    every line's copy would duplicate (Gemma-4-31B, 2x A30, 2026-10-12: 10 GB held after
+    the build, and every line out of memory on GPU 1).
+
+    None when the model cannot take a cache from outside ``generate``, or when the
+    cache does not hold exactly ``ids`` afterwards.
+    """
+    try:
+        from transformers.cache_utils import DynamicCache, DynamicLayer  # noqa: E402
+    except ImportError:  # transformers < 4.56
+        return None
+    supports = getattr(model, "_supports_default_dynamic_cache", None)
+    if callable(supports) and not supports():
+        return None
+
+    input_ids = torch.tensor([ids], device=model.device)
+    cache = DynamicCache(config=model.config)
+    with torch.no_grad():
+        model.generate(
+            input_ids=input_ids,
+            attention_mask=torch.ones_like(input_ids),
+            past_key_values=cache,
+            # A generation_config that asks for a static cache would conflict with this one.
+            cache_implementation=None,
+            max_new_tokens=1,
+            do_sample=False,
+            temperature=None,
+            top_p=None,
+            top_k=None,
+            pad_token_id=pad_token_id,
+            **({"prefill_chunk_size": prefill_chunk_size} if prefill_chunk_size else {}),
+        )
+    # With max_new_tokens=1 the sampled token is never fed back: the cache holds the prefix.
+    if cache.get_seq_length() != len(ids):
+        return None
+    for layer in cache.layers:
+        for name, value in vars(layer).items():
+            setattr(layer, name, _compact(value))
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    shared = [type(layer) is DynamicLayer for layer in cache.layers]
+    return {"ids": list(ids), "cache": cache, "shared": shared}
+
+
+def _compact(value: Any) -> Any:
+    """``value`` with each tensor in it that is a view into a larger buffer copied out."""
+    if isinstance(value, torch.Tensor):
+        if value.untyped_storage().nbytes() > value.numel() * value.element_size():
+            return value.clone()
+        return value
+    if isinstance(value, (list, tuple)):
+        return type(value)(_compact(v) for v in value)
+    if isinstance(value, dict):
+        return {k: _compact(v) for k, v in value.items()}
+    return value
+
+
+def _line_cache(prompt_cache: Dict[str, Any]) -> Any:
+    """The prompt cache, ready for one line: shared layers as they are, the rest copied."""
+    master = prompt_cache["cache"]
+    line = copy.copy(master)
+    line.layers = [
+        layer if shared else copy.deepcopy(layer)
+        for layer, shared in zip(master.layers, prompt_cache["shared"], strict=True)
+    ]
+    return line
+
+
+def _rewind_prompt_cache(prompt_cache: Dict[str, Any]) -> None:
+    """Cut the shared layers back to the prefix once a line is done (or has failed)."""
+    n = len(prompt_cache["ids"])
+    for layer, shared in zip(prompt_cache["cache"].layers, prompt_cache["shared"], strict=True):
+        if shared and layer.is_initialized:
+            layer.keys = layer.keys[..., :n, :]
+            layer.values = layer.values[..., :n, :]
 
 
 def process_document(
@@ -2057,11 +2285,18 @@ def process_document(
     min_char_non_text: int = 8,
     min_alpha_ratio_non_text: float = 0.40,
     prefill_chunk_size: Optional[int] = None,
+    prompt_cache: Optional[Dict[str, Any]] = None,
 ) -> Tuple[List[dict], Dict[str, int]]:
     """
     Run LLM inference over every qualifying line in a single input document
     (CSV or ``*.teitok.xml``, see ``read_input_rows``) using the HuggingFace
     Transformers backend.
+
+    ``prompt_cache`` (``build_prompt_cache``, REUSE_PROMPT_CACHE) holds the shared prompt
+    prefix already run through the model: a line whose tokens start with it is generated
+    from that cache, so only its own few hundred tokens are prefilled. A line that does
+    not match gets the full prefill. ``total_input_tokens`` counts the tokens actually
+    prefilled.
 
     ``max_input_tokens`` is the budget the system prompt was fitted to (context
     window - CONTEXT_RESERVED); the 512 tokens CONTEXT_RESERVED holds beyond the
@@ -2096,10 +2331,12 @@ def process_document(
         "total_input_tokens": 0,
         "total_output_tokens": 0,
         "total_inference_seconds": 0.0,
+        "cached_prefix_lines": 0,
     }
     consecutive_errors = 0
     page_num = line_num = 0  # ensure defined for error messages
     input_limit = max_input_tokens + CONTEXT_RESERVED - MAX_NEW_TOKENS
+    cached_ids = prompt_cache["ids"] if prompt_cache else None
 
     rows = read_input_rows(input_path)
 
@@ -2107,7 +2344,11 @@ def process_document(
         from llama_cpp import LogitsProcessorList  # noqa: E402
         from lmformatenforcer.integrations.llamacpp import (  # noqa: E402
             build_llamacpp_logits_processor,
+            build_token_enforcer_tokenizer_data,
         )
+
+        # Decoding every vocabulary entry takes seconds; the enforcer itself is built per line.
+        gguf_tokenizer_data = build_token_enforcer_tokenizer_data(model)
 
     pbar = tqdm(
         enumerate(rows),
@@ -2158,7 +2399,9 @@ def process_document(
 
             # --- Inference ---
             if is_gguf:
-                lp = LogitsProcessorList([build_llamacpp_logits_processor(model, parser)])
+                lp = LogitsProcessorList(
+                    [build_llamacpp_logits_processor(gguf_tokenizer_data, parser)]
+                )
                 output = model.create_chat_completion(
                     messages=messages,
                     max_tokens=MAX_NEW_TOKENS,
@@ -2179,42 +2422,78 @@ def process_document(
                 # llm_run.py records in the paradata as a `trimmed` note. The limit is
                 # input_limit, not max_input_tokens: a system prompt truncated to fill
                 # max_input_tokens would otherwise push every line's target past the cut.
-                inputs = tokenizer(prompt, return_tensors="pt")
-                if inputs["input_ids"].shape[1] > input_limit:
+                ids = _prompt_token_ids(prompt, tokenizer)
+                if len(ids) > input_limit:
                     stats["truncated_inputs"] = stats.get("truncated_inputs", 0) + 1
                     print(
                         f"  [WARN] {file_id} P{page_num} L{line_num}: prompt of "
-                        f"{inputs['input_ids'].shape[1]} tokens cut to {input_limit} "
+                        f"{len(ids)} tokens cut to {input_limit} "
                         "(context window - MAX_NEW_TOKENS); its end, with the target "
                         "line, is lost."
                     )
-                    for key in ("input_ids", "attention_mask", "token_type_ids"):
-                        if key in inputs:
-                            inputs[key] = inputs[key][:, :input_limit]
-                inputs = inputs.to(model.device)
+                    ids = ids[:input_limit]
+                inputs = torch.tensor([ids], device=model.device)
 
+                # Start from the shared prefix's cache when this line begins with it;
+                # generate() then prefills only the rest. Never together with
+                # prefill_chunk_size: chunked prefill re-reads input_ids from position 0 and
+                # would append the prefix a second time to a cache that already holds it.
+                # Out of GPU memory with the cache, the run drops it and retries the line
+                # with the full prefill, which ran before REUSE_PROMPT_CACHE existed.
                 _t0 = time.monotonic()
-                with torch.no_grad():
-                    output = model.generate(
-                        **inputs,
-                        max_new_tokens=MAX_NEW_TOKENS,
-                        do_sample=False,
-                        temperature=None,
-                        top_p=None,
-                        top_k=None,
-                        pad_token_id=tokenizer.pad_token_id,
-                        eos_token_id=tokenizer.eos_token_id,
-                        prefix_allowed_tokens_fn=prefix_function,
-                        **(
-                            {"prefill_chunk_size": prefill_chunk_size} if prefill_chunk_size else {}
-                        ),
-                    )
+                output = None
+                while output is None:
+                    cached_len = 0
+                    gen_kwargs: Dict[str, Any] = {}
+                    if (
+                        cached_ids is not None
+                        and len(ids) > len(cached_ids)
+                        and ids[: len(cached_ids)] == cached_ids
+                    ):
+                        cached_len = len(cached_ids)
+                        gen_kwargs["past_key_values"] = _line_cache(prompt_cache)
+                        gen_kwargs["cache_implementation"] = None
+                    elif prefill_chunk_size:
+                        gen_kwargs["prefill_chunk_size"] = prefill_chunk_size
+                    try:
+                        with torch.no_grad():
+                            output = model.generate(
+                                input_ids=inputs,
+                                attention_mask=torch.ones_like(inputs),
+                                max_new_tokens=MAX_NEW_TOKENS,
+                                do_sample=False,
+                                temperature=None,
+                                top_p=None,
+                                top_k=None,
+                                pad_token_id=tokenizer.pad_token_id,
+                                eos_token_id=tokenizer.eos_token_id,
+                                prefix_allowed_tokens_fn=prefix_function,
+                                **gen_kwargs,
+                            )
+                    except torch.cuda.OutOfMemoryError:
+                        if not cached_len:
+                            raise
+                    finally:
+                        del gen_kwargs
+                        if cached_len:
+                            _rewind_prompt_cache(prompt_cache)
+                    if output is None:  # here, not in the except: its traceback holds the memory
+                        print(
+                            f"  [WARN] {file_id} P{page_num} L{line_num}: out of GPU memory with "
+                            "the prompt cache; dropped, every line from here gets the full prefill"
+                        )
+                        cached_ids = None
+                        prompt_cache.clear()
+                        gc.collect()
+                        torch.cuda.empty_cache()
+                if cached_len:
+                    stats["cached_prefix_lines"] += 1
                 _t1 = time.monotonic()
 
-                generated_tokens = output[0][inputs["input_ids"].shape[1] :]
+                generated_tokens = output[0][inputs.shape[1] :]
                 result_json = tokenizer.decode(generated_tokens, skip_special_tokens=True)
 
-                input_tok = inputs["input_ids"].shape[1]
+                input_tok = inputs.shape[1] - cached_len
                 output_tok = len(generated_tokens)
                 stats["total_input_tokens"] += input_tok
                 stats["total_output_tokens"] += output_tok
@@ -2292,13 +2571,23 @@ def process_document(
                 print(f"  [{file_id}] Aborting after {consecutive_errors} consecutive errors.")
                 break
 
+        finally:
+            if not is_gguf:  # the GGUF path builds a fresh enforcer per line
+                _reset_format_enforcer(prefix_function)
+
     pbar.close()
     if stats["total_inference_seconds"] > 0 and stats["processed"] > 0:
         tps_in = stats["total_input_tokens"] / stats["total_inference_seconds"]
         tps_out = stats["total_output_tokens"] / stats["total_inference_seconds"]
         print(
             f"  [{file_id}] Speed: {tps_in:.0f} in tok/s, {tps_out:.0f} out tok/s "
-            f"({stats['total_input_tokens']:,} in / {stats['total_output_tokens']:,} out tokens)"
+            f"({stats['total_input_tokens']:,} in / {stats['total_output_tokens']:,} out tokens"
+            + (
+                f"; {stats['cached_prefix_lines']} line(s) started from the cached prompt"
+                if prompt_cache
+                else ""
+            )
+            + ")"
         )
     return enriched_lines, stats
 
@@ -2473,17 +2762,20 @@ def process_document_vllm(
         batch = qualifying[batch_start : batch_start + batch_size]
         batch_num = batch_start // batch_size + 1
 
-        # Format prompts using the model's chat template
-        prompts: List[str] = []
+        # Format prompts using the model's chat template. Passed as token ids: given text,
+        # vLLM tokenises it with special tokens added, which doubles the BOS that the
+        # Gemma / Llama / Mistral templates already write (see _prompt_token_ids).
+        prompts: List[Dict[str, List[int]]] = []
         for item in batch:
             try:
-                prompts.append(_format_chat_prompt(item["messages"], tokenizer, model_key))
+                prompt = _format_chat_prompt(item["messages"], tokenizer, model_key)
+                prompts.append({"prompt_token_ids": _prompt_token_ids(prompt, tokenizer)})
             except Exception as fmt_err:
                 tqdm.write(
                     f"  [{file_id}] Prompt-format error "
                     f"P{item['page_num']} L{item['line_num']}: {fmt_err}"
                 )
-                prompts.append("")  # placeholder; will fail gracefully below
+                prompts.append({"prompt_token_ids": []})  # placeholder; fails gracefully below
 
         # Submit entire batch to vLLM in one call
         _t0 = time.monotonic()

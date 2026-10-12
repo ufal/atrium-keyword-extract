@@ -270,8 +270,9 @@ consecutive errors), skips a document whose output already exists, so a stopped 
 document's two files to redo it), and writes a paradata record naming the vocabulary build and the sha256 of the
 prompt it used. The whole prompt is about 58k tokens: a model served with a smaller window, including the large vLLM
 models at their default `MAX_MODEL_LEN` of 16384, sees only a prefix of the vocabulary, and the paradata records how
-many terms were cut. With `BACKEND=transformers` every line re-reads the whole prompt; vLLM computes it once and
-reuses it (prefix caching); `PREFILL_CHUNK_SIZE` keeps the transformers prefill within a 24 GB card. Hybrid models
+many terms were cut. vLLM computes the prompt's shared part once and reuses it (prefix caching), and so does
+`BACKEND=transformers` with `REUSE_PROMPT_CACHE=true`; without it every line re-reads the whole prompt.
+`PREFILL_CHUNK_SIZE` keeps the transformers prefill within a 24 GB card. Hybrid models
 (Qwen3.5, Qwen3.6) need `flash-linear-attention`, which `requirements_llm.txt` lists: without it their
 linear-attention layers run on a reference kernel that is far slower and does not fit. The `llm` image carries no
 sample inputs, and whatever it writes outside `/data` goes with the container, so point `INPUT_DIR`, `OUTPUT_DIR`

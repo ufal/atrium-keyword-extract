@@ -21,6 +21,7 @@ import enum  # noqa: E402
 import hashlib  # noqa: E402
 import json  # noqa: E402
 import os  # noqa: E402
+import time  # noqa: E402
 from pathlib import Path  # noqa: E402
 from typing import Any, Dict, List, Optional, Set, Tuple  # noqa: E402
 
@@ -35,6 +36,7 @@ from llm_client_shared import redact_secrets  # noqa: E402
 from llm_utils import (  # noqa: E402
     CONTEXT_RESERVED,
     _check_backend_deps,
+    build_prompt_cache,
     count_tokens,
     get_inference_defaults,
     load_config,
@@ -280,6 +282,9 @@ def main(config_path: str = "llm_config.txt") -> None:
     # Transformers backend only: prefill each prompt this many tokens at a time (0 = one pass).
     # vLLM chunks its prefill by itself.
     PREFILL_CHUNK_SIZE = int(config.get("PREFILL_CHUNK_SIZE", "0"))
+    # Transformers backend only: prefill the prompt part every line shares once, and start
+    # each line from it. vLLM does the same by itself (ENABLE_PREFIX_CACHING).
+    REUSE_PROMPT_CACHE = config.get("REUSE_PROMPT_CACHE", "false").lower() == "true"
 
     infer, sources = get_inference_defaults(MODEL_KEY, config)
 
@@ -321,11 +326,12 @@ def main(config_path: str = "llm_config.txt") -> None:
         ]:
             print(f"    {key:<26} = {str(val):<12}  {_SRC_LABEL[sources.get(key, 'global')]}")
     else:
-        source = "config" if "PREFILL_CHUNK_SIZE" in config else "global"
-        print(
-            f"    {'PREFILL_CHUNK_SIZE':<26} = {str(PREFILL_CHUNK_SIZE or 'off'):<12}  "
-            f"{_SRC_LABEL[source]}"
-        )
+        for key, val in [
+            ("PREFILL_CHUNK_SIZE", PREFILL_CHUNK_SIZE or "off"),
+            ("REUSE_PROMPT_CACHE", REUSE_PROMPT_CACHE),
+        ]:
+            source = "config" if key in config else "global"
+            print(f"    {key:<26} = {str(val):<12}  {_SRC_LABEL[source]}")
     print(
         "\n  To override any value add it to llm_config.txt. Values marked '← llm_config.txt' are already user-set.\n"
     )
@@ -486,6 +492,33 @@ def main(config_path: str = "llm_config.txt") -> None:
                 None if is_gguf else build_transformers_prefix_allowed_tokens_fn(tokenizer, parser)
             )
 
+        prompt_cache = None
+        if BACKEND == "transformers" and not is_gguf and REUSE_PROMPT_CACHE:
+            print("=== Prefilling the shared prompt once (REUSE_PROMPT_CACHE) ===")
+            _t0 = time.monotonic()
+            try:
+                prompt_cache = build_prompt_cache(
+                    model,
+                    tokenizer,
+                    system_prompt,
+                    MODEL_KEY,
+                    prefill_chunk_size=PREFILL_CHUNK_SIZE or None,
+                )
+            except Exception as exc:  # the run goes on as without the option
+                print(f"  [WARN] prompt cache not built ({type(exc).__name__}: {exc})")
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+            if prompt_cache is None:
+                print("  every line gets the full prefill")
+            else:
+                n_cached = len(prompt_cache["ids"])
+                logger.config["prompt"]["cached_prefix_tokens"] = n_cached
+                print(
+                    f"  {n_cached:,} prompt tokens prefilled in {time.monotonic() - _t0:.0f} s; "
+                    "each line starts from them"
+                )
+                log_gpu_memory(label="after prompt cache")
+
         print("=== Pipeline ready ===")
 
         input_files = sorted(
@@ -544,6 +577,7 @@ def main(config_path: str = "llm_config.txt") -> None:
                         min_char_non_text=MIN_CHAR_NON_TEXT,
                         min_alpha_ratio_non_text=MIN_ALPHA_RATIO_NON_TEXT,
                         prefill_chunk_size=PREFILL_CHUNK_SIZE or None,
+                        prompt_cache=prompt_cache,
                     )
 
                 _attach_category_ids(enriched_results, id_lookup, strip_map, EMIT_CATEGORY_IDS)

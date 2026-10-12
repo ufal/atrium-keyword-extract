@@ -6,15 +6,23 @@ Tests for the pure helpers carved out of the llm_utils.py monolith.
 
 import pytest
 
-pytest.importorskip("torch")
+torch = pytest.importorskip("torch")
 pytest.importorskip("transformers")
 
 from pydantic import BaseModel, Field  # noqa: E402
 
+import llm_utils  # noqa: E402
 from llm_utils import (  # noqa: E402
+    MODEL_REGISTRY,
+    _line_cache,
+    _prompt_token_ids,
+    _reset_format_enforcer,
+    _rewind_prompt_cache,
     _row_quality,
     _should_process_line,
     get_context_window,
+    prefill_prompt_cache,
+    process_document,
     read_input_rows,
     validate_llm_output,
 )
@@ -112,3 +120,223 @@ def test_get_context_window_formatting():
     assert "<target_line> >>> [P1 L2] Line 2 </target_line>" in context
     assert "[P1 L1] Line 1" in context
     assert "[P1 L3] Line 3" in context
+
+
+class _Tok:
+    """encode() as a tokenizer that adds ``bos`` in front of every text, or none."""
+
+    def __init__(self, bos=None, adds_bos=False):
+        self.bos_token_id, self.adds_bos = bos, adds_bos
+
+    def encode(self, text):
+        ids = [ord(c) for c in text.replace("<bos>", "\x01")]
+        return ([self.bos_token_id] if self.adds_bos else []) + ids
+
+
+def test_a_bos_written_by_the_chat_template_is_not_doubled():
+    """Gemma's, Llama's and Mistral's templates write the BOS into the text and their
+    tokenizers add another: the model saw two. Only an actual duplicate is dropped."""
+    assert _prompt_token_ids("<bos>hi", _Tok(bos=1, adds_bos=True)) == [1, ord("h"), ord("i")]
+    assert _prompt_token_ids("hi", _Tok(bos=1, adds_bos=True)) == [1, ord("h"), ord("i")]
+    assert _prompt_token_ids("<bos>hi", _Tok(bos=1)) == [1, ord("h"), ord("i")]
+    assert _prompt_token_ids("hi", _Tok()) == [ord("h"), ord("i")]  # Qwen: no BOS at all
+
+
+def test_format_enforcer_states_are_dropped_after_a_line():
+    """lm-format-enforcer keys a state by the whole sequence, prompt included, and never
+    evicts: ~117 MB per line with the full prompt, until the job's memory runs out."""
+
+    class Enforcer:
+        prefix_states = {(1, 2, 3): "state"}
+
+    class PrefixFn:
+        token_enforcer = Enforcer()
+
+    fn = PrefixFn()
+    _reset_format_enforcer(fn)
+    assert fn.token_enforcer.prefix_states == {}
+    _reset_format_enforcer(None)  # the GGUF path has no prefix function
+
+
+def _tiny(kind):
+    import transformers as tf
+
+    torch.manual_seed(0)
+    common = dict(
+        vocab_size=128,
+        hidden_size=32,
+        intermediate_size=64,
+        num_attention_heads=4,
+        num_key_value_heads=2,
+        head_dim=8,
+        max_position_embeddings=1024,
+        pad_token_id=0,
+    )
+    if kind == "dense":
+        return tf.Qwen3ForCausalLM(tf.Qwen3Config(num_hidden_layers=2, **common))
+    if kind == "sliding":
+        cfg = tf.Gemma3TextConfig(num_hidden_layers=6, sliding_window=16, **common)
+        return tf.Gemma3ForCausalLM(cfg)
+    cfg = tf.Qwen3_5TextConfig(
+        num_hidden_layers=4,
+        linear_conv_kernel_dim=4,
+        linear_key_head_dim=8,
+        linear_value_head_dim=8,
+        linear_num_key_heads=2,
+        linear_num_value_heads=4,
+        **common,
+    )
+    model = tf.Qwen3_5ForCausalLM(cfg)
+    # Random weights forget a linear-attention state within a token or two, which would let
+    # a line run from the wrong state pass. A slow decay and a louder output make it count.
+    for layer in model.model.layers:
+        if getattr(layer, "linear_attn", None) is not None:
+            layer.linear_attn.A_log.data.fill_(-4.0)
+            layer.linear_attn.dt_bias.data.fill_(-1.0)
+            layer.linear_attn.out_proj.weight.data *= 8.0
+    return model
+
+
+@pytest.mark.parametrize("kind", ["dense", "sliding", "hybrid"])
+def test_lines_started_from_the_prompt_cache_match_a_full_prefill(kind):
+    """Qwen3 / Llama (full attention: shared, rewound), Gemma (sliding window: copied) and
+    Qwen3.5/3.6 (linear attention: copied). Every line must generate what a full prefill
+    generates, and the shared prefix must come back intact after each one."""
+    model = _tiny(kind).eval()
+    model.generation_config.eos_token_id = None
+    prefix = torch.randint(3, 128, (60,)).tolist()
+    lines = [prefix + torch.randint(3, 128, (n,)).tolist() for n in (9, 21)]
+
+    def generate(ids, **kw):
+        ids = torch.tensor([ids])
+        with torch.no_grad():
+            out = model.generate(
+                input_ids=ids,
+                attention_mask=torch.ones_like(ids),
+                max_new_tokens=6,
+                do_sample=False,
+                pad_token_id=0,
+                **kw,
+            )
+        return out[0, ids.shape[1] :].tolist()
+
+    expected = [generate(ids) for ids in lines]
+    cache = prefill_prompt_cache(model, prefix, prefill_chunk_size=16)
+    assert cache is not None and len(cache["ids"]) == 60
+    for ids, want in zip(lines + lines, expected + expected, strict=True):
+        try:
+            got = generate(ids, past_key_values=_line_cache(cache), cache_implementation=None)
+        finally:
+            _rewind_prompt_cache(cache)
+        assert got == want
+        assert cache["cache"].get_seq_length() == 60
+
+
+def _tensors(value):
+    if isinstance(value, torch.Tensor):
+        yield value
+    elif isinstance(value, (list, tuple)):
+        for v in value:
+            yield from _tensors(v)
+    elif isinstance(value, dict):
+        for v in value.values():
+            yield from _tensors(v)
+
+
+def test_the_prompt_cache_holds_no_prefill_buffers():
+    """A sliding-window layer keeps its window as a view into the last prefill chunk. Kept
+    in the cache and copied for every line, those buffers ran Gemma-4-31B out of memory on
+    every line (2x A30, 2026-10-12)."""
+    model = _tiny("sliding").eval()
+    cache = prefill_prompt_cache(model, torch.randint(3, 128, (300,)).tolist(), 64)
+    line = _line_cache(cache)
+    for layer in cache["cache"].layers + line.layers:
+        for t in _tensors(vars(layer)):
+            assert t.untyped_storage().nbytes() == t.numel() * t.element_size()
+
+
+class _OutOfMemoryWithCache:
+    """generate() that runs out of memory whenever it is given a cache."""
+
+    device = "cpu"
+
+    def __init__(self):
+        self.calls = []
+
+    def generate(self, input_ids=None, **kw):
+        self.calls.append("cached" if "past_key_values" in kw else "full")
+        if "past_key_values" in kw:
+            raise torch.cuda.OutOfMemoryError("CUDA out of memory.")
+        return torch.cat([input_ids, torch.tensor([[7]])], dim=1)
+
+
+class _CharTokenizer:
+    pad_token_id = eos_token_id = 0
+
+    def apply_chat_template(self, messages, tokenize=False, add_generation_prompt=True, **kw):
+        return "".join(m["content"] for m in messages)
+
+    def encode(self, text):
+        return [ord(c) % 1000 + 1 for c in text]
+
+    def decode(self, ids, skip_special_tokens=True):
+        return '{"teater_category": "kostel", "confidence_score": 0.9, "extracted_keywords_cs": []}'
+
+
+def test_out_of_memory_with_the_prompt_cache_falls_back_to_the_full_prefill(tmp_path):
+    """The run must not stop where it ran before REUSE_PROMPT_CACHE: the cache is dropped
+    and the line retried, and so is every line after it."""
+    doc = tmp_path / "CTX000000001.csv"
+    doc.write_text(
+        "page_num,line_num,text,categ,quality_score\n"
+        "1,1,Nalezená keramika z raného středověku.,Clear,0.9\n"
+        "1,2,Kostel sv. Petra a Pavla na návsi.,Clear,0.9\n",
+        encoding="utf-8",
+    )
+    tokenizer, model = _CharTokenizer(), _OutOfMemoryWithCache()
+    system_prompt = "SYSTEM " * 40
+    cache = {
+        "ids": tokenizer.encode(system_prompt),
+        "cache": type("C", (), {"layers": []})(),
+        "shared": [],
+    }
+    lines, stats = process_document(
+        input_path=doc,
+        model=model,
+        tokenizer=tokenizer,
+        parser=None,
+        prefix_function=None,
+        system_prompt=system_prompt,
+        EnrichmentModel=DummyEnrichment,
+        max_input_tokens=4000,
+        is_gguf=False,
+        model_key="gemma-4-31b-it",
+        prompt_cache=cache,
+    )
+    assert model.calls == ["cached", "full", "full"]
+    assert stats["processed"] == 2 and stats["skipped_error"] == 0
+    assert stats["cached_prefix_lines"] == 0 and cache == {}
+
+
+def test_rope_scaling_keeps_the_models_own_theta(monkeypatch):
+    """transformers 5 keeps rope_theta inside rope_parameters, and its rope_scaling setter
+    replaces the whole dict: YaRN has to be merged in, not set over it."""
+    import transformers as tf
+
+    base = tf.Qwen3Config(rope_theta=1_000_000.0)
+    monkeypatch.setattr(tf.AutoConfig, "from_pretrained", lambda *a, **k: base)
+    spec = MODEL_REGISTRY["qwen3-8b"]
+    config = llm_utils._rope_scaled_config(spec)
+    assert config.rope_parameters == {"rope_theta": 1_000_000.0, **spec["rope_scaling"]}
+    assert llm_utils._rope_scaled_config(MODEL_REGISTRY["qwen-3.6-27b-it"]) is None
+
+
+def test_rope_scaled_entries_reach_their_context_window():
+    """An entry's context_window is reached only through its rope_scaling."""
+    scaled = {k: v for k, v in MODEL_REGISTRY.items() if v.get("rope_scaling")}
+    assert {"qwen3-8b", "qwen3-14b", "qwen2.5-14b-awq"} <= set(scaled)
+    for key, spec in scaled.items():
+        rope = spec["rope_scaling"]
+        assert (
+            rope["original_max_position_embeddings"] * rope["factor"] == spec["context_window"]
+        ), key

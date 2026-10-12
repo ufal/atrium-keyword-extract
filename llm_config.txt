@@ -19,8 +19,15 @@
 # Model selection
 # =============================================================================
 #
-# Small  (≤14 B, single GPU, transformers backend):
-#   qwen-3.5-9b-it  |  qwen3-8b  |  qwen2.5-14b-awq  |  qwen3-14b  |  gemma-3-12b-it
+# Small  (≤14 B, transformers backend):
+#   qwen-3.5-9b-it  |  qwen3-8b  |  qwen3-14b  |  gemma-3-12b-it
+#   The ~58k-token prompt's KV cache comes on top of the weights: 2 GPUs of 24 GB.
+#   qwen3-8b and qwen3-14b are trained to 32k tokens; the registry turns on the YaRN
+#   scaling Qwen documents for their 128k window (off in the checkpoints).
+#
+# Small, vLLM backend:
+#   qwen2.5-14b-awq          — AWQ runs natively in vLLM (the transformers backend would
+#                               need gptqmodel); tp=2 on 24 GB cards; YaRN as above
 #
 # Mid    (≤31 B, single GPU, transformers backend, BnB 4-bit):
 #   qwen-3.6-27b-it  |  gemma-4-31b-it
@@ -34,7 +41,8 @@
 #
 #   qwen-3.6-35b-moe         — requires vLLM ≥ 0.8.x (Qwen3_5Moe arch not in 0.7.3)
 #
-#   llama3.1-70b             — single GPU, 4-bit BnB (~35 GB, any A40/A100 48 GB+)
+#   llama3.1-70b             — transformers, 4-bit BnB: ~40 GB of weights plus ~20 GB of
+#                               KV cache for the full prompt — two 48 GB cards or four A30
 #
 #   qwen3-235b-a22b-fp8      — requires vLLM ≥ 0.8.x (Qwen3 MoE arch not in 0.7.3)
 #                               tp=8 on tdll-8gpu (8× A100 40 GB, 320 GB total);
@@ -135,6 +143,20 @@ MIN_ALPHA_RATIO_NON_TEXT=0.4
 # stays bounded, and the cache carries the state from chunk to chunk, so the computation is
 # the same. 0 = one pass. vLLM chunks its prefill by itself and ignores this.
 PREFILL_CHUNK_SIZE=8192
+
+# =============================================================================
+# Transformers backend: reuse the shared prompt
+# =============================================================================
+# Every line's prompt is the same ~58k tokens of instructions and vocabulary followed by a
+# few hundred of its own, and without this every line prefills all of it again (~75 s a
+# line for Qwen3.6-27B on 2x A30, 2026-10-12). true: the shared part is prefilled once at
+# start-up (PREFILL_CHUNK_SIZE applies there) and every line starts from it, so a line costs
+# its own tokens and its output. The computation is the same -- identical outputs in fp32
+# tests on every architecture in the registry; bf16 rounding can tip a near-tie. The big
+# full-attention part of the cache is shared, not copied, so this needs no more GPU memory
+# than one line's prefill did; a line that still runs out of it drops the cache, and the run
+# goes on with the full prefill. vLLM does the same by itself (ENABLE_PREFIX_CACHING).
+REUSE_PROMPT_CACHE=true
 
 # =============================================================================
 # Inference parameter overrides  (all auto-set from model registry by default)
