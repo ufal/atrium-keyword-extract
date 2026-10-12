@@ -1,0 +1,36 @@
+[
+    {
+        "file_id": "CTX000000003",
+        "page": 1,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.8472,
+        "original_text": "Náčrt sondy.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "náčrt",
+                "sonda"
+            ],
+            "extracted_keywords_en": [
+                "draft",
+                "survey"
+            ],
+            "teater_category": "sonda",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001057"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-001150"
+                },
+                {
+                    "source": "teater",
+                    "id": "108"
+                }
+            ]
+        }
+    }
+]

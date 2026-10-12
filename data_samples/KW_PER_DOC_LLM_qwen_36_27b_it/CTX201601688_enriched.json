@@ -1,0 +1,2073 @@
+[
+    {
+        "file_id": "CTX201601688",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9152,
+        "original_text": "SKU Hrovnadbělou",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.8209,
+        "original_text": "Hrad, sběry 1998",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 1,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Muzeum a galerie v Rychnově n. Kn.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 1,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9062,
+        "original_text": "PhDr. Martina Beková",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 1,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9065,
+        "original_text": "Bohumír Dragoun",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9015,
+        "original_text": "SKUHROV NAD BĚLOU hrad, sběry 1998",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.942,
+        "original_text": "Geomorfologický popis",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9863,
+        "original_text": "Hrad se nachází na ostrožně nad řekou Bělou, na úpatí svahů svírajících tok Bělé v rámci",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "ostrož",
+                "řeka"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "spur",
+                "river"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8926,
+        "original_text": "skuhrovské části Podorlické pahorkatiny (SLÁDEK, J. 1977: Zeměpisné vymezení a",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.854,
+        "original_text": "regionální členění in: Příroda Orlických hor a Podorlicka, Praha 1977, 13-87).",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9733,
+        "original_text": "Podloží a půdní pokryv",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.8581,
+        "original_text": "Oglejené půdy na fylitech ( NÁLEVKA, B. 1977: Půdní poměry, in: Příroda Orlických hor a",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 9,
+        "categ": "Noisy",
+        "quality_score": 0.6829,
+        "original_text": "Podorlicka, Praha 1977, 287-308.).",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.9353,
+        "original_text": "Historie naleziště",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9679,
+        "original_text": "Hrad na ostrožně, dvojdílný (předhradí a vlastní hradní areál, patrně plášťový). Patrně založen",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "ostrožna",
+                "předhradí",
+                "hradní areál",
+                "plášťový"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "spur",
+                "bailey",
+                "castle area",
+                "curtain wall"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.9077,
+        "original_text": "Tasem ze Skuhrova kolem r. 1320, za Jiřího z Poděbrad pustne, v roce 1558 jmenován jako",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8683,
+        "original_text": "pustý (Musil, F., Svoboda, L. 1998: Hrady zámky a tvrze okresu Rychnov nad Kněžnou, s.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9698,
+        "original_text": "Okolnosti a cíl výzkumu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.8616,
+        "original_text": "Sběr.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 19,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "1. Sběr J. Slavík, Památkový ústav Pardubice.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.8813,
+        "original_text": "2. Sběr archeologický kroužek Villa Nova pod vedením D. Vícha.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 21,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "3. Sběr Slavík, Památkový ústav Pardubice",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9751,
+        "original_text": "Metoda výzkumu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.9379,
+        "original_text": "Povrchový sběr.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "povrchový sběr"
+            ],
+            "extracted_keywords_en": [
+                "surface collection survey"
+            ],
+            "teater_category": "povrchový sběr",
+            "confidence_score": 1.0,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001050"
+                },
+                {
+                    "source": "teater",
+                    "id": "116"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.978,
+        "original_text": "Zaměření",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9814,
+        "original_text": "Zaměření provedla autorka zprávy dle popisu sběračů do plánů hradu.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.8832,
+        "original_text": "Popis terénní situace",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.9274,
+        "original_text": "1. Sběr J. Slavík nad vnitřním příkopem jak ze strany předhradí tak vlastního hradu (viz",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "příkop",
+                "předhradí",
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "moat",
+                "bailey",
+                "castle"
+            ],
+            "teater_category": "příkop",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000508"
+                },
+                {
+                    "source": "teater",
+                    "id": "1637"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 30,
+        "categ": "Noisy",
+        "quality_score": 0.7651,
+        "original_text": "plánek polohy 1). Nalezeny 4 fragmenty keramiky. 5. 3. 1998",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "příkop",
+                "předhradí",
+                "hrad",
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "moat",
+                "bailey",
+                "castle",
+                "ceramic"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 31,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "2. Sběr archeologický kroužek Villa Nova 11. 8. 1998, úbočí hradního kopce směrem",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sběr",
+                "hradní kopec"
+            ],
+            "extracted_keywords_en": [
+                "collection",
+                "castle hill"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.8714,
+        "original_text": "k vesnici (viz. plánek poloha 2). Nalezeno 14 drobnějších fragmentů, okraje a zl.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "fragmenty",
+                "okraje",
+                "zlomek zásobnice"
+            ],
+            "extracted_keywords_en": [
+                "fragments",
+                "rims",
+                "storage vessel fragment"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 33,
+        "categ": "Noisy",
+        "quality_score": 0.741,
+        "original_text": "zásobnice, vše 14. -15. stol.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zásobnice",
+                "14. -15. stol."
+            ],
+            "extracted_keywords_en": [
+                "storage vessel",
+                "14th-15th century"
+            ],
+            "teater_category": "středověk",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000380"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000414"
+                },
+                {
+                    "source": "teater",
+                    "id": "1237"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.8227,
+        "original_text": "3. Sběr J. Slavík, jádro hradu (viz plánek polohy 3). Nalezeny 3 fragmenty keramiky. 5.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "ceramic"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 37,
+        "categ": "Clear",
+        "quality_score": 0.9864,
+        "original_text": "Zhodnocení a interpretace výsledků výzkumu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.8854,
+        "original_text": "Nalezeny zlomky keramiky z kulturních vrstev existence hradu, 14. -15. stol., naprostá",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zlomky keramiky",
+                "kulturní vrstvy",
+                "hrad",
+                "14. století",
+                "15. století"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "cultural layers",
+                "castle",
+                "14th century",
+                "15th century"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 39,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "převaha zl. z 15. stol.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zlomky keramiky",
+                "15. století"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "15th century"
+            ],
+            "teater_category": "středověk",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000380"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000414"
+                },
+                {
+                    "source": "teater",
+                    "id": "1237"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 41,
+        "categ": "Clear",
+        "quality_score": 0.9784,
+        "original_text": "Seznam nálezů",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 2,
+        "line": 42,
+        "categ": "Clear",
+        "quality_score": 0.9638,
+        "original_text": "Viz příloha",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8787,
+        "original_text": "Přír.č.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9785,
+        "original_text": "Název",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9545,
+        "original_text": "Počet",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.978,
+        "original_text": "Výzkum",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9021,
+        "original_text": "Poloha",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 7,
+        "categ": "Noisy",
+        "quality_score": 0.6546,
+        "original_text": "Inv. č.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9706,
+        "original_text": "Poznámka",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.8983,
+        "original_text": "keramika",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "ceramic"
+            ],
+            "teater_category": "keramika",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000933"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000979"
+                },
+                {
+                    "source": "teater",
+                    "id": "2457"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9058,
+        "original_text": "Skuhrov",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.8866,
+        "original_text": "hrad",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "sběr Slavík J.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.6529,
+        "original_text": "(viz. NZ",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 19,
+        "categ": "Noisy",
+        "quality_score": 0.7534,
+        "original_text": "Skuhrov 1998,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "poloha 1)",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 24,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "3 atypické zlomky z výdutí",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "atypické zlomky",
+                "výdutí"
+            ],
+            "extracted_keywords_en": [
+                "atypical fragments",
+                "blowpipe"
+            ],
+            "teater_category": "atypický předmět",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000708"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9285,
+        "original_text": "nepolévaných nádob, prakticky bílé",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nepolévané nádoby"
+            ],
+            "extracted_keywords_en": [
+                "unglazed vessels"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 26,
+        "categ": "Noisy",
+        "quality_score": 0.7018,
+        "original_text": "zboží, 2. pol. 15. stol. + zlomek",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zboží",
+                "2. pol. 15. stol."
+            ],
+            "extracted_keywords_en": [
+                "trade good",
+                "2nd half of the 15th century"
+            ],
+            "teater_category": "zboží",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 27,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "okraje - velmi nizké vysazené",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9476,
+        "original_text": "okruží, červená linka na okruží,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 29,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "další na podhrdlí, váha 90,9g.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "podhrdlí",
+                "váha"
+            ],
+            "extracted_keywords_en": [
+                "neck ring",
+                "weight"
+            ],
+            "teater_category": "nákrčník",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000665"
+                },
+                {
+                    "source": "teater",
+                    "id": "2392"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.8983,
+        "original_text": "keramika",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "ceramic"
+            ],
+            "teater_category": "keramika",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000933"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000979"
+                },
+                {
+                    "source": "teater",
+                    "id": "2457"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.9058,
+        "original_text": "Skuhrov",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.8866,
+        "original_text": "hrad",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.8883,
+        "original_text": "sběr arch.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 39,
+        "categ": "Clear",
+        "quality_score": 0.8707,
+        "original_text": "kroužek(viz.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kroužek"
+            ],
+            "extracted_keywords_en": [
+                "ring"
+            ],
+            "teater_category": "kroužek/kruh",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000764"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 40,
+        "categ": "Noisy",
+        "quality_score": 0.7305,
+        "original_text": "NZ Skuhrov",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 45,
+        "categ": "Clear",
+        "quality_score": 0.8886,
+        "original_text": "14 atypických zlomků keramiky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "atypický zlomek keramiky"
+            ],
+            "extracted_keywords_en": [
+                "atypical pottery fragment"
+            ],
+            "teater_category": "atypický předmět",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000708"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 47,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "zásobnice + 3 zl. okrajů",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zásobnice",
+                "zlomek keramiky"
+            ],
+            "extracted_keywords_en": [
+                "storage vessel",
+                "potsherd"
+            ],
+            "teater_category": "zásobnice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000767"
+                },
+                {
+                    "source": "teater",
+                    "id": "2084"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 48,
+        "categ": "Clear",
+        "quality_score": 0.8861,
+        "original_text": "(okruží+mísa se zahnutým",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "okrouhlá mísa",
+                "zahnutý okraj"
+            ],
+            "extracted_keywords_en": [
+                "round bowl",
+                "curved rim"
+            ],
+            "teater_category": "mísa",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000719"
+                },
+                {
+                    "source": "teater",
+                    "id": "2060"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 49,
+        "categ": "Noisy",
+        "quality_score": 0.6681,
+        "original_text": "okrajem) + 1 zl. ucha + výdutě",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zlomek keramiky",
+                "ucho",
+                "výdutě"
+            ],
+            "extracted_keywords_en": [
+                "potsherd",
+                "handle",
+                "bulge"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 50,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "nádob se stopami vytáčení + 1",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoby",
+                "stopy vytáčení"
+            ],
+            "extracted_keywords_en": [
+                "vessels",
+                "traces of throwing"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 51,
+        "categ": "Noisy",
+        "quality_score": 0.7589,
+        "original_text": "mazanice, váha 182,1g.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mazanice"
+            ],
+            "extracted_keywords_en": [
+                "daub"
+            ],
+            "teater_category": "mazanice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000911"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000993"
+                },
+                {
+                    "source": "teater",
+                    "id": "2501"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 54,
+        "categ": "Clear",
+        "quality_score": 0.8955,
+        "original_text": "keramika",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "ceramic"
+            ],
+            "teater_category": "keramika",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000933"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000979"
+                },
+                {
+                    "source": "teater",
+                    "id": "2457"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 57,
+        "categ": "Clear",
+        "quality_score": 0.9058,
+        "original_text": "Skuhrov",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 58,
+        "categ": "Clear",
+        "quality_score": 0.8866,
+        "original_text": "hrad",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 60,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "sběr Slavík J.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 61,
+        "categ": "Noisy",
+        "quality_score": 0.6529,
+        "original_text": "(viz. NZ",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 62,
+        "categ": "Noisy",
+        "quality_score": 0.7534,
+        "original_text": "Skuhrov 1998,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 63,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "poloha 3)",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 67,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "2 drobné atypické zlomky + 1",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "drobné atypické zlomky"
+            ],
+            "extracted_keywords_en": [
+                "small atypical fragments"
+            ],
+            "teater_category": "atypický předmět",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000708"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 68,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "zlomek dna - bílé zboží, 2. pol. 15.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zlomek dna",
+                "bílé zboží"
+            ],
+            "extracted_keywords_en": [
+                "base fragment",
+                "white ware"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 69,
+        "categ": "Noisy",
+        "quality_score": 0.7602,
+        "original_text": "století, váha 14,6g.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 71,
+        "categ": "Clear",
+        "quality_score": 0.9443,
+        "original_text": "Terénní a obrazová dokumentace",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "terénní dokumentace",
+                "obrazová dokumentace"
+            ],
+            "extracted_keywords_en": [
+                "field documentation",
+                "image documentation"
+            ],
+            "teater_category": "dokumentace",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "195"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 72,
+        "categ": "Clear",
+        "quality_score": 0.9208,
+        "original_text": "Obr. 1. SKUHROV NAD BĚLOU hrad, sběry 1998. Umístění lokality a plánek hradu se zákresem",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 73,
+        "categ": "Clear",
+        "quality_score": 0.8995,
+        "original_text": "sběrů.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 74,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Obr. 2. SKUHROV NAD BĚLOU hrad, sběry 1998. Nálezy -poloha 1 (př. č. A678/2015).",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "nálezy"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "finds"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 75,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Obr. 3. SKUHROV NAD BĚLOU hrad, sběry 1998. Nálezy -poloha 2 (př. č. A679/201).",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "nálezy"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "finds"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 76,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Obr. 4. SKUHROV NAD BĚLOU hrad, sběry 1998. Nálezy - poloha 3 (př. č. A680/2015).",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 78,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "V Rychnově nad Kněžnou dne 27. 11. 2015",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 79,
+        "categ": "Clear",
+        "quality_score": 0.9055,
+        "original_text": "PhDr. Martina Beková",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 3,
+        "line": 80,
+        "categ": "Clear",
+        "quality_score": 0.9102,
+        "original_text": "Bohumír Dragoun",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 4,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.914,
+        "original_text": "Obr. 1. SKUHROV NAD BĚLOU hrad, sběry 1998. Umístění lokality a plánek hradu se",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 4,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9279,
+        "original_text": "zákresem sběrů.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 5,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Obr. 2. SKUHROV NAD BĚLOU hrad, sběry 1998. Nálezy - poloha 1 (př. č. A678/2015).",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "nálezy"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "finds"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 6,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Obr. 3. SKUHROV NAD BĚLOU hrad, sběry 1998. Nálezy - poloha 2 (př. č. A679/2015).",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "nálezy"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "finds"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 7,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "hrad sbrč.2",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad"
+            ],
+            "extracted_keywords_en": [
+                "castle"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 7,
+        "line": 6,
+        "categ": "Noisy",
+        "quality_score": 0.5872,
+        "original_text": "<or Sloufk J. 4998",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201601688",
+        "page": 7,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Obr. 4. SKUHROV NAD BĚLOU hrad, sběry 1998. Nálezy - poloha 3 (př. č. A680/2015).",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrad",
+                "nálezy"
+            ],
+            "extracted_keywords_en": [
+                "castle",
+                "finds"
+            ],
+            "teater_category": "hrad",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000015"
+                },
+                {
+                    "source": "teater",
+                    "id": "1429"
+                }
+            ]
+        }
+    }
+]

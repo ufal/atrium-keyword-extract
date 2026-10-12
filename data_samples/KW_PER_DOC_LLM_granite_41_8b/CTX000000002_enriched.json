@@ -1,0 +1,131 @@
+[
+    {
+        "file_id": "CTX000000002",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9,
+        "original_text": "Lokalita: okr. Horní Mezi",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "valové těleso"
+            ],
+            "extracted_keywords_en": [
+                "earthen rampart"
+            ],
+            "teater_category": "hradiště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000072"
+                },
+                {
+                    "source": "teater",
+                    "id": "1354"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9156,
+        "original_text": "Sonda II odkryla část valového tělesa.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "část",
+                "valového tělesa"
+            ],
+            "extracted_keywords_en": [
+                "part",
+                "earthen rampart"
+            ],
+            "teater_category": "ohrazení/fortifikace",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000527"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000579"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9101,
+        "original_text": "Eva Procházková dokumentovala nálezy.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nálezy"
+            ],
+            "extracted_keywords_en": [
+                "finds"
+            ],
+            "teater_category": "nálezová správa",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "252"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 3,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9,
+        "original_text": "Mocnost kulturní vrstvy činila 40 cm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kulturní vrstva",
+                "mocnost",
+                "40 cm"
+            ],
+            "extracted_keywords_en": [
+                "cultural layer",
+                "thickness",
+                "40 cm"
+            ],
+            "teater_category": "stratigrafie",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "192"
+                },
+                {
+                    "source": "teater",
+                    "id": "920"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000002",
+        "page": 4,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9143,
+        "original_text": "Soubor nálezů byl uložen v depozitáři.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
