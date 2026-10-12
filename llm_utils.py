@@ -1413,39 +1413,89 @@ def download_model_files(model_key: str, hf_token: Optional[str] = None) -> str:
     """Fetch what a run of ``model_key`` reads into the Hugging Face cache; return its folder.
 
     For a machine that reaches huggingface.co: the GPU nodes may not (HF_HUB_OFFLINE=1),
-    and there a model loads only from the cache they share.
+    and there a model loads only from the cache they share. Files already cached are not
+    fetched again (huggingface_hub then reports 0 B downloaded).
     """
     spec = _model_spec(model_key)
     from huggingface_hub import snapshot_download  # noqa: E402
 
     patterns = [spec.get("filename", "*.gguf")] if spec.get("is_gguf") else _MODEL_FILE_PATTERNS
-    return snapshot_download(spec["hf_id"], allow_patterns=patterns, token=hf_token or None)
+    folder = snapshot_download(spec["hf_id"], allow_patterns=patterns, token=hf_token or None)
+    problem = cached_model_problem(model_key)
+    if problem:
+        raise RuntimeError(f"{model_key} is still incomplete after the download: {problem}")
+    return folder
 
 
-def missing_offline_model(model_key: str) -> Optional[str]:
-    """The model's repository id when this node is offline and the cache does not hold it.
-
-    Checked before the model load, which otherwise fails in the middle of it, after the
-    vocabulary is built (qwen-3.8-27b-it on a GPU node, 2026-10-12).
-    """
-    spec = _model_spec(model_key)
-    hf_id = spec["hf_id"]
+def hub_offline() -> bool:
+    """Whether huggingface_hub makes no network calls here (HF_HUB_OFFLINE=1)."""
     try:
         from huggingface_hub import is_offline_mode  # noqa: E402
 
-        offline = is_offline_mode()
+        return bool(is_offline_mode())
     except ImportError:  # huggingface_hub < 1.0
         from huggingface_hub import constants  # noqa: E402
 
-        offline = getattr(constants, "HF_HUB_OFFLINE", False)
-    if not offline or Path(hf_id).exists():
-        return None
-    from huggingface_hub import snapshot_download  # noqa: E402
+        return bool(getattr(constants, "HF_HUB_OFFLINE", False))
 
+
+def cached_model_problem(model_key: str) -> Optional[str]:
+    """What a run of ``model_key`` would not find in the Hugging Face cache; None if nothing.
+
+    Looks where the loaders look offline (refs/main -> snapshots/<commit>) for the files
+    they open: config.json and the weights (the shards model.safetensors.index.json names,
+    else *.safetensors), or the GGUF file. Run before the load, which otherwise fails in
+    the middle of it.
+
+    Not huggingface_hub's ``snapshot_download(local_files_only=True)``: from 1.x it also
+    wants every file of the repository the download saw, README and LICENSE included,
+    which ``download_model_files`` leaves out (qwen-3.8-27b-it, 2026-10-12).
+    """
+    spec = _model_spec(model_key)
+    hf_id = spec["hf_id"]
+    if Path(hf_id).exists():  # a local folder, not a Hub repository
+        return None
+    from huggingface_hub import constants  # noqa: E402
+
+    repo_dir = Path(constants.HF_HUB_CACHE) / ("models--" + hf_id.replace("/", "--"))
     try:
-        snapshot_download(hf_id, local_files_only=True)
-    except Exception:
-        return hf_id
+        commit = (repo_dir / "refs" / "main").read_text()
+    except OSError:
+        return f"{repo_dir} holds no download of {hf_id}"
+    snapshot = repo_dir / "snapshots" / commit
+    if not commit or not snapshot.is_dir():
+        return f"{repo_dir / 'refs' / 'main'} names a snapshot that is not there ({snapshot})"
+
+    if spec.get("is_gguf"):
+        pattern = spec.get("filename", "*.gguf")  # matched as the download matches it
+        for f in snapshot.rglob("*.gguf"):
+            if f.is_file() and fnmatch.fnmatch(f.relative_to(snapshot).as_posix(), pattern):
+                return None
+        return f"{snapshot} holds no {pattern}"
+
+    needed = ["config.json"]
+    index = snapshot / "model.safetensors.index.json"
+    if index.is_file():
+        try:
+            needed += sorted(
+                set(json.loads(index.read_text(encoding="utf-8"))["weight_map"].values())
+            )
+        except (OSError, ValueError, KeyError, AttributeError, TypeError) as exc:
+            return f"{index} cannot be read ({exc})"
+    else:
+        weights = sorted(f.name for f in snapshot.glob("*.safetensors"))
+        if not weights:
+            return f"{snapshot} holds no weights (*.safetensors)"
+        needed += weights
+    # is_file() follows the snapshot's symlink, so a blob that is gone counts as missing.
+    missing = [name for name in needed if not (snapshot / name).is_file()]
+    if missing:
+        shown = ", ".join(missing[:3]) + (
+            f" and {len(missing) - 3} more" if len(missing) > 3 else ""
+        )
+        return (
+            f"{snapshot} lacks {len(missing)} of the {len(needed)} files the model loads: {shown}"
+        )
     return None
 
 

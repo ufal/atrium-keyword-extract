@@ -229,3 +229,62 @@ def test_write_abort_marker(tmp_path):
     assert data["abort_reason"] == "boom"
     assert data["processed_before_abort"] == 7
     assert data["errors_before_abort"] == 10
+
+
+# ── offline GPU nodes: --download and the cache check before the load ────────
+
+
+class _Loading(Exception):
+    """Raised where the model load begins: the run got past its checks."""
+
+
+def _run_until_loading(tmp_path, monkeypatch, offline, problem):
+    import huggingface_hub
+
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "cfg.txt").write_text("MODEL_KEY=qwen-3.8-27b-it\n", encoding="utf-8")
+    monkeypatch.setattr(huggingface_hub, "is_offline_mode", lambda: offline)
+    checked = []
+    monkeypatch.setattr(
+        llm_run.llm_utils, "cached_model_problem", lambda key: checked.append(key) or problem
+    )
+    monkeypatch.setattr(llm_run, "_check_backend_deps", lambda *a: None)
+    monkeypatch.setattr(llm_run, "log_gpu_info", lambda: (_ for _ in ()).throw(_Loading()))
+    with pytest.raises((_Loading, RuntimeError)) as err:
+        llm_run.main("cfg.txt")
+    return err.value, checked
+
+
+def test_an_offline_run_stops_before_the_load_on_what_the_cache_lacks(tmp_path, monkeypatch):
+    lacks = (
+        "/hf/hub/models--Qwen--Qwen3.8-27B/snapshots/1d4b lacks 1 of the 4 files the model loads: x"
+    )
+    stop, checked = _run_until_loading(tmp_path, monkeypatch, offline=True, problem=lacks)
+    assert isinstance(stop, RuntimeError) and checked == ["qwen-3.8-27b-it"]
+    assert lacks in str(stop) and "python llm_run.py --download qwen-3.8-27b-it" in str(stop)
+
+    stop, _ = _run_until_loading(tmp_path, monkeypatch, offline=True, problem=None)
+    assert isinstance(stop, _Loading)
+    stop, checked = _run_until_loading(tmp_path, monkeypatch, offline=False, problem=lacks)
+    assert isinstance(stop, _Loading) and checked == []  # online, the load downloads
+
+
+def test_download_says_what_the_cache_holds(tmp_path, monkeypatch, capsys):
+    """huggingface_hub reports the bytes it fetched, 0 B when the files were cached already."""
+    monkeypatch.chdir(tmp_path)
+    (tmp_path / "cfg.txt").write_text("MODEL_KEY=qwen-3.8-27b-it\n", encoding="utf-8")
+    snapshot = tmp_path / "snapshot"
+    (snapshot / "sub").mkdir(parents=True)
+    (snapshot / "config.json").write_bytes(b"{}")
+    with open(snapshot / "sub" / "model.safetensors", "wb") as f:
+        f.truncate(1024**3 // 10)  # sparse: 0.1 GB that takes no disk
+    keys = []
+    monkeypatch.setattr(
+        llm_run.llm_utils,
+        "download_model_files",
+        lambda key, token: keys.append(key) or str(snapshot),
+    )
+    llm_run.main("cfg.txt", download=[])
+    llm_run.main("cfg.txt", download=["granite-4.1-30b", "gemma-4-12b-it"])
+    assert keys == ["qwen-3.8-27b-it", "granite-4.1-30b", "gemma-4-12b-it"]
+    assert capsys.readouterr().out.count(f"complete: 2 files, 0.1 GB in {snapshot}") == 3

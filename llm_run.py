@@ -266,7 +266,10 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
         # and there a model loads only from the cache, which this fills.
         for key in download or [MODEL_KEY]:
             print(f"=== Downloading {key} into the Hugging Face cache ===")
-            print(f"    {llm_utils.download_model_files(key, HF_TOKEN)}")
+            folder = Path(llm_utils.download_model_files(key, HF_TOKEN))
+            files = [f for f in folder.rglob("*") if f.is_file()]
+            size_gb = sum(f.stat().st_size for f in files) / 1024**3
+            print(f"    complete: {len(files)} files, {size_gb:.1f} GB in {folder}")
         return
     INPUT_DIR = Path(config.get("INPUT_DIR", "data_samples/DOC_LINE_CATEG"))
     VOCAB_PATH = config.get("VOCAB_PATH", "data_samples/vocab/union_nested.json")
@@ -345,13 +348,15 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
     )
 
     _check_backend_deps(BACKEND, MODEL_KEY)
-    missing = llm_utils.missing_offline_model(MODEL_KEY)
-    if missing:
-        raise RuntimeError(
-            f"\n  {MODEL_KEY} ({missing}) is not in the Hugging Face cache, and this node is "
-            "offline.\n  Download it where huggingface.co is reachable, into the same HF_HOME:\n"
-            f"    python llm_run.py --download {MODEL_KEY}\n"
-        )
+    if llm_utils.hub_offline():
+        problem = llm_utils.cached_model_problem(MODEL_KEY)
+        if problem:
+            raise RuntimeError(
+                f"\n  {MODEL_KEY} cannot load on this node: HF_HUB_OFFLINE is set and\n"
+                f"  {problem}.\n"
+                "  Fetch it where huggingface.co is reachable, with the same HF_HOME:\n"
+                f"    python llm_run.py --download {MODEL_KEY}\n"
+            )
     log_gpu_info()
 
     # D3 (issue #6): every run injects the AMCR + TEATER vocabulary into its prompt,

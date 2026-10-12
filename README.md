@@ -267,8 +267,10 @@ python llm_run.py          # or: python llm_run.py <another config>
 ```
 
 A GPU node without internet access (`HF_HUB_OFFLINE=1`) loads a model only from the Hugging Face cache, so
-fetch it first on a machine that has access, into the same `HF_HOME` (`--download KEY ...` takes several keys);
-a run whose model is not cached stops before loading and says so.
+fetch it first on a machine that has access, into the same `HF_HOME` (`--download KEY ...` takes several keys).
+It fetches what a run reads (configs, tokenizer, weights; not README or LICENSE), skips files already cached
+(huggingface_hub then reports 0 B), and ends with what the cache holds. A run whose model files are not all
+cached stops before loading and names what is missing.
 
 It writes `<OUTPUT_DIR>_<model>/<doc_id>_enriched.json` per document (and `<doc_id>_enriched.abort.json` after ten
 consecutive errors), skips a document whose output already exists, so a stopped job resumes (delete an aborted

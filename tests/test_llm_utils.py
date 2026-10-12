@@ -4,6 +4,10 @@ tests/test_llm_utils.py
 Tests for the pure helpers carved out of the llm_utils.py monolith.
 """
 
+import hashlib
+import json
+import os
+
 import pytest
 
 torch = pytest.importorskip("torch")
@@ -401,40 +405,134 @@ def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkey
     assert "served_max_model_len" not in MODEL_REGISTRY["qwen-3.5-35b-moe-gptq"]
 
 
-def test_an_offline_node_is_told_to_download_a_model_it_does_not_have(monkeypatch):
-    """GPU nodes can be offline (HF_HUB_OFFLINE=1): a model missing from the cache must stop
-    the run before the load, with the command that fetches it, not halfway through it."""
+COMMIT = "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0"
+
+
+def _hub_cache(root, hf_id, files, listed=()):
+    """One model in a Hugging Face cache, laid out as huggingface_hub lays it out: blobs/<sha256>,
+    snapshots/<commit>/<file> linking to them, refs/main naming the commit and (hub >= 1.x)
+    trees/<commit>.json listing the repository's files, the `listed` ones not downloaded."""
+    repo = root / ("models--" + hf_id.replace("/", "--"))
+    snapshot = repo / "snapshots" / COMMIT
+    for name, data in files.items():
+        blob = repo / "blobs" / hashlib.sha256(data).hexdigest()
+        blob.parent.mkdir(parents=True, exist_ok=True)
+        blob.write_bytes(data)
+        link = snapshot / name
+        link.parent.mkdir(parents=True, exist_ok=True)
+        link.symlink_to(os.path.relpath(blob, link.parent))
+    (repo / "refs").mkdir(parents=True, exist_ok=True)
+    (repo / "refs" / "main").write_text(COMMIT)
+    try:
+        from huggingface_hub._tree_cache import TreeCacheEntry, write_tree_cache
+    except ImportError:  # huggingface_hub < 1.x keeps no tree listing
+        return snapshot
+    entries = {name: TreeCacheEntry(size=1, blob_id="0" * 40) for name in [*files, *listed]}
+    write_tree_cache(str(repo), COMMIT, entries)
+    return snapshot
+
+
+def _shards(n):
+    names = [f"model-{i:05d}-of-{n:05d}.safetensors" for i in range(1, n + 1)]
+    index = {
+        "metadata": {},
+        "weight_map": {f"layers.{i}.weight": name for i, name in enumerate(names)},
+    }
+    return {
+        "model.safetensors.index.json": json.dumps(index).encode(),
+        **{n: n.encode() for n in names},
+    }
+
+
+def test_a_downloaded_model_passes_the_offline_check(tmp_path, monkeypatch):
+    """What --download leaves in the cache runs offline, though the repository holds more
+    (README, LICENSE), which huggingface_hub's own offline snapshot check, from 1.x, counts
+    as missing (job 7097552, qwen-3.8-27b-it, 2026-10-12)."""
     import huggingface_hub
 
-    cached = {"Qwen/Qwen3.6-27B"}
+    monkeypatch.setattr(huggingface_hub.constants, "HF_HUB_CACHE", str(tmp_path))
+    files = {"config.json": b"{}", "tokenizer.json": b"{}", **_shards(3)}
+    _hub_cache(
+        tmp_path, "Qwen/Qwen3.8-27B", files, listed=("README.md", "LICENSE", ".gitattributes")
+    )
+    assert llm_utils.cached_model_problem("qwen-3.8-27b-it") is None
 
-    def snapshot_download(repo_id, local_files_only=False, **kw):
-        if repo_id not in cached:
-            raise huggingface_hub.errors.LocalEntryNotFoundError("not cached")
-        return f"/cache/{repo_id}"
+
+def test_the_offline_check_names_what_a_run_would_miss(tmp_path, monkeypatch):
+    import huggingface_hub
+
+    monkeypatch.setattr(huggingface_hub.constants, "HF_HUB_CACHE", str(tmp_path))
+    problem = llm_utils.cached_model_problem("qwen-3.8-27b-it")
+    assert (
+        problem == f"{tmp_path / 'models--Qwen--Qwen3.8-27B'} holds no download of Qwen/Qwen3.8-27B"
+    )
+
+    snapshot = _hub_cache(tmp_path, "Qwen/Qwen3.8-27B", {"config.json": b"{}", **_shards(3)})
+    (snapshot / "model-00002-of-00003.safetensors").resolve().unlink()  # the blob is gone
+    problem = llm_utils.cached_model_problem("qwen-3.8-27b-it")
+    assert problem.endswith(
+        "lacks 1 of the 4 files the model loads: model-00002-of-00003.safetensors"
+    )
+
+    # Without an index, the *.safetensors there are the weights.
+    snapshot = _hub_cache(
+        tmp_path, "ibm-granite/granite-4.1-8b", {"config.json": b"{}", "model.safetensors": b"w"}
+    )
+    assert llm_utils.cached_model_problem("granite-4.1-8b") is None
+    (snapshot / "config.json").unlink()
+    assert llm_utils.cached_model_problem("granite-4.1-8b").endswith(
+        "lacks 1 of the 2 files the model loads: config.json"
+    )
+    _hub_cache(tmp_path, "ibm-granite/granite-4.1-30b", {"config.json": b"{}"})
+    assert llm_utils.cached_model_problem("granite-4.1-30b").endswith(
+        "holds no weights (*.safetensors)"
+    )
+
+    repo = tmp_path / "models--Qwen--Qwen3-8B"
+    (repo / "refs").mkdir(parents=True)
+    (repo / "refs" / "main").write_text(COMMIT)
+    assert "names a snapshot that is not there" in llm_utils.cached_model_problem("qwen3-8b")
+    (repo / "snapshots" / ("0" * 40)).mkdir(parents=True)  # an earlier download
+    (repo / "refs" / "main").write_text("")  # a ref cut short
+    assert "names a snapshot that is not there" in llm_utils.cached_model_problem("qwen3-8b")
+
+    # A GGUF repository holds several quantisations, in subfolders too: the entry's one counts.
+    gguf = MODEL_REGISTRY["gemma-4-26b-moe-gguf"]
+    _hub_cache(tmp_path, gguf["hf_id"], {"Q8_0/model-Q8_0.gguf": b"q"})
+    assert llm_utils.cached_model_problem("gemma-4-26b-moe-gguf").endswith(
+        f"holds no {gguf['filename']}"
+    )
+    _hub_cache(tmp_path, gguf["hf_id"], {"Q4_K_M/model-Q4_K_M.gguf": b"q"})
+    assert llm_utils.cached_model_problem("gemma-4-26b-moe-gguf") is None
+
+
+def test_download_fetches_what_a_run_reads_and_checks_it_arrived(tmp_path, monkeypatch):
+    import huggingface_hub
+
+    monkeypatch.setattr(huggingface_hub.constants, "HF_HUB_CACHE", str(tmp_path))
+    gguf = MODEL_REGISTRY["gemma-4-26b-moe-gguf"]
+    hub = {
+        "ibm-granite/granite-4.1-30b": {"config.json": b"{}", **_shards(2)},
+        gguf["hf_id"]: {"model-Q4_K_M.gguf": b"q"},
+        "Qwen/Qwen3.8-27B": {"config.json": b"{}", **_shards(2)},
+    }
+    del hub["Qwen/Qwen3.8-27B"]["model-00002-of-00002.safetensors"]  # a download cut short
+    calls = []
+
+    def snapshot_download(repo_id, allow_patterns=None, **kw):
+        calls.append((repo_id, allow_patterns))
+        return str(_hub_cache(tmp_path, repo_id, hub[repo_id]))
 
     monkeypatch.setattr(huggingface_hub, "snapshot_download", snapshot_download)
-    monkeypatch.setattr(huggingface_hub, "is_offline_mode", lambda: True)
-    assert llm_utils.missing_offline_model("qwen-3.8-27b-it") == "Qwen/Qwen3.8-27B"
-    assert llm_utils.missing_offline_model("qwen-3.6-27b-it") is None
-    monkeypatch.setattr(huggingface_hub, "is_offline_mode", lambda: False)
-    assert llm_utils.missing_offline_model("qwen-3.8-27b-it") is None  # online: it downloads
-
-
-def test_download_fetches_what_a_run_reads(monkeypatch):
-    import huggingface_hub
-
-    calls = []
-    monkeypatch.setattr(
-        huggingface_hub,
-        "snapshot_download",
-        lambda repo_id, **kw: calls.append((repo_id, kw["allow_patterns"])) or "/cache",
-    )
-    llm_utils.download_model_files("granite-4.1-30b")
+    assert llm_utils.download_model_files("granite-4.1-30b").endswith(COMMIT)
     llm_utils.download_model_files("gemma-4-26b-moe-gguf")
     assert calls[0][0] == "ibm-granite/granite-4.1-30b"
     assert "*.safetensors" in calls[0][1] and "*.pth" not in calls[0][1]
-    assert calls[1][1] == [MODEL_REGISTRY["gemma-4-26b-moe-gguf"]["filename"]]
+    assert calls[1][1] == [gguf["filename"]]
+    with pytest.raises(
+        RuntimeError, match="still incomplete after the download: .*model-00002-of-00002"
+    ):
+        llm_utils.download_model_files("qwen-3.8-27b-it")
     with pytest.raises(ValueError, match="Unknown MODEL_KEY"):
         llm_utils.download_model_files("no-such-model")
 
