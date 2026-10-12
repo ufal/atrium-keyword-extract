@@ -262,8 +262,13 @@ The research run on a GPU node:
 ```bash
 pip install -r requirements.txt -r requirements_llm.txt   # vLLM brings its own torch pin
 $EDITOR llm_config.txt     # MODEL_KEY; INPUT_DIR (line CSVs or *.teitok.xml), OUTPUT_DIR, PARADATA_DIR
+python llm_run.py --download   # where huggingface.co is reachable: MODEL_KEY into the HF cache
 python llm_run.py          # or: python llm_run.py <another config>
 ```
+
+A GPU node without internet access (`HF_HUB_OFFLINE=1`) loads a model only from the Hugging Face cache, so
+fetch it first on a machine that has access, into the same `HF_HOME` (`--download KEY ...` takes several keys);
+a run whose model is not cached stops before loading and says so.
 
 It writes `<OUTPUT_DIR>_<model>/<doc_id>_enriched.json` per document (and `<doc_id>_enriched.abort.json` after ten
 consecutive errors), skips a document whose output already exists, so a stopped job resumes (delete an aborted

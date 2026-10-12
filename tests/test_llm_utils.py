@@ -401,6 +401,44 @@ def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkey
     assert "served_max_model_len" not in MODEL_REGISTRY["qwen-3.5-35b-moe-gptq"]
 
 
+def test_an_offline_node_is_told_to_download_a_model_it_does_not_have(monkeypatch):
+    """GPU nodes can be offline (HF_HUB_OFFLINE=1): a model missing from the cache must stop
+    the run before the load, with the command that fetches it, not halfway through it."""
+    import huggingface_hub
+
+    cached = {"Qwen/Qwen3.6-27B"}
+
+    def snapshot_download(repo_id, local_files_only=False, **kw):
+        if repo_id not in cached:
+            raise huggingface_hub.errors.LocalEntryNotFoundError("not cached")
+        return f"/cache/{repo_id}"
+
+    monkeypatch.setattr(huggingface_hub, "snapshot_download", snapshot_download)
+    monkeypatch.setattr(huggingface_hub, "is_offline_mode", lambda: True)
+    assert llm_utils.missing_offline_model("qwen-3.8-27b-it") == "Qwen/Qwen3.8-27B"
+    assert llm_utils.missing_offline_model("qwen-3.6-27b-it") is None
+    monkeypatch.setattr(huggingface_hub, "is_offline_mode", lambda: False)
+    assert llm_utils.missing_offline_model("qwen-3.8-27b-it") is None  # online: it downloads
+
+
+def test_download_fetches_what_a_run_reads(monkeypatch):
+    import huggingface_hub
+
+    calls = []
+    monkeypatch.setattr(
+        huggingface_hub,
+        "snapshot_download",
+        lambda repo_id, **kw: calls.append((repo_id, kw["allow_patterns"])) or "/cache",
+    )
+    llm_utils.download_model_files("granite-4.1-30b")
+    llm_utils.download_model_files("gemma-4-26b-moe-gguf")
+    assert calls[0][0] == "ibm-granite/granite-4.1-30b"
+    assert "*.safetensors" in calls[0][1] and "*.pth" not in calls[0][1]
+    assert calls[1][1] == [MODEL_REGISTRY["gemma-4-26b-moe-gguf"]["filename"]]
+    with pytest.raises(ValueError, match="Unknown MODEL_KEY"):
+        llm_utils.download_model_files("no-such-model")
+
+
 def test_rope_scaled_entries_reach_their_context_window():
     """An entry's context_window is reached only through its rope_scaling."""
     scaled = {k: v for k, v in MODEL_REGISTRY.items() if v.get("rope_scaling")}

@@ -255,11 +255,19 @@ def _write_abort_marker(
     print(f"  -> Abort marker written: {abort_file.name}")
 
 
-def main(config_path: str = "llm_config.txt") -> None:
+def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = None) -> None:
     config = load_config(config_path)
 
     MODEL_KEY = config.get("MODEL_KEY", "qwen-3.6-27b-it")
     HF_TOKEN = config.get("HF_TOKEN", os.environ.get("HF_TOKEN", None))
+
+    if download is not None:
+        # Run where huggingface.co is reachable: a GPU node may not be (HF_HUB_OFFLINE=1),
+        # and there a model loads only from the cache, which this fills.
+        for key in download or [MODEL_KEY]:
+            print(f"=== Downloading {key} into the Hugging Face cache ===")
+            print(f"    {llm_utils.download_model_files(key, HF_TOKEN)}")
+        return
     INPUT_DIR = Path(config.get("INPUT_DIR", "data_samples/DOC_LINE_CATEG"))
     VOCAB_PATH = config.get("VOCAB_PATH", "data_samples/vocab/union_nested.json")
     PARADATA_DIR = config.get("PARADATA_DIR", "paradata")
@@ -337,6 +345,13 @@ def main(config_path: str = "llm_config.txt") -> None:
     )
 
     _check_backend_deps(BACKEND, MODEL_KEY)
+    missing = llm_utils.missing_offline_model(MODEL_KEY)
+    if missing:
+        raise RuntimeError(
+            f"\n  {MODEL_KEY} ({missing}) is not in the Hugging Face cache, and this node is "
+            "offline.\n  Download it where huggingface.co is reachable, into the same HF_HOME:\n"
+            f"    python llm_run.py --download {MODEL_KEY}\n"
+        )
     log_gpu_info()
 
     # D3 (issue #6): every run injects the AMCR + TEATER vocabulary into its prompt,
@@ -677,4 +692,12 @@ if __name__ == "__main__":
         default="llm_config.txt",
         help="the run's KEY=VALUE config file (default: llm_config.txt)",
     )
-    main(_parser.parse_args().config)
+    _parser.add_argument(
+        "--download",
+        nargs="*",
+        metavar="MODEL_KEY",
+        help="fetch the model files into the Hugging Face cache and exit: the config's "
+        "MODEL_KEY, or the keys given. Run it where huggingface.co is reachable.",
+    )
+    _args = _parser.parse_args()
+    main(_args.config, download=_args.download)

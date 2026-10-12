@@ -1387,6 +1387,68 @@ def _hub_weight_bytes(hf_id: str, filename_pattern: Optional[str]) -> int:
     return total
 
 
+# What a run reads from a model repository: weights, configs, tokenizer, chat template and,
+# for trust_remote_code, the model's own code. Repositories carry more beside them (an
+# original/*.pth copy of the weights, other quantisations, images).
+_MODEL_FILE_PATTERNS = [
+    "*.json",
+    "*.safetensors",
+    "*.model",
+    "*.txt",
+    "*.jinja",
+    "*.tiktoken",
+    "*.py",
+]
+
+
+def _model_spec(model_key: str) -> dict:
+    if model_key not in MODEL_REGISTRY:
+        raise ValueError(
+            f"Unknown MODEL_KEY '{model_key}'. Available: {', '.join(MODEL_REGISTRY.keys())}"
+        ) from None
+    return MODEL_REGISTRY[model_key]
+
+
+def download_model_files(model_key: str, hf_token: Optional[str] = None) -> str:
+    """Fetch what a run of ``model_key`` reads into the Hugging Face cache; return its folder.
+
+    For a machine that reaches huggingface.co: the GPU nodes may not (HF_HUB_OFFLINE=1),
+    and there a model loads only from the cache they share.
+    """
+    spec = _model_spec(model_key)
+    from huggingface_hub import snapshot_download  # noqa: E402
+
+    patterns = [spec.get("filename", "*.gguf")] if spec.get("is_gguf") else _MODEL_FILE_PATTERNS
+    return snapshot_download(spec["hf_id"], allow_patterns=patterns, token=hf_token or None)
+
+
+def missing_offline_model(model_key: str) -> Optional[str]:
+    """The model's repository id when this node is offline and the cache does not hold it.
+
+    Checked before the model load, which otherwise fails in the middle of it, after the
+    vocabulary is built (qwen-3.8-27b-it on a GPU node, 2026-10-12).
+    """
+    spec = _model_spec(model_key)
+    hf_id = spec["hf_id"]
+    try:
+        from huggingface_hub import is_offline_mode  # noqa: E402
+
+        offline = is_offline_mode()
+    except ImportError:  # huggingface_hub < 1.0
+        from huggingface_hub import constants  # noqa: E402
+
+        offline = getattr(constants, "HF_HUB_OFFLINE", False)
+    if not offline or Path(hf_id).exists():
+        return None
+    from huggingface_hub import snapshot_download  # noqa: E402
+
+    try:
+        snapshot_download(hf_id, local_files_only=True)
+    except Exception:
+        return hf_id
+    return None
+
+
 def estimate_weight_footprint_gb(model_key: str) -> Optional[float]:
     """
     Best-effort weight footprint of *model_key* in GB, trying in order:
