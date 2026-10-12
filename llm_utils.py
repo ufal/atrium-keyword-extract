@@ -475,6 +475,10 @@ _patch_tokenizer_compat()
 #   bnb_experts_broken  — BnB 4-bit fails on fused expert blocks; use vLLM.
 #   vllm_only           — Cannot be used with the transformers backend.
 #   recommended_tp      — Suggested tensor_parallel_size for vLLM.
+#   vllm_engine_kwargs  — Extra vllm.LLM() arguments for this model, e.g.
+#                         language_model_only=True: a multimodal checkpoint
+#                         (Gemma 4, Qwen3.5/3.6) runs text-only, without
+#                         reserving memory for images.
 #   max_quant_ratio     — Override for _verify_quantization_effective threshold.
 #   weight_footprint_gb — Approx. serving-weight size in GB as stored on HF
 #                         (pre-quantized checkpoints: their real file size).
@@ -613,6 +617,41 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "vllm_batch_size": 16,
         },
     },
+    "gemma-4-12b-it": {
+        "hf_id": "google/gemma-4-12B-it",
+        "context_window": 262144,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": True,
+        "weight_footprint_gb": 24,
+        "notes": (
+            "Gemma 4 12B (2026), the size of the 14B models; 140+ languages. bf16 over two "
+            "24 GB GPUs; gemma-4-12b-it-qat is its 4-bit build for vLLM."
+        ),
+        "inference_defaults": {
+            "backend": "transformers",
+            "tensor_parallel_size": 1,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": None,
+            "vllm_batch_size": 16,
+        },
+    },
+    "granite-4.1-8b": {
+        "hf_id": "ibm-granite/granite-4.1-8b",
+        "context_window": 131072,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": False,
+        "weight_footprint_gb": 16,
+        "notes": "IBM Granite 4.1 8B (Apr 2026): Czech is among its 12 listed languages.",
+        "inference_defaults": {
+            "backend": "transformers",
+            "tensor_parallel_size": 1,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": None,
+            "vllm_batch_size": 16,
+        },
+    },
     "qwen2.5-14b-awq": {
         "hf_id": "Qwen/Qwen2.5-14B-Instruct-AWQ",
         "context_window": 131072,
@@ -714,6 +753,46 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "vllm_batch_size": 16,
         },
     },
+    "qwen-3.8-27b-it": {
+        "hf_id": "Qwen/Qwen3.8-27B",
+        "context_window": 262144,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": False,
+        "weight_footprint_gb": 54,
+        "load_in_4bit": True,
+        "notes": (
+            "Qwen3.8 27B (Aug 2026), the successor of qwen-3.6-27b-it with the same hybrid "
+            "design; BnB 4-bit over two 24 GB GPUs. qwen-3.8-27b-fp8 runs it on vLLM."
+        ),
+        "inference_defaults": {
+            "backend": "transformers",
+            "tensor_parallel_size": 1,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": None,
+            "vllm_batch_size": 16,
+        },
+    },
+    "granite-4.1-30b": {
+        "hf_id": "ibm-granite/granite-4.1-30b",
+        "context_window": 131072,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": False,
+        "weight_footprint_gb": 60,
+        "load_in_4bit": True,
+        "notes": (
+            "IBM Granite 4.1 30B (Apr 2026): Czech is among its 12 listed languages. Dense; "
+            "BnB 4-bit over two 24 GB GPUs."
+        ),
+        "inference_defaults": {
+            "backend": "transformers",
+            "tensor_parallel_size": 1,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": None,
+            "vllm_batch_size": 16,
+        },
+    },
     "gemma-4-31b-it": {
         "hf_id": "google/gemma-4-31B-it",
         "context_window": 256000,
@@ -751,6 +830,96 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "gpu_memory_utilization": 0.90,
             "max_model_len": None,
             "vllm_batch_size": 8,
+        },
+    },
+    # ------------------------------------------------------------------
+    # Pre-quantized checkpoints — vLLM only, fit 2x 24 GB (Ampere: W4A16 / FP8
+    # weight-only kernels)
+    # ------------------------------------------------------------------
+    "gemma-4-12b-it-qat": {
+        "hf_id": "google/gemma-4-12B-it-qat-w4a16-ct",
+        "context_window": 262144,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": True,
+        "weight_footprint_gb": 8.3,
+        "vllm_only": True,
+        "min_vllm_version": "0.23.0",
+        "vllm_engine_kwargs": {"language_model_only": True},
+        "notes": "Google's quantisation-aware-trained 4-bit Gemma 4 12B (W4A16, compressed-tensors).",
+        "inference_defaults": {
+            "backend": "vllm",
+            "tensor_parallel_size": 1,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": 65536,
+            "vllm_batch_size": 16,
+        },
+    },
+    "gemma-4-31b-it-qat": {
+        "hf_id": "google/gemma-4-31B-it-qat-w4a16-ct",
+        "context_window": 256000,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": True,
+        "weight_footprint_gb": 19.8,
+        "vllm_only": True,
+        "min_vllm_version": "0.19.0",
+        "vllm_engine_kwargs": {"language_model_only": True},
+        "notes": (
+            "Google's quantisation-aware-trained 4-bit Gemma 4 31B (W4A16, compressed-tensors): "
+            "gemma-4-31b-it on vLLM, batched and with prefix caching."
+        ),
+        "inference_defaults": {
+            "backend": "vllm",
+            "tensor_parallel_size": 2,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": 65536,
+            "vllm_batch_size": 16,
+        },
+    },
+    "qwen-3.5-35b-moe-gptq": {
+        "hf_id": "Qwen/Qwen3.5-35B-A3B-GPTQ-Int4",
+        "context_window": 262144,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": False,
+        "weight_footprint_gb": 21,
+        "is_moe": True,
+        "vllm_only": True,
+        "min_vllm_version": "0.17.0",
+        "vllm_engine_kwargs": {"language_model_only": True},
+        "notes": (
+            "Qwen's own GPTQ 4-bit of Qwen3.5-35B-A3B (Feb 2026): MoE with 3B active "
+            "parameters, ~20 GB, so it fits two 24 GB GPUs where qwen-3.6-35b-moe (bf16) "
+            "does not."
+        ),
+        "inference_defaults": {
+            "backend": "vllm",
+            "tensor_parallel_size": 2,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": 131072,
+            "vllm_batch_size": 16,
+        },
+    },
+    "qwen-3.8-27b-fp8": {
+        "hf_id": "Qwen/Qwen3.8-27B-FP8",
+        "context_window": 262144,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
+        "hf_token_required": False,
+        "weight_footprint_gb": 28,
+        "vllm_only": True,
+        "vllm_engine_kwargs": {"language_model_only": True},
+        "notes": (
+            "Qwen's FP8 Qwen3.8-27B. Ampere (A30) has no FP8 compute: vLLM keeps the weights "
+            "in FP8 and computes in bf16, which is what makes it fit two 24 GB GPUs."
+        ),
+        "inference_defaults": {
+            "backend": "vllm",
+            "tensor_parallel_size": 2,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": 131072,
+            "vllm_batch_size": 16,
         },
     },
     # ------------------------------------------------------------------
@@ -1919,6 +2088,8 @@ def load_vllm_engine(
     if cpu_offload_gb > 0:
         engine_kwargs["cpu_offload_gb"] = cpu_offload_gb
 
+    engine_kwargs.update(spec.get("vllm_engine_kwargs", {}))
+
     rope_config = _rope_scaled_config(spec, hf_token)
     if rope_config is not None:
         text_config = rope_config.get_text_config()
@@ -2168,7 +2339,7 @@ def _format_chat_prompt(
     template call (falls back gracefully if the tokenizer does not support
     the kwarg).
     """
-    is_qwen3 = any(k in model_key.lower() for k in ("qwen3", "qwen-3.5", "qwen-3.6", "qwen3-235b"))
+    is_qwen3 = any(k in model_key.lower() for k in ("qwen3", "qwen-3."))
 
     if is_qwen3:
         # Work on copies to avoid mutating the caller's list

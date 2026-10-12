@@ -20,17 +20,30 @@
 # =============================================================================
 #
 # Small  (≤14 B, transformers backend):
-#   qwen-3.5-9b-it  |  qwen3-8b  |  qwen3-14b  |  gemma-3-12b-it
+#   qwen-3.5-9b-it  |  qwen3-8b  |  qwen3-14b  |  gemma-3-12b-it  |  gemma-4-12b-it
+#   granite-4.1-8b
 #   The ~58k-token prompt's KV cache comes on top of the weights: 2 GPUs of 24 GB.
 #   qwen3-8b and qwen3-14b are trained to 32k tokens; the registry turns on the YaRN
 #   scaling Qwen documents for their 128k window (off in the checkpoints).
+#   Granite 4.1 is the one family here that lists Czech among its languages.
 #
 # Small, vLLM backend:
 #   qwen2.5-14b-awq          — AWQ runs natively in vLLM (the transformers backend would
 #                               need gptqmodel); tp=2 on 24 GB cards; YaRN as above
+#   gemma-4-12b-it-qat       — Google's 4-bit (QAT) Gemma 4 12B, 8.3 GB; one GPU
 #
-# Mid    (≤31 B, single GPU, transformers backend, BnB 4-bit):
-#   qwen-3.6-27b-it  |  gemma-4-31b-it
+# Mid    (≤31 B, transformers backend, BnB 4-bit over 2 GPUs of 24 GB):
+#   qwen-3.6-27b-it  |  qwen-3.8-27b-it  |  gemma-4-31b-it  |  granite-4.1-30b
+#
+# Pre-quantized, vLLM backend, 2 GPUs of 24 GB (tp=2):
+#   gemma-4-31b-it-qat       — Google's 4-bit (QAT) Gemma 4 31B, 19.8 GB
+#   qwen-3.5-35b-moe-gptq    — Qwen's own 4-bit Qwen3.5-35B-A3B (3B active), ~20 GB
+#   qwen-3.8-27b-fp8         — Qwen's FP8 Qwen3.8-27B; on Ampere the weights stay FP8
+#                               and the compute is bf16
+#   The entries added on 2026-10-12 (gemma-4-12b-it*, gemma-4-31b-it-qat,
+#   qwen-3.5-35b-moe-gptq, qwen-3.8-*, granite-4.1-*) come from their model cards: the
+#   architectures are supported by vLLM 0.30+ and transformers 5.17, but none of these
+#   checkpoints has been run here yet.
 #
 # MoE / large  (vLLM backend, auto-selected):
 #
@@ -39,7 +52,8 @@
 #                               released April 2025); use gemma-4-26b-moe-gguf for
 #                               single-GPU fallback
 #
-#   qwen-3.6-35b-moe         — requires vLLM ≥ 0.8.x (Qwen3_5Moe arch not in 0.7.3)
+#   qwen-3.6-35b-moe         — bf16, ~70 GB: more than 2× 24 GB; there, use
+#                               qwen-3.5-35b-moe-gptq
 #
 #   llama3.1-70b             — transformers, 4-bit BnB: ~40 GB of weights plus ~20 GB of
 #                               KV cache for the full prompt — two 48 GB cards or four A30

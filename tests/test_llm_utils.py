@@ -362,6 +362,45 @@ def test_rope_scaling_keeps_the_models_own_theta(monkeypatch):
     assert llm_utils._rope_scaled_config(MODEL_REGISTRY["qwen-3.6-27b-it"]) is None
 
 
+def test_prequantized_checkpoints_run_on_vllm():
+    """AWQ, GPTQ, QAT (compressed-tensors) and FP8 checkpoints load on vLLM; transformers
+    would need gptqmodel or compressed-tensors, which requirements_llm.txt does not bring."""
+    for key, spec in MODEL_REGISTRY.items():
+        if any(tag in spec["hf_id"].lower() for tag in ("-awq", "-gptq", "-qat-", "-fp8")):
+            resolved, _ = llm_utils.get_inference_defaults(key, {})
+            assert resolved["BACKEND"] == "vllm", key
+
+
+def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkeypatch):
+    """vLLM's workers inherit PYTORCH_CUDA_ALLOC_CONF, and its custom all-reduce cannot share
+    expandable-segment memory: with two GPUs every start died. A multimodal checkpoint runs
+    text-only, and the window the engine serves comes back for the prompt budget."""
+    import os
+    import sys
+    import types
+
+    seen = {}
+
+    class LLM:
+        def __init__(self, **kwargs):
+            seen.update(kwargs, alloc_conf=os.environ.get("PYTORCH_CUDA_ALLOC_CONF"))
+            self.model_config = types.SimpleNamespace(max_model_len=kwargs["max_model_len"])
+
+        def get_tokenizer(self):
+            return "tokenizer"
+
+    monkeypatch.setitem(sys.modules, "vllm", types.SimpleNamespace(LLM=LLM, __version__="0.31.0"))
+    monkeypatch.setenv("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
+    monkeypatch.setattr(llm_utils, "_size_cpu_offload", lambda *a, **k: 0)
+    _, _, spec = llm_utils.load_vllm_engine(
+        "qwen-3.5-35b-moe-gptq", tensor_parallel_size=2, max_model_len=131072
+    )
+    assert seen["language_model_only"] is True and seen["tensor_parallel_size"] == 2
+    assert seen["alloc_conf"] == "expandable_segments:False"
+    assert spec["served_max_model_len"] == 131072
+    assert "served_max_model_len" not in MODEL_REGISTRY["qwen-3.5-35b-moe-gptq"]
+
+
 def test_rope_scaled_entries_reach_their_context_window():
     """An entry's context_window is reached only through its rope_scaling."""
     scaled = {k: v for k, v in MODEL_REGISTRY.items() if v.get("rope_scaling")}
