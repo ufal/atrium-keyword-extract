@@ -16,6 +16,24 @@
 # recent vllm releases require `transformers>=5.5.3` and win. Dependabot ignores
 # `transformers >= 5.0.0`, which stops it PROPOSING a 5.x bump -- it does not stop pip resolving
 # one when vllm demands it.
+#
+# BACKEND=transformers (the default for every model up to 31B) needs two packages vllm does not
+# bring: `accelerate`, which transformers requires for device_map="auto" and BnB 4-bit loading
+# (1.1.0 is its own floor), and `lm-format-enforcer` for the constrained decoding. The latter
+# arrives with vllm today (pinned there); it is listed because llm_run.py imports it directly.
+# Without accelerate the run stopped at model load: "Using a `device_map` ... requires
+# `accelerate`" (2026-10-12, a venv built from this file).
+#
+# `flash-linear-attention` (pure Python + Triton, no build step) for the hybrid models: Qwen3.5 and
+# Qwen3.6 (qwen-3.5-9b-it, qwen-3.6-27b-it, qwen-3.6-35b-moe) put a gated-delta-rule layer in
+# three of every four places, and without this package transformers runs those on a reference
+# PyTorch kernel -- more than ten times slower, and for the ~58k-token prompt its fp32
+# temporaries ran Qwen3.6-27B out of memory on every line on 2x A30 (2026-10-12). transformers
+# also offers `causal-conv1d` for the short convolution; it needs a CUDA build, and its PyTorch
+# fallback is cheap, so it is not listed.
+accelerate>=1.1.0
+flash-linear-attention
+lm-format-enforcer
 configparser
 tqdm
 requests

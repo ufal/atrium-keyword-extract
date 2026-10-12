@@ -127,6 +127,16 @@ MIN_CHAR_NON_TEXT=8
 MIN_ALPHA_RATIO_NON_TEXT=0.4
 
 # =============================================================================
+# Transformers backend: chunked prefill
+# =============================================================================
+# The whole prompt is 58 260 tokens with Qwen3.6's tokenizer. Prefilled in one pass, a
+# single layer's activations outgrow what a 24 GB card has left beside the weights (OOM on
+# every line, Qwen3.6-27B on 2x A30, 2026-10-12). In chunks of this many tokens the peak
+# stays bounded, and the cache carries the state from chunk to chunk, so the computation is
+# the same. 0 = one pass. vLLM chunks its prefill by itself and ignores this.
+PREFILL_CHUNK_SIZE=8192
+
+# =============================================================================
 # Inference parameter overrides  (all auto-set from model registry by default)
 # =============================================================================
 #
@@ -154,8 +164,8 @@ MIN_ALPHA_RATIO_NON_TEXT=0.4
 # Required for llama4-maverick (1 M token native window causes OOM otherwise).
 # The four large vLLM models default to 16 384, and the system prompt is fitted to the
 # window the engine serves: the whole prompt — 4 711 terms and the instructions — is
-# about 47k tokens (estimated at 3.35 chars/token), so at 16 384 only ~1 400 terms
-# (Chronology, Activity Area, Feature, part of Artefact) reach the model, and the run's
+# 58 260 tokens with Qwen3.6's tokenizer, so at 16 384 only ~1 100 terms (Chronology,
+# Activity Area, Feature, the start of Artefact) reach the model, and the run's
 # paradata records the cut as a `vocab_prompt_budget_tokens` note. For a run over the
 # whole vocabulary set 65536, and size the KV cache / CPU offload for it.
 # MAX_MODEL_LEN=65536

@@ -277,6 +277,10 @@ def main(config_path: str = "llm_config.txt") -> None:
     # without a code change if it does.
     EMIT_CATEGORY_IDS = config.get("EMIT_CATEGORY_IDS", "true").lower() == "true"
 
+    # Transformers backend only: prefill each prompt this many tokens at a time (0 = one pass).
+    # vLLM chunks its prefill by itself.
+    PREFILL_CHUNK_SIZE = int(config.get("PREFILL_CHUNK_SIZE", "0"))
+
     infer, sources = get_inference_defaults(MODEL_KEY, config)
 
     BACKEND = infer["BACKEND"]
@@ -316,6 +320,12 @@ def main(config_path: str = "llm_config.txt") -> None:
             ("GUIDED_DECODING_BACKEND", GUIDED_DECODING_BACKEND),
         ]:
             print(f"    {key:<26} = {str(val):<12}  {_SRC_LABEL[sources.get(key, 'global')]}")
+    else:
+        source = "config" if "PREFILL_CHUNK_SIZE" in config else "global"
+        print(
+            f"    {'PREFILL_CHUNK_SIZE':<26} = {str(PREFILL_CHUNK_SIZE or 'off'):<12}  "
+            f"{_SRC_LABEL[source]}"
+        )
     print(
         "\n  To override any value add it to llm_config.txt. Values marked '← llm_config.txt' are already user-set.\n"
     )
@@ -533,6 +543,7 @@ def main(config_path: str = "llm_config.txt") -> None:
                         min_char_count=MIN_CHAR_COUNT,
                         min_char_non_text=MIN_CHAR_NON_TEXT,
                         min_alpha_ratio_non_text=MIN_ALPHA_RATIO_NON_TEXT,
+                        prefill_chunk_size=PREFILL_CHUNK_SIZE or None,
                     )
 
                 _attach_category_ids(enriched_results, id_lookup, strip_map, EMIT_CATEGORY_IDS)
@@ -579,6 +590,10 @@ def main(config_path: str = "llm_config.txt") -> None:
                     _write_abort_marker(
                         out_file=out_file, stats=doc_stats, reason="10 consecutive inference errors"
                     )
+                else:
+                    # A marker left by an earlier, failed run of this document would flag the
+                    # complete result just written as incomplete.
+                    out_file.with_suffix("").with_suffix(".abort.json").unlink(missing_ok=True)
 
             except Exception as exc:
                 print(f"  Critical error on {input_file.name}: {exc}")

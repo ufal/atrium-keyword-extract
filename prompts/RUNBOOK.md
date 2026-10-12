@@ -154,7 +154,7 @@ window a tail of terms is dropped — by `llm_run.py` counting with the model's 
 the clients and the service estimating 4 characters per token (`LLM_CONTEXT_WINDOW`); the
 instruction half is identical either way. `llm_run.py` fits the prompt to the window the
 model is served with — under vLLM that is `MAX_MODEL_LEN` when set, 16 384 by default for the
-four large models, where about 1 400 terms fit. It and the service record a cut in the
+four large models, where about 1 100 terms fit. It and the service record a cut in the
 paradata as a `vocab_prompt_budget_tokens` note; the batch clients print it.
 
 **`--diff` is the form a wording decision actually takes.** The whole M11/M12 guardrail

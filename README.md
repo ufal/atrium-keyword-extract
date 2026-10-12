@@ -268,12 +268,14 @@ python llm_run.py          # or: python llm_run.py <another config>
 It writes `<OUTPUT_DIR>_<model>/<doc_id>_enriched.json` per document (and `<doc_id>_enriched.abort.json` after ten
 consecutive errors), skips a document whose output already exists, so a stopped job resumes (delete an aborted
 document's two files to redo it), and writes a paradata record naming the vocabulary build and the sha256 of the
-prompt it used. The whole prompt is about 47k tokens: a model served with a smaller window, including the large vLLM
+prompt it used. The whole prompt is about 58k tokens: a model served with a smaller window, including the large vLLM
 models at their default `MAX_MODEL_LEN` of 16384, sees only a prefix of the vocabulary, and the paradata records how
 many terms were cut. With `BACKEND=transformers` every line re-reads the whole prompt; vLLM computes it once and
-reuses it (prefix caching). The `llm` image carries no sample inputs, and whatever it writes outside `/data` goes
-with the container, so point `INPUT_DIR`, `OUTPUT_DIR` and `PARADATA_DIR` under `/data` in the `llm_config.txt` the
-compose file mounts.
+reuses it (prefix caching); `PREFILL_CHUNK_SIZE` keeps the transformers prefill within a 24 GB card. Hybrid models
+(Qwen3.5, Qwen3.6) need `flash-linear-attention`, which `requirements_llm.txt` lists: without it their
+linear-attention layers run on a reference kernel that is far slower and does not fit. The `llm` image carries no
+sample inputs, and whatever it writes outside `/data` goes with the container, so point `INPUT_DIR`, `OUTPUT_DIR`
+and `PARADATA_DIR` under `/data` in the `llm_config.txt` the compose file mounts.
 
 The vocabulary:
 

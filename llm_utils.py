@@ -34,6 +34,7 @@ os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True")
 import csv  # noqa: E402
 import fnmatch  # noqa: E402
 import gc  # noqa: E402
+import importlib.util  # noqa: E402
 import json  # noqa: E402
 import math  # noqa: E402
 import sys as _sys_tc  # noqa: E402
@@ -1392,6 +1393,20 @@ def _check_backend_deps(backend: str, model_key: str) -> None:
                 f"{model_key} is vllm_only but BACKEND=transformers was forced. "
                 "Remove the BACKEND override from llm_config.txt or install vLLM."
             ) from None
+        # Hard requirements of this backend that vLLM does not bring: device_map="auto" and
+        # BnB loading go through accelerate (a GGUF model goes through llama.cpp instead), and
+        # the constrained decoding through lm-format-enforcer. Checked here, before the model
+        # download and the paradata log, instead of failing inside from_pretrained.
+        needed = [("lmformatenforcer", "lm-format-enforcer")]
+        if not spec.get("is_gguf"):
+            needed.append(("accelerate", "accelerate"))
+        missing = [dist for module, dist in needed if importlib.util.find_spec(module) is None]
+        if missing:
+            raise ImportError(
+                f"\n  BACKEND=transformers needs {' and '.join(missing)}, which "
+                "requirements_llm.txt lists:\n"
+                f"    pip install {' '.join(missing)}\n"
+            ) from None
         # Soft warning: BnB availability
         try:
             import bitsandbytes  # noqa: F401
@@ -1581,6 +1596,18 @@ def load_model_and_tokenizer(
 
     model = AutoModelForCausalLM.from_pretrained(hf_id, **load_kwargs)
     _verify_quantization_effective(model, model_key, spec)
+
+    # Hybrid models (Qwen3.5 / Qwen3.6: three linear-attention layers to every full-attention one)
+    # run their gated-delta-rule layers on flash-linear-attention when it is installed and on a
+    # pure-PyTorch reference otherwise: more than ten times slower, and for the ~58k-token prompt
+    # its fp32 temporaries do not fit a 24 GB card (Qwen3.6-27B on 2x A30, 2026-10-12).
+    layer_types = getattr(model.config.get_text_config(), "layer_types", None) or []
+    if "linear_attention" in layer_types and importlib.util.find_spec("fla") is None:
+        print(
+            f"[WARN] {model_key} has linear-attention layers, and flash-linear-attention is not "
+            "installed: they run on transformers' reference kernel, far slower and far more "
+            "memory-hungry.\n  Fix: pip install flash-linear-attention"
+        )
     model.eval()
     return model, tokenizer, spec
 
@@ -2029,6 +2056,7 @@ def process_document(
     min_char_count: int = 3,
     min_char_non_text: int = 8,
     min_alpha_ratio_non_text: float = 0.40,
+    prefill_chunk_size: Optional[int] = None,
 ) -> Tuple[List[dict], Dict[str, int]]:
     """
     Run LLM inference over every qualifying line in a single input document
@@ -2039,6 +2067,11 @@ def process_document(
     window - CONTEXT_RESERVED); the 512 tokens CONTEXT_RESERVED holds beyond the
     output are this line's user message, so a prompt is cut only where it would
     leave no room for MAX_NEW_TOKENS of output.
+
+    ``prefill_chunk_size`` (PREFILL_CHUNK_SIZE) has ``generate`` prefill the prompt
+    that many tokens at a time, the cache carrying the state between chunks: one
+    pass over the whole ~58k-token prompt needs more activation memory than a 24 GB
+    card has beside the weights. ``None`` is one pass.
 
     Returns:
         (enriched_lines, stats)
@@ -2172,6 +2205,9 @@ def process_document(
                         pad_token_id=tokenizer.pad_token_id,
                         eos_token_id=tokenizer.eos_token_id,
                         prefix_allowed_tokens_fn=prefix_function,
+                        **(
+                            {"prefill_chunk_size": prefill_chunk_size} if prefill_chunk_size else {}
+                        ),
                     )
                 _t1 = time.monotonic()
 
