@@ -1,0 +1,102 @@
+[
+    {
+        "file_id": "CTX000000001",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9215,
+        "original_text": "Výzkumná zpráva č. 1/2024 — Hradiště u Horní Mezí",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výzkumná zpráva",
+                "hradiště",
+                "Horní Mezí"
+            ],
+            "extracted_keywords_en": [
+                "excavation report",
+                "hillfort",
+                "Upper Mezí"
+            ],
+            "teater_category": "nadkomunitní areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000011"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000084"
+                },
+                {
+                    "source": "teater",
+                    "id": "1352"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9302,
+        "original_text": "Terénní výzkum provedl Jan Novotný v červnu 2024.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9268,
+        "original_text": "Nalezená keramika pochází z raného středověku.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramika",
+                "rané středověk"
+            ],
+            "extracted_keywords_en": [
+                "ceramic",
+                "Early Medieval"
+            ],
+            "teater_category": "středověk",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000380"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000414"
+                },
+                {
+                    "source": "teater",
+                    "id": "1237"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX000000001",
+        "page": 2,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9087,
+        "original_text": "Výzkum byl financován z projektu DEMO.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
