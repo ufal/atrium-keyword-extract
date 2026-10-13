@@ -1,0 +1,604 @@
+[
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Č. akce 45938",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 2,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "ARCHEOLOGICKÝ ÚSTAV AKADEMIE VĚD ČR, Praha, v.v.i.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.7482,
+        "original_text": "118 01 Praha 1 - Malá Strana, Letenská 4",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Pracoviště Kutná Hora, Hloušecká 609, 284 01 Kutná Hora",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.6279,
+        "original_text": "tel.: 327 511 730, e-mail: archeologiekh@seznam.cz",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.84,
+        "original_text": "V Kutné Hoře 1.7.2014",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9433,
+        "original_text": "Ing. Jan Přibyl",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9542,
+        "original_text": "Mgr. Jana Přibylová",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 9,
+        "categ": "Noisy",
+        "quality_score": 0.7785,
+        "original_text": "Spodní 682",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.7785,
+        "original_text": "Spodní 682",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.7135,
+        "original_text": "625 00 Brno",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 12,
+        "categ": "Noisy",
+        "quality_score": 0.7135,
+        "original_text": "625 00 Brno",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "VĚC: zpráva o provedení záchranného archeologického výzkumu při akci - Čáslav - novostavba",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8121,
+        "original_text": "rodinného domu na ppč. 1642/17,18 v k.ú. Čáslav.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9402,
+        "original_text": "V souladu se zněním zákona č.20/87 Sb. v platném znění byl na základě ohlášení zahájení výkopových prací",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.8632,
+        "original_text": "proveden archeologický dohled při akci: Čáslav - novostavba rodinného domu na ppč. 1642/17, 18 v k.ú.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9342,
+        "original_text": "Čáslav.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.9513,
+        "original_text": "Akce probíhala na západním okraji města v poloze „Vodranty“. V těsném sousedství stavby došlo v minulosti",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "město",
+                "Vodranty",
+                "polykulturní pravěké a středověké osídlení"
+            ],
+            "extracted_keywords_en": [
+                "town",
+                "Vodranty",
+                "multi-cultural prehistoric and medieval settlement"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9593,
+        "original_text": "k zachycení polykulturního pravěkého a středověkého osídlení, proto nešlo dopředu vyloučit možnost, že",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "polykulturní pravěké osídlení",
+                "středověké osídlení"
+            ],
+            "extracted_keywords_en": [
+                "multi-cultural prehistoric settlement",
+                "medieval settlement"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9816,
+        "original_text": "v průběhu akce dojde k poškození důležitých archeologických situací.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9491,
+        "original_text": "Archeologický dohled při stavbě proběhl formou revize (20.6.2014) skrývky ornice a výkopů základových",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Archeologický dohled",
+                "stavba",
+                "revize",
+                "ornice",
+                "výkopy základových pasů",
+                "rodinný dům",
+                "profilech výkopů",
+                "souvrství",
+                "podorničí",
+                "podloží",
+                "spraš"
+            ],
+            "extracted_keywords_en": [
+                "archaeological supervision",
+                "construction",
+                "revision",
+                "arable topsoil",
+                "foundation trench excavations",
+                "family house",
+                "trench profiles",
+                "layer sequence",
+                "subsoil",
+                "bedrock",
+                "loess"
+            ],
+            "teater_category": "záchranný výzkum (archeologie)",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "110"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.978,
+        "original_text": "pasů pro rodinný dům. Na profilech výkopů bylo patrné souvrství hnědé ornice s podorničím na intaktním",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "ornice",
+                "podorničí",
+                "podloží",
+                "spraš"
+            ],
+            "extracted_keywords_en": [
+                "arable topsoil",
+                "subsoil",
+                "bedrock",
+                "loess"
+            ],
+            "teater_category": "vrstva/souvrství",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000453"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000574"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.9547,
+        "original_text": "podloží, které tvořila intaktní spraš.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "ornice",
+                "podorničí",
+                "podloží",
+                "spraš"
+            ],
+            "extracted_keywords_en": [
+                "arable topsoil",
+                "subsoil",
+                "bedrock",
+                "loess"
+            ],
+            "teater_category": "vrstva/souvrství",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000453"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000574"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.99,
+        "original_text": "K zachycení archeologických situací ani materiálu při akci nedošlo. Vzhledem k negativním archeologickým",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9852,
+        "original_text": "zjištěním byl prostor stavby po ukončení dohledu uvolněn pro dokončení akce.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.8652,
+        "original_text": "Archeologický dohled při stavbě provedl Mgr. Filip Velímský, Ph.D. (ARÚ AV ČR, Praha, v.v.i., pracoviště",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Kutná Hora). Terénní dokumentace je uložena v Archeologickém ústavu AV ČR, Praha, v.v.i., pracoviště",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.9534,
+        "original_text": "Kutná Hora.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.9421,
+        "original_text": "Závěrem je možno konstatovat, že byla dodržena všechna zákonná ustanovení o ochraně",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.9398,
+        "original_text": "archeologických památek.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.8459,
+        "original_text": "PhDr. Radka Šumberová, Ph.D.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9812,
+        "original_text": "Vedoucí pracoviště Kutná Hora",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX201405311",
+        "page": 1,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.895,
+        "original_text": "Zpracoval: Mgr. Filip Velímský, Ph.D.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
