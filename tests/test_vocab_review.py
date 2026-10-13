@@ -410,11 +410,14 @@ def test_specificity_pairs_is_empty_without_a_hierarchy():
 
 def test_the_budget_ladder_still_matches_the_model_registry():
     """The ladder is hard-coded because llm_utils imports torch. That is only safe if a
-    test notices when the registry gains a window the sheet does not model."""
+    test notices when the registry gains a window the sheet does not model. A rope-scaled
+    entry counts with the window it was trained to as well: 32k for the Qwen models whose
+    128k comes from YaRN, which is what they see served without it."""
     import re
 
     src = (REPO_ROOT / "llm_utils.py").read_text(encoding="utf-8")
-    windows = {int(m) for m in re.findall(r'"context_window":\s*(\d+)', src)}
+    keys = r'"(?:context_window|original_max_position_embeddings)":\s*(\d+)'
+    windows = {int(m) for m in re.findall(keys, src)}
     assert windows == set(vr.CONTEXT_WINDOWS), (
         f"registry has {sorted(windows - set(vr.CONTEXT_WINDOWS))} that the budget sheet "
         f"does not model, or models {sorted(set(vr.CONTEXT_WINDOWS) - windows)} that no "

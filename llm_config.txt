@@ -21,10 +21,10 @@
 #
 # Small  (≤14 B, transformers backend):
 #   qwen-3.5-9b-it  |  qwen3-8b  |  qwen3-14b  |  gemma-3-12b-it  |  gemma-4-12b-it
-#   granite-4.1-8b
+#   granite-4.1-8b  |  qwen2.5-7b
 #   The ~58k-token prompt's KV cache comes on top of the weights: 2 GPUs of 24 GB.
-#   qwen3-8b and qwen3-14b are trained to 32k tokens; the registry turns on the YaRN
-#   scaling Qwen documents for their 128k window (off in the checkpoints).
+#   qwen3-8b, qwen3-14b and qwen2.5-7b are trained to 32k tokens; the registry turns on
+#   the YaRN scaling Qwen documents for their 128k window (off in the checkpoints).
 #   Granite 4.1 is the one family here that lists Czech among its languages.
 #
 # Small, vLLM backend:
@@ -40,20 +40,20 @@
 #   qwen-3.5-35b-moe-gptq    — Qwen's own 4-bit Qwen3.5-35B-A3B (3B active), ~20 GB
 #   qwen-3.8-27b-fp8         — Qwen's FP8 Qwen3.8-27B; on Ampere the weights stay FP8
 #                               and the compute is bf16
-#   The entries added on 2026-10-12 (gemma-4-12b-it*, gemma-4-31b-it-qat,
-#   qwen-3.5-35b-moe-gptq, qwen-3.8-*, granite-4.1-*) come from their model cards: the
-#   architectures are supported by vLLM 0.30+ and transformers 5.17, but none of these
-#   checkpoints has been run here yet.
+#   qwen-3.6-35b-moe-fp8     — Qwen's FP8 Qwen3.6-35B-A3B (3B active), ~36 GB: ~18 GB
+#                               per GPU, with room for the prompt's 64k window only
+#   gemma-4-26b-moe-awq      — a community 4-bit (AWQ) Gemma 4 26B-A4B, ~17 GB; one GPU
+#                               by default: tp=2 needs quantisation group size 32 (see
+#                               "quantization_config" in its config.json)
+#   The vLLM entries have not been run here to the end yet (2026-10-13).
 #
 # MoE / large  (vLLM backend, auto-selected):
 #
-#   gemma-4-26b-moe          — tp=2, 2× A40 48 GB; rope_scaling auto-patched for
-#                               vLLM 0.7.x; arch support in 0.7.3 unconfirmed (Gemma 4
-#                               released April 2025); use gemma-4-26b-moe-gguf for
-#                               single-GPU fallback
+#   gemma-4-26b-moe          — bf16, ~52 GB: 2× 48 GB (vLLM has no bitsandbytes);
+#                               on 2× 24 GB use gemma-4-26b-moe-awq
 #
 #   qwen-3.6-35b-moe         — bf16, ~70 GB: more than 2× 24 GB; there, use
-#                               qwen-3.5-35b-moe-gptq
+#                               qwen-3.6-35b-moe-fp8 or qwen-3.5-35b-moe-gptq
 #
 #   llama3.1-70b             — transformers, 4-bit BnB: ~40 GB of weights plus ~20 GB of
 #                               KV cache for the full prompt — two 48 GB cards or four A30
@@ -72,8 +72,10 @@
 #
 #   deepseek-v3              — tp=8, exceeds available hardware (671 B params)
 #
-# GGUF fallback (llama.cpp, any single GPU ≥ 16 GB):
-#   gemma-4-26b-moe-gguf
+# Archived (kept in the registry for reference, not for these runs):
+#   mistral-nemo-12b | llama3.1-8b | bielik-11b-v3.0 | ministral-3-14b — dropped earlier
+#   in issue #2; aya-expanse-8b | bielik-11b — 8k windows; gemma-4-26b-moe-gguf — 8k
+#   window, needs llama-cpp-python and network access.
 MODEL_KEY=qwen-3.6-27b-it
 
 # =============================================================================

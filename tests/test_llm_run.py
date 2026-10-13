@@ -117,6 +117,39 @@ def test_build_schema_accepts_a_qualified_label_as_an_enum_value():
     assert instance.category_name() == "zámek (sídlo elity)"
 
 
+def _enrichment(category):
+    return {
+        "extracted_keywords_cs": ["střep"],
+        "extracted_keywords_en": ["sherd"],
+        "teater_category": category,
+        "confidence_score": 0.8,
+    }
+
+
+def test_build_schema_takes_either_case_of_the_first_letter():
+    """Under the enum, a model that began the category with a capital letter could only end
+    it as a capitalised label: `artefakt` came back as `Artemísion` (2026-10-12 runs)."""
+    Model = llm_run.build_schema(["artefakt", "Artemísion", "Nerelevantní (meta-text)"])
+    assert Model.model_validate(_enrichment("Artefakt")).category_name() == "artefakt"
+    assert Model.model_validate(_enrichment("artemísion")).category_name() == "Artemísion"
+    assert Model.model_validate(_enrichment("artefakt")).category_name() == "artefakt"
+    meta = Model.model_validate(_enrichment("nerelevantní (meta-text)"))
+    assert meta.category_name() == "Nerelevantní (meta-text)"
+    enum_values = Model.model_json_schema()["$defs"]["TermEnum"]["enum"]
+    assert {"Artefakt", "artefakt", "Artemísion", "artemísion"} <= set(enum_values)
+
+
+def test_build_schema_keeps_a_label_whose_other_spelling_is_another_label():
+    from pydantic import ValidationError
+
+    Model = llm_run.build_schema(["Slované", "slované", "10–20 km"])
+    assert Model.model_validate(_enrichment("Slované")).category_name() == "Slované"
+    assert Model.model_validate(_enrichment("slované")).category_name() == "slované"
+    assert len(Model.model_json_schema()["$defs"]["TermEnum"]["enum"]) == 3  # nothing added
+    with pytest.raises(ValidationError):
+        Model.model_validate(_enrichment("ARTEFAKT"))
+
+
 # ── build_system_prompt ──────────────────────────────────────────────────────
 
 

@@ -50,11 +50,34 @@ from llm_utils import (  # noqa: E402
 from vocab_manager import VocabularyManager, vocabulary_provenance  # noqa: E402
 
 
+def _first_letter_variants(term_names: List[str]) -> Dict[str, str]:
+    """Each label spelt with the other case of its first letter, mapped to the label.
+
+    A variant that is itself a label, or that two labels would share, is left out.
+    """
+    labels = set(term_names)
+    found: Dict[str, List[str]] = {}
+    for name in dict.fromkeys(term_names):
+        first = name[:1].swapcase()
+        variant = first + name[1:]
+        if len(first) == 1 and variant != name and variant not in labels:
+            found.setdefault(variant, []).append(name)
+    return {variant: names[0] for variant, names in found.items() if len(names) == 1}
+
+
 def build_schema(term_names: List[str]) -> type:
     if not term_names:
         raise ValueError("term_names is empty — vocabulary failed to load or was fully truncated.")
 
-    TermEnum = enum.Enum("TermEnum", {f"term_{i}": name for i, name in enumerate(term_names)})
+    # The category is decoded under the enum. A model that began it with a capital letter
+    # could then only finish it as a label spelt that way: lines about an `artefakt` came
+    # back as `Artemísion`, the one label starting "Art" (up to 18% of a model's lines in
+    # the 2026-10-12 runs). Every label is accepted with either case of its first letter,
+    # and category_name() returns the vocabulary's spelling.
+    variants = _first_letter_variants(term_names)
+    TermEnum = enum.Enum(
+        "TermEnum", {f"term_{i}": name for i, name in enumerate([*term_names, *variants])}
+    )
 
     class ConstrainedEnrichment(BaseModel):
         extracted_keywords_cs: List[str] = Field(
@@ -96,7 +119,8 @@ def build_schema(term_names: List[str]) -> type:
         )
 
         def category_name(self) -> str:
-            return self.teater_category.value
+            value = self.teater_category.value
+            return variants.get(value, value)
 
     return ConstrainedEnrichment
 
@@ -435,6 +459,7 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
                     enable_prefix_caching=ENABLE_PREFIX_CACHING,
                     max_model_len=MAX_MODEL_LEN,
                     cpu_offload_gb=CPU_OFFLOAD_GB,
+                    max_num_seqs=VLLM_BATCH_SIZE or None,
                 )
                 model = None
                 is_gguf = False
@@ -477,6 +502,9 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             "sha256": prompt_sha256,
             "terms_offered": len(surviving_terms) - 1,
             "context_window": context_window,
+            # The category enum takes either case of a label's first letter (build_schema):
+            # runs without this key let a capital letter force a proper-noun label.
+            "category_case_folding": True,
         }
         print(
             f"  prompt: sha256 {prompt_sha256[:16]}…, {len(surviving_terms) - 1} vocabulary "

@@ -509,9 +509,13 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "hf_token_required": False,
         "weight_footprint_gb": 70,
         "is_moe": True,
-        "load_in_4bit": True,  # Updated via correction
         "recommended_tp": 1,
         "min_vllm_version": "0.8.0",
+        "notes": (
+            "bf16, ~70 GB, for a node that holds it (vLLM has no bitsandbytes since 0.31, "
+            "and transformers' 4-bit leaves the fused experts in bf16). On 2x 24 GB use "
+            "qwen-3.6-35b-moe-fp8."
+        ),
         "inference_defaults": {
             "backend": "vllm",
             "tensor_parallel_size": 1,
@@ -528,8 +532,12 @@ MODEL_REGISTRY: Dict[str, Dict] = {
         "hf_token_required": True,
         "weight_footprint_gb": 52,
         "is_moe": True,
-        "load_in_4bit": True,  # Updated via correction
         "recommended_tp": 2,
+        "notes": (
+            "bf16, ~52 GB, for 2x 48 GB (vLLM has no bitsandbytes since 0.31, and "
+            "transformers' 4-bit leaves the fused experts in bf16). On 2x 24 GB use "
+            "gemma-4-26b-moe-awq."
+        ),
         "inference_defaults": {
             "backend": "vllm",
             "tensor_parallel_size": 2,
@@ -720,7 +728,14 @@ MODEL_REGISTRY: Dict[str, Dict] = {
     },
     "qwen2.5-7b": {
         "hf_id": "Qwen/Qwen2.5-7B-Instruct",
-        "context_window": 32768,
+        "context_window": 131072,
+        # Trained to 32k; context_window is the 128k Qwen documents for YaRN, off in the
+        # checkpoint. At 32k the prompt lost about half the vocabulary.
+        "rope_scaling": {
+            "rope_type": "yarn",
+            "factor": 4.0,
+            "original_max_position_embeddings": 32768,
+        },
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
@@ -922,22 +937,29 @@ MODEL_REGISTRY: Dict[str, Dict] = {
             "vllm_batch_size": 16,
         },
     },
-    # ------------------------------------------------------------------
-    # MoE models — GGUF fallback (llama.cpp, any single GPU)
-    # ------------------------------------------------------------------
-    "gemma-4-26b-moe-gguf": {
-        "hf_id": "bartowski/google_gemma-4-26B-A4B-it-GGUF",
-        "filename": "*Q4_K_M.gguf",
-        "context_window": 8192,
-        "is_gguf": True,
+    "qwen-3.6-35b-moe-fp8": {
+        "hf_id": "Qwen/Qwen3.6-35B-A3B-FP8",
+        "context_window": 262144,
+        "trust_remote_code": False,
+        "torch_dtype": torch.bfloat16,
         "hf_token_required": False,
-        "weight_footprint_gb": 16,  # Q4_K_M
-        "notes": "MoE via llama.cpp. BnB 4-bit unsupported (fused experts).",
+        "weight_footprint_gb": 36,
+        "is_moe": True,
+        "vllm_only": True,
+        "min_vllm_version": "0.17.0",
+        "vllm_engine_kwargs": {"language_model_only": True},
+        "notes": (
+            "Qwen's FP8 Qwen3.6-35B-A3B (MoE, 3B active), where the bf16 qwen-3.6-35b-moe "
+            "does not fit 2x 24 GB. Ampere has no FP8 compute: vLLM keeps the weights in "
+            "FP8 (Marlin, bf16 compute), ~18 GB per GPU at tp=2, which leaves room for the "
+            "prompt's window and little more."
+        ),
         "inference_defaults": {
-            "backend": "transformers",  # llama.cpp is reached via the transformers path
-            "tensor_parallel_size": 1,
-            "gpu_memory_utilization": 0.90,
-            "max_model_len": None,
+            "backend": "vllm",
+            "tensor_parallel_size": 2,
+            "gpu_memory_utilization": 0.92,
+            # The ~58k-token prompt and the output; its hybrid layers keep the KV cache small.
+            "max_model_len": 65536,
             "vllm_batch_size": 16,
         },
     },
@@ -945,21 +967,27 @@ MODEL_REGISTRY: Dict[str, Dict] = {
     # MoE models — vLLM only (single or multi-GPU)
     # ------------------------------------------------------------------
     "gemma-4-26b-moe-awq": {
-        "hf_id": "google/gemma-4-26B-A4B-it",
+        "hf_id": "cyankiwi/gemma-4-26B-A4B-it-AWQ-4bit",
         "context_window": 256000,
         "trust_remote_code": False,
         "torch_dtype": torch.bfloat16,
-        "hf_token_required": True,
-        "weight_footprint_gb": 15,  # AWQ 4-bit
+        "hf_token_required": False,
+        "weight_footprint_gb": 17,  # AWQ 4-bit
         "is_moe": True,
-        "bnb_experts_broken": True,
-        "is_awq": True,
-        "notes": "AWQ variant of gemma-4-26b-moe.",
+        "vllm_only": True,
+        "min_vllm_version": "0.19.0",
+        "vllm_engine_kwargs": {"language_model_only": True},
+        "notes": (
+            "A community 4-bit (AWQ) Gemma 4 26B-A4B, ~17 GB: Google's 4-bit vLLM "
+            "checkpoints (qat-w4a16-ct) cover 12B and 31B only. vLLM runs the experts with "
+            "Marlin, which needs the quantisation group size to divide their 704-wide layers "
+            "on each GPU: group 32 allows tp=2, group 64 tp=1 only (the default here)."
+        ),
         "inference_defaults": {
             "backend": "vllm",
             "tensor_parallel_size": 1,
-            "gpu_memory_utilization": 0.90,
-            "max_model_len": None,
+            "gpu_memory_utilization": 0.92,
+            "max_model_len": 65536,
             "vllm_batch_size": 16,
         },
     },
@@ -1028,6 +1056,27 @@ MODEL_REGISTRY: Dict[str, Dict] = {
     # ------------------------------------------------------------------
     # Archived / Unsuccessful models (kept for reference)
     # ------------------------------------------------------------------
+    "gemma-4-26b-moe-gguf": {
+        "hf_id": "bartowski/google_gemma-4-26B-A4B-it-GGUF",
+        "filename": "*Q4_K_M.gguf",
+        "context_window": 8192,
+        "is_gguf": True,
+        "hf_token_required": False,
+        "weight_footprint_gb": 16,  # Q4_K_M
+        "notes": (
+            "Archived 2026-10-13: its 8k window keeps ~9% of the vocabulary, "
+            "llama-cpp-python is not installed on the cluster, and Llama.from_pretrained "
+            "lists the repository over the network, which an offline node refuses. "
+            "Gemma 4 26B-A4B runs as gemma-4-26b-moe-awq."
+        ),
+        "inference_defaults": {
+            "backend": "transformers",  # llama.cpp is reached via the transformers path
+            "tensor_parallel_size": 1,
+            "gpu_memory_utilization": 0.90,
+            "max_model_len": None,
+            "vllm_batch_size": 16,
+        },
+    },
     "bielik-11b-v3.0": {
         "hf_id": "speakleash/Bielik-11B-v3.0-Instruct",
         "context_window": 131072,
@@ -2053,6 +2102,7 @@ def load_vllm_engine(
     enable_prefix_caching: bool = True,
     max_model_len: Optional[int] = None,
     cpu_offload_gb: Union[int, str] = 0,
+    max_num_seqs: Optional[int] = None,
 ) -> Tuple[Any, Any, dict]:
     """
     Load a model via vLLM for high-throughput, multi-GPU inference.
@@ -2074,6 +2124,8 @@ def load_vllm_engine(
         load time from the measured weight footprint vs. detected VRAM and
         available CPU RAM (issue ufal/atrium-project#26); explicit integers
         are sanity-checked and a warning is printed when they look too small.
+      • ``max_num_seqs`` — the most sequences the engine runs at once; the
+        pipeline sends ``VLLM_BATCH_SIZE`` lines per ``generate()`` call.
 
     Returns:
         (llm_engine, tokenizer, spec)
@@ -2174,6 +2226,8 @@ def load_vllm_engine(
     )
     if max_model_len:
         print(f"    max_model_len={max_model_len} (overriding model default)")
+    if max_num_seqs:
+        print(f"    max_num_seqs={max_num_seqs} (lines per batch)")
     if cpu_offload_gb > 0:
         print(
             f"    cpu_offload_gb={cpu_offload_gb} "
@@ -2199,6 +2253,14 @@ def load_vllm_engine(
 
     if cpu_offload_gb > 0:
         engine_kwargs["cpu_offload_gb"] = cpu_offload_gb
+
+    # vLLM reserves room for max_num_seqs sequences (256 by default). A hybrid model
+    # (Qwen3.5/3.6/3.8, with Gated DeltaNet layers) needs one recurrent-state block per
+    # running sequence, and vLLM 0.31 refuses to start when that many do not fit:
+    # "max_num_seqs (256) exceeds available Mamba cache blocks (218)" (qwen-3.8-27b-fp8,
+    # 2x A30, 2026-10-13). The pipeline never runs more than one batch at a time.
+    if max_num_seqs:
+        engine_kwargs["max_num_seqs"] = max_num_seqs
 
     engine_kwargs.update(spec.get("vllm_engine_kwargs", {}))
 

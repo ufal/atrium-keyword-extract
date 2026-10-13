@@ -403,17 +403,22 @@ def test_vllm_engine_gets_the_models_arguments_and_no_expandable_segments(monkey
     monkeypatch.delenv("VLLM_USE_FLASHINFER_SAMPLER", raising=False)
     monkeypatch.setattr(llm_utils, "_size_cpu_offload", lambda *a, **k: 0)
     _, _, spec = llm_utils.load_vllm_engine(
-        "qwen-3.5-35b-moe-gptq", tensor_parallel_size=2, max_model_len=131072
+        "qwen-3.5-35b-moe-gptq", tensor_parallel_size=2, max_model_len=131072, max_num_seqs=16
     )
     assert seen["language_model_only"] is True and seen["tensor_parallel_size"] == 2
     assert seen["alloc_conf"] == "expandable_segments:False"
     assert seen["flashinfer_sampler"] == "0"
+    # A hybrid model keeps a state block per running sequence; vLLM's default 256 did
+    # not fit beside Qwen3.8-27B-FP8 on two A30s (218 blocks), and a batch is 16 lines.
+    assert seen["max_num_seqs"] == 16
     assert spec["served_max_model_len"] == 131072
     assert "served_max_model_len" not in MODEL_REGISTRY["qwen-3.5-35b-moe-gptq"]
 
     monkeypatch.setenv("VLLM_USE_FLASHINFER_SAMPLER", "1")  # a node with nvcc may want it
+    seen.clear()
     llm_utils.load_vllm_engine("gemma-4-12b-it-qat", tensor_parallel_size=1, max_model_len=65536)
     assert seen["flashinfer_sampler"] == "1"
+    assert "max_num_seqs" not in seen  # not given: vLLM's own default
 
 
 COMMIT = "1d4bf0f2ff6012fd82039f2fa52739d0dd7c60c0"
@@ -551,9 +556,46 @@ def test_download_fetches_what_a_run_reads_and_checks_it_arrived(tmp_path, monke
 def test_rope_scaled_entries_reach_their_context_window():
     """An entry's context_window is reached only through its rope_scaling."""
     scaled = {k: v for k, v in MODEL_REGISTRY.items() if v.get("rope_scaling")}
-    assert {"qwen3-8b", "qwen3-14b", "qwen2.5-14b-awq"} <= set(scaled)
+    assert {"qwen3-8b", "qwen3-14b", "qwen2.5-14b-awq", "qwen2.5-7b"} <= set(scaled)
     for key, spec in scaled.items():
         rope = spec["rope_scaling"]
         assert (
             rope["original_max_position_embeddings"] * rope["factor"] == spec["context_window"]
         ), key
+
+
+# The vLLM entries llm_config.txt offers for a node of two 24 GB A30s.
+TWO_A30_VLLM = [
+    "gemma-4-12b-it-qat",
+    "gemma-4-31b-it-qat",
+    "gemma-4-26b-moe-awq",
+    "qwen2.5-14b-awq",
+    "qwen-3.5-35b-moe-gptq",
+    "qwen-3.8-27b-fp8",
+    "qwen-3.6-35b-moe-fp8",
+]
+
+
+@pytest.mark.parametrize("key", TWO_A30_VLLM)
+def test_vllm_entries_offered_for_two_a30s_fit_them(key):
+    """Weights per GPU within vLLM's share of a 24 GB card with room for the KV cache, a
+    window that holds the whole ~58k-token prompt, and no bitsandbytes (gone from vLLM 0.31)."""
+    spec = MODEL_REGISTRY[key]
+    infer, _ = llm_utils.get_inference_defaults(key, {})
+    assert infer["BACKEND"] == "vllm" and infer["TENSOR_PARALLEL_SIZE"] in (1, 2)
+    per_gpu = spec["weight_footprint_gb"] / infer["TENSOR_PARALLEL_SIZE"]
+    assert per_gpu < 23.6 * infer["GPU_MEMORY_UTILIZATION"] - 2
+    assert (infer["MAX_MODEL_LEN"] or spec["context_window"]) >= 60_000
+    assert not spec.get("load_in_4bit")
+
+
+@pytest.mark.parametrize(
+    "key, variant",
+    [("qwen-3.6-35b-moe", "qwen-3.6-35b-moe-fp8"), ("gemma-4-26b-moe", "gemma-4-26b-moe-awq")],
+)
+def test_bf16_moe_entries_point_to_a_quantised_checkpoint(key, variant):
+    """gemma-4-26b-moe-awq used to name the bf16 repository: vLLM would have loaded ~50 GB
+    of unquantised weights onto one 24 GB card."""
+    assert variant in MODEL_REGISTRY[key]["notes"]
+    assert MODEL_REGISTRY[variant]["hf_id"] != MODEL_REGISTRY[key]["hf_id"]
+    assert not MODEL_REGISTRY[key].get("load_in_4bit")  # vLLM ignores it, and has no BnB
