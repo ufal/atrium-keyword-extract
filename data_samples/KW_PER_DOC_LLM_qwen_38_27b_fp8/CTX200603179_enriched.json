@@ -1,0 +1,700 @@
+[
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "BÍTOV U KONĚPRUS, OKR. BEROUN - STAVBA ELEKTRICKÉ PŘÍPOJKY K RD",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.8721,
+        "original_text": "NÁLEZOVÁ ZPRÁVA O ARCHEOLOGICKÉM DOHLEDU P",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "*AVerPEPNeblogický ústav",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "ÚAPPSČ PRAHA",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 6,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "09° 1 0 -04- 2006",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9622,
+        "original_text": "Zprávu podává: DANIEL STOLZ",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Čislo jednací: 424/05 Kl",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9476,
+        "original_text": "Základní údaje:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.9456,
+        "original_text": "Katastrální území: Bítov u Koněprus",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.898,
+        "original_text": "Lokalita:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.8291,
+        "original_text": "Parcelní čislo: 18",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.9086,
+        "original_text": "Okres Beroun",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Lokalizace v mapě 1:10 000:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.8392,
+        "original_text": "Mapový list 12-41-17 okolo bodu 68/217 mm od Z a J sekční čáry",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 19,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Název a druh akce: Stavba elektrické přípojky k RD čp. 10",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "stavba elektrické přípojky"
+            ],
+            "extracted_keywords_en": [
+                "construction of an electrical connection"
+            ],
+            "teater_category": "stavba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000603"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Investor: Václav Kubík, Tyršova 75, 266 01 Beroun",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9715,
+        "original_text": "Základní metoda archeologického výzkumu, dohled",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "archeologický výzkum",
+                "dohled"
+            ],
+            "extracted_keywords_en": [
+                "archaeological research",
+                "supervision"
+            ],
+            "teater_category": "archeologické výzkumy",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "103"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 22,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Doba výzkumu: únor 2005",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.8592,
+        "original_text": "Okolnosti a cil \\ýzkumu:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9626,
+        "original_text": "Byla provedena kontrola odkrytých výkopů.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9414,
+        "original_text": "Zaměřeni:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Zaměřeni bylo provedeno do základní mapy 1:10 000.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.8374,
+        "original_text": "Popis terénni situace:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.985,
+        "original_text": "Ve výkopu byly zjištěny pouze geologické situace",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "geologické situace"
+            ],
+            "extracted_keywords_en": [
+                "geological conditions"
+            ],
+            "teater_category": "geologická/přirozená vrstva",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.8881,
+        "original_text": "Zhodnoceni:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9651,
+        "original_text": "Nebyly porušeny archeologické situace.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 1,
+        "line": 36,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "V Kladně 30. 12. 2005 Mgr. Daniel Stolz",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.978,
+        "original_text": "ÚSTAV ARCHEOLOGICKÉ PAMÁTKOVÉ",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9716,
+        "original_text": "PÉČE STŘEDNÍCH ČECH",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.8956,
+        "original_text": "EXPERTNÍ LIST KE STAVBĚ",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9776,
+        "original_text": "Dokument je určen pro investora stavby jako doklad realizovaného záchranného",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9696,
+        "original_text": "výzkumu. Je nedílnou součástí konkrétní stavební akce.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9741,
+        "original_text": "V souvislosti s jinou stavební aktivitou je neplatný.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 9,
+        "categ": "Noisy",
+        "quality_score": 0.6141,
+        "original_text": "LOKALITA: BÍTOV U KONĚPRUS,PCI8TT._ . .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9203,
+        "original_text": "KATASTRÁLNÍ UZEMÍ: BTOVU KONĚPRUS-A OKRES:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "MAPA ZM 1:10.000 12-41-17 bodu 68/217;mmodZ a J sekční,čáry",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.7419,
+        "original_text": "INVESTOR: VÁCLAVKUBIK- •",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 23,
+        "categ": "Noisy",
+        "quality_score": 0.6993,
+        "original_text": "NÁZEVADRUHSTAVBY:ELEKTRICKÄPRPOJKANNK-RDČP. 10",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.8705,
+        "original_text": "DOBA VÝZKUMU: ÚNOR 2005",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.7927,
+        "original_text": "FORMA ARCHEOLOGICKÉHO_VÝZKUMU: DOHLED",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.9636,
+        "original_text": "VÝSLEDEK: NEBYLY ZACHYCENY ARCHEOLOGICKÉ SITUACE. BYLO",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.9617,
+        "original_text": "ZDOKUMENTOVÁNO POUZE GEOLOGICKÉ PODLOŽÍ.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "geologické podloží"
+            ],
+            "extracted_keywords_en": [
+                "geological substrate"
+            ],
+            "teater_category": "geologická/přirozená vrstva",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.9254,
+        "original_text": "ÚZEMÍ ZASAŽENÉ STAVEBNÍ ČINNOSTÍ POSOUDIL: MGR. DANIEL STOLZ, .A.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX200603179",
+        "page": 3,
+        "line": 36,
+        "categ": "Noisy",
+        "quality_score": 0.6084,
+        "original_text": "DATUM: 10.5. 2005 C.J. 119/2005 KL PODPIS: NoOL",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]

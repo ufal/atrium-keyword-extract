@@ -1,0 +1,777 @@
+[
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.8396,
+        "original_text": "Kat. obec:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.8626,
+        "original_text": "Osada:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8931,
+        "original_text": "Trať: Pardubice",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Okres:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9367,
+        "original_text": "Druh a kultura:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9766,
+        "original_text": "Lužické sídliště",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "lužické sídliště"
+            ],
+            "extracted_keywords_en": [
+                "Lusatian settlement"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9742,
+        "original_text": "Zpráva",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8472,
+        "original_text": "ved. oddělení",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.8804,
+        "original_text": "za období:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.87,
+        "original_text": "Dne 19.III.1974 jsije navštívili pískovnu JZD",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískovna"
+            ],
+            "extracted_keywords_en": [
+                "sandpit"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.8851,
+        "original_text": "v Opatovicích n.L., známou z velkého záchraného výzkumu AŮ ČSAV",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískovna",
+                "Opatovice n.L.",
+                "záchranný výzkum",
+                "AÚ ČSAV"
+            ],
+            "extracted_keywords_en": [
+                "sandpit",
+                "Opatovice n.L.",
+                "rescue excavation",
+                "AÚ ČSAV"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9372,
+        "original_text": "v Praze v letech 1956-1959. Tehdy práce v pískovně byla zastavena",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískovna"
+            ],
+            "extracted_keywords_en": [
+                "sandpit"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.958,
+        "original_text": "a proto výzkum byl přerušen.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.9145,
+        "original_text": "Zjistili jsme, že práce v pískovně byly obnoveny,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískovna"
+            ],
+            "extracted_keywords_en": [
+                "sandpit"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9763,
+        "original_text": "rozsah pískovny se zvětšil i za hranice záchranného výzkumu. Na",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískovna",
+                "záchranný výzkum"
+            ],
+            "extracted_keywords_en": [
+                "sandpit",
+                "rescue excavation"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9267,
+        "original_text": "bagrem skryté ploše jsou znatelné 3—4 hlubší objekty, skrývka",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískovna",
+                "objekty"
+            ],
+            "extracted_keywords_en": [
+                "sandpit",
+                "features"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9247,
+        "original_text": "však šla velmi hluboko, takže mad± mělčí objekty byly zcela",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9118,
+        "original_text": "zničeny",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.972,
+        "original_text": "Podle teréního pozorování",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.9726,
+        "original_text": "je ještě část sídliště",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sídliště"
+            ],
+            "extracted_keywords_en": [
+                "settlement"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.8927,
+        "original_text": "zachována na parc.č. 1503, kde jsme sběrem",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sídliště",
+                "parc.č. 1503",
+                "sběr"
+            ],
+            "extracted_keywords_en": [
+                "settlement",
+                "parcel no. 1503",
+                "surface collection"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9224,
+        "original_text": "získali lžickou kera-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "lžická keramika"
+            ],
+            "extracted_keywords_en": [
+                "lugged pottery"
+            ],
+            "teater_category": "keramika",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000933"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000979"
+                },
+                {
+                    "source": "teater",
+                    "id": "2457"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.9204,
+        "original_text": "miku. Další střepy jsme našli na parc.č. 1510, scvernt od pískovny",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy",
+                "pískovna",
+                "žárové hroby"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "sandpit",
+                "cremation graves"
+            ],
+            "teater_category": "pískovna",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1466"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.977,
+        "original_text": "Ty však mohou pocházet z rozrušených žárových hrobů.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "žárové hroby"
+            ],
+            "extracted_keywords_en": [
+                "cremation graves"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 37,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Domnáváme se, že AÚ ČSAV v Praze by měl dokončit",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.982,
+        "original_text": "Výzkum tohoto důležitého lužického sídliště, aby tak byl ukázán",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "lužické sídliště"
+            ],
+            "extracted_keywords_en": [
+                "Lusatian settlement"
+            ],
+            "teater_category": "lužická kultura",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000337"
+                },
+                {
+                    "source": "teater",
+                    "id": "1182"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 39,
+        "categ": "Clear",
+        "quality_score": 0.9818,
+        "original_text": "poprvé celý půdorys pravěké vesnice i s pohřebištěm",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pravěká vesnice",
+                "pohřebiště"
+            ],
+            "extracted_keywords_en": [
+                "prehistoric village",
+                "cemetery"
+            ],
+            "teater_category": "vesnice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 40,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "V Hradci Králové, 27.111.1974",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 42,
+        "categ": "Clear",
+        "quality_score": 0.8368,
+        "original_text": ".předejte prosím Dr.J.Ratajo",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 43,
+        "categ": "Noisy",
+        "quality_score": 0.7625,
+        "original_text": "| ver,výzkumu v Opatovicích.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výzkum",
+                "Opatovice",
+                "sídliště"
+            ],
+            "extracted_keywords_en": [
+                "research",
+                "Opatovice",
+                "settlement"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 44,
+        "categ": "Clear",
+        "quality_score": 0.9229,
+        "original_text": "Domnívám se, že druhý vedoucfvýzkumu v Opatovicích na sídlišti,Dr",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sídliště"
+            ],
+            "extracted_keywords_en": [
+                "settlement"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 45,
+        "categ": "Clear",
+        "quality_score": 0.9679,
+        "original_text": "V.Vokolek by mohl-vzhledem k blízkosti svého pracoviště zahájit jednání",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 46,
+        "categ": "Clear",
+        "quality_score": 0.9344,
+        "original_text": "s ústavem o další výzkum na sídlišti . Doporučuji, aby tento výzkum",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 47,
+        "categ": "Noisy",
+        "quality_score": 0.7779,
+        "original_text": "mu byl svěřen.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 48,
+        "categ": "Noisy",
+        "quality_score": 0.6421,
+        "original_text": "ov Praze dne 7.5.1974. R_",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 49,
+        "categ": "Clear",
+        "quality_score": 0.9819,
+        "original_text": "Poznámka: Pište pokud možno strojem. Na konci uveďte datum odeslání a čitelný podpis. Zprávy koreferenta komisí",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197402444",
+        "page": 1,
+        "line": 50,
+        "categ": "Noisy",
+        "quality_score": 0.6531,
+        "original_text": "7) vyhotovte dvojmo. ;",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
