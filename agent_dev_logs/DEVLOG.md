@@ -661,6 +661,26 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat.
 
+## 2026-10-13 — Shared modules re-vendored (atrium-project#51, atrium-nlp-enrich#41)
+* `atrium_rocrate.py`, `atrium_vocab.py`, `atrium_document.schema.json`, `service/atrium_service.py`,
+  `tests/test_atrium_rocrate.py` and `tests/test_schema_freeze.py` re-vendored from the hub:
+  * the crate names AMČR/TEATER concepts by their source URIs, from `teater_category_ids`, and no longer mints
+    `w3id.org/atrium/theme/<label>`;
+  * the schema declares `enrichment.items[].teater_category_ids`;
+  * the registry's theme maps follow keyword-extract's taxonomy;
+  * the shared 502 text says when to retry.
+* `service/openapi.json` regenerated (the record schema and its sha, the 502 description). No behaviour change, no
+  release.
+* **`tests/test_vocab_theme_maps.py`** (new): the vendored `HESLAR_TO_THEME` and `TEATER_BRANCH_TO_THEME` must equal
+  `_settings.heslar_map` and `_settings.teater_branch_map` in `data_samples/taxonomy_config.json` (less the
+  `__exclude__` entries). The 2026-10-08 layout changed both, and nothing noticed. From now on a taxonomy edit
+  fails here until the hub's registry follows.
+* **Checks:** the API-contract and vendored shared tests, 222 passed; `tests/test_vocab_theme_maps.py`, 3 passed
+  (2 of them fail against the maps before this round); vocabulary, record, service and LLM-client tests, 316 passed,
+  1 skipped; ruff check and format clean on the new test.
+
+  Files delivered in chat.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);
