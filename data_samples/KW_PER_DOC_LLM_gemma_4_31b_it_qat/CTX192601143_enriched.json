@@ -1,0 +1,17 @@
+[
+    {
+        "file_id": "CTX192601143",
+        "page": 8,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.884,
+        "original_text": "A. Alon A.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]

@@ -1,0 +1,423 @@
+[
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9165,
+        "original_text": "OBEC",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "OBEC"
+            ],
+            "extracted_keywords_en": [
+                "village"
+            ],
+            "teater_category": "vesnice/městečko",
+            "confidence_score": 0.9,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000068"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 2,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "OKRES",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8341,
+        "original_text": "Vysoký jez .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9553,
+        "original_text": "ČÍSLO PARCELY",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.8038,
+        "original_text": "Rychnov n.Kn.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9777,
+        "original_text": "Přílohy",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.9291,
+        "original_text": "NÁZEV TRATI",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "Homole - kopec SZ od Vysokí-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kopec"
+            ],
+            "extracted_keywords_en": [
+                "hill"
+            ],
+            "teater_category": "nespecifikovaný reliéfní útvar",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000567"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000585"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.8977,
+        "original_text": "Újezda pokryt lesem.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "les"
+            ],
+            "extracted_keywords_en": [
+                "forest"
+            ],
+            "teater_category": "krajina",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000117"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000136"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-001124"
+                },
+                {
+                    "source": "teater",
+                    "id": "870"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9033,
+        "original_text": "Kultura Z.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.92,
+        "original_text": "ČÍSLO MAPY",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9509,
+        "original_text": "Druh nálezu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.915,
+        "original_text": "keramcké střepy",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramické střepy"
+            ],
+            "extracted_keywords_en": [
+                "pottery shards"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 1.0,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.9409,
+        "original_text": "LITERATURA",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.912,
+        "original_text": "Uložení",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Rukopisné poznámky str. 56 , autora .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.8458,
+        "original_text": "Čis. inv.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 25,
+        "categ": "Noisy",
+        "quality_score": 0.5736,
+        "original_text": "Ľne 22. 11.1974 . 7",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9005,
+        "original_text": "P.Jirušek starousedlík v obci Vysoký Újezd podal informaci , že před",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9501,
+        "original_text": "mnoha lety si rolníci v místě Homole kopali krechty na uskladnení",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Homole",
+                "krechty",
+                "uskladnení brambor",
+                "řepy"
+            ],
+            "extracted_keywords_en": [
+                "Homole",
+                "pits",
+                "potato storage",
+                "turnips"
+            ],
+            "teater_category": "zásobní jáma",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1785"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9077,
+        "original_text": "brambor a řepy . Při kopání, nalezeno mnoho různých keramických střepu .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "keramické střepy"
+            ],
+            "extracted_keywords_en": [
+                "ceramic shards"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.8972,
+        "original_text": "Keramický materiál nebyl zachován .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX197901442",
+        "page": 1,
+        "line": 31,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "Nčv* rodte map) 4:2Fee",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
