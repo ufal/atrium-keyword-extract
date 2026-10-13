@@ -1,0 +1,1946 @@
+[
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "Kat. obec Beroun",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Kat. obec Beroun",
+                "Osada"
+            ],
+            "extracted_keywords_en": [
+                "Category settlement Beroun",
+                "Settlement"
+            ],
+            "teater_category": "obecní kronika",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2206"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9055,
+        "original_text": "Osada",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "osada"
+            ],
+            "extracted_keywords_en": [
+                "settlement"
+            ],
+            "teater_category": "osídlený skalní prostor",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000065"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000112"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Trať čp. 34, 35, 36",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "trať"
+            ],
+            "extracted_keywords_en": [
+                "railway"
+            ],
+            "teater_category": "válečnictví",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "3515"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9086,
+        "original_text": "Okres Beroun",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "okres",
+                "Beroun"
+            ],
+            "extracted_keywords_en": [
+                "district",
+                "Beroun"
+            ],
+            "teater_category": "sídliště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000081"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000083"
+                },
+                {
+                    "source": "teater",
+                    "id": "1441"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 7,
+        "categ": "Noisy",
+        "quality_score": 0.6972,
+        "original_text": "CSAV’ -cheologický ústav",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.9679,
+        "original_text": "Druh a kultura",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kultura"
+            ],
+            "extracted_keywords_en": [
+                "culture"
+            ],
+            "teater_category": "kultura",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "374"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9774,
+        "original_text": "středověká městiště",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "středověká městiště"
+            ],
+            "extracted_keywords_en": [
+                "medieval settlement"
+            ],
+            "teater_category": "sídlo elity",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000013"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000085"
+                },
+                {
+                    "source": "teater",
+                    "id": "1423"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.8432,
+        "original_text": "-ved. výzkumu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.974,
+        "original_text": "Zpráva",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Zpráva"
+            ],
+            "extracted_keywords_en": [
+                "Report"
+            ],
+            "teater_category": "nálezová správa",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "252"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.8835,
+        "original_text": "koreferenta",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "koreferenta",
+                "komise",
+                "ved. oddelení"
+            ],
+            "extracted_keywords_en": [
+                "koreferent",
+                "commission",
+                "headed department"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.0,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.8837,
+        "original_text": "komise",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.8359,
+        "original_text": "ved. oddelení",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 22,
+        "categ": "Noisy",
+        "quality_score": 0.7006,
+        "original_text": "za Období 10.9.- 26.9.1984",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Období",
+                "10.9.-26.9.1984"
+            ],
+            "extracted_keywords_en": [
+                "Period",
+                "10.9.-26.9.1984"
+            ],
+            "teater_category": "chronologie (města)",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1394"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.9103,
+        "original_text": "V tomto období jsme v zadním traktu domu čp. 36 na Gottwaldově",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "dom",
+                "Gottwaldov",
+                "náměstí",
+                "provozní jímka",
+                "lomové zdivo",
+                "nasucho",
+                "místa"
+            ],
+            "extracted_keywords_en": [
+                "house",
+                "Gottwaldov",
+                "square",
+                "commercial pit",
+                "dry stone wall",
+                "area"
+            ],
+            "teater_category": "areál zemědělské výroby",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000036"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000090"
+                },
+                {
+                    "source": "teater",
+                    "id": "1293"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.8994,
+        "original_text": "nám. v Berouně odkryli patrně provozní jímku hlubokou 180 cm,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "provozní jímka",
+                "omítnutou",
+                "vakovitým dnem"
+            ],
+            "extracted_keywords_en": [
+                "provisional pit",
+                "plastered",
+                "vaulted floor"
+            ],
+            "teater_category": "areál zemědělské výroby",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000036"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000090"
+                },
+                {
+                    "source": "teater",
+                    "id": "1293"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9693,
+        "original_text": "z lomového zdivá nasucho a jen místy na maltu, ve spodní části",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "provozní jímka",
+                "lomové zdivo",
+                "nasucho",
+                "místa",
+                "omítnutou",
+                "vakovitý dnem"
+            ],
+            "extracted_keywords_en": [
+                "provisional pit",
+                "quarry wall",
+                "dry laid",
+                "some places",
+                "occasionally plastered",
+                "vaulted floor"
+            ],
+            "teater_category": "areál zemědělské výroby",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000036"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000090"
+                },
+                {
+                    "source": "teater",
+                    "id": "1293"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.969,
+        "original_text": "uvnitř sporadicky omítnutou, s vakovitým dnem. Spodní část jímky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "jímka",
+                "omítnutou",
+                "vakovitým dnem",
+                "hrubým štěrkem",
+                "říčním pískem"
+            ],
+            "extracted_keywords_en": [
+                "spoil heap",
+                "plastered",
+                "vaulted floor",
+                "coarse gravel",
+                "river sand"
+            ],
+            "teater_category": "těžební objekt",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000558"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000584"
+                },
+                {
+                    "source": "teater",
+                    "id": "1739"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "byla až do výše c. 100 cm zavezena šedým říčním pískem s",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "říční písek",
+                "hrubý štěrk",
+                "jímka",
+                "cihlově zbarvená režná keramika"
+            ],
+            "extracted_keywords_en": [
+                "river sand",
+                "coarse gravel",
+                "pit",
+                "red-clay pottery"
+            ],
+            "teater_category": "těžební areál",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1459"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.9831,
+        "original_text": "hrubým štěrkem, v němž se vyskytl jediný střípek cihlově zbarvené",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrubý štěrk",
+                "cihlově zbarvená režná keramika"
+            ],
+            "extracted_keywords_en": [
+                "coarse gravel",
+                "brick-colored pottery"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 30,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "režné keramiky c. 16. století. V této výši byla jímka opatřena",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "režná keramika",
+                "16. století"
+            ],
+            "extracted_keywords_en": [
+                "relict pottery",
+                "16th century"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.9794,
+        "original_text": "zvýšeným dnem z plochých kamenů. Na tomto dně spočívala",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvýšený",
+                "dně",
+                "plochých",
+                "kamenů",
+                "vrstva",
+                "popelovité",
+                "hlíny",
+                "zlomky",
+                "berounského",
+                "zboží"
+            ],
+            "extracted_keywords_en": [
+                "raised",
+                "floor",
+                "flat",
+                "stones",
+                "layer",
+                "ash",
+                "clay",
+                "fragments",
+                "local"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 32,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "c. 10 cm silná vrstva černé popelovité hlíny s četnými zlomky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vrstva",
+                "popelovitá hlína",
+                "zlomky",
+                "berounského zboží"
+            ],
+            "extracted_keywords_en": [
+                "layer",
+                "ash-clay",
+                "fragments",
+                "local goods"
+            ],
+            "teater_category": "vrstva (objekt)",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1748"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.9745,
+        "original_text": "berounského zboží. Nad touto vrstvou byla horní část jímky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "berounského zboží",
+                "popelovité hlína",
+                "hnědá hlinitá vrstva",
+                "pískový zásyp",
+                "svrchní šedohnědá hlinitá vrstva"
+            ],
+            "extracted_keywords_en": [
+                "Beroun goods",
+                "ashey clay layer",
+                "brown clay layer",
+                "sand fill",
+                "upper grey-brown clay layer"
+            ],
+            "teater_category": "vrstva (objekt)",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1748"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9713,
+        "original_text": "vyplněna odspodu hlinitou hnědou vrstvou, pískovým zásypem a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hlinitá",
+                "hnědá",
+                "vrstva",
+                "pískový",
+                "zásyp",
+                "povrch"
+            ],
+            "extracted_keywords_en": [
+                "clay",
+                "brown",
+                "layer",
+                "sand",
+                "surface"
+            ],
+            "teater_category": "povrchový sběr",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001050"
+                },
+                {
+                    "source": "teater",
+                    "id": "116"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.953,
+        "original_text": "svrchní šedohnědou hlinitou vrstvou, která sahala až k povrchu.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "svrchní",
+                "hlinitá",
+                "vrstva"
+            ],
+            "extracted_keywords_en": [
+                "upper",
+                "clay",
+                "layer"
+            ],
+            "teater_category": "vrstva (objekt)",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1748"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.9423,
+        "original_text": "Rozšířením sondy k V bylo zjištěno, že na oblouk jímky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "oblouk",
+                "jímka",
+                "zdivo"
+            ],
+            "extracted_keywords_en": [
+                "arc",
+                "cesspit",
+                "wall"
+            ],
+            "teater_category": "objekt zemědělské výroby",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1613"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 37,
+        "categ": "Clear",
+        "quality_score": 0.8786,
+        "original_text": "navazuje zdivo, náležející snad zadnímu traktu domu čp. 36,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zdivo",
+                "jímka",
+                "dom"
+            ],
+            "extracted_keywords_en": [
+                "wall",
+                "ditch",
+                "house"
+            ],
+            "teater_category": "budova",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000250"
+                },
+                {
+                    "source": "teater",
+                    "id": "1482"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.9661,
+        "original_text": "vybíhající z nejsevernějšího bodu jímky směrem k V. Nelze",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "oblouk",
+                "jímka",
+                "zdivo",
+                "trakt",
+                "dům",
+                "zed",
+                "jímkou"
+            ],
+            "extracted_keywords_en": [
+                "arch",
+                "ditch",
+                "wall",
+                "track",
+                "house",
+                "wall",
+                "ditch"
+            ],
+            "teater_category": "příbuzné obory",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "352"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 39,
+        "categ": "Clear",
+        "quality_score": 0.9437,
+        "original_text": "vyloučit, že v nějaké souvislosti s jímkou je též nasucho",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "jímka",
+                "zadní trakt",
+                "kryta",
+                "hlinitá vrstva"
+            ],
+            "extracted_keywords_en": [
+                "jimap",
+                "rear part",
+                "covered",
+                "clay layer"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 40,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "kladená zídka J jímky, běžící S-J směrem. S zed zadního traktu",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kladená zídka",
+                "jímka",
+                "zed",
+                "trakt",
+                "domu"
+            ],
+            "extracted_keywords_en": [
+                "clay wall",
+                "ditch",
+                "wall",
+                "track",
+                "house"
+            ],
+            "teater_category": "stavovský stát",
+            "confidence_score": 0.78,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "3683"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 41,
+        "categ": "Clear",
+        "quality_score": 0.8965,
+        "original_text": "domu čp. 36 s jímkou je kryta šedohnědou hlinitou vrstvou",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "šedohnědá hlinitá vrstva",
+                "domu",
+                "berounské zboží",
+                "režná keramika"
+            ],
+            "extracted_keywords_en": [
+                "grey clay layer",
+                "house",
+                "Beroun goods",
+                "pottery with late overtones"
+            ],
+            "teater_category": "vrstva/souvrství",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000453"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000574"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 42,
+        "categ": "Clear",
+        "quality_score": 0.972,
+        "original_text": "místy popelovité konsistence, která též vyplňuje ústí jímky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "popelovité konsistence",
+                "jímka",
+                "berounské zboží",
+                "režná keramika",
+                "glazury"
+            ],
+            "extracted_keywords_en": [
+                "ash consistency",
+                "ditch",
+                "Beroun goods",
+                "pottery shards",
+                "glazes"
+            ],
+            "teater_category": "vrstva (objekt)",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1748"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 43,
+        "categ": "Clear",
+        "quality_score": 0.9595,
+        "original_text": "a obsahuje pozdní berounské zboží /režná keramika s předžahem,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "berounské zboží",
+                "režná keramika",
+                "předžahem",
+                "glazury"
+            ],
+            "extracted_keywords_en": [
+                "Beroun goods",
+                "pottery",
+                "flakes",
+                "glazes"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 44,
+        "categ": "Clear",
+        "quality_score": 0.9074,
+        "original_text": "zelené, žluté i rezavě hnědé glazury/. . od touto vrstvou se",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "popelovité konsistence",
+                "pískový pokryv",
+                "glazury"
+            ],
+            "extracted_keywords_en": [
+                "ash layers",
+                "sand cover",
+                "glazes"
+            ],
+            "teater_category": "vrstva/souvrství",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000453"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000574"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 45,
+        "categ": "Clear",
+        "quality_score": 0.9771,
+        "original_text": "nachází pískový pokryv, kterým bylo zasypáno zdivo jímky i",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískový pokryv",
+                "zdivo",
+                "jímka",
+                "uhlíky",
+                "hlinito-jílovitá vrstva"
+            ],
+            "extracted_keywords_en": [
+                "sand cover",
+                "wall",
+                "pit",
+                "charcoal",
+                "clay-loam layer"
+            ],
+            "teater_category": "vrstva/souvrství",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000453"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000574"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 46,
+        "categ": "Clear",
+        "quality_score": 0.9747,
+        "original_text": "domovního traktu. Pod pískem pak spodní část jímky vyplňuje",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "domovní trakt",
+                "pískový pokryv",
+                "hlinito-jílovitá vrstva",
+                "uhlíky",
+                "spálená konstrukce",
+                "starší berounský"
+            ],
+            "extracted_keywords_en": [
+                "domestic track",
+                "sand cover",
+                "clay-loam layer",
+                "coals",
+                "burnt construction",
+                "older beroun"
+            ],
+            "teater_category": "areál jiné aktivity",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000056"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000095"
+                },
+                {
+                    "source": "teater",
+                    "id": "1268"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 47,
+        "categ": "Clear",
+        "quality_score": 0.9695,
+        "original_text": "a ke zdivu přiléhá šedá hlinito-jílovitá vrstva s četnými uhlíky",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískový pokryv",
+                "hlinito-jílovitá vrstva",
+                "uhlíky",
+                "cihl",
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "sandy cover",
+                "clay-loam layer",
+                "coals",
+                "brick",
+                "ceramic"
+            ],
+            "teater_category": "vrstva/souvrství",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000453"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000574"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 48,
+        "categ": "Clear",
+        "quality_score": 0.9661,
+        "original_text": "/i celé části spálené konstrukce/ a střepy staršího berounského",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "celá část",
+                "spálená konstrukce",
+                "střepy",
+                "starší",
+                "Berounské zboží"
+            ],
+            "extracted_keywords_en": [
+                "whole part",
+                "burnt construction",
+                "fragments",
+                "older",
+                "Beroun goods"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 49,
+        "categ": "Clear",
+        "quality_score": 0.9113,
+        "original_text": "zboží - zde převažuje režná, cihlově zbarvená keramika,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zboží",
+                "režná keramika",
+                "cihlík"
+            ],
+            "extracted_keywords_en": [
+                "wares",
+                "pottery shards",
+                "brick"
+            ],
+            "teater_category": "zboží",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 50,
+        "categ": "Clear",
+        "quality_score": 0.9877,
+        "original_text": "nečetné glazované střepy jsou především živě zelené a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nečetné",
+                "glazované",
+                "střepy",
+                "živě",
+                "zelené"
+            ],
+            "extracted_keywords_en": [
+                "uneven",
+                "glazed",
+                "sherds",
+                "bright",
+                "green"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 1,
+        "line": 52,
+        "categ": "Clear",
+        "quality_score": 0.9794,
+        "original_text": "Poznámka: Pište pokud možno strojem. Na konci uveďte datum odeslání a čitelný podpis. Zprávy koreferentů a komisí vyhotovte dvojmo.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.972,
+        "original_text": "vyskytují se pozdně renesanční kachle. Bylo by velmi lákavé",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pozdně renesanční kachle"
+            ],
+            "extracted_keywords_en": [
+                "late Renaissance tiles"
+            ],
+            "teater_category": "výrobní objekt",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000542"
+                },
+                {
+                    "source": "teater",
+                    "id": "1760"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9813,
+        "original_text": "spojovat tuto spodní vrstvu s katastrofálním požárem města",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "spodní vrstva",
+                "katastrofální požár",
+                "město"
+            ],
+            "extracted_keywords_en": [
+                "lower layer",
+                "catastrophic fire",
+                "city"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.78,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "r. 1599, následující pískový pokryv s úpravou celého prostoru",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pískový pokryv",
+                "úprava prostoru"
+            ],
+            "extracted_keywords_en": [
+                "sand cover",
+                "space renovation"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.8,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.9723,
+        "original_text": "při obnově zničených příbytků a svrchní hlinitou až popelo-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "obnova",
+                "zničených příbytků",
+                "svrchní hlinitou",
+                "popelo-"
+            ],
+            "extracted_keywords_en": [
+                "reconstruction",
+                "destroyed dwellings",
+                "upper loam",
+                "ash-"
+            ],
+            "teater_category": "obnova a rekonstrukce památek",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "271"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9637,
+        "original_text": "vitou vrstvu přičíst pohromám třicetileté války.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohřemy třicetileté války"
+            ],
+            "extracted_keywords_en": [
+                "destruction layers of the thirty years war"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9806,
+        "original_text": "Vzhledem k nedostatku času a velmi neutěšené situaci v",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9858,
+        "original_text": "oblasti pracovních sil rozhodli jsme se prozkoumat terén domovních",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "oblast",
+                "pracovních sil",
+                "domovních parcel"
+            ],
+            "extracted_keywords_en": [
+                "area",
+                "workforce",
+                "domestic parcels"
+            ],
+            "teater_category": "areál zemědělské výroby",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000036"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000090"
+                },
+                {
+                    "source": "teater",
+                    "id": "1293"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9463,
+        "original_text": "parcel bagrovanou sondou, kterou bychom dokumentovali",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "parcel",
+                "bagrovanou sondou",
+                "dokumentovali",
+                "stratigrafickou situaci",
+                "odkryli",
+                "dosážitelné pozůstatky",
+                "sonda",
+                "bagrista"
+            ],
+            "extracted_keywords_en": [
+                "parcel",
+                "probed with backhoe",
+                "stratigraphic situation",
+                "excavated",
+                "oldest accessible remains",
+                "probe",
+                "backhoe operator"
+            ],
+            "teater_category": "areál zemědělské výroby",
+            "confidence_score": 0.75,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000036"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000090"
+                },
+                {
+                    "source": "teater",
+                    "id": "1293"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.985,
+        "original_text": "stratigrafickou situaci a případně odkryli nejstarší dosažitelné",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "stratigrafická situace",
+                "pozůstatky",
+                "sonda"
+            ],
+            "extracted_keywords_en": [
+                "stratigraphic situation",
+                "remains",
+                "trench"
+            ],
+            "teater_category": "struktura",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "82"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.9052,
+        "original_text": "pozůstatky. Sonda, kterou provedl bagrista. CSP Peroun,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pozůstatky",
+                "sonda",
+                "bagrista"
+            ],
+            "extracted_keywords_en": [
+                "remains",
+                "trench",
+                "excavator"
+            ],
+            "teater_category": "pozůstatek sídla elity",
+            "confidence_score": 0.78,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001434"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "dosáhla u náměstí hloubky pouze c. 180 cm, kde jsme narazili",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sonda",
+                "náměstí",
+                "spodní voda"
+            ],
+            "extracted_keywords_en": [
+                "sonde",
+                "square",
+                "lower water table"
+            ],
+            "teater_category": "přírodní útvar s lidskou aktivitou",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000133"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9763,
+        "original_text": "na spodní vodu. Směrem k S se terén zvyšuje a sonda zde dosáhla",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "spodní voda",
+                "sonda"
+            ],
+            "extracted_keywords_en": [
+                "subsurface water",
+                "sonde"
+            ],
+            "teater_category": "vodní komunikace",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1472"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "hloubky téměř 4 m.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sonda",
+                "hloubka"
+            ],
+            "extracted_keywords_en": [
+                "sonde",
+                "depth"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9365,
+        "original_text": "Protože nelze očekávat, že v letošním roce zdokumentujeme",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9814,
+        "original_text": "bagrovanou sondu a ještě dokončíme výzkum zadního traktu domu",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sonda",
+                "výzkum",
+                "dom",
+                "zadní trakt"
+            ],
+            "extracted_keywords_en": [
+                "excavated probe",
+                "excavation",
+                "house",
+                "rear area"
+            ],
+            "teater_category": "výzkum povrchové vrstvy",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001064"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.8697,
+        "original_text": "čp. 36, pokusíme se dohodnout s MěstNV Beroun a zejména s",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "bagrovanou sondu",
+                "MěstNV Beroun",
+                "odpovědnými pracovníky",
+                "stavební oráče"
+            ],
+            "extracted_keywords_en": [
+                "excavated probe",
+                "City NV Beroun",
+                "responsible workers",
+                "construction geophysics"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "odpovědnými pracovníky ( S , který bude na místě provádět stavební",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "odpovědními pracovníky",
+                "stavební oráč"
+            ],
+            "extracted_keywords_en": [
+                "responsible workers",
+                "builder"
+            ],
+            "teater_category": "součást oděvu",
+            "confidence_score": 0.8,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000674"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000857"
+                },
+                {
+                    "source": "teater",
+                    "id": "2318"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.9796,
+        "original_text": "oráče, zda by bylo možno tento výzkum dokončit v letních",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "letní měsíce",
+                "výzkum"
+            ],
+            "extracted_keywords_en": [
+                "summer months",
+                "excavation"
+            ],
+            "teater_category": "přírodní fakt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "61"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.9585,
+        "original_text": "měsících příštího roku. ude-li to možné, bylo by třeba",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9838,
+        "original_text": "na tento výzkum podat návrh na hospodářskou smlouvu, a to přibližně",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hospodářská smlouva",
+                "dělnické mzdy"
+            ],
+            "extracted_keywords_en": [
+                "economic agreement",
+                "wage"
+            ],
+            "teater_category": "náboženská literatura",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2213"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 21,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "ve výši c. 20 000,- Kčs na dělnické mzdy. Podrobné informace",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hospodářská smlouva",
+                "dělnické mzdy"
+            ],
+            "extracted_keywords_en": [
+                "hiring contract",
+                "wages"
+            ],
+            "teater_category": "nábytek",
+            "confidence_score": 0.8,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2023"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9664,
+        "original_text": "podám ve svých dalších hlášeních.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 24,
+        "categ": "Noisy",
+        "quality_score": 0.7381,
+        "original_text": "V Praze 1.10. 1984",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX198402945",
+        "page": 2,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.8878,
+        "original_text": "harvát",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "harvát"
+            ],
+            "extracted_keywords_en": [
+                "harvat"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    }
+]
