@@ -1,6 +1,6 @@
-# 📓 atrium-nlp-enrich — agent_dev_logs/DEVLOG.md (timeline index)
-> _NLP enrichment of OCR text lines. 5 open issues (#6, #7, #10, #18, #38); #8/#9/#11/#19/#28/#35 closed. AMČR baseline (atrium-project#67, 2026-09-26): #10, #38 close · #6, #7, #18 defer; the flexiconv route stays off the AMČR production chain. `test` = `40c48f0` (2026-09-26: the `doc-schema-v1` freeze files) · **v0.22.0** (2026-09-25). TEITOK/flexi* work (#10/#38, formerly #9/#28) is coordinated in [`plans/teitok_conformance_plan.md`](plans/teitok_conformance_plan.md)._
-> _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). #6's saga (April→September) is condensed below; `digests/6.digest.md` is the authoritative 13-phase record. Cross-repo/hub history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md` (deduplicated out of this file)._
+# 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12. `test` = `6efb40c` (2026-10-14) · **v1.2.0-beta** (2026-10-09, with `atrium-vocabulary-v1.2.0-beta.zip`)._
+> _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
 - **#6 Extract keywords via LLM (TEATER topics)** — Opened by K4TEL: a local LLM takes the document + topic thesaurus + JSON template and returns thesaurus terms linked to the text.
@@ -535,7 +535,7 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   --check`, `vocab_build.py --from-flat --skos --check` and the hub's `image_closure.py` clean.
 * **Dev logs:** #1 and #2 digests and plans refreshed (milestones as the live issues have them).
 
-  Files delivered in chat as a zip; not pushed.
+  Files delivered in chat as a zip; pushed as `f4b0118`.
 
 ## 2026-10-07 (later) — The API meta-contract lane installs `tqdm`
 * **Red since `f4b0118`:** API Meta-Contract ([run](https://github.com/ufal/atrium-keyword-extract/actions/runs/37629003315))
@@ -548,7 +548,7 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **Checks:** a fresh Python 3.11 venv with `requirements-test.txt` only: `tests/test_api_contract.py` +
   `tests/test_openapi_contract.py` 39 passed (was 35 + 4 errors); `tests/test_service_requirements.py` 9 passed.
 
-  Files delivered in chat; not pushed.
+  Files delivered in chat; pushed as `21ab612`.
 
 ## 2026-10-07 (later) — The controlled kind against a real backend in CI
 * **Why:** every controlled-kind test stubs the model's chat function, so a provider that refuses the
@@ -575,7 +575,7 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
     group, which let a push cancel the weekly run; `github.event_name` is now in the group.
 * **Not run:** a real OpenRouter call; there is no key in this sandbox.
 
-  Files delivered in chat; not pushed.
+  Files delivered in chat; pushed as `21ab612`.
 
 ## 2026-10-07 (evening) — A release carries the vocabulary
 * **Why:** the translator's glossary and the hub's E2E read the built vocabulary, and building it takes a harvest
@@ -599,7 +599,7 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **Dev logs:** the pairs of #1 and #2 refreshed: `v1.1.0-beta` is released, the unpushed list is down to the
   vocabulary asset, and the live lane is recorded.
 
-  Files delivered in chat.
+  Files delivered in chat; pushed as `0764363`.
 
 ## 2026-10-08 — The A1 facet layout and the malta split (#2)
 * **Why:** @david-spacil's calls of 8 October (comment 6057405985): A1-facets, the nine collision groups the
@@ -636,7 +636,7 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   (4,711 terms), and after a simulated bump it refuses the stale stamp until `vocab_build.py --from-flat --skos`
   re-stamps it.
 
-  Files delivered in chat; not pushed.
+  Files delivered in chat; pushed as `4c72129`.
 
 ## 2026-10-09 — The `keywords` block (atrium-project#73); v1.2.0-beta carries the vocabulary
 * **`llm_client_shared.write_document_record()`** takes an optional `keywords` block; `results=None` leaves
@@ -659,7 +659,7 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   --from-flat --skos --check` up to date.
 * **Dev logs:** the pair of #1 refreshed.
 
-  Files delivered in chat.
+  Files delivered in chat; pushed as `ba89996`, tagged `v1.2.0-beta` at `523143a`.
 
 ## 2026-10-13 — Shared modules re-vendored (atrium-project#51, atrium-nlp-enrich#41)
 * `atrium_rocrate.py`, `atrium_vocab.py`, `atrium_document.schema.json`, `service/atrium_service.py`,
@@ -678,6 +678,38 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **Checks:** the API-contract and vendored shared tests, 222 passed; `tests/test_vocab_theme_maps.py`, 3 passed
   (2 of them fail against the maps before this round); vocabulary, record, service and LLM-client tests, 316 passed,
   1 skipped; ruff check and format clean on the new test.
+
+  Files delivered in chat; pushed as `9c8d0c4`, except `tests/test_vocab_theme_maps.py`, which did not land (re-delivered on 2026-10-15).
+
+## 2026-10-15 — Issue logs: the #2 runs of 11–13 October; the theme-map test re-delivered
+* **#2, 11–13 October** (on `test` as `5c6ffe0` … `dab512c`; no entry was written then):
+  * **10-11, the GPU path:** `llm_run.py` could not enrich a document on either backend. Fixed: the call signatures,
+    vLLM's structured-output API, the prompt fitted to the served window (`vocab_prompt_budget_tokens`), the target
+    line kept after a cut, `pysqlite3` optional, `config.prompt` in the paradata; `tests/test_llm_run_contract.py`.
+    The `zeme` sub-header reads `země`.
+  * **10-12/13, the cluster runs:** lm-format-enforcer's per-token state freed after each line, `REUSE_PROMPT_CACHE`,
+    the label enum indexed by prefix, one BOS, YaRN for the 32k Qwen models, AWQ on vLLM, the allocator setting kept
+    from vLLM's workers, FlashInfer's sampler off, `VLLM_BATCH_SIZE`, `--download` for the offline nodes, models for
+    2× 24 GB.
+  * **17 runs** in `data_samples/KW_PER_DOC_LLM_<model>/`: 19 documents, 1,029 lines each (three runs miss 3–71).
+  * **`2bd5db4`:** the category enum takes either case of a label's first letter (`category_case_folding` in the
+    paradata). No committed run has it: nine still carry forced labels (`Artemísion`, `Slovensko`, …), counted in the
+    #2 digest.
+* **`tests/test_vocab_theme_maps.py` (new):** the 10-13 entry names it, but it did not land. Five tests:
+  `HESLAR_TO_THEME` and `TEATER_BRANCH_TO_THEME` equal `_settings.heslar_map` and `teater_branch_map` less the
+  `__exclude__` entries; the facets equal `THEMES`; every mapped theme is one; `jazyk` is absent and branch `1` maps
+  to Methods.
+* **atrium-digital-convert#6, phase D:** the whole-document clients send the Markdown that digital-convert's renderer
+  writes (`JSON_TO_MD_CONVERTER = "json_to_md@1.1"`, `llm_client_shared.py:1126`). The renderer escapes text that
+  could forge a cue, so no second defence is added here. If the escaping bumps `CONVERTER_ID` there, this constant
+  follows.
+* **Dev logs:** this header (it named atrium-nlp-enrich). The #2 pair is consolidated:
+  * the title is fixed (it said "Issue #6");
+  * the runs and the case-fold fix are recorded;
+  * the decision register keeps what is in force;
+  * the plan runs: clean runs → a home for the corpus (atrium-project#16) → gold labels → scorer → score.
+* **Checks:** `pytest tests/test_vocab_theme_maps.py`, 5 passed, and it fails when a map entry is changed;
+  `vocab_build.py --from-flat --check` up to date; `prompt_template.py --check` clean.
 
   Files delivered in chat.
 
