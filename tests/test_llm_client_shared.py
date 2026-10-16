@@ -286,6 +286,100 @@ def test_build_schema_constrains_category_enum():
         )
 
 
+def _line_reply(category):
+    return {
+        "extracted_keywords_cs": ["střep"],
+        "extracted_keywords_en": ["sherd"],
+        "teater_category": category,
+        "confidence_score": 0.8,
+    }
+
+
+def test_build_schema_takes_either_case_of_the_first_letter():
+    """A reply that began the category with a capital letter ("Artefakt") failed validation
+    and its line was lost. llm_run.build_schema has taken both cases since 2026-10-13."""
+    Model = build_schema(["artefakt", "Artemísion", "Nerelevantní (meta-text)"])
+    assert Model.model_validate(_line_reply("Artefakt")).category_name() == "artefakt"
+    assert Model.model_validate(_line_reply("artemísion")).category_name() == "Artemísion"
+    reply = json.dumps(_line_reply("Artefakt"), ensure_ascii=False)
+    assert Model.model_validate_json(reply).category_name() == "artefakt"
+    meta = Model.model_validate(_line_reply("nerelevantní (meta-text)"))
+    assert meta.category_name() == "Nerelevantní (meta-text)"
+    with pytest.raises(ValidationError):
+        Model.model_validate(_line_reply("ARTEFAKT"))
+
+
+def test_build_schema_sends_one_enum_value_per_label():
+    """The variants are accepted after the reply, not offered: the schema the service sends
+    to OpenRouter and Ollama is the label enum, not twice its size."""
+    labels = ["artefakt", "Artemísion", "Nerelevantní (meta-text)"]
+    enum_values = build_schema(labels).model_json_schema()["$defs"]["TermEnum"]["enum"]
+    assert enum_values == labels
+
+
+def test_build_schema_keeps_a_label_whose_other_spelling_is_another_label():
+    Model = build_schema(["Slované", "slované", "10–20 km"])
+    assert Model.model_validate(_line_reply("Slované")).category_name() == "Slované"
+    assert Model.model_validate(_line_reply("slované")).category_name() == "slované"
+
+
+def test_validate_llm_output_returns_the_vocabulary_spelling_with_its_ids():
+    Model = build_schema(["Nerelevantní (meta-text)", "zámek", "zámek (sídlo elity)"])
+    reply = json.dumps(_line_reply("Zámek (sídlo elity)"), ensure_ascii=False)
+    record = {"enrichment": validate_llm_output(reply, Model, "doc1", 1, 1)}
+    assert record["enrichment"]["teater_category"] == "zámek (sídlo elity)"
+    lcs.attach_category_ids(
+        [record],
+        {"zámek (sídlo elity)": [{"source": "teater", "id": "1439"}]},
+        {"zámek (sídlo elity)": "zámek"},
+    )
+    assert record["enrichment"]["teater_category"] == "zámek"
+    assert record["enrichment"]["teater_category_ids"] == [{"source": "teater", "id": "1439"}]
+
+    meta_reply = json.dumps(_line_reply("nerelevantní (meta-text)"), ensure_ascii=False)
+    meta = validate_llm_output(meta_reply, Model, "doc1", 1, 2)
+    assert meta["teater_category"] == "Nerelevantní (meta-text)"
+    assert meta["extracted_keywords_cs"] == [] and meta["extracted_keywords_en"] == []
+
+
+def _llm_run_first_letter_variants():
+    """llm_run._first_letter_variants, compiled from its source: importing llm_run needs torch."""
+    import ast
+    import typing
+
+    source = (Path(__file__).resolve().parent.parent / "llm_run.py").read_text(encoding="utf-8")
+    fn = next(
+        node
+        for node in ast.parse(source).body
+        if isinstance(node, ast.FunctionDef) and node.name == "_first_letter_variants"
+    )
+    namespace = {"Dict": typing.Dict, "List": typing.List}
+    exec(compile(ast.Module(body=[fn], type_ignores=[]), "llm_run.py", "exec"), namespace)
+    return namespace["_first_letter_variants"]
+
+
+@pytest.mark.parametrize(
+    "labels",
+    [
+        ["artefakt", "Artemísion", "Nerelevantní (meta-text)"],
+        ["Slované", "slované", "10–20 km"],
+        ["Abc", "aBc", "abc", "(polo)zemnice", "**suborál (paleoklimatologie)", ""],
+        ["kostel", "kostel", "\u212aelvin", "Kelvin", "ßtraße"],
+    ],
+)
+def test_first_letter_variants_match_llm_run(labels):
+    """The GPU path and the service must accept the same spellings."""
+    assert lcs.first_letter_variants(labels) == _llm_run_first_letter_variants()(labels)
+
+
+def test_first_letter_variants_match_llm_run_on_the_shipped_vocabulary():
+    import prompt_template
+
+    vocab = json.loads(prompt_template.DEFAULT_VOCAB.read_text(encoding="utf-8"))
+    labels = [t["cs"] for t in prompt_template.vocabulary_terms(vocab, None)]
+    assert lcs.first_letter_variants(labels) == _llm_run_first_letter_variants()(labels)
+
+
 def test_build_document_schema_defaults_to_empty_items():
     Model = build_document_schema(["kostel"])
     instance = Model.model_validate({})

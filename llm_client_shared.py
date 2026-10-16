@@ -41,7 +41,7 @@ import sys
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence, Set, Tuple
 
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, Field, ValidationError, field_validator
 
 import prompt_template
 from api_util import teitok_read
@@ -469,10 +469,35 @@ def _assert_vocabulary_reached_the_model(term_names: List[str]) -> None:
         )
 
 
+def first_letter_variants(term_names: List[str]) -> Dict[str, str]:
+    """Each label spelt with the other case of its first letter, mapped to the label.
+
+    A variant that is itself a label, or that two labels would share, is left out.
+    ``llm_run._first_letter_variants``, duplicated (that module imports torch);
+    tests/test_llm_client_shared.py checks that the two give the same map.
+    """
+    labels = set(term_names)
+    found: Dict[str, List[str]] = {}
+    for name in dict.fromkeys(term_names):
+        first = name[:1].swapcase()
+        variant = first + name[1:]
+        if len(first) == 1 and variant != name and variant not in labels:
+            found.setdefault(variant, []).append(name)
+    return {variant: names[0] for variant, names in found.items() if len(names) == 1}
+
+
 def build_schema(term_names: List[str]) -> type:
     _assert_vocabulary_reached_the_model(term_names)
 
     TermEnum = enum.Enum("TermEnum", {f"term_{i}": name for i, name in enumerate(term_names)})
+
+    # A reply that began the category with the other case of its first letter ("Keramika")
+    # failed validation, and its line was lost. llm_run.build_schema puts these variants into
+    # the enum it decodes under (issue #2, 2026-10-13); here they are accepted after the
+    # reply instead, so the schema sent to OpenRouter and Ollama stays the label enum rather
+    # than twice its size. A backend that decodes strictly under that enum can still be
+    # forced into a capitalised label.
+    variants = first_letter_variants(term_names)
 
     class ConstrainedEnrichment(BaseModel):
         extracted_keywords_cs: List[str] = Field(
@@ -512,6 +537,11 @@ def build_schema(term_names: List[str]) -> type:
                 "Do NOT output 1.0 uniformly — this field is used for filtering."
             ),
         )
+
+        @field_validator("teater_category", mode="before")
+        @classmethod
+        def _vocabulary_spelling(cls, value: Any) -> Any:
+            return variants.get(value, value) if isinstance(value, str) else value
 
         def category_name(self) -> str:
             return self.teater_category.value
