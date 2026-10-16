@@ -16,6 +16,8 @@ def unit_per_inch(unit: str) -> Optional[float]:
         return 1200.0
     if unit == "mm10":
         return 254.0
+    if unit == "pt":  # PDF points: a born-digital record's pages[].canvas.unit
+        return 72.0
     return None
 
 

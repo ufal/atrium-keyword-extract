@@ -31,7 +31,7 @@ NLP_ENRICH = REPO_ROOT.parent / "atrium-nlp-enrich"
 
 VENDORED = {
     "api_util/teitok_read.py": "861be1187ee130a2251b475325eab1785e6a50d1fb363ebe161407e2f498c280",
-    "api_util/bbox_scale.py": "3bc5669f72bbabb63fb8c5e1e8d9bf9ad8ed920cf603102a25b5271b55b7ab3b",
+    "api_util/bbox_scale.py": "a3198dfdb8ab9dad0688139678514f4cdea86d066bc6a12c814f7e24937011f4",
 }
 
 
