@@ -1,0 +1,6387 @@
+[
+    {
+        "file_id": "CTX193001369",
+        "page": 1,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.7392,
+        "original_text": "NĚ KATOVICE",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 1,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.8848,
+        "original_text": "Hroby se zvôncovymi poháry.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hroby",
+                "zvôncovymi poháry"
+            ],
+            "extracted_keywords_en": [
+                "graves",
+                "bell-shaped cups"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.8541,
+        "original_text": "NERATOVICE.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.7265,
+        "original_text": "okr. Brandýs n/L. GEC",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9609,
+        "original_text": "Hrobyse zvoncovými poháry",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hroby",
+                "zvoncovými poháry"
+            ],
+            "extracted_keywords_en": [
+                "graves",
+                "bell-shaped goblets"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9478,
+        "original_text": "Na levém břehu Labe v Neratovicích, v pískovně továrny GEC roz-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohřebiště",
+                "zvoncovými poháry",
+                "Labe",
+                "Neratovicích",
+                "pískovna",
+                "továrna GEC"
+            ],
+            "extracted_keywords_en": [
+                "cemetery",
+                "bell beakers",
+                "Elbe",
+                "Neratovice",
+                "sandpit",
+                "GEC factory"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9396,
+        "original_text": "kládalose větší pohřebiště se zvoncovými poháry, jež bylo v r.1928",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohřebiště",
+                "zvoncové poháry"
+            ],
+            "extracted_keywords_en": [
+                "cemetery",
+                "bell beakers"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.9,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "prozkoumáno St.A.0. *ot> 8y A*- * “7 -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohřebiště",
+                "zvoncovými poháry"
+            ],
+            "extracted_keywords_en": [
+                "cemetery",
+                "bell beakers"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Hrob 1. / 20•A. 1928. / Poloha milodarů nemohla býti zjištěna,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "nádoba",
+                "nátepní destička",
+                "bronzová dýčka"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "vessel",
+                "wrist guard",
+                "bronze fibulae"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "nebot obsah hrobu / 4 nádoby, nátepní destička a bronzová dýč-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "nádoba",
+                "zvoncový pohár",
+                "bronzová dýčka",
+                "nátepní destička"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "vessel",
+                "bell beaker",
+                "bronze fibulae",
+                "wrist guard"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.894,
+        "original_text": "ka / byl vybrán teprve způdy, zřícené následkem trvalých dešťů.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "výzdoba",
+                "trvalé deště",
+                "zřícené"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "prolonged rain",
+                "ruin"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9314,
+        "original_text": "Nádoba 1. Zvoncový pohár s plochým dnem, tmavě Červený, na nezdobených",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "výzdoba",
+                "stopy bé inkrustace",
+                "vodorovné pruzíky"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "traces of silver inlay",
+                "horizontal bands"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.9249,
+        "original_text": "částechvně jší strany jemně leštěný. VtlaČovaná výzdoba, nesoucí dosud",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "výzdoba",
+                "bé inkrustace",
+                "vodorovné pruzíky"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "be incrustation",
+                "horizontal bands"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9355,
+        "original_text": "stopy bé inkrustace, pokrývá v sedmi vodorovných pruzích celý povrch",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "výzdoba",
+                "inkrustace",
+                "vodorovné pruží"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "inlay",
+                "horizontal bands"
+            ],
+            "teater_category": "pohár/číše",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000722"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.602,
+        "original_text": ", poháru. Rozměry : v - 185\"mm, pr. okraje - 20 mm, pr. dna - 80 mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitých pohárů",
+                "pohár"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "cup"
+            ],
+            "teater_category": "kultura zvoncovitých pohárů",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000318"
+                },
+                {
+                    "source": "teater",
+                    "id": "1146"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 19,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.I.,1. ; V., 4. č.neg420.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitých pohárů",
+                "nádoba",
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "vessel",
+                "bell-shaped cup"
+            ],
+            "teater_category": "kultura zvoncovitých pohárů",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000318"
+                },
+                {
+                    "source": "teater",
+                    "id": "1146"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9156,
+        "original_text": "Nádoba 2* Zvoncový pohár se zakulaceným, uprostřed promáčknutým dnem,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "zvoncový pohár",
+                "zakulacený",
+                "promáčknutý dnem",
+                "tmavě červený",
+                "výzdoba",
+                "inkrustovaná",
+                "vodorovné pruhý"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bell beaker",
+                "rounded",
+                "squeezed base",
+                "dark red",
+                "decoration",
+                "inlaid with white",
+                "horizontal bands"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9738,
+        "original_text": "tmavě červený, na nezdobených částech vnější strany hlazený. Výzdoba",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitý pohár",
+                "výzdoba",
+                "bíle inkrustovaná",
+                "vodorovné pruhý"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "white inlaid",
+                "horizontal bands"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.937,
+        "original_text": "v některých místech silně bíle inkrustovaná, tvoří 5 vodorovných pruhů,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitý pohár",
+                "inkrustace",
+                "vodorovný pruh"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "inlay",
+                "horizontal band"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.886,
+        "original_text": "pokrývajících ce_lý povrch nádoby až k proláklině ve dnu. Rozměry: v -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "povrch",
+                "proláklině",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "surface",
+                "aperture",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 25,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.I. ,2. ; V.,2. č. neg. 421.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "pohár",
+                "hlína"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "cup",
+                "clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9207,
+        "original_text": "Nádoba 3. Vysoký, mékce profilovaný pohár, hrubě hnětený ze žlutoše-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "pohár",
+                "hnětený",
+                "hlína"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "beaker",
+                "burnt",
+                "clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 27,
+        "categ": "Noisy",
+        "quality_score": 0.6153,
+        "original_text": "dé hlíny. Rozměry ; v- 144 mm, pr. okraje - 125 mm, pr. dna 65mm:",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohár",
+                "hlína",
+                "mísa"
+            ],
+            "extracted_keywords_en": [
+                "beaker",
+                "clay",
+                "bowl"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.882,
+        "original_text": "Nádoba 4. Široká mísa s, rovně seříznutým okrajem, přiněmž těsn\" umístS-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "rovně seříznutým okrajem",
+                "tunelovité ouško",
+                "čtyřech nízkých nožkách"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "evenly cut rim",
+                "tunneled ear",
+                "four low legs"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.9264,
+        "original_text": "no tunelovité ouško. Mísa spočívá na čtyřech nízkých nožkách. Roz/",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "tunelovité ouško",
+                "čtyřech nožkách"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "tunnel-shaped handle",
+                "four legs"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 31,
+        "categ": "Noisy",
+        "quality_score": 0.6549,
+        "original_text": "měry : V - 78mm, pr. okraje - 282mm, v. nožek - 12mm. *",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "bronzová",
+                "dýčka",
+                "řap"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "bronze",
+                "spout",
+                "rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 33,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "5 / Bronzová, dýčka trojúhelníkovitá, s řapem, jehož okraje jsou",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "bronzová",
+                "dýčka trojúhelníkovitá",
+                "řap",
+                "hrot čepele"
+            ],
+            "extracted_keywords_en": [
+                "bronze",
+                "triangular blade",
+                "edge",
+                "blade tip"
+            ],
+            "teater_category": "zbraň",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1985"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9709,
+        "original_text": "mírně zvýšeny zvláště na jedné straně, jež je hladká, kdežto na druhé,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "bronzová",
+                "dýčka",
+                "trojúhelníkovitá",
+                "řap",
+                "hrot čepele"
+            ],
+            "extracted_keywords_en": [
+                "bronze",
+                "dagger",
+                "triangular",
+                "blade",
+                "spearhead"
+            ],
+            "teater_category": "zbraň",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1985"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 2,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.9647,
+        "original_text": "drsnější straně zvýšení není tak patrno. Hrot čepele chybí. Zachovaná",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "bronzová",
+                "dýčka",
+                "trojúhelníkovitá",
+                "řap",
+                "hrot čepele",
+                "zachovaná"
+            ],
+            "extracted_keywords_en": [
+                "bronze",
+                "dagger",
+                "triangular",
+                "blade",
+                "tip of the blade",
+                "preserved"
+            ],
+            "teater_category": "zbraň",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1985"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.6121,
+        "original_text": "délka - 64mm, nejv. šířka - 35 mm’. • .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nátepní destička",
+                "šedočerné vrstevnaté kámen"
+            ],
+            "extracted_keywords_en": [
+                "natepní plate",
+                "shale"
+            ],
+            "teater_category": "stavební keramika",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000748"
+                },
+                {
+                    "source": "teater",
+                    "id": "2353"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9133,
+        "original_text": "6/ Nátepní desička vybroušená ze šedočernéno vrstevnatého kamene,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nátepní destička",
+                "šedočerný vrstevnatý kámen"
+            ],
+            "extracted_keywords_en": [
+                "napepilum",
+                "grey-black stratified stone"
+            ],
+            "teater_category": "stavební keramika",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000748"
+                },
+                {
+                    "source": "teater",
+                    "id": "2353"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.9727,
+        "original_text": "mírně prohnutá podél delší osy, se čtyřmi otvory v rozích. Na vnější",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nátepní destička",
+                "šedočerný vrstevnatý kámen",
+                "prohnutá podél delší osy",
+                "čtyři otvory",
+                "příčné ryhy"
+            ],
+            "extracted_keywords_en": [
+                "wrist guard",
+                "grey-black layered stone",
+                "mildly curved along the long axis",
+                "four holes",
+                "crosswise grooves"
+            ],
+            "teater_category": "nástroj jemný",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000727"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000851"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.7367,
+        "original_text": "straně destičkyi j sou zřetelně patrny * 2 9. .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nátepní destička",
+                "šedočerný vrstevnatý kámen",
+                "čtyři otvory",
+                "příčné ryhy",
+                "tětiva luku"
+            ],
+            "extracted_keywords_en": [
+                "nape strip",
+                "grey-black stratified stone",
+                "four holes",
+                "crosswise grooves",
+                "bow string"
+            ],
+            "teater_category": "nástroj",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2085"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.8186,
+        "original_text": ", , pričné ryhy, způsobené zpětným",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pričné ryhy",
+                "zpětný odrazem tětivy luku"
+            ],
+            "extracted_keywords_en": [
+                "cross grooves",
+                "caused by the backward reflection of the bowstring"
+            ],
+            "teater_category": "lovec",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "3203"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "odrazem tětivy luku. Rozměry : d - 114mm/ při okrajích 111 mm/ , š -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "tětiva luku"
+            ],
+            "extracted_keywords_en": [
+                "bow string"
+            ],
+            "teater_category": "nástroj",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2085"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.6938,
+        "original_text": "Hrob 1. získal p. Ševčík - viz č.j. 559/29. Aacu. .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob"
+            ],
+            "extracted_keywords_en": [
+                "grave"
+            ],
+            "teater_category": "hrob",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000427"
+                },
+                {
+                    "source": "teater",
+                    "id": "1655"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Hrob 2. / 26.1X.1928 ./ Kostra, jejíž lebka byla promáčknuta,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "lebka",
+                "skrčená položka"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "skull",
+                "crouched position"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.9652,
+        "original_text": "spočívala na pravém boku, ve skrčený poloze.. Spodní čelist ležela pod",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "lebka",
+                "skrčená poloza",
+                "spodní čelist"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "skull",
+                "crouched position",
+                "lower jaw"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 14,
+        "categ": "Noisy",
+        "quality_score": 0.7321,
+        "original_text": "lebkou. Milodary nenaleženy žádné.’ č.neg. 451,452. Tb. XIV.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "lebka",
+                "spodní čelist",
+                "poháry"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "skull",
+                "lower jaw",
+                "bell beakers"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 15,
+        "categ": "Noisy",
+        "quality_score": 0.5514,
+        "original_text": "Kopal p. Ševčík - viz č.j. 560 /29. . - - -",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.6897,
+        "original_text": "|H r o b 3. / 1.x.1928. / . Poloha kostry a milodarů nemohla býti",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zřícená půda"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "collapsed soil"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.871,
+        "original_text": "zjištěna, poněvadž, hrob byl nalezen ve zřícené půdě. . ‘",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zřícená půda"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "ruined soil"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9294,
+        "original_text": "Nádoba 1. Nízký, široký džbánek se slabě sevřeným, nezřetelně odsazeným",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbán",
+                "tmavěšedá hlína"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "dark grey clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9707,
+        "original_text": "hrdlem, jež jest překlenuto páskovým uchem. V největším objemu",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrdlem",
+                "páskový uch",
+                "břicho",
+                "tmavěšedá hлина"
+            ],
+            "extracted_keywords_en": [
+                "neck",
+                "corded rim",
+                "body",
+                "dark grey clay"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9623,
+        "original_text": "břicha jest zaoblený lom. Vyroben jest z jemné tmavěšedé hlíny.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "břicha",
+                "zaoblený lom",
+                "jemná tmavěšedá hlína"
+            ],
+            "extracted_keywords_en": [
+                "body",
+                "rounded break",
+                "fine dark grey clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 23,
+        "categ": "Noisy",
+        "quality_score": 0.6471,
+        "original_text": "Rozměry ; v - 88mm, pr. okraje - 76mm, v.hrdla - 33mm,pr .dna45mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "rozměry",
+                "hrdl",
+                "páskové ucho",
+                "hlína"
+            ],
+            "extracted_keywords_en": [
+                "dimensions",
+                "neck",
+                "corded rim",
+                "clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 24,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.II.,1. Č.neg. 424.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 25,
+        "categ": "Noisy",
+        "quality_score": 0.5645,
+        "original_text": "Kepel P.r šedstzei, b 565/29 . _",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kepel",
+                "šedstzei",
+                "nádoba",
+                "polokulovitá mísa",
+                "rovně.šeřížnutým",
+                "rozšířeným okrajem",
+                "žlutošedý povrch",
+                "slabě lesklý povrch"
+            ],
+            "extracted_keywords_en": [],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.8877,
+        "original_text": "Nádoba 2. polokulovitá mísa s rovně.šeřížnutým , nepatrně rozšířeným",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "polokulovitá mísa",
+                "rovně.šeřížnutý",
+                "rozšířený okraj",
+                "žlutošedý povrch",
+                "lesklý povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "semi-spherical bowl",
+                "evenly ribbed",
+                "slightly expanded rim",
+                "yellowish-gray surface",
+                "glossy surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.8007,
+        "original_text": "okrajem. Povrch žlutošedý, místy slabě lesklý. Rozměry : pr. - 230mm,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "polokulovitá mísa",
+                "žlutošedý povrch",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "hemispherical bowl",
+                "yellowish-gray surface",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "v.- 98mm, š.okraje - 13 mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "polokulovitá mísa",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "semi-spherical bowl",
+                "dimensions"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 29,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.II. ,8. č.neg.424.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Tb.II",
+                "č.neg.424",
+                "hrob"
+            ],
+            "extracted_keywords_en": [
+                "Tb.II",
+                "no.424",
+                "grave"
+            ],
+            "teater_category": "hrob",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000427"
+                },
+                {
+                    "source": "teater",
+                    "id": "1655"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 30,
+        "categ": "Noisy",
+        "quality_score": 0.7353,
+        "original_text": "Hrob 2. získal p. Ševčík - viz č.j",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.9356,
+        "original_text": "Hrob 4. Kostra, spočívající ve skrčené poloze na levém boku, obličejem",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9679,
+        "original_text": "k východu, byla velmi setlelá, pouze lebka byla poněkud lépe uchována.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kostra",
+                "zvoncové poháry",
+                "džbán",
+                "mísa"
+            ],
+            "extracted_keywords_en": [
+                "skeleton",
+                "bell beaker",
+                "jug",
+                "bowl"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.9668,
+        "original_text": "U nohou kostry ležely dva zdobené zvoncové poháry, z nichž",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncové poháry",
+                "mísa",
+                "pazourky"
+            ],
+            "extracted_keywords_en": [
+                "bell beakers",
+                "bowl",
+                "arrowheads"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.9824,
+        "original_text": "větší spolu s malým džbánkem byly přikryty mísou. Po levé straně pánve",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncové poháry",
+                "džbánkem",
+                "mísou",
+                "pazourky",
+                "pánve"
+            ],
+            "extracted_keywords_en": [
+                "bell beakers",
+                "jug",
+                "bowl",
+                "daggers",
+                "pelvis"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 3,
+        "line": 37,
+        "categ": "Noisy",
+        "quality_score": 0.7941,
+        "original_text": "směrem k míse, byly dva pazourky. 8.neg.453-156. Tb.XV. .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourky",
+                "mísou",
+                "pánve"
+            ],
+            "extracted_keywords_en": [
+                "daggers",
+                "bowl",
+                "pelvis"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.75,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8832,
+        "original_text": "Nádoba 1. Zvoncový'pohár s plochým dnem, tmavěčervený, místy světlejší .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "zvoncový pohár",
+                "plochý dno",
+                "tmavě červený",
+                "výzdoba"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bell beaker",
+                "flat base",
+                "dark red",
+                "decoration"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9663,
+        "original_text": "na vnější straně jemně leštěný-,- pokrytý čtyřmi pruhy v tlač ovane výzdoby",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "inkrustace",
+                "bílá inkrustace",
+                "tlačovaná výzdoba"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "inlay",
+                "white inlay",
+                "pressed decoration"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8237,
+        "original_text": "se zcela nepatrnými stopami bílé inkrustace. Rozměry : v- 112mm, pr. okr",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "bílá inkrustace",
+                "poháry"
+            ],
+            "extracted_keywords_en": [
+                "white inlay",
+                "goblets"
+            ],
+            "teater_category": "pohár/číše",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000722"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.8975,
+        "original_text": "Nádoba 2. Menší zvoncový pohár se zakulaceným, uprostřed promáčknutým .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Nádoba",
+                "zvoncový pohár",
+                "zakulacený",
+                "promáčknutý",
+                "pruhy",
+                "výzdoba",
+                "šedožlutá",
+                "odřený"
+            ],
+            "extracted_keywords_en": [
+                "Vessel",
+                "bell beaker",
+                "rounded",
+                "compressed in the middle",
+                "five bands",
+                "simple incised decoration",
+                "ashen yellow",
+                "partly red",
+                "shiny surface",
+                "damaged",
+                "dimensions"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9043,
+        "original_text": "dnem, zdobený pěti pruhy jednoduchévtlačované výzdoby. Barva' šedožlutá, mj",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitý pohár",
+                "výzdoba",
+                "šedožlutá",
+                "odřený povrch"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "ashen yellow",
+                "worn surface"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9467,
+        "original_text": "místy načervonalá, povrch lesklý,avšak z,větší části odřený. Rozměry;",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitý pohár",
+                "povrch",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "surface",
+                "dimensions"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.8762,
+        "original_text": "Nádoba 4.ovitá mísa š vyznačeným dnem a značně rozšířeným, se-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "ovitá mísa",
+                "tunelovité ucho",
+                "červená"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "ovate bowl",
+                "tubular handle",
+                "red"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.8485,
+        "original_text": "šikmeným okrajem, při němž sedí tunelovité ucho.-Rozměry : pr.okraje - 33",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "tunelovité ucho",
+                "červená",
+                "oranžová",
+                "šedožluté skvrny"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "tubular handle",
+                "red",
+                "orange with grey-yellow spots"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "337mm, pr. dna - 105mm,y -167mm: ■ Mísa jest na vnitřní \"straně červená,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "červená",
+                "oranžová",
+                "šedožluté skvrny"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "red",
+                "orange",
+                "grey-yellow spots"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9014,
+        "original_text": "na vnější straně .oranžová se šedožlutými skvrnami. ‘",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "červená",
+                "oranžová",
+                "šedožluté skvrny",
+                "pazourkový úlomek",
+                "sekundární retuše",
+                "zakulacený konec"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "red",
+                "orange with grey-yellow spots",
+                "flint flake",
+                "secondary retouch",
+                "rounded end"
+            ],
+            "teater_category": "nález v druhotné poloze",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000061"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9347,
+        "original_text": "Pazourkový úlomek \"se stopami sekundární .retuše při zakulaceném konci.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourkový úlomek",
+                "sekundární retuše",
+                "zakulacený konci"
+            ],
+            "extracted_keywords_en": [
+                "flint flake",
+                "secondary retouch",
+                "rounded end"
+            ],
+            "teater_category": "předmět z bronzu",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2520"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.9443,
+        "original_text": "Pazourkový úlomek plochý,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourkový úlomek"
+            ],
+            "extracted_keywords_en": [
+                "flint flake"
+            ],
+            "teater_category": "nález v druhotné poloze",
+            "confidence_score": 0.75,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000061"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 22,
+        "categ": "Noisy",
+        "quality_score": 0.725,
+        "original_text": "Vykopal p. Ševčík.- viz č",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hroby",
+                "poháry"
+            ],
+            "extracted_keywords_en": [
+                "graves",
+                "cups"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.919,
+        "original_text": "Hrob 5. Hrob nalezen ve spadlé hlíně, takže poloha kostry a milodaru",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zvoncový pohár",
+                "výzdoba"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "bell beaker",
+                "decoration"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9573,
+        "original_text": "jest neznáma. Zachována byla paze třetina",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zvoncový pohár",
+                "výzdoba",
+                "vodorovné pruzíky",
+                "šedočerný povrch",
+                "mírně lesklý povrch"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "bell beaker",
+                "decoration",
+                "horizontal bands",
+                "grey-black surface",
+                "slightly shiny surface"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9778,
+        "original_text": "zvoncového poháru s trojúhelníčkovou vtlacovanou výzdobou, uspořádanou",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "trojúhelníčková vtlacovaná výzdoba",
+                "vodorovné pruzíky",
+                "šedočerný povrch",
+                "mírně lesklý povrch"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "triangular impressed decoration",
+                "horizontal bands",
+                "grey-black surface",
+                "slightly shiny surface"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.957,
+        "original_text": "ve vodorovných pruzích. Povrch jest šedočerný, mírně lesklý. Rozměry;",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový poháru",
+                "výzdoba",
+                "vodorovné pruzíky",
+                "šedočerný povrch",
+                "mírně lesklý povrch"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "decoration",
+                "horizontal bands",
+                "grey-black surface",
+                "slightly shiny surface"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.8193,
+        "original_text": "H r o b TI. Kostra spočívala vo skrčené ploze na levém bozu, hlavou k",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "pazourková šipka",
+                "hrnek"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "arrowhead",
+                "cup"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.9225,
+        "original_text": "východu, nohami k západu. U nohou kostry ležel hrnek se- čtyřmi- oušky a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostrový hrob",
+                "pazourková šipka"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton grave",
+                "arrowhead"
+            ],
+            "teater_category": "žárový hrob",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1660"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.9783,
+        "original_text": "tři pazourkové šipky. Hrob byl i s milodary v původní poloze vyzvednut a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "pazourkové šipky",
+                "milodary",
+                "původní poloze",
+                "Národní muzeum"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "arrowheads",
+                "millet",
+                "original position",
+                "National Museum"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 4,
+        "line": 37,
+        "categ": "Noisy",
+        "quality_score": 0.7697,
+        "original_text": "odvezen do Národního musea. 3.neg. 457-460. Tb.XVI .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrnek",
+                "pazourková šipka",
+                "Národní muzeum"
+            ],
+            "extracted_keywords_en": [
+                "cup",
+                "arrowhead",
+                "National Museum"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.75,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9713,
+        "original_text": "/Nádobka se čtyřmi uchy,z nichž dvě jsou umístěna na nejužším místě",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádobka",
+                "hroby",
+                "zvôncovymi poháry",
+                "čtyřmi uchy",
+                "nejužším místě",
+                "nežretelně vyznačeného hrdla",
+                "sruvá"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "graves",
+                "bell-shaped goblet",
+                "four handles",
+                "narrowest part",
+                "indistinctly marked neck",
+                "wooden"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.945,
+        "original_text": "nezřetelně vyznačeného hrdla,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohár",
+                "hrdl"
+            ],
+            "extracted_keywords_en": [
+                "goblet",
+                "neck"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Srubá 2 ouška,položená na",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "sruba",
+                "oušek"
+            ],
+            "extracted_keywords_en": [
+                "postern",
+                "ear"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.8868,
+        "original_text": "ose kolmé",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9523,
+        "original_text": "k ose, procházej ící předešlými",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9774,
+        "original_text": "jsou na největším objemu",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrubo dvojkonického spodku nádoby",
+                "povrch drsný",
+                "šedavé žlutý"
+            ],
+            "extracted_keywords_en": [
+                "roughly double-conical base of the vessel",
+                "rough surface",
+                "ashen yellow"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.8854,
+        "original_text": "hrubo dvoj-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrubo dvojkonického spodku nádoby",
+                "povrch drsný",
+                "šedavé žlutý"
+            ],
+            "extracted_keywords_en": [
+                "roughly double-conical base of the vessel",
+                "rough surface",
+                "ashen yellow"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9066,
+        "original_text": "konického spodku nádoby. Povrch drsný, šedavé žlutý. Rozměry: v -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "povrch",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "surface",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.6598,
+        "original_text": "2,4 Pazourková šipka, jemně vyretušovama y , . % .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourková šipka",
+                "křidálky"
+            ],
+            "extracted_keywords_en": [
+                "arrowhead",
+                "fins"
+            ],
+            "teater_category": "projektil",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2005"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.8277,
+        "original_text": "prohnutými a s výrazně naznačenými křidálky. D. - mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourková šipka",
+                "křidálky"
+            ],
+            "extracted_keywords_en": [
+                "arrowhead",
+                "grooves"
+            ],
+            "teater_category": "projektil",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2005"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9225,
+        "original_text": "3/ Pazourkovášipka s jemně vypracovaným hrotem a rovně se sbíhají-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourková šipka",
+                "hrot",
+                "boční strany"
+            ],
+            "extracted_keywords_en": [
+                "arrowhead",
+                "point",
+                "sides"
+            ],
+            "teater_category": "projektil",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2005"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.6634,
+        "original_text": "čími bočními stranami. D. - mm, š.- mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourková šipka",
+                "hrot",
+                "boční strany"
+            ],
+            "extracted_keywords_en": [
+                "arrowhead",
+                "point",
+                "side edges"
+            ],
+            "teater_category": "šipka",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2009"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 19,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.Vl. ,3. č.neg.586.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.5821,
+        "original_text": "4/ Pazourková široká šipka. D- mm,š.- mm. ' -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourková široká šipka"
+            ],
+            "extracted_keywords_en": [
+                "broad-headed arrow"
+            ],
+            "teater_category": "projektil",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2005"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 21,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb .VI. ,4. č.neg.480.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Tb.VI",
+                "č.neg.480"
+            ],
+            "extracted_keywords_en": [
+                "Tb.VI",
+                "numismatic find 480"
+            ],
+            "teater_category": "nález v druhotné poloze",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000061"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Zprávu o výkopu viz v č.j . 560/39. .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.874,
+        "original_text": "Hrob VII./ 15.10.1928./ Tento hrob obsahoval žárový pohřeb,vlo-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "žárový pohřeb",
+                "nádoby",
+                "pazourkové úlomky"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "cremation burial",
+                "vessels",
+                "flint fragments"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.8114,
+        "original_text": "• ženy volně vGemi . K pohřbu - podle -velikosti a -množství kostiček -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "nádoba",
+                "pazourkový úlomek"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "vessel",
+                "arrowhead fragment"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.8646,
+        "original_text": "patrně'dětskému, byly přiloženy 3 nádoby a 6 pazourkových' úlomků.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "žárový pohřeb",
+                "nádoba",
+                "zvoncový pohárek"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "cremation burial",
+                "vessel",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "TÚ. XVII. č.neg.461-464. Hrob vyříznut a přenesen do N.M.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zvoncový pohárek",
+                "N.M."
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "bell beaker",
+                "N.M."
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.946,
+        "original_text": "Nádoba 1. Měkce profilovaný zvoncový pohárek s pěti pruhy pečlivě",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "zvoncový pohárek",
+                "vtlačovaná výzdoba",
+                "okraj",
+                "dno"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bell beaker",
+                "incised decoration",
+                "rim",
+                "base"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.9573,
+        "original_text": "provedené vtlačované výzdoby. Okraj široce rozevřen, dno zaobleno.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohárek",
+                "vtlačovaná výzdoba",
+                "okraj",
+                "dno"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "incised decoration",
+                "rim",
+                "base"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 30,
+        "categ": "Noisy",
+        "quality_score": 0.631,
+        "original_text": "Rozměry: v - mm, pr.okraje - mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohárek",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "goblet",
+                "dimensions"
+            ],
+            "teater_category": "nálezová správa",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "252"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.9517,
+        "original_text": "Nádoba II. Vysoký pohár se slabě rozevřeným hrdlem a s nezřetelným",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "pohár",
+                "hlína"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "beaker",
+                "clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.9577,
+        "original_text": "lomem v nojetším objemu, hrubě pracovaný ze šedožluté hlíny. Rozměry",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "pohár",
+                "hlína"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "beaker",
+                "clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 34,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": ": v - mm,pr.hrdla - mm,pr.dna- mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "pohár",
+                "hlína"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "beaker",
+                "clay"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 35,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.VII.,3. č.neg.579. '",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.9343,
+        "original_text": "Nádoba 3. Štíhlá amforka měkkého profilu/ se dvěma hrubými oušky na",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "amfora",
+                "měkký profil",
+                "hrubé oušky",
+                "břicho"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "amphora",
+                "soft profile",
+                "thick handles",
+                "belly"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 37,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "největším objemu břicha. Rozměry : v - mm, pr.Hrdla - mm, pr.dna",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "amfora",
+                "nádoba"
+            ],
+            "extracted_keywords_en": [
+                "amphora",
+                "vessel"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 39,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.VlI.,4. č.neg.578. .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourkových plochých odštěpků"
+            ],
+            "extracted_keywords_en": [
+                "flat chisel fragments"
+            ],
+            "teater_category": "nástroj",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2085"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 40,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "4 - 9. / 6 pazourkových plochých odštěpků bez veškerých stop retuše,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourkových plochých odštěpků",
+                "retuše"
+            ],
+            "extracted_keywords_en": [
+                "flint flakes",
+                "retouch"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 41,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "nepravidelných tvarů. • •",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pazourkových plochých odštěpků",
+                "nepravidelných tvarů"
+            ],
+            "extracted_keywords_en": [
+                "spade-shaped flakes",
+                "irregular shapes"
+            ],
+            "teater_category": "kostrový hrob",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1658"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 42,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "\\ Tp .VII. ,5-10. č.neg.580.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 43,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "i | z 7",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 5,
+        "line": 44,
+        "categ": "Noisy",
+        "quality_score": 0.6909,
+        "original_text": "'' I Správu o výkopu viz v č.j. 560/29. • *",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Hrob VIII. / 17.X. 1688. / Tento hrob byl značně rozrušen, takže vzbuzoval",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "nádoba",
+                "hrnek"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "vessel",
+                "cup"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9547,
+        "original_text": "dojem, že již ve starých dobách byl odkryt a znovu zaházen, Z kostry se zachovalo",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "nádoba",
+                "hrnek"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "vessel",
+                "cup"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9366,
+        "original_text": "pouze několik kostí, z milodarů 2 nádoby. Jeden hrnek byl přes noc ukraden,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "kost",
+                "nádoba",
+                "hrnek"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "bone",
+                "vessel",
+                "cup"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9882,
+        "original_text": "Mísa polokulovitá s vyznačeným dnem a vodorovně seříznutým, dovnitř silně rozšířeným",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Mísa",
+                "polokulovitá",
+                "vyznačený dnem",
+                "vodorově seříznutý",
+                "rozšířený",
+                "krika okrajem",
+                "lištový výčnělek",
+                "mělkými příčnými zářezy",
+                "širší výčnělek"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "hemispherical",
+                "marked with a dot",
+                "horizontally cut",
+                "widely expanded",
+                "rim with a crack",
+                "strip-like protrusion",
+                "six shallow transverse grooves",
+                "wider protrusion"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9424,
+        "original_text": "krika okrajem. Přímo, u okraje jest na jedné straně lištový výčnělek es",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "lištový výčnělek",
+                "příčný zářez",
+                "žlutošedá barva"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "striped protrusion",
+                "crosswise incision",
+                "yellowish-gray color"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9851,
+        "original_text": "šesti mělkými příčnými zářezy. Na protilehlé straně jest podobný širší výčnělek",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "výčnělek",
+                "žlutošedá barva",
+                "černé skvrny",
+                "oranžové skvrny"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "protrusion",
+                "yellowish-gray color",
+                "black spots",
+                "orange spots"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9418,
+        "original_text": "se dvěma vertikálními otvory o průměru 5mm.. Barva mísy je žlutošedá s Černými a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "žlutošedá",
+                "černé skvrny",
+                "oranžové skvrny",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "yellowish grey",
+                "black spots",
+                "orange spots",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 9,
+        "categ": "Noisy",
+        "quality_score": 0.6757,
+        "original_text": "oranžovými skvrnami. Rozměry: pr. oRaje - 350mm, pr. dna - 127mm, v - lOOmm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mísa",
+                "žlutošedá",
+                "oranžové skvrny",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "bowl",
+                "yellowish grey",
+                "orange spots",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb.. VIII. č.neg.429.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7795,
+        "original_text": "H r p b IX. Ärob nalezen ve spadlé zemi, takže poloha milodarů, a kostry nemohla",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncovitých pohárů",
+                "spadlé zemi",
+                "kostry"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "fallen soil",
+                "skeletons"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9438,
+        "original_text": "být i zjištěna.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvôncovymi poháry",
+                "spadlé zemi",
+                "kostry"
+            ],
+            "extracted_keywords_en": [
+                "bell-shaped goblets",
+                "fallen earth",
+                "skeletons"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9226,
+        "original_text": "Nádoba ±.. Nezdobený zvoncový pohár se zaobleným lomem na spoaní části. Dno",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "zvoncový pohár",
+                "zaoblený lom",
+                "dno",
+                "oranžově červený",
+                "korrozívní povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bell beaker",
+                "rounded rim",
+                "base",
+                "orange-red surface",
+                "corroded surface"
+            ],
+            "teater_category": "pohár/číše",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000722"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.9852,
+        "original_text": "vyznačeno a mírně dovnitř promáčknuto, povrch na nepoškozených místech oranžově",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "povrch",
+                "korrozívní poškození",
+                "barva"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "surface",
+                "corrosion damage",
+                "color"
+            ],
+            "teater_category": "pohár/číše",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000722"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9554,
+        "original_text": "červený, hlazený. Většina povrchu jest však korrodována, barvy šedožluté.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "zvoncový pohár",
+                "povrch",
+                "korrozivní poškození",
+                "barva"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bell beaker",
+                "surface",
+                "corrosion damage",
+                "color"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.5584,
+        "original_text": "Rozměry : v - 112mm,pr.okraje - 145) pr. dna - 70mm. . .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Rozměry",
+                "nádoba",
+                "džbánek"
+            ],
+            "extracted_keywords_en": [
+                "Dimensions",
+                "vessel",
+                "jug"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Nádoba 2. Měkce profilovaný vysoký džbánek s hrdlem nahoře rozevřeným. Spod- .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "hrdlo",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "neck",
+                "thong handle"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9499,
+        "original_text": "ní 2/3 hrdla jsou překlenuty širokým páskovým uchem. Žlutošedý povrch s tmavšími",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "žlutošedý povrch",
+                "tmavší skvrny",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "yellowish-gray surface",
+                "darker spots",
+                "banded rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "skvrnami jest místy slabě vyhlazen. Rozměry : v- 146mm,pr. okraje - 127mm,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "povrch",
+                "tmavé skvrny",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "surface",
+                "dark spots",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 24,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb. IX. ,2. č.neg.430. -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "džbán",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "jug",
+                "banded rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9347,
+        "original_text": "Nádoba 3. Hrubě pracovaný džbánek s páskovým uchem, měkce profilivaný. Dno",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "páskový uch",
+                "šedožlutý",
+                "černé skvrny"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "banded rim",
+                "dull yellow",
+                "black spots"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9685,
+        "original_text": "jest uprostřed dovnitř promáčknuto.Povrch šedožlutý s černými skvrnami.Rozměry",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 29,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb, IX. ,3, č.neg. 431. -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "strap handle"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.9092,
+        "original_text": "Nádoba 4. Džbánek hbě pracovaný s páskovým uchem přes hrdlo nezřetelně vy-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "páskový uch",
+                "šedožlutá"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "strap handle",
+                "grey-yellow"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.8875,
+        "original_text": "značené. Dno jest dovnitř promáčknuto. Barva šedožlutá. Rozměry : pr. okraje",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "páskový uch",
+                "šedožlutá",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "strap handle",
+                "grey-yellow",
+                "dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 34,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb. IX. , 4. Č.neg.431. •",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "žlutošedá mistička",
+                "rovné stěny",
+                "drsný povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "yellowish-gray amphora",
+                "straight walls",
+                "rough surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 6,
+        "line": 35,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Nádoba 5. Žlutošedá mistička s rovnými stěnami, drsného povrchu.Rozměry :",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "mistička",
+                "rovné stěny",
+                "drsný povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "mistiche",
+                "straight walls",
+                "rough surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Hrob X. . / 30, X. 1928. / V tomto hrobě nalezeno bylo pouze spáleniště",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "spáleniště",
+                "spálené lidské kosti",
+                "malá jamka"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "cremation pit",
+                "burned human bones",
+                "small pit"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9545,
+        "original_text": "a na něm v malé jamce spálené lidské kosti. Hrob byl uložen mělko - pouze v",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "spáleniště",
+                "spálené lidské kosti",
+                "hrob",
+                "malá jamka"
+            ],
+            "extracted_keywords_en": [
+                "cremation pit",
+                "burnt human bones",
+                "grave",
+                "small pit"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.609,
+        "original_text": "hloubce 38 cm. Xoe p. ftvÍL- A 5É0/&S.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "spáleniště",
+                "spálené lidské kosti",
+                "hloubce",
+                "kost"
+            ],
+            "extracted_keywords_en": [
+                "cremation pit",
+                "burnt human bones",
+                "depth",
+                "bone"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9033,
+        "original_text": "Hrob XI. POloha kostry a milodarů nemohla být i zjištěna, poněvadž dělníci",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "dělníci",
+                "nádoba",
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "workers",
+                "vessel",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9171,
+        "original_text": "sami hrob ze země vybrali.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9444,
+        "original_text": "Nádoba I , Zvoncový pohár s páskovým uchem, vybíhajícím z okraje, se dnem zak",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "zvoncový pohár",
+                "páskové ucho",
+                "zakulacený dnem",
+                "oranžově tmavě červený",
+                "špinavě žlutý"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bell beaker",
+                "strap handle",
+                "rim with impressed decoration",
+                "orange to dark red",
+                "dirt yellow"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9779,
+        "original_text": "kulacemým a uprostřed dovnitř promáčknutým. Povrch jest leštěný, oranžově až",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "povrch",
+                "oranzově",
+                "tmavě červený",
+                "špinavě žlutý",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "surface",
+                "orange",
+                "dark red",
+                "dirt yellow",
+                "dimensions"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 9,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "tmavě červený, v někerých místech odřený, špinavě žlutý. Rozměry : v - 115mm, p",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "povrch",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "surface",
+                "dimensions"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb. X. ,1. Č. neg. 432. .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9429,
+        "original_text": "Mdoba 2. Džbánek se široce rozevřeným odsazeným hrdlem a páskovým uchem,Dno",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "džbánek",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "jug",
+                "puckered rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.9164,
+        "original_text": "jest vyznačeno a dovnitř promáčknuto. Povrch drsný ,šedožlutý s tmavšími skvr •",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "dno",
+                "povrch",
+                "drsný",
+                "šedožlutý",
+                "skvrna"
+            ],
+            "extracted_keywords_en": [
+                "bottom",
+                "surface",
+                "rough",
+                "grey-yellow",
+                "stain"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9165,
+        "original_text": "Hrob XII, Poloha kostry a milodarů jest neznáma.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "kostra",
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "skeleton",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9022,
+        "original_text": "Nádoba 1. Zvoncový pohár s páskovým uchema a vyznačeným dnem. Povrch drsný ,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "páskové uchema",
+                "význačený den",
+                "drsný povrch",
+                "žlutavý až šedočerný",
+                "rozměry"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "banded rim",
+                "marked day",
+                "rough surface",
+                "yellowish to grey-black",
+                "dimensions"
+            ],
+            "teater_category": "zvonice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000485"
+                },
+                {
+                    "source": "teater",
+                    "id": "1570"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 22,
+        "categ": "Noisy",
+        "quality_score": 0.7177,
+        "original_text": "žlutavý až šedočerný. Rozměry ; v - 120mm, pr. hrdla 130mm, pr. dna - 60- 64nm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "páskový uch",
+                "žlutavý až šedočerný",
+                "rozměry",
+                "v - 120mm",
+                "pr. hrdla 130mm",
+                "pr. dna - 60-64mm"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "strip handle",
+                "yellowish to grey-black",
+                "dimensions",
+                "h - 120mm",
+                "neck diameter 130mm",
+                "base diameter 60-64mm"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.9316,
+        "original_text": "Nádoba 2. Nýzký hrneček se Širokým dnem a s páskovým uchem. Barva žlutavá až še",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "hrneček",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jar",
+                "banded rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "dočerná, povrch místy hlazený. Rozměry ; v - 80mm, pr. hrdla 92mm, Pr. dna 60mm",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "hrneček",
+                "páskový uch",
+                "žlutavá barva",
+                "hlazený povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "striped handle",
+                "yellowish color",
+                "smooth surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 26,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb. XI. ,2. . Č.neg,433.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.951,
+        "original_text": "Nádoba 3, Široký hrnek se zaobleným lomem ve spodní části, s malým dnem a s",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "hrnek",
+                "zaoblený lom",
+                "malý dno",
+                "pásový uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bowl",
+                "rounded rim",
+                "small base",
+                "strap handle"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9572,
+        "original_text": "pásovým uchem těsně pod okrajem. Povrch disný, barva žlutošedá s Černými skvr-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pásovým uchem",
+                "nádoba",
+                "hrnek",
+                "disný",
+                "žlutošedá",
+                "černými skvrnami"
+            ],
+            "extracted_keywords_en": [
+                "belt loop",
+                "vessel",
+                "cup",
+                "disný",
+                "yellowish-gray",
+                "black spots"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 29,
+        "categ": "Noisy",
+        "quality_score": 0.6386,
+        "original_text": "nemi. Rozbry -» v - 113mm,pr. okraje - 130mm pr. dna. 50mm. ,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "hrnek",
+                "pásový uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "bowl",
+                "banded rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 30,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb. XI. ,3. č. neg. 434.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Tb",
+                "hrneček",
+                "páskový uch"
+            ],
+            "extracted_keywords_en": [
+                "Tb",
+                "jug",
+                "padded handle"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.9423,
+        "original_text": "Nádoba 4. Baňatý hrneček s páskovým uchem, vedeným přímo od rozevřeného okra-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "baňatý hrneček",
+                "páskové ucho",
+                "rozevřený okraj",
+                "dno",
+                "kříž",
+                "prosté linie"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "barnacle jar",
+                "banded rim",
+                "open rim",
+                "base",
+                "cross",
+                "simple lines"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.9722,
+        "original_text": "je. Dno, které jest velmi slabě vyznačeno, nese kříž z hlubokých prost ych linií",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kříž",
+                "hluboké prostory",
+                "nádoba"
+            ],
+            "extracted_keywords_en": [
+                "cross",
+                "deep spaces",
+                "vessel"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.8459,
+        "original_text": "Barva při okraji otanžově šedá, při spodku nádoby temnější* Rozměry : v - 80mm,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "kříž",
+                "nádoba"
+            ],
+            "extracted_keywords_en": [
+                "cross",
+                "vessel"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "pr. okraje 70mm, rozpětí-kříže 50mm. .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "amfora"
+            ],
+            "extracted_keywords_en": [
+                "amphora"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 1.0,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 37,
+        "categ": "Clear",
+        "quality_score": 0.9265,
+        "original_text": "Nádoba 5 • Štíhlá amforka se dvěm protilehlými uchy při okraji a se zřetelně",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "amfora",
+                "protilehlý uch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "amphora",
+                "opposite handles"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.9664,
+        "original_text": "vyznačeným dnem, přes něž se táhne mělká rýha, povrch místy hlazený, černošedý.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "amfora",
+                "černošedý",
+                "mělká rýha",
+                "povrch",
+                "přesný rozměr"
+            ],
+            "extracted_keywords_en": [
+                "amphora",
+                "black-gray",
+                "shallow groove",
+                "surface",
+                "precise dimensions"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 7,
+        "line": 39,
+        "categ": "Noisy",
+        "quality_score": 0.5912,
+        "original_text": "Rozměry ; v - 7 5mm , pr. hrdla 62mm, pr.-dna 36 mm.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Rozměry",
+                "zřetelně vyznačeným dnem",
+                "mělká rýha",
+                "hlazený povrch",
+                "černošedý"
+            ],
+            "extracted_keywords_en": [
+                "Dimensions",
+                "distinctly marked rim",
+                "shallow groove",
+                "smooth surface",
+                "blackish grey"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8407,
+        "original_text": "Hrob XIII. Hrob nalezen dělníky ve hloubce 20 - 30 cm , kosti prý nebyly",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zvoncovitý pohár"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební areál",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000025"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000087"
+                },
+                {
+                    "source": "teater",
+                    "id": "1407"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 2,
+        "categ": "Noisy",
+        "quality_score": 0.7364,
+        "original_text": "žádné. .",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.949,
+        "original_text": "Nádoba 1. Zvoncový pohár se široce rozevřeným okrajem, s mělkou proláklinou mís",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "povrch drsný",
+                "světlečervený",
+                "šedočernými skvrnami",
+                "mís",
+                "místo dna"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "rough surface",
+                "light red",
+                "grey-black spots",
+                "mound",
+                "base area"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.9185,
+        "original_text": "místo dna. Povrch drsný, světlečervený s šedočernými skvrnami, Rozměry :v -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár",
+                "povrch drsný",
+                "světlečervený",
+                "šedočerné skvrny",
+                "Rozměry"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker",
+                "rough surface",
+                "light red",
+                "grey-black spots",
+                "Dimensions"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "pr. okraje - 325mm, pr. prolákliny - 33mm. Ě",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "odsazený hrdel",
+                "páskové ucho"
+            ],
+            "extracted_keywords_en": [
+                "raised neck",
+                "padded rim"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 7,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "T.XII, ,1. č.neg.435.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "T.XII",
+                "nádoba",
+                "džbánek",
+                "odsazený hrdel",
+                "páskové ucho",
+                "drsný povrch",
+                "žlutošedý povrch"
+            ],
+            "extracted_keywords_en": [
+                "T.XII",
+                "vessel",
+                "jug",
+                "spout",
+                "strap handle",
+                "rough surface",
+                "yellowish-gray surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9446,
+        "original_text": "Nádoba 2. Džbánek s vysokým odsazeným hrdlem, jež jest překlenuto páskovým uchem.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "džbánek",
+                "odsazený hrdel",
+                "páskové ucho",
+                "drsný povrch",
+                "žlutošedý povrch"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "jug",
+                "high neck",
+                "strap handle",
+                "rough surface",
+                "yellowish-gray surface"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Povrch drsný, žlutošedý. Rozměry ; v - 76 mm, pr. okraje - 60 mm, pr.dna",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "povrch drsný",
+                "žlutošedý",
+                "rozměry",
+                "vysoký hrdel",
+                "odsazený hrdel",
+                "páskové ucho"
+            ],
+            "extracted_keywords_en": [
+                "rough surface",
+                "yellowish-gray",
+                "dimensions",
+                "high neck",
+                "offset neck",
+                "strap handle"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Tb. XII. ,2. č.neg.435. Odup-dolr N..** 27/63/3.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Tb",
+                "hrob",
+                "kostry",
+                "milodarů",
+                "odup-dolr",
+                "poháry"
+            ],
+            "extracted_keywords_en": [
+                "Tb",
+                "grave",
+                "skeleton",
+                "milk teeth",
+                "odup-dolr",
+                "beakers"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.75,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.9558,
+        "original_text": "Hrob XIV. Poloha kostry a milodarů neznáma. Hrob obsahoval pouze",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "džbánek",
+                "prohnutý hrdel",
+                "páskové ucho",
+                "příčná prolínka"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "jug",
+                "curved neck",
+                "banded ear",
+                "transverse perforation"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9769,
+        "original_text": "džbánek s prohnutým hrdlem, na němž sedí široké páskové ucho. Na zakulaceném",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "džbánek",
+                "prohnutý hrdel",
+                "páskové ucho",
+                "místo dna",
+                "proláklina"
+            ],
+            "extracted_keywords_en": [
+                "jug",
+                "bent neck",
+                "broad band ear",
+                "bottom area",
+                "aperture"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 15,
+        "categ": "Noisy",
+        "quality_score": 0.7967,
+        "original_text": "spodku nádoby jest místo dna okrouhlá proláklina o pr. 38,,. Rozměry : v -",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "džbánek",
+                "prohnutý hrdel",
+                "páskové ucho",
+                "místo dna",
+                "okrouhlá proláklina",
+                "povrch hnědošedý",
+                "mírně lesklý"
+            ],
+            "extracted_keywords_en": [
+                "jug",
+                "bent neck",
+                "broad eared rim",
+                "base area",
+                "circular perforation",
+                "surface brownish-gray",
+                "slightly shiny"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 16,
+        "categ": "Noisy",
+        "quality_score": 0.7221,
+        "original_text": "103M,pr. okraje - 102mm. Povrch hnědošedý , mírně lesklý. '",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "džbánek",
+                "prohnutý hrdel",
+                "páskové ucho",
+                "zakulacený spodok",
+                "místo dna",
+                "proláklina",
+                "hnědošedý povrch",
+                "mírně lesklý"
+            ],
+            "extracted_keywords_en": [
+                "jug",
+                "curved neck",
+                "banded ear",
+                "rounded base",
+                "hole in the base",
+                "brownish-gray surface",
+                "slightly shiny"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 19,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Hrob XV, Poloha kostry a milodarů neznáma ., Osahoval pouze střep nezdobeného,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hrob",
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "grave",
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9127,
+        "original_text": "zvoncového poháru,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "zvoncový pohár"
+            ],
+            "extracted_keywords_en": [
+                "bell beaker"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 8,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.9633,
+        "original_text": "Lodarv v původní poloze vyzvednut a",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 15,
+        "line": 2,
+        "categ": "Noisy",
+        "quality_score": 0.6549,
+        "original_text": "Pg. M/ník",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 17,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.8785,
+        "original_text": "Nerarovice",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 18,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Neralowklz",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 22,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.6079,
+        "original_text": "7.62-1369/3 A íl",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 25,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.885,
+        "original_text": "lni A.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 25,
+        "line": 6,
+        "categ": "Noisy",
+        "quality_score": 0.7013,
+        "original_text": "L.Ao 454,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 26,
+        "line": 12,
+        "categ": "Noisy",
+        "quality_score": 0.7875,
+        "original_text": "CL) pohleo od jihu",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pohřebiště"
+            ],
+            "extracted_keywords_en": [
+                "burial ground"
+            ],
+            "teater_category": "pohřebiště/hřbitov",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 28,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.6947,
+        "original_text": "č.nea. 466.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "poháry",
+                "koshovy"
+            ],
+            "extracted_keywords_en": [
+                "goblets",
+                "koshov"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX193001369",
+        "page": 28,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.8185,
+        "original_text": "poháry VII., koshovy.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "poháry",
+                "koshovy"
+            ],
+            "extracted_keywords_en": [
+                "goblets",
+                "koshov"
+            ],
+            "teater_category": "pohřební objekt",
+            "confidence_score": 0.7,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000426"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000581"
+                },
+                {
+                    "source": "teater",
+                    "id": "1649"
+                }
+            ]
+        }
+    }
+]

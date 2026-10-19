@@ -1,0 +1,17 @@
+[
+    {
+        "file_id": "CTX000000003",
+        "page": 1,
+        "line": 1,
+        "categ": "Noisy",
+        "quality_score": 0.8472,
+        "original_text": "Náčrt sondy.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    }
+]

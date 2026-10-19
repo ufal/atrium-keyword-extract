@@ -1,0 +1,141 @@
+{
+  "schema_version": "2.0",
+  "program": "keyword-extract",
+  "tool_version": "v1.3.0-beta",
+  "repository": "https://github.com/ufal/atrium-keyword-extract",
+  "runner_ref": "",
+  "docker_image": "",
+  "python_version": "3.11.4 (main, Jul 26 2023, 14:53:35) [GCC 11.3.0]",
+  "run_id": "261019-100315",
+  "run_uuid": "urn:uuid:795a5191-78d6-4fe8-9fb2-e5af3c34e447",
+  "run_agent": "",
+  "license": "CC0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "license_detail": {
+    "effective_license": "CC0",
+    "effective_license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "is_non_commercial": false,
+    "is_share_alike": false,
+    "determined_by": [
+      "amcr_vocab",
+      "teater_data"
+    ],
+    "components": [
+      {
+        "name": "amcr_vocab",
+        "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "rank": 0
+      },
+      {
+        "name": "teater_data",
+        "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "rank": 0
+      }
+    ],
+    "unknown_licenses": [],
+    "notes": "Effective output license is CC0, the most restrictive among 2 component(s) used."
+  },
+  "start_time": "2026-10-19T10:03:15.673895+00:00",
+  "end_time": "2026-10-19T12:29:35.084075+00:00",
+  "duration_seconds": 8779.41,
+  "config": {
+    "VOCAB_PATH": "data_samples/vocab/union_nested.json",
+    "EMIT_CATEGORY_IDS": "true",
+    "PROMPT_TEMPLATE": "prompts/system_prompt.txt",
+    "PROMPT_TASK_EXTRACT": "true",
+    "PROMPT_TASK_SELECT": "true",
+    "PROMPT_METATEXT_RULE": "true",
+    "PROMPT_OCR_NORMALISATION": "true",
+    "PROMPT_EXACT_TERM": "true",
+    "PROMPT_CATEGORY_FROM_LIST": "true",
+    "PROMPT_MOST_SPECIFIC": "true",
+    "PROMPT_CONFIDENCE_RUBRIC": "true",
+    "PROMPT_EXAMPLES": "true",
+    "PROMPT_GEO_GUARDRAIL": "preference",
+    "PROMPT_VOCAB_GROUPING": "facet_sub",
+    "ACCEPT_COMPOSITE_HALVES": "true",
+    "COMPOSITE_HALVES_PATH": "data_samples/vocab/composite_halves.csv",
+    "INCLUDE_NON_TEXT": "true",
+    "MIN_CHAR_COUNT": "3",
+    "MIN_CHAR_NON_TEXT": "8",
+    "MIN_ALPHA_RATIO_NON_TEXT": "0.4",
+    "PREFILL_CHUNK_SIZE": "8192",
+    "REUSE_PROMPT_CACHE": "true",
+    "MODEL_KEY": "qwen-3.6-27b-it",
+    "INPUT_DIR": "data_samples/DOC_LINE_CATEG",
+    "OUTPUT_DIR": "/lnet/work/projects/atrium/keyword_runs/issue2_k1/runs/KW_PER_DOC_LLM_R3",
+    "PARADATA_DIR": "/lnet/work/projects/atrium/keyword_runs/issue2_k1/runs/KW_PER_DOC_LLM_R3_qwen_36_27b_it",
+    "output_dir_resolved": "/lnet/work/projects/atrium/keyword_runs/issue2_k1/runs/KW_PER_DOC_LLM_R3_qwen_36_27b_it",
+    "backend": "transformers",
+    "include_non_text": true,
+    "min_char_count": 3,
+    "min_char_non_text": 8,
+    "min_alpha_ratio_non_text": 0.4,
+    "vocabulary": {
+      "vocab": {
+        "path": "data_samples/vocab/union_nested.json",
+        "meta_path": "data_samples/vocab/union_nested.meta.json",
+        "tool_version": "v1.3.0-beta",
+        "terms": 4711
+      },
+      "taxonomy": {
+        "config_sha256": "19bc42f3854da8ac4107732bd8b15d0d0798df47621a8edea71ab75662c6d1ba",
+        "overrides_sha256": "889412a5363ab0454bbfbe829bdb2472375cfb5e1e33eb76143eab512fad3573"
+      },
+      "sources": {
+        "amcr": {
+          "records": 1460,
+          "license": "CC0",
+          "ref": "https://api.aiscr.cz/2.2/oai"
+        },
+        "teater": {
+          "records": 4134,
+          "license": "CC0",
+          "ref": "2106c59103556731c56dc116573c4b02e1199466"
+        }
+      },
+      "components": [
+        "amcr_vocab",
+        "teater_data"
+      ]
+    },
+    "prompt": {
+      "sha256": "64083a5d4224c7ce423b2111fb4e9cbbd2c2a9c00223ef8690dcf707dffc36be",
+      "terms_offered": 4711,
+      "context_window": 262144,
+      "category_case_folding": true,
+      "blocks": [
+        "role",
+        "task.extract",
+        "task.select",
+        "rule.metatext",
+        "guardrail.geographic.preference",
+        "rule.ocr_normalisation",
+        "rule.exact_term",
+        "rule.category_from_list",
+        "rule.most_specific",
+        "rule.confidence",
+        "rule.json_only",
+        "vocabulary.header",
+        "examples"
+      ],
+      "composite_halves": 79,
+      "cached_prefix_tokens": 58432
+    }
+  },
+  "statistics": {
+    "input_files_total": 19,
+    "successfully_processed": 19,
+    "skipped_files": 0,
+    "output_counts_by_type": {
+      "json": 19
+    },
+    "performance_per_minute": {
+      "json": 0.1298
+    }
+  },
+  "skipped_files_detail": [],
+  "limits_applied": []
+}

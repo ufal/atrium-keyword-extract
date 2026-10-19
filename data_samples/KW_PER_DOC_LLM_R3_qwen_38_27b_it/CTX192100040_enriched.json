@@ -1,0 +1,3972 @@
+[
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.8089,
+        "original_text": "STÁTNÍ ARCHAEOLOGICKÝ ÚSTAV ‘o/2/",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.8108,
+        "original_text": "Došlo dne 6/,1921 Lodenice, dne 7.února 1921.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9626,
+        "original_text": "Počet příloh I",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.7546,
+        "original_text": "Jos. A. Jíra ,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 6,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "konservátor pro Čechy v P r a z e 1",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "K ct.dopisu Vašemu ze dne 31.XII.m.r.dovoluji si",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9598,
+        "original_text": "odpověděti trochu obšírněji:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.8448,
+        "original_text": "Směrem sev.záp.od městyse Loděnice,1 hod.cesty - vzdušnou",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Loděnice",
+                "městys"
+            ],
+            "extracted_keywords_en": [
+                "Loděnice",
+                "small town"
+            ],
+            "teater_category": "městečko",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1445"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.8639,
+        "original_text": "čarou as 4 km - za obcí Nenačovicemi při pravém břehu lodenického potoka",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.6,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 12,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "zv.\" Kačák \" prostírají se v údolí luka a pole .Louka čí s. katastr. 222 jest",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "luka",
+                "pole"
+            ],
+            "extracted_keywords_en": [
+                "meadow",
+                "cropland"
+            ],
+            "teater_category": "pole",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000039"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "majetkem velkostatku v Chrustenicích - pole s ní sousedící čís.kat.218 jest",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "velkostatek",
+                "pole"
+            ],
+            "extracted_keywords_en": [
+                "estate",
+                "field"
+            ],
+            "teater_category": "velkostatek",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1282"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8206,
+        "original_text": "v majetku rolníka p.Rabocha z Nenačovic. _",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9514,
+        "original_text": "Laskavostí tohoto pána bylo mi dovoleno již roku 1919 na",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7815,
+        "original_text": "Poli $om zv. \" Holonohy \" kopati.Název tento upoutal moji pozornost nejen",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.9728,
+        "original_text": "svým jménem, nýbrž i lidovým podáním,které tvrdí,že v místech těchto stávala",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "lidové podání",
+                "obec"
+            ],
+            "extracted_keywords_en": [
+                "folk tradition",
+                "village"
+            ],
+            "teater_category": "vesnice",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.935,
+        "original_text": "kdysi obec,která byla za válek husitských zničena.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.6,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9789,
+        "original_text": "Pátral Jsem v první řadě po stříbrných penězích .které prý",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "stříbrné peníze"
+            ],
+            "extracted_keywords_en": [
+                "silver coins"
+            ],
+            "teater_category": "mince",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000794"
+                },
+                {
+                    "source": "teater",
+                    "id": "2276"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9731,
+        "original_text": "prý po dlouhé léta jmenovaný majetník vyorával, sám a děti poblíže pasoucí",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9623,
+        "original_text": "sbíral.Z těchto peněz viděl jsem pouze jeden kus,nebot ostatní z neznalosti'",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "stříbrné peníze",
+                "peníze"
+            ],
+            "extracted_keywords_en": [
+                "silver coins",
+                "coins"
+            ],
+            "teater_category": "mince",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000794"
+                },
+                {
+                    "source": "teater",
+                    "id": "2276"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.951,
+        "original_text": "byly pohozeny a jsou tudíž ztraceny.Počet Jich odhaduji více než na 100 kusí",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9005,
+        "original_text": "Dne 27.IX. 1919. šel Jsem odpoledne opět na toto pole a štast",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pole",
+                "ornice"
+            ],
+            "extracted_keywords_en": [
+                "field",
+                "arable topsoil"
+            ],
+            "teater_category": "ornice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000243"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.939,
+        "original_text": "nou náhodou jsem nalezl 1 peníz.Počal Jsem ihned pátrati na onom mistě a",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "peníz"
+            ],
+            "extracted_keywords_en": [
+                "denarius"
+            ],
+            "teater_category": "denár",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2282"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.858,
+        "original_text": "při opatrném odhrabání asi 20 cm ornice nalezl jsem celé \" hnízdy n: na",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "ornice",
+                "peníz"
+            ],
+            "extracted_keywords_en": [
+                "arable topsoil",
+                "penny"
+            ],
+            "teater_category": "ornice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000243"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 2,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9569,
+        "original_text": "hromádce bylo složeno celkem 120 kusů stříbrných těchto peržzů pouze v zemi.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "stříbrné mince",
+                "peníže"
+            ],
+            "extracted_keywords_en": [
+                "silver coins",
+                "denarii"
+            ],
+            "teater_category": "denár",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2282"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9101,
+        "original_text": "Při nich ani kolem nebyla žádná nádoba,neb střepina.Byly tudí*",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádoba",
+                "střepina",
+                "keramika"
+            ],
+            "extracted_keywords_en": [
+                "vessel",
+                "potsherd",
+                "ceramic"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.9634,
+        "original_text": "uložony prostě v zemi.Ten den pršelo stále od rána tak,že peníze ty byly",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "peníze",
+                "hlína",
+                "země"
+            ],
+            "extracted_keywords_en": [
+                "coins",
+                "clay",
+                "soil"
+            ],
+            "teater_category": "mince",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000794"
+                },
+                {
+                    "source": "teater",
+                    "id": "2276"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.9341,
+        "original_text": "celé hlínou pomazané.Byly pa sobě složeny, takže jsem je musel jen nehtem",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hlína",
+                "patina"
+            ],
+            "extracted_keywords_en": [
+                "clay",
+                "patina"
+            ],
+            "teater_category": "hlína",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000925"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000971"
+                },
+                {
+                    "source": "teater",
+                    "id": "2454"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9102,
+        "original_text": "odlupovat*.bych je nepoškodil .Ještě dnes jsou hlinou znečistěný,neb neznám",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9607,
+        "original_text": "způsobu,Jak je očistiti,sniž by se setřela krásně zelená patina,která mnohé",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9603,
+        "original_text": "z nich pokrývá.Na straně Jedné Jest dvojocasý lev s vyplazeným Jazykem,na",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "dvojocasý lev",
+                "patina"
+            ],
+            "extracted_keywords_en": [
+                "two-tailed lion",
+                "patina"
+            ],
+            "teater_category": "doklady umění",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1814"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9525,
+        "original_text": "druhé koruna královská s nápisem kolem: WENZEZLAUS TERCLUS,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "koruna královská",
+                "nápis"
+            ],
+            "extracted_keywords_en": [
+                "royal crown",
+                "inscription"
+            ],
+            "teater_category": "nápis",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "638"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "nad ním neznatelný nápis - snad Del gratia dux v .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.7807,
+        "original_text": "Dle studia 11 Památek arch.a místopisných \" soudím, že jsou",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9124,
+        "original_text": "peníze tyto raženy za krále Václava IV:",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "peníze",
+                "král Václav IV"
+            ],
+            "extracted_keywords_en": [
+                "coins",
+                "King Wenceslas IV"
+            ],
+            "teater_category": "mince",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000794"
+                },
+                {
+                    "source": "teater",
+                    "id": "2276"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7963,
+        "original_text": "Dle \" Pamětí okresu Unhoštského * od Frt.Melichara,učitele",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8985,
+        "original_text": "měšt. školy z roku 1890 - Jiné prameny jsou mi zde nedostupné - byla již",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "vesnice \" Holonohy * v první polovici 14. století' zašlá str.154 ./.la str.253",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vesnice",
+                "Holonohy"
+            ],
+            "extracted_keywords_en": [
+                "village",
+                "Holonohy"
+            ],
+            "teater_category": "vesnice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.8433,
+        "original_text": "jest psáno,že * dle urbáře kláštera Strahovského z r.1416. /Erben, Reg. 106/",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "urbář",
+                "klášter Strahovský"
+            ],
+            "extracted_keywords_en": [
+                "urbarium",
+                "Strahov monastery"
+            ],
+            "teater_category": "urbář",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2270"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.982,
+        "original_text": "patřily ke zmíněnému klšteru z nynějšího okresu Unhoštského Úhonice s blíz-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.8961,
+        "original_text": "skými Holonohy a Chýně. Na str.254 píše: \" v Holonozích byli dva lid",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9143,
+        "original_text": "z nichž jeden měl- půl lánu, druhý něco málo země, nepraví se,kolik. *",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.9635,
+        "original_text": "Z toho soudím,že skutečně na počátku válek husitských,kdy",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.6,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.9535,
+        "original_text": "dle lidového podání vesnice ta byla úplně zničena,byly peníze ty zakopány do",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vesnice",
+                "peníze",
+                "zakopány"
+            ],
+            "extracted_keywords_en": [
+                "village",
+                "coins",
+                "buried"
+            ],
+            "teater_category": "vesnice",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.9276,
+        "original_text": "země - snad od jednoho z těchto dvou obyvatelů - a to snad ve spěchu, nebot",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "peníze",
+                "zakopány",
+                "skrýše"
+            ],
+            "extracted_keywords_en": [
+                "coins",
+                "buried",
+                "cache"
+            ],
+            "teater_category": "poklad",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1301"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9611,
+        "original_text": "byly asi pouze vhozeny do vykopané skrýše a opět zatézeny.Možné též,že byly",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "skrýše",
+                "peníze"
+            ],
+            "extracted_keywords_en": [
+                "cache",
+                "coins"
+            ],
+            "teater_category": "depot",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000051"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000093"
+                },
+                {
+                    "source": "teater",
+                    "id": "1299"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9685,
+        "original_text": "přikryty shora nádobou, avšak, Jak Jsem se zmínil, nezůstalo po ní dnes již",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádobou"
+            ],
+            "extracted_keywords_en": [
+                "vessel"
+            ],
+            "teater_category": "nádoba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000714"
+                },
+                {
+                    "source": "amcr",
+                    "id": "HES-000849"
+                },
+                {
+                    "source": "teater",
+                    "id": "2027"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.9726,
+        "original_text": "žádné památky .Místo nálezu jejich Jest u nejvyššího bodu onoho pole.které se",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nález",
+                "pole",
+                "ornice"
+            ],
+            "extracted_keywords_en": [
+                "find",
+                "field",
+                "arable topsoil"
+            ],
+            "teater_category": "ornice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000243"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 3,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.9736,
+        "original_text": "svužvje směrem k potoku.Půda ornice byla během času jistě splavena níže,takže",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "ornice",
+                "splach"
+            ],
+            "extracted_keywords_en": [
+                "arable topsoil",
+                "colluvial layer"
+            ],
+            "teater_category": "ornice",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000243"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9793,
+        "original_text": "peníze ony octly se blíže povrchu dnešního .Tím se ovšem dostatečně vysvětluje,Že",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "povrch",
+                "pluh",
+                "orání"
+            ],
+            "extracted_keywords_en": [
+                "surface",
+                "plow",
+                "plowing"
+            ],
+            "teater_category": "ornice",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000243"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.967,
+        "original_text": "špička pluhu při orání vždy Vynesla na povrch nějaký eníz.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pluh",
+                "ornice"
+            ],
+            "extracted_keywords_en": [
+                "plow",
+                "arable topsoil"
+            ],
+            "teater_category": "ornice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000243"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 4,
+        "categ": "Clear",
+        "quality_score": 0.9045,
+        "original_text": "loňského roku jsem pokrašorálma poli\\temto v nižší poloze",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "pole"
+            ],
+            "extracted_keywords_en": [
+                "field"
+            ],
+            "teater_category": "pole",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000039"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.941,
+        "original_text": "opět ve výzkumech a sice podél mezí, dosti vysoké,oddělu Jí cí pole toto od",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výzkum",
+                "meze",
+                "pole"
+            ],
+            "extracted_keywords_en": [
+                "research",
+                "boundary",
+                "field"
+            ],
+            "teater_category": "mezní pás",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000503"
+                },
+                {
+                    "source": "teater",
+                    "id": "1614"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9373,
+        "original_text": "dolejšího s loukou velkoststku rověž mezujícíbo.Mez ona zdá se bíti",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mez",
+                "hradba kamenná",
+                "střepiny",
+                "popel",
+                "kůstky",
+                "nádobí"
+            ],
+            "extracted_keywords_en": [
+                "boundary",
+                "stone wall",
+                "potsherds",
+                "ash",
+                "bones",
+                "vessels"
+            ],
+            "teater_category": "hradba",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000530"
+                },
+                {
+                    "source": "teater",
+                    "id": "1626"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 7,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "TozŮstetkemjakésihradby kamenné.Pří mezi té jsem-nslezl pod ornici i vní",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "hradba kamenná",
+                "ornice",
+                "střepiny",
+                "popel",
+                "kůstky"
+            ],
+            "extracted_keywords_en": [
+                "stone wall",
+                "plough layer",
+                "potsherds",
+                "ash",
+                "bones"
+            ],
+            "teater_category": "hradba",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000530"
+                },
+                {
+                    "source": "teater",
+                    "id": "1626"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9087,
+        "original_text": "spoustu střepin z nádob, popel dřevěnný a rozličné kůstky.Nádoby J soux",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepiny",
+                "nádoby",
+                "popel",
+                "kůstky"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "vessels",
+                "ash",
+                "bones"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.858,
+        "original_text": "rozmanítě zdobeny,buä čarami neb v’novkou, jedno duěpird vícenásobně .Jsou",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy",
+                "zdobení",
+                "nádobí"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "decoration",
+                "vessels"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.937,
+        "original_text": "do nádob vesměs ryty. Podobná jsem halezl 'i' na louce vblkostatku letos,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "nádob",
+                "ryté",
+                "louka"
+            ],
+            "extracted_keywords_en": [
+                "vessels",
+                "incised",
+                "meadow"
+            ],
+            "teater_category": "pastvina/louka",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000244"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.9446,
+        "original_text": "kdež však Jsem nemohl pro dosti pokročilý čas ročhí důklsdněji pátrat! i",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9731,
+        "original_text": "pro podmínku rchní správy v Jenči,že totiž musím uvésti louku do půvedního",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 13,
+        "categ": "Clear",
+        "quality_score": 0.8984,
+        "original_text": "stavu.Podmínku onu bych byl- nemohl- dodržet!, neb ne vykopávky jsem byl",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9398,
+        "original_text": "sám s Jedním poúze ochotným děLníkem, který nezištně mi po oba roky pomáhal.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9614,
+        "original_text": "Chci letos opětně pekračovati Velvýzkumech na poli jak jmenované",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výzkum",
+                "pole"
+            ],
+            "extracted_keywords_en": [
+                "research",
+                "field"
+            ],
+            "teater_category": "pole",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000039"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 16,
+        "categ": "Noisy",
+        "quality_score": 0.7991,
+        "original_text": "‘ p.Rsbocha tak '! na scusedním,kuvrlopatimí\"býlo rovněž po sklizni dovolen",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Kožn o-l i, dovodil byctši po pF. Vás navštíví €1 a přinésti typické'",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "typické střepiny"
+            ],
+            "extracted_keywords_en": [
+                "typical potsherds"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "st řepíný, které sám netroufám sl blíže odhsdnouti.K ‘důkl adnému vzdělaní ve",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.9018,
+        "original_text": "vědě tetp,po němž toužím, schází m1‘mžno‘st opatřití si neb vypůjčiti",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9384,
+        "original_text": "různé prameny.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 23,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "nt ■ \" o Zároveň bych přinesl stéž plének,kopii místa nálen vzatu z ckatastá",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 24,
+        "categ": "Noisy",
+        "quality_score": 0.5499,
+        "original_text": "mapy obce TTenalovic. '",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 25,
+        "categ": "Noisy",
+        "quality_score": 0.5571,
+        "original_text": "Těše se na laskavou odpovši * \" ' • • ■ ! - j odu ■ ■ - \" -",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 4,
+        "line": 26,
+        "categ": "Noisy",
+        "quality_score": 0.4713,
+        "original_text": "5 -i - -1 **:e r : • t • znamenám ae v úctě :n3nt",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 2,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Datum. 7./. .1921 ,3...",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.6891,
+        "original_text": "zasílá. ..J.. Chpc.. účeiní.. lodenics",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 7,
+        "categ": "Noisy",
+        "quality_score": 0.6703,
+        "original_text": "Dřívější spisy:. 469/20 • -",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Pozdějěí spisy:......",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.6673,
+        "original_text": "Zúroveň sevyiizují ....",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 12,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "Předmět; . .. <",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 14,
+        "categ": "Noisy",
+        "quality_score": 0.565,
+        "original_text": ". Josef. Ch99.. úřotní. äplp. ř.. y. .. y. Chlnstenicáoh.,. bytem ...",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 15,
+        "categ": "Noisy",
+        "quality_score": 0.728,
+        "original_text": "lpděricích- ě- 35B-. Zpráva- D-jeho. -činnosti- arohaeolgie ké-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 20,
+        "categ": "Clear",
+        "quality_score": 0.9183,
+        "original_text": "Došlo do spisovny:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.8641,
+        "original_text": "popis spisu:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.8921,
+        "original_text": "Znečka.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.8182,
+        "original_text": "Budiž skartováno:9...",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 27,
+        "categ": "Clear",
+        "quality_score": 0.9583,
+        "original_text": "účetnímu dolu",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 28,
+        "categ": "Clear",
+        "quality_score": 0.8822,
+        "original_text": "v Loděnicích u Berouna.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.8807,
+        "original_text": "Velectěný pane!",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.9413,
+        "original_text": "Děkuji vám za milý váě list,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.9683,
+        "original_text": "kterým jste mně byl nadmíru potěšil.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.982,
+        "original_text": "K jeho obsahu dovoluji si následující",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9176,
+        "original_text": "odpovědět!:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 35,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Mince , které jsetbyl vykopal",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mince"
+            ],
+            "extracted_keywords_en": [
+                "coins"
+            ],
+            "teater_category": "mince",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000794"
+                },
+                {
+                    "source": "teater",
+                    "id": "2276"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 36,
+        "categ": "Clear",
+        "quality_score": 0.8475,
+        "original_text": "na poli, zvaném\"Holonohy\", byly raženy",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "mince",
+                "polo"
+            ],
+            "extracted_keywords_en": [
+                "coin",
+                "field"
+            ],
+            "teater_category": "mince",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000794"
+                },
+                {
+                    "source": "teater",
+                    "id": "2276"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 37,
+        "categ": "Clear",
+        "quality_score": 0.9414,
+        "original_text": "za krále českého Václava Iv./syna",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.6,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 38,
+        "categ": "Clear",
+        "quality_score": 0.8648,
+        "original_text": "a nástupce Karla IV.7 Na nich je nápis",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 39,
+        "categ": "Clear",
+        "quality_score": 0.9557,
+        "original_text": "pokud se pamatuji, následující: Kolam",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 40,
+        "categ": "Clear",
+        "quality_score": 0.8375,
+        "original_text": "koruny v kruhu prvém WENCEZLAUS TER -",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 41,
+        "categ": "Clear",
+        "quality_score": 0.8401,
+        "original_text": "CIUS - v kruhu druhém DEI GRACIA REX",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 42,
+        "categ": "Clear",
+        "quality_score": 0.9326,
+        "original_text": "výpravna:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 45,
+        "categ": "Noisy",
+        "quality_score": 0.5742,
+        "original_text": "Podepsino.). .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 5,
+        "line": 46,
+        "categ": "Clear",
+        "quality_score": 0.8401,
+        "original_text": "vypraveno/..",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9458,
+        "original_text": "BOHEMIAB. Na druhé pak straně jest",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.96,
+        "original_text": "český lev a kolem něho v kruhu: GROSSI",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.577,
+        "original_text": "PRAGENSES,t. j.\"václav III\"/václava III.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Přemyslovce; který byl zavražděn v 010-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Přemyslovci"
+            ],
+            "extracted_keywords_en": [
+                "Přemyslid dynasty"
+            ],
+            "teater_category": "Přemyslovci",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "3087"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "mouci roku 1306, nebrgli do počtu/,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.8409,
+        "original_text": "\"z Boží milusti krúl český\", a na\"",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.6,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.8377,
+        "original_text": "druhá straně\" Groša pražské.\" ■",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Groš pražský"
+            ],
+            "extracted_keywords_en": [
+                "Prague groschen"
+            ],
+            "teater_category": "pražský groš",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2291"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.8439,
+        "original_text": "Až pojedete do Prehy, vez-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.9507,
+        "original_text": "měteyje s sebou, a zatím, než si pohovoříme,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 10,
+        "categ": "Clear",
+        "quality_score": 0.9631,
+        "original_text": "budou vám peníze v neší laboratoři",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.86,
+        "original_text": "vyčištěny, .Neb o přejete-li si,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.9149,
+        "original_text": "pošlu vám návod, jak byste súm si je me",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.5934,
+        "original_text": "hl vyčistiti .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.8474,
+        "original_text": "váš úsudek O obci samet-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 15,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "né jest správný.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.9346,
+        "original_text": "Bude mne velice těšiti,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9205,
+        "original_text": "navštívíte-li uane, až zavítáte do Prahy.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.9692,
+        "original_text": "Pokusím se ovšem, abych vís nepřipravil",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.8348,
+        "original_text": "o mnoho času.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Těším se na ony střepy, '",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy"
+            ],
+            "extracted_keywords_en": [
+                "potsherds"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 21,
+        "categ": "Noisy",
+        "quality_score": 0.7976,
+        "original_text": "z nichž vezměte, prosím, nejen ty or- ■",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy",
+                "oramentované"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "ornamented"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 22,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "namentované, ale i všechnyod okrajů, |",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy",
+                "oramentované",
+                "okraje",
+                "dna",
+                "značky"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "ornamented",
+                "rims",
+                "bases",
+                "marks"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.9323,
+        "original_text": "příyadně též dna,jsou-li nanich nějaké",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.9198,
+        "original_text": "značky.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 25,
+        "categ": "Noisy",
+        "quality_score": 0.7954,
+        "original_text": "Taxtéž na kopii plániu na-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.8683,
+        "original_text": "ziště, rterou hoaláte s sebou vzíti, |",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 27,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "se těším. .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Budu vám velice povděčen, |",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.948,
+        "original_text": "podáte-li mi zprávy laskavě i o dalších",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 30,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "svých plánech kopacích a núle- 7",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 31,
+        "categ": "Clear",
+        "quality_score": 0.8734,
+        "original_text": "zech, případně o známých vÁn nalezištěc",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.8567,
+        "original_text": "' v okolí,která,budou-li pro nás zajímavá,dovolil",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.8949,
+        "original_text": "bych si se pak za laakavéno",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 6,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9532,
+        "original_text": "Vašeho průvodu ohledsti.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 3,
+        "categ": "Noisy",
+        "quality_score": 0.6915,
+        "original_text": "ci nějakých informací,račte ae vŽdy ni",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.7509,
+        "original_text": "mne obrátiti. Bude mí velikým potěše­",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.8975,
+        "original_text": "ním,budu-li moci v té věci vám něčím",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 6,
+        "categ": "Clear",
+        "quality_score": 0.9287,
+        "original_text": "býti k službám.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9511,
+        "original_text": "Děguje vám za laskavou",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9655,
+        "original_text": "Vaši zprávu, znamenám se vám",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 9,
+        "categ": "Clear",
+        "quality_score": 0.8878,
+        "original_text": "v plné úctě oddaný",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 7,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.779,
+        "original_text": "v Praze, dne 30-dubna 1921.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.9325,
+        "original_text": "Pocet príloh —kresní správa politická na Kladně.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 5,
+        "categ": "Noisy",
+        "quality_score": 0.7068,
+        "original_text": "lis. 52.903./I. Dne 25. října 1920.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 9,
+        "categ": "Noisy",
+        "quality_score": 0.7526,
+        "original_text": "\"*! trí archeolcrickí vstav\"",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.9355,
+        "original_text": "Praze. .Strahovský klášter",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Strahovský klášter"
+            ],
+            "extracted_keywords_en": [
+                "Strahov Monastery"
+            ],
+            "teater_category": "klášter",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000073"
+                },
+                {
+                    "source": "teater",
+                    "id": "1356"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7314,
+        "original_text": "Vzhledem ko přípisu ze dne .\"ra 1S20,čí8. 131 -ils20, oznamuji,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 14,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "že účetní dolu čís. V.v Jhrusten icích Josef Jhoc z Lodenice čp.158 jest",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 15,
+        "categ": "Clear",
+        "quality_score": 0.9732,
+        "original_text": "členem společnosti lusea Král.českého v Praze a skutečně pátrá po před-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 16,
+        "categ": "Noisy",
+        "quality_score": 0.5924,
+        "original_text": "histori cký ch parná t ká ch .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.6,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 17,
+        "categ": "Clear",
+        "quality_score": 0.9162,
+        "original_text": "Minulého roku vykopal na poli rolníka habocha v ilenačovicích parcela",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vykopal",
+                "pole",
+                "stříbrné groše"
+            ],
+            "extracted_keywords_en": [
+                "excavated",
+                "field",
+                "silver groschen"
+            ],
+            "teater_category": "grešle",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2286"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 18,
+        "categ": "Clear",
+        "quality_score": 0.9182,
+        "original_text": "č.218,stodvacet kusů stříbrných českých grošů,na nichž je vyražena",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "stříbrné groše",
+                "české groše"
+            ],
+            "extracted_keywords_en": [
+                "silver groshen",
+                "Czech groshen"
+            ],
+            "teater_category": "grešle",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2286"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 19,
+        "categ": "Clear",
+        "quality_score": 0.94,
+        "original_text": "česká koruna a lev na okraji těchto grošů jest ražen nápis \" Venzes-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "česká koruna",
+                "lev",
+                "groš"
+            ],
+            "extracted_keywords_en": [
+                "Czech crown",
+                "lion",
+                "groschen"
+            ],
+            "teater_category": "československá koruna",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "2280"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.685,
+        "original_text": "laus\" .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 21,
+        "categ": "Clear",
+        "quality_score": 0.9172,
+        "original_text": "Během, tohoto roku vykopal Jhocwa louce v katastru obce nenačovic-",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "výkop",
+                "katastr obce",
+                "Nenačovice"
+            ],
+            "extracted_keywords_en": [
+                "excavation",
+                "cadastral area of the municipality",
+                "Nenačovice"
+            ],
+            "teater_category": "výkop",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000489"
+                },
+                {
+                    "source": "teater",
+                    "id": "1784"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 22,
+        "categ": "Clear",
+        "quality_score": 0.8759,
+        "original_text": "ká,parcela 222a 222 a/,patřící zdejšímu státnímu velkostatku několik",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy",
+                "hliněné nádoby"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "clay vessels"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 23,
+        "categ": "Clear",
+        "quality_score": 0.9806,
+        "original_text": "střepů z hliněných nádob, jejichž předhistorickou památnost nechá teprve",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "střepy",
+                "hliněné nádoby"
+            ],
+            "extracted_keywords_en": [
+                "potsherds",
+                "clay vessels"
+            ],
+            "teater_category": "zlomek keramiky",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000705"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 24,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "zjistiti.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 25,
+        "categ": "Clear",
+        "quality_score": 0.9836,
+        "original_text": "Podobných namátek doufá lhoc ještě více nalezli a hodlá je hromadně",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.65,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 26,
+        "categ": "Clear",
+        "quality_score": 0.9435,
+        "original_text": "Museu Král, českého v Praze všnovati.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Muzeum Král. českého v Praze"
+            ],
+            "extracted_keywords_en": [
+                "Royal Czech Museum in Prague"
+            ],
+            "teater_category": "muzeum",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001127"
+                },
+                {
+                    "source": "teater",
+                    "id": "220"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 28,
+        "categ": "Noisy",
+        "quality_score": 0.705,
+        "original_text": "Tyto vyKopavKy pounina UnOC Sail většinou QO zeine 1 1/6 I niuDOKO,",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vykopávky",
+                "půda"
+            ],
+            "extracted_keywords_en": [
+                "excavations",
+                "land"
+            ],
+            "teater_category": "plošný odkryv",
+            "confidence_score": 0.65,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-001059"
+                },
+                {
+                    "source": "teater",
+                    "id": "105"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 29,
+        "categ": "Clear",
+        "quality_score": 0.8187,
+        "original_text": "šíře 12- m, se svolerímajitelů těchto pozemků.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 30,
+        "categ": "Clear",
+        "quality_score": 0.9868,
+        "original_text": "Týž pátrá nyní na výše uvedené louce po předhistorické vesnici",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "předhistorická vesnice"
+            ],
+            "extracted_keywords_en": [
+                "prehistoric village"
+            ],
+            "teater_category": "vesnice",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "1455"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 31,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "\" Holonohy\" a po bojišti bitvy u Lodenice / dle dějin Fi ant .ľalackého/\"",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "vesnice",
+                "bojiště",
+                "bitva u Lodenice"
+            ],
+            "extracted_keywords_en": [
+                "village",
+                "battlefield",
+                "battle of Lodenice"
+            ],
+            "teater_category": "bojiště",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000042"
+                },
+                {
+                    "source": "teater",
+                    "id": "1285"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 32,
+        "categ": "Clear",
+        "quality_score": 0.9701,
+        "original_text": "z čehož si slibuje skvělý výsledek.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 33,
+        "categ": "Clear",
+        "quality_score": 0.9613,
+        "original_text": "Podotýká se,že účetní Jhoc jest horlivým sběr: Úlem starých památek",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 34,
+        "categ": "Clear",
+        "quality_score": 0.9764,
+        "original_text": "a velkým milovníkem vykopávek předhis tonických památek,nemá však",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 8,
+        "line": 35,
+        "categ": "Clear",
+        "quality_score": 0.9799,
+        "original_text": "hmotných prostředků a proto ve své práci pomalu pokračuje.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 9,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9733,
+        "original_text": "Jak důverně bylo zjištěno, vyjádřil se Jhoc,že kdyby byl někým",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 9,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.969,
+        "original_text": "odporován finančně, pokračoval by ve svém díle rychleji a tím,hlavně",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 9,
+        "line": 3,
+        "categ": "Clear",
+        "quality_score": 0.9513,
+        "original_text": "okolí Lodenice a Nenačovic,nalezlby spoustu předhistorických památek.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "Lodenice",
+                "Nenačovice",
+                "předhistorické památky"
+            ],
+            "extracted_keywords_en": [
+                "Lodenice",
+                "Nenačovice",
+                "prehistoric monuments"
+            ],
+            "teater_category": "archeologická památka",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "teater",
+                    "id": "259"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 9,
+        "line": 5,
+        "categ": "Clear",
+        "quality_score": 0.8958,
+        "original_text": "Min isterský",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 41,
+        "categ": "Clear",
+        "quality_score": 0.9062,
+        "original_text": "taxo vojenské.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 43,
+        "categ": "Clear",
+        "quality_score": 0.8941,
+        "original_text": "Pončeni o povinnosti ku taxo vojenské.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 45,
+        "categ": "Clear",
+        "quality_score": 0.9571,
+        "original_text": "obilost k službě s konečnou plat-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 46,
+        "categ": "Clear",
+        "quality_score": 0.906,
+        "original_text": "rém byl vydán nález nku zbrani",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 48,
+        "categ": "Clear",
+        "quality_score": 0.8805,
+        "original_text": "í nezpůsobilost ke službě nebyla",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 50,
+        "categ": "Clear",
+        "quality_score": 0.9061,
+        "original_text": "povinný jest povinen až do",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 52,
+        "categ": "Clear",
+        "quality_score": 0.9526,
+        "original_text": "nebo písemné s použitím přede-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 54,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Taxon vojcuskou povinen jest:",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 55,
+        "categ": "Clear",
+        "quality_score": 0.9802,
+        "original_text": "Každý branac, ktorýž pro nezpůsobilost k službě s konečnou platnosti",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 56,
+        "categ": "Clear",
+        "quality_score": 0.9082,
+        "original_text": "nebyl odveden, t.j. každý, o kterém byl vydán nález nku zbrani",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 57,
+        "categ": "Noisy",
+        "quality_score": 0.7602,
+        "original_text": "neschopný11 nebo „vymazati\" ; dále",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 58,
+        "categ": "Clear",
+        "quality_score": 0.9787,
+        "original_text": "každý, kdož před ukončením služby vojenské pro neodstranitelnou",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 59,
+        "categ": "Clear",
+        "quality_score": 0.9308,
+        "original_text": "neschopnost ke službě 7. vojska (válečného loďstva) ncbo zemské obrany",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 60,
+        "categ": "Clear",
+        "quality_score": 0.979,
+        "original_text": "byl propuštěn, dyž vada podmiňující nezpůsobilost ke službě nebyla",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 62,
+        "categ": "Clear",
+        "quality_score": 0.9382,
+        "original_text": "Maždý taxou vojenskou povinný jest povinen až do",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 63,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "zániku povinnosti taxovní každého >",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 64,
+        "categ": "Noisy",
+        "quality_score": 0.7158,
+        "original_text": "u obce, kde bydli, se hlásiti.-----------------",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 66,
+        "categ": "Clear",
+        "quality_score": 0.8789,
+        "original_text": "li domovská příslušnost pochybna.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 68,
+        "categ": "Noisy",
+        "quality_score": 0.7834,
+        "original_text": "eni - trestá so pokutou penéžitou",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 69,
+        "categ": "Clear",
+        "quality_score": 0.8678,
+        "original_text": "ězenim až do 5 dnů.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 70,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "prosinci z vyhlášck, kteréž vo",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 72,
+        "categ": "Clear",
+        "quality_score": 0.9798,
+        "original_text": "Opomenulé nebo opozděné ohlášení trestú se pokutou peněžitou",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 73,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": ". až 50 korun; v pádu nedobytnosti vězením až do 5 dnů.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 10,
+        "line": 75,
+        "categ": "Clear",
+        "quality_score": 0.9474,
+        "original_text": "všech obcích vyvéšeny jsou.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 11,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9717,
+        "original_text": "STÁTNÍ ARCHAEOLOGICKÝ ÚSTAV",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 11,
+        "line": 4,
+        "categ": "Noisy",
+        "quality_score": 0.6969,
+        "original_text": "Počet príloh.... .",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 11,
+        "line": 14,
+        "categ": "Noisy",
+        "quality_score": 0.55,
+        "original_text": "C A s 8.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 1,
+        "categ": "Clear",
+        "quality_score": 0.9845,
+        "original_text": "Ředitelství bývalých císařských",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 2,
+        "categ": "Clear",
+        "quality_score": 0.8972,
+        "original_text": "statků v Praze.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.9738,
+        "original_text": "Státní archaeologický ústav",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 8,
+        "categ": "Clear",
+        "quality_score": 0.9792,
+        "original_text": "republiky československé",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 10,
+        "categ": "Noisy",
+        "quality_score": 0.7572,
+        "original_text": "v Praze IV.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 11,
+        "categ": "Clear",
+        "quality_score": 0.9527,
+        "original_text": "v klášteře Strahovském.",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "klášter Strahovský"
+            ],
+            "extracted_keywords_en": [
+                "Strahov Monastery"
+            ],
+            "teater_category": "klášter",
+            "confidence_score": 0.95,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000073"
+                },
+                {
+                    "source": "teater",
+                    "id": "1356"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 12,
+        "categ": "Clear",
+        "quality_score": 0.8866,
+        "original_text": "Klademe si za čest oznámiti, že jsme počátkem září t.r,",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 13,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "udělili Josefu C h o c o v i , účetnímu dolu v Chrustenicích jako",
+        "enrichment": {
+            "extracted_keywords_cs": [
+                "důl",
+                "Chrustenice"
+            ],
+            "extracted_keywords_en": [
+                "mine",
+                "Chrustenice"
+            ],
+            "teater_category": "důl",
+            "confidence_score": 0.85,
+            "teater_category_ids": [
+                {
+                    "source": "amcr",
+                    "id": "HES-000033"
+                },
+                {
+                    "source": "teater",
+                    "id": "1460"
+                }
+            ]
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 14,
+        "categ": "Clear",
+        "quality_score": 0.9833,
+        "original_text": "členu musea, na jeho žádost povolení k vykopávkam za účelem prozkoumání",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 16,
+        "categ": "Clear",
+        "quality_score": 0.9484,
+        "original_text": "v obci chrustenické, náležejících velkostatku.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.85,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 17,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "Chrustenice ( pošta Loděnice u Berouna ) léží při trati",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 18,
+        "categ": "Noisy",
+        "quality_score": 0.7459,
+        "original_text": "dráhy Dušniky - Beroun.-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 0.95,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 20,
+        "categ": "Noisy",
+        "quality_score": 0.7999,
+        "original_text": "V Praze, dne 8. října 1920.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 13,
+        "line": 21,
+        "categ": "Noisy",
+        "quality_score": 0.7758,
+        "original_text": "Řiditel statků :",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 14,
+        "line": 12,
+        "categ": "Noisy",
+        "quality_score": 0.6408,
+        "original_text": "V Orau, 40- ,U/na 14 tú-",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 15,
+        "line": 7,
+        "categ": "Clear",
+        "quality_score": 0.8,
+        "original_text": "Pozdější SIMa: 431",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    },
+    {
+        "file_id": "CTX192100040",
+        "page": 15,
+        "line": 11,
+        "categ": "Noisy",
+        "quality_score": 0.6869,
+        "original_text": "v- Kladot.",
+        "enrichment": {
+            "extracted_keywords_cs": [],
+            "extracted_keywords_en": [],
+            "teater_category": "Nerelevantní (meta-text)",
+            "confidence_score": 1.0,
+            "teater_category_ids": []
+        }
+    }
+]
