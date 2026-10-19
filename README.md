@@ -292,8 +292,8 @@ The vocabulary:
 
 * `vocab_sources.py`, `vocab_build.py`, `vocab_review.py`, `vocab_manager.py` — harvest the AMČR and TEATER vocabularies,
   build the nested union, review it; the built files are in [`data_samples/vocab`](data_samples/vocab) (see its
-  [RUNBOOK](data_samples/vocab/RUNBOOK.md)). The vocabularies are **CC0**; the build is to be published as a versioned
-  release asset for the translator and the end-to-end test.
+  [RUNBOOK](data_samples/vocab/RUNBOOK.md)). The vocabularies are **CC0**; every release attaches the build as
+  `atrium-vocabulary-<version>.zip` with its `.sha256`, which the translator and the end-to-end test read.
 * `corpus_review.py` — the vocabulary-gap review used for the TEATER experiment.
 * `score_categories.py` — the category picks of `llm_run.py` runs, run by run: lines missing, forced labels,
   confidence spread, agreement between runs, a re-run against its earlier run (#2). Torch-free.

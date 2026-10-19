@@ -16,15 +16,19 @@ document and page lists as the response, every keyword with its method, score an
 (with `entities[].pid`) when the controlled kind contributed. The two kinds are never merged into one
 list, and a re-run replaces each block whole.
 
-## Quick start
+## Start
+
+The published image first: it is what a deployment runs, and it needs no checkout.
 
 ```bash
+docker run --rm -p 8000:8000 -v hf-cache:/cache/huggingface \
+  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.4.0-beta
+curl -s http://localhost:8000/ready                      # 200 once the KeyBERT model is loaded
+# from a checkout:
+docker compose --profile api up
+# or in a virtual environment (development):
 pip install -r requirements.txt -r service/requirements.txt
 python -m service.api                  # honours PORT/HOST; default 0.0.0.0:8000
-# or, for development with auto-reload:
-uvicorn service.api:app --host 0.0.0.0 --port 8000
-# or in Docker:
-docker compose --profile api up
 ```
 
 ```bash
@@ -50,6 +54,14 @@ curl -s -X POST localhost:8000/extract_keywords \
 With the same variables, `ATRIUM_LIVE_BACKEND=1 pytest -rs tests/test_controlled_live.py` checks a backend
 end to end in two calls; `.github/workflows/controlled-live.yml` runs it weekly, on demand and on `test` pushes
 that touch the controlled kind.
+
+## Models and caches
+
+| What                                 | From where                                         | Revision                      | Into                                          | Without egress                                                                                                                  |
+|--------------------------------------|----------------------------------------------------|-------------------------------|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| KeyBERT embedding model              | huggingface.co, `KEYBERT_MODEL` in `kw_config.txt` | not pinned (the model's head) | `HF_HOME` (`/cache/huggingface` in the image) | fill the volume once where there is egress; otherwise `keybert` answers 500 and `yake` still works                              |
+| The vocabulary (AMČR, TEATER)        | in the image (`data_samples/vocab/`)               | this release                  | —                                             | nothing needed                                                                                                                  |
+| The controlled kind's language model | the deployment's OpenRouter model or Ollama server | the provider's                | —                                             | `kind=controlled` alone answers 501 (no backend) or 502 (every call failed); `kind=both` still returns the statistical keywords |
 
 ## Endpoints
 
@@ -247,14 +259,26 @@ counts of the controlled kind are estimates at 4 characters per token
 OpenRouter default whole and is cut at Ollama's. There is no per-request time limit: the work runs in a
 thread that cannot be stopped, and each LLM call has its own (`LLM_TIMEOUT`).
 
+## Partial results
+
+A 200 can carry less than was asked for. Read these before using the result:
+
+- `kinds` says per kind `ok`, `skipped` (asked for with the other, not available here) or `failed` (the LLM
+  backend failed every call; the statistical keywords still come back).
+- `limits_applied` lists each limit that shaped the result without refusing it, for example lines whose
+  reply was cut (`skipped`), or a document given up after too many failed lines (`stopped`).
+- A line the controlled kind could not answer has no `enrichment` item; `controlled.stats` counts such
+  lines (`skipped_error`, `truncated`, `aborted`), and `controlled.outcome` tells `empty` (asked, nothing
+  found) from `not-asked`.
+
 ## Known limits
 
 - **Forced labels.** The enum keeps `teater_category` inside the vocabulary, not on topic. A model that
   starts a word that is no term is finished as a term sharing its start: `zvonice` (a bell tower) for
   Bell Beaker vessels, `Pentelikon` (a mountain) for *peníz* (a coin). The prompt rules and the
-  accepted composite halves of v1.4.0-beta reduce it; how far, the re-runs of
-  [#2](https://github.com/ufal/atrium-keyword-extract/issues/2) measure, and `score_categories.py` counts it
-  in a run. With OpenRouter and Ollama the reply is checked after it arrives, so only a provider that
+  accepted composite halves of v1.4.0-beta reduce it: in the re-runs of
+  [#2](https://github.com/ufal/atrium-keyword-extract/issues/2) Qwen3.8-27B had none left, while the Qwen3.6
+  models still gave `zvonice` and `prahory`. `score_categories.py` counts it in a run. With OpenRouter and Ollama the reply is checked after it arrives, so only a provider that
   decodes under the schema can be forced.
 - **`confidence_score` is not calibrated.** Most lines get one of two values (0.95, 0.85): do not rank or
   filter on it.
@@ -270,16 +294,16 @@ Every error has one JSON body (hub `docs/agent_skill_strategy.md` §4.4, atrium-
 refusal adds `limit` (`{key, env, value, observed, unit}`); a request validation error adds FastAPI's list
 of problems as `errors`.
 
-| Status | `reason`         | When                                                                                                                                                    |
-|--------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 413    | `limit_exceeded` | over `MAX_UPLOAD_MB` or `MAX_DOCUMENT_WORDS`                                                                                                            |
-| 422    | `invalid_record` | the `document_json` sent cannot be opened (not UTF-8 JSON, not an object, a newer `schema_version` major)                                               |
-| 422    | `limit_exceeded` | `num_keywords` over `MAX_KEYWORDS`                                                                                                                      |
-| 422    | `null`           | a record or text with nothing to read, the legacy method without lemmas, a value outside the spec's enums or bounds                                     |
-| 429    | `busy`           | every extraction slot taken; retry after `Retry-After` seconds                                                                                          |
-| 500    | `null`           | a method's package is missing or the KeyBERT model could not be loaded, or the record this service built does not validate — the detail names the cause |
-| 501    | `null`           | `kind=controlled` alone in a deployment without a working LLM backend — the detail says what is missing (`/info` `controlled.detail`)                   |
-| 502    | `null`           | `kind=controlled` alone, and every call to the LLM backend failed — the detail carries the first failure                                                |
+| Status | `reason`         | When                                                                                                                                                    | What to do                                                                                                                                  |
+|--------|------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 413    | `limit_exceeded` | over `MAX_UPLOAD_MB` or `MAX_DOCUMENT_WORDS`                                                                                                            | split the input, or raise the setting `limit.env` names                                                                                     |
+| 422    | `invalid_record` | the `document_json` sent cannot be opened (not UTF-8 JSON, not an object, a newer `schema_version` major)                                               | send the record the previous stage wrote; update this service if the record is newer                                                        |
+| 422    | `limit_exceeded` | `num_keywords` over `MAX_KEYWORDS`                                                                                                                      | ask for fewer keywords, or raise `MAX_KEYWORDS`                                                                                             |
+| 422    | `null`           | a record or text with nothing to read, the legacy method without lemmas, a value outside the spec's enums or bounds                                     | fix the field `errors` or `detail` names; the legacy method needs lemmas                                                                    |
+| 429    | `busy`           | every extraction slot taken; retry after `Retry-After` seconds                                                                                          | retry after `Retry-After`; add replicas if it persists                                                                                      |
+| 500    | `null`           | a method's package is missing or the KeyBERT model could not be loaded, or the record this service built does not validate — the detail names the cause | install the package `detail` names, or fill `HF_HOME` (see [Models and caches](#models-and-caches)); report a record that does not validate |
+| 501    | `null`           | `kind=controlled` alone in a deployment without a working LLM backend — the detail says what is missing (`/info` `controlled.detail`)                   | configure the LLM backend `/info` `controlled.detail` names, or ask for `kind=statistical`                                                  |
+| 502    | `null`           | `kind=controlled` alone, and every call to the LLM backend failed — the detail carries the first failure                                                | check the LLM backend (key, model, server); retry later                                                                                     |
 
 ## Shutdown behavior (issue #55)
 

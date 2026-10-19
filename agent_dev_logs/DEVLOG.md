@@ -770,6 +770,19 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **`v1.4.0-beta` prepared:** `MODEL_KEY` (and `llm_run.py`'s fallback) = `qwen-3.8-27b-it`; `para_config.txt`,
   `CITATION.cff`, the spec (version; compatible with `v1.3.0-beta`), the CONTRIBUTING row (table re-padded).
   The vocabulary asset changes (`**suborál`).
+* **`service/README.md` as a runbook** (atrium-project#77 A.3, before the `v1.4.0-beta` tag):
+  - Start with the image;
+  - Models and caches: the KeyBERT model is fetched into `HF_HOME` at start, at no pinned revision;
+  - "What to do" on every error row;
+  - Partial results: `kinds`, `limits_applied`, `controlled.stats`.
+
+  Forced labels in Known limits now cite K1. The hub's `runbook_check.py` passes.
+* **Release blocker removed:** the vocabulary sidecars were still stamped `v1.3.0-beta`, which `release.yml` refuses
+  for a `v1.4.0-beta` tag; `vocab_build.py --from-flat --skos` restamped them (nothing else changed). README.md no
+  longer says the asset "is to be published".
+* **The first `v1.4.0-beta` tag** (on `2d633c8`, pushed before the restamp) failed exactly there: Release run
+  39271331164, "the vocabulary sidecars are stamped … v1.3.0-beta". No release was published, so immutability does not
+  hold the tag: it is deleted and set again on the `test` head that carries the restamp, as for `v1.3.0-beta` on 10-16.
 * **Dev logs:** `{2}` (K1, the 13 ambiguous halves for @david-spacil, Option 3 open).
 
   Files and the #2 comment delivered in chat.
