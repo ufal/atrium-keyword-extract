@@ -342,6 +342,89 @@ def test_composite_sheet_lists_a_hand_declared_pair_no_label_implies():
     assert {added["composite_cs"], added["component_cs"]} == {"kostel", "kaple"}
 
 
+# ── composite_half_rows (issue #2, Option 2) ─────────────────────────────────────
+
+
+def _toy_nested(*labels):
+    return {"Feature": {label: {"cs": label} for label in labels}, "_meta": {}}
+
+
+@pytest.mark.parametrize(
+    "half,shared,starts,verdict",
+    [
+        ("jímka", [], [], "accept"),
+        ("mladší", ["mladší/pozdní eneolit"], [], "ambiguous"),
+        ("předmět", [], ["předmět z kovu"], "ambiguous"),
+        ("geologická", [], [], "fragment"),
+        ("ohrazení", [], [], "accept"),
+        ("1839)", [], [], "fragment"),
+        ("podlaha (vrstva", [], [], "fragment"),
+    ],
+)
+def test_half_auto_verdict(half, shared, starts, verdict):
+    """Only a half that can mean one label is offered. `ohrazení` ends in -ní like an
+    adjective but is a verbal noun."""
+    got, reason = vr._half_auto_verdict(half, shared, starts)
+    assert got == verdict
+    assert bool(reason) == (verdict != "accept")
+
+
+def test_composite_halves_lists_every_half_that_is_no_label():
+    nested = _toy_nested(
+        "jáma odpadní/jímka",
+        "jámová kultura",
+        "most/brod",
+        "most",
+        "vrstva/souvrství",
+        "sídlištní vrstva/souvrství",
+    )
+    rows = vr.composite_half_rows(nested)
+    got = {(r["composite"], r["half"]): r for r in rows}
+    # `most` is a label: composite_pairs.csv covers it, this sheet does not.
+    assert ("most/brod", "most") not in got
+    assert got[("jáma odpadní/jímka", "jímka")]["auto_verdict"] == "accept"
+    assert got[("jáma odpadní/jímka", "jímka")]["position"] == 2
+    assert got[("jáma odpadní/jímka", "jáma odpadní")]["position"] == 1
+    shared = got[("vrstva/souvrství", "souvrství")]
+    assert shared["auto_verdict"] == "ambiguous"
+    assert shared["shared_with"] == "sídlištní vrstva/souvrství"
+
+
+def test_composite_halves_keep_the_reviewers_columns(tmp_path):
+    nested = _toy_nested("jáma odpadní/jímka", "kultovní/sakrální objekt")
+    sheet = tmp_path / "composite_halves.csv"
+    rows = vr.composite_half_rows(nested)
+    for row in rows:
+        if row["half"] == "kultovní":
+            row.update(verdict="accept", reviewer="@david-spacil", note="means the composite")
+    vr._write_csv(sheet, rows, vr.COMPOSITE_HALF_COLUMNS)
+
+    again = vr.composite_half_rows(nested, reviews=vr.read_half_reviews(sheet))
+    kultovni = next(r for r in again if r["half"] == "kultovní")
+    assert kultovni["auto_verdict"] == "fragment"
+    assert (kultovni["verdict"], kultovni["reviewer"]) == ("accept", "@david-spacil")
+    assert next(r for r in again if r["half"] == "jímka")["verdict"] == ""
+
+
+def test_the_shipped_halves_sheet_offers_jimka_and_not_the_shared_halves():
+    """The 10-16 case (`jímka` finished as `jámová kultura`) is covered; the halves shared
+    by several composites never map back."""
+    import llm_client_shared as lcs
+
+    halves = lcs.load_composite_halves(VOCAB_DIR / "composite_halves.csv")
+    assert halves["jímka"] == "jáma odpadní/jímka"
+    for shared in (
+        "mladší",
+        "objekt",
+        "plastika",
+        "pozdní eneolit",
+        "sloupová",
+        "souvrství",
+        "střední",
+    ):
+        assert shared not in halves
+
+
 # ── specificity_pair_rows (D1 / O2) ──────────────────────────────────────────────
 
 
@@ -1020,6 +1103,14 @@ def test_committed_review_sheets_match_a_fresh_generation():
             vr.specificity_pair_rows(nested, per_source),
             vr.SPECIFICITY_COLUMNS,
         ),
+        # The reviewer's columns are read back, as the CLI does: a filled `verdict` is the
+        # review, not drift.
+        "composite_halves.csv": (
+            vr.composite_half_rows(
+                nested, manager, reviews=vr.read_half_reviews(VOCAB_DIR / "composite_halves.csv")
+            ),
+            vr.COMPOSITE_HALF_COLUMNS,
+        ),
     }
 
     # The two prompt-dependent sheets, generated the way the CLI generates them: from
@@ -1082,7 +1173,7 @@ def _budget_totals(prompt_config):
 def test_group_headers_are_charged_against_the_window():
     """~120 header lines are not free, and they are the whole of what the grouping flag
     moves. Leaving them uncharged reported the shipped two-level layout at the flat
-    layout's term count — 445 at 8 192 where it actually reaches 419."""
+    layout's term count — 424 at 8 192 where it actually reaches 397 (with the 2026-10-16 blocks)."""
     if not (VOCAB_DIR / "union_nested.json").exists():
         pytest.skip("union_nested.json not built")
 

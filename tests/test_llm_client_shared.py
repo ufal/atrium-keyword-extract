@@ -323,6 +323,180 @@ def test_build_schema_keeps_a_label_whose_other_spelling_is_another_label():
     assert Model.model_validate(_line_reply("slované")).category_name() == "slované"
 
 
+# ── halves of composite labels (issue #2, Option 2) ──────────────────────────────
+
+_COMPOSITE_LABELS = [
+    "Nerelevantní (meta-text)",
+    "jáma odpadní/jímka",
+    "jámová kultura",
+    "most/brod",
+    "most",
+]
+_HALVES = {"jímka": "jáma odpadní/jímka", "jáma odpadní": "jáma odpadní/jímka", "brod": "most/brod"}
+
+
+def test_build_schema_maps_a_half_back_to_its_composite():
+    """`jímka` exists only as the second half of `jáma odpadní/jímka`; under the enum it was
+    finished as `jámová kultura` (2026-10-16). Accepted halves are recorded as the label."""
+    Model = build_schema(_COMPOSITE_LABELS, _HALVES)
+    assert Model.model_validate(_line_reply("jímka")).category_name() == "jáma odpadní/jímka"
+    assert Model.model_validate(_line_reply("Jímka")).category_name() == "jáma odpadní/jímka"
+    assert Model.model_validate(_line_reply("brod")).category_name() == "most/brod"
+    assert Model.model_validate(_line_reply("most")).category_name() == "most"
+    # The schema the service sends stays the label enum.
+    enum_values = Model.model_json_schema()["$defs"]["TermEnum"]["enum"]
+    assert enum_values == _COMPOSITE_LABELS
+
+
+def test_build_schema_without_halves_refuses_a_half():
+    Model = build_schema(_COMPOSITE_LABELS)
+    with pytest.raises(ValidationError):
+        Model.model_validate(_line_reply("jímka"))
+
+
+def test_a_half_never_shadows_a_label_nor_names_a_composite_not_offered():
+    halves = {"most": "most/brod", "jímka": "jáma odpadní/jímka", "zásyp": "výplň/zásyp"}
+    variants = lcs.composite_half_variants(_COMPOSITE_LABELS, halves)
+    assert "most" not in variants
+    assert "zásyp" not in variants
+    assert variants["jímka"] == variants["Jímka"] == "jáma odpadní/jímka"
+    assert lcs.offered_composite_halves(_COMPOSITE_LABELS, halves) == {
+        "jímka": "jáma odpadní/jímka"
+    }
+
+
+def test_the_document_schema_resolves_a_half_to_its_composite():
+    model = lcs.build_document_schema(_COMPOSITE_LABELS, _HALVES)
+    item = {
+        "locator": "a",
+        "page": "1",
+        "extracted_keywords_cs": ["jímka"],
+        "extracted_keywords_en": ["cesspit"],
+        "teater_category": "jímka",
+        "confidence_score": 0.8,
+    }
+    validated, dropped = lcs._repair_document_response(json.dumps({"items": [item]}), model, "doc1")
+    assert [i.category_name() for i in validated.items] == ["jáma odpadní/jímka"]
+    assert dropped == []
+
+    plain = lcs.build_document_schema(_COMPOSITE_LABELS)
+    with pytest.raises(ValueError, match="'jímka' is not in the vocabulary"):
+        lcs._repair_document_response(json.dumps({"items": [item]}), plain, "doc1")
+
+
+def _write_halves_sheet(path, rows):
+    import csv
+
+    with open(path, "w", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=["composite", "half", "auto_verdict", "verdict"])
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def test_load_composite_halves_takes_the_reviewers_verdict_over_the_rule(tmp_path):
+    sheet = tmp_path / "composite_halves.csv"
+    _write_halves_sheet(
+        sheet,
+        [
+            {
+                "composite": "jáma odpadní/jímka",
+                "half": "jímka",
+                "auto_verdict": "accept",
+                "verdict": "",
+            },
+            {
+                "composite": "výplň/zásyp",
+                "half": "výplň",
+                "auto_verdict": "ambiguous",
+                "verdict": "",
+            },
+            {
+                "composite": "kultovní/sakrální objekt",
+                "half": "kultovní",
+                "auto_verdict": "fragment",
+                "verdict": "accept",
+            },
+            {
+                "composite": "most/brod",
+                "half": "brod",
+                "auto_verdict": "accept",
+                "verdict": "fragment",
+            },
+            # One half accepted for two composites cannot map back: left out.
+            {
+                "composite": "a/objekt",
+                "half": "objekt",
+                "auto_verdict": "ambiguous",
+                "verdict": "accept",
+            },
+            {
+                "composite": "b/objekt",
+                "half": "objekt",
+                "auto_verdict": "ambiguous",
+                "verdict": "accept",
+            },
+        ],
+    )
+    assert lcs.load_composite_halves(sheet) == {
+        "jímka": "jáma odpadní/jímka",
+        "kultovní": "kultovní/sakrální objekt",
+    }
+    assert lcs.load_composite_halves(tmp_path / "missing.csv") == {}
+
+
+def test_accept_composite_halves_false_restores_the_label_enum(tmp_path):
+    sheet = tmp_path / "composite_halves.csv"
+    _write_halves_sheet(
+        sheet,
+        [
+            {
+                "composite": "jáma odpadní/jímka",
+                "half": "jímka",
+                "auto_verdict": "accept",
+                "verdict": "",
+            }
+        ],
+    )
+    on = lcs.composite_halves_from_config({"COMPOSITE_HALVES_PATH": str(sheet)})
+    assert on == {"jímka": "jáma odpadní/jímka"}
+    off = {"ACCEPT_COMPOSITE_HALVES": "false", "COMPOSITE_HALVES_PATH": str(sheet)}
+    assert lcs.composite_halves_from_config(off) == {}
+
+
+def test_accept_composite_halves_refuses_a_missing_sheet(tmp_path):
+    """On, but no sheet (an image built without it): stop and say how to fix it, never decode
+    as before without a word."""
+    config = {"COMPOSITE_HALVES_PATH": str(tmp_path / "missing.csv")}
+    with pytest.raises(FileNotFoundError, match="ACCEPT_COMPOSITE_HALVES=false"):
+        lcs.composite_halves_from_config(config)
+    assert lcs.composite_halves_from_config({**config, "ACCEPT_COMPOSITE_HALVES": "false"}) == {}
+
+
+def test_the_image_carries_every_data_file_the_controlled_kind_reads():
+    """`.dockerignore` drops data_samples/ except the files it names. A configured path it
+    drops leaves the api image without it: the vocabulary, or the halves sheet."""
+    import prompt_template
+
+    root = Path(__file__).resolve().parent.parent
+    config = prompt_template.load_run_config(root / "llm_config.txt")
+    lines = (root / ".dockerignore").read_text(encoding="utf-8").splitlines()
+    kept = {line.strip()[1:] for line in lines if line.strip().startswith("!")}
+    for key in ("VOCAB_PATH", "COMPOSITE_HALVES_PATH"):
+        path = config[key]
+        if path.startswith("data_samples/"):
+            assert path in kept, f".dockerignore drops {key}={path}: add `!{path}`"
+
+
+def test_the_shipped_config_offers_the_shipped_halves():
+    import prompt_template
+
+    config = prompt_template.load_run_config(
+        Path(__file__).resolve().parent.parent / "llm_config.txt"
+    )
+    halves = lcs.composite_halves_from_config(config)
+    assert halves.get("jímka") == "jáma odpadní/jímka"
+
+
 def test_validate_llm_output_returns_the_vocabulary_spelling_with_its_ids():
     Model = build_schema(["Nerelevantní (meta-text)", "zámek", "zámek (sídlo elity)"])
     reply = json.dumps(_line_reply("Zámek (sídlo elity)"), ensure_ascii=False)

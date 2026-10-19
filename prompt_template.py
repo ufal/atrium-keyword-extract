@@ -64,6 +64,14 @@ BLOCK_FLAGS: Dict[str, str] = {
     "rule.metatext": "PROMPT_METATEXT_RULE",
     "rule.ocr_normalisation": "PROMPT_OCR_NORMALISATION",
     "rule.exact_term": "PROMPT_EXACT_TERM",
+    # atrium-keyword-extract#2 (2026-10-16): the decoder finishes whatever enum label shares the
+    # prefix the model began, so a heading or a keyword it starts becomes an unrelated label
+    # (`zvonice` for Bell Beaker vessels); the "most specific term" preference of 3 September and
+    # the confidence rubric reach the model only as prompt text (the GPU path never shows it the
+    # schema's descriptions).
+    "rule.category_from_list": "PROMPT_CATEGORY_FROM_LIST",
+    "rule.most_specific": "PROMPT_MOST_SPECIFIC",
+    "rule.confidence": "PROMPT_CONFIDENCE_RUBRIC",
     "examples": "PROMPT_EXAMPLES",
 }
 
@@ -234,6 +242,12 @@ def selected_blocks(blocks: Dict[str, str], config: Optional[Dict[str, str]] = N
                 "add a flag for it, or remove it from the template"
             )
     return chosen
+
+
+def rendered_blocks(config: Optional[Dict[str, str]] = None) -> List[str]:
+    """The names of the blocks this configuration renders, in order: what the model was told,
+    for the run's paradata and the service's `/info`."""
+    return selected_blocks(load_blocks(template_path(config)), config)
 
 
 def render(

@@ -12156,7 +12156,6 @@
     skos:scopeNote "(dosud asi 4 000 až 1 250, nověji 4 800-1 400 před Kr.) - klimatická fáze holocénu, představující dlouhé doznívání atlantiku se střídáním zřetelných teplotních a vlhkostních výkyvů, v jejichž průběhu se postupně snižovala vlhkost podnebí, ale teplota stále lehce převyšovala dnešní průměr na našem území. Epiatlantik byl vrcholným obdobím lesů: smíšené doubravy, do nichž přibyl mj. habr, se udržovaly v nížinách, zatímco ve středních nadmořských výškách zvolna ustupovaly bučinám (buk, jedle, habr), na horách se dařilo smrčinám; v zemědělských oblastech však postupovalo odlesnění. V archeologii závěr neolitu, celý eneolit, starší až střední doba bronzová. (ks)"@cs .
 
 <https://teater.aiscr.cz/id/1068> rdf:type skos:Concept ;
-    skos:altLabel "suborál (paleoklimatologie)"@cs ;
     skos:broader <https://teater.aiscr.cz/id/1063> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/1050> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/1051> ;
@@ -12164,9 +12163,9 @@
     skos:broaderTransitive <https://teater.aiscr.cz/id/1059> ;
     skos:inScheme <https://w3id.org/atrium/scheme/teater-harvest> ;
     skos:notation "1068" ;
-    skos:prefLabel "**suborál (paleoklimatologie)"@cs ;
     skos:prefLabel "Subboreal (paleoclimatology)"@en ;
     skos:prefLabel "Subboreal (s) (Klimastufe)"@de ;
+    skos:prefLabel "suborál (paleoklimatologie)"@cs ;
     skos:scopeNote "(asi 1 250 [nověji 1 400] - 700 před Kr.) - sušší období ve vývoji holocénu s kolísavým kontinentálním podnebím, odlišným od předešlé fáze epiatlantiku a ohlašujícím počátek zhoršování klimatických podmínek. Pravěké osídlení však tehdy dosahuje své největší rozlohy a proniká i do horských poloh. Příroda je už silně poznamenána odlesněním a pastvou dobytka, tedy i silnou erozí půdy a tvorbou údolních niv. V lesích dosud nedotčených oblastí pokračuje šíření buku a v menší míře i jedle. V archeologii mladší a pozdní doba bronzová, starší část doby halštatské. (ks)"@cs .
 
 <https://teater.aiscr.cz/id/1069> rdf:type skos:Concept ;
@@ -14432,7 +14431,6 @@
     skos:prefLabel "starší doba stěhování národů"@cs .
 
 <https://teater.aiscr.cz/id/1233> rdf:type skos:Concept ;
-    skos:altLabel "* Dobrodzień group"@en ;
     skos:broader <https://teater.aiscr.cz/id/1232> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/1050> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/1070> ;
@@ -30184,7 +30182,6 @@
     skos:scopeNote "kov, který se vyskytuje častěji ve sloučeninách než v ryzí formě. Stříbrné rudy je možné rozdělit na rudy ušlechtilé s obsahem stříbra v hodnotě několika desítek procent a na běžné rudy, mezi něž patří měděné a olovnatozinkové rudy s příměsí stříbra v desetinách a setinách procent. Přírodní stříbro se sice vyskytuje zhruba stejně často jako přírodní měď či zlato, téměř nikdy ale na zemském povrchu, kde se hned oxiduje na chlorid stříbrný (AgCl). Přírodní stříbro obsahuje, podobně jako přírodní měď, určité množství rtuti (platí to ovšem pro kov zpracovávaný výhradně za studena), obsah olova je nepatrný (< 0,001 %). Stříbro proto bylo patrně získáváno především z olověných rud procesem kupelace, tj. dvojstupňovým oxidačním oddělováním stříbra od olova v roztaveném stavu. Při kupelaci bývají odstraněny všechny prvky, s výjimkou stříbra, zlata a platinových kovů, částečně též vizmutu, mědi a olova (0,001 až 0,1 %). Přinejmenším od 1. tisíciletí před n. l. je tento proces znám z písemných pramenů a rovněž z archeologických dokladů. Chemické analýzy stříbrných a olověných artefaktů naznačují používání této technologie nejpozději již na počátku 3. tisíciletí před n. l. Průkaznější v tomto směru jsou stratifikované nálezy olověného klejtu (PbO), který vzniká při kupelaci a v přírodě je poměrně vzácný. Jeho nálezy jsou doloženy např. z mezopotamského Habuba Kabira (pozdní urucké období, polovina 4. tisíciletí před n. I.), z raně helladských vrstev na Thoriku v Attice, o něco málo pozdější nález, ale datovaný stále ještě do 3. tisíciletí před n. I., pochází z Mahmatlaru v Anatolii. Patrně jako úmyslná příměs bylo stříbro zjištěno ve 4. tisíciletí před n. l. v měděných předmětech geoksjurské kultury v Turkmenii. Nejstarším 'stříbrným' předmětem ve střední Evropě je terčík typu Stollhoff nalezený, společně s brýlovitým závěskem z měděného drátu, na lokalitě Kotouč u Štramberka (ve skutečnosti jde o přírodní elektron s převažujícím obsahem stříbra a s 2,7 % zlata a 2,9 % mědi). Další nálezy stříbra z našeho území pocházejí vesměs až z konce eneolitu, z hrobů kultury zvoncovitých pohárů. Jde o vlasové ozdoby nebo náušnice ze stříbra (Praha-Bubeneč, Radovesice), ze stříbra s příměsí mědi (Borkovany) nebo z elektronu (Předmostí, Borkovany). Zde se uvažuje o vlivech z jihozápadní Evropy. Zdrojem stříbra byla patrně egejská oblast nebo Itálie. Po celou dobu bronzovou a dobu halštatskou jsou nálezy stříbra na našem území velmi ojedinělé. V době laténské byly ze stříbra raženy mince s nápisy (Biatec aj.), známé z nálezů z jižního Slovenska. V době římské Germáni patrně používali stříbro z římských mincí. Velké množství stříbrných šperků bylo získáno při výzkumech velkomoravských pohřebišť. Dalším dokladem zpracování stříbra jsou tyglíky pocházející z velkomoravských výrobních objektů (Mikulčice, Pohansko, Staré Město). I ze slavníkovské Libice je známa technická keramika se stopami taveného stříbra. Poklady (depoty) zlomkového stříbra datované od poloviny 10. století do počátku 11. století dokládají užívání stříbra jako platidla, které nahradila od poloviny 10. století stříbrná mince přemyslovských a slavníkovských knížat. Od poloviny 13. století byla postupně otvíraná ložiska stříbra v českých zemích (zejména Jihlava, Kutná Hora, později Jáchymov). Bohatství pocházející z těchto zdrojů výrazně ovlivnilo hospodářské a politické dějiny českých zemí pod vládou posledních Přemyslovců a Lucemburků. Růst produkce vytvářel značné rezervy stříbra, které odcházelo ze země formou církevních platů, nebo jako prostředek mocenských aspirací posledních Přemyslovců. Grošová reforma (Ius regale montanorum) roku 1300 přinesla zásadní obrat ve vývoji mince, zároveň došlo k centralizaci ražby. Nejstarším střediskem dolování u nás se kolem roku 1240 stala Jihlava s důlní oblastí Starých hor. V následujících desítiletích se rozšířilo dolování do širšího okolí, neboť v té době byla již vytěžena bohatá oxidační a cementační pásma a dolování odumřelo. Po polovině 13. století bylo dolováno v okolí Smilova (Německého, dnes Havlíčkova) Brodu, kde vznikala poddanská hornická městečka a důlní činnost zde trvala do počátku 15. století. V moravském podhůří Českomoravské vrchoviny se dolovalo v okolí Deblína a na Tišnovsku. Nejvýznamnějším střediskem dolování stříbra se však koncem 13. století stala Kutná Hora. Počátky zdejšího dolování lze klást snad již do 10. století (existence slavníkovské mincovny v blízkém Malíně), ale skutečný rozvoj hlubinného dolování nastal po polovině 13. století. Dolování vrcholí ve 14.-16. století, jsou těžena bohatá ložiska přinášející zisk těžařům i králi."@cs .
 
 <https://teater.aiscr.cz/id/2526> rdf:type skos:Concept ;
-    skos:altLabel "*předmět ze zlata"@cs ;
     skos:altLabel "zlatý předmět"@cs ;
     skos:broader <https://teater.aiscr.cz/id/2431> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/2430> ;
@@ -33667,7 +33664,6 @@
     skos:scopeNote "Vojensko-politický konflikt v Římské republice probíhající na územích Řecka, Egypta, Afriky a Hispánie byl vyvrcholením sporů mezi prokonzulem Gaiem Juliem Caesarem a jeho politickými oponenty z konzervativní strany optimátů, zastánců tradiční republiky. Válka skončila vítězstvím Caesara, který se stal doživotním diktátorem a vedla ke vzniku Římského císařství."@cs .
 
 <https://teater.aiscr.cz/id/28> rdf:type skos:Concept ;
-    skos:altLabel "* cognitive archaeology"@en ;
     skos:broader <https://teater.aiscr.cz/id/18> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/1> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/17> ;
@@ -44207,7 +44203,7 @@
     skos:broaderTransitive <https://teater.aiscr.cz/id/3549> ;
     skos:inScheme <https://w3id.org/atrium/scheme/teater-harvest> ;
     skos:notation "3606" ;
-    skos:prefLabel "*Robath (e)"@de ;
+    skos:prefLabel "Robath (e)"@de ;
     skos:prefLabel "corvée"@en ;
     skos:prefLabel "robota"@cs ;
     skos:scopeNote "jedná se vlastně o rentu v úkonech, která spočívala v tom, že rolník pracoval ve prospěch vrchnosti (většinou šlo o zemědělskou práci), aniž za to dostal odměnu. Rolník přitom využíval i vlastní potah, případně nástroje. Roboty se konaly v raném středověku i ve prospěch státu (tzv. zemské roboty). Robota byla vázána na existenci šlechtického či církevního hospodářství (poplužní dvůr, režijní velkostatek). Chudší obyvatelstvo vykonávalo roboty ručně, bohatší s potahem (koňským nebo dobytčím), o jednom nebo dvou zvířatech. Velký vzrůst roboty registrujeme v českých zemích v 17. a 18. století s rozmachem režijního velkostatku. Za Leopolda I. došlo u nás k prvním pokusům rozsah roboty regulovat. Byly vydány různé robotní patenty. Od roboty se upouštělo formou její peněžní reluice, případně parcelováním velkostatků (raabizace). Na konci 18. a v 19. století byla robota pro provoz velkostatku již značně nerentabilní. Definitivně ji však zrušil až rok 1848 a to většinou výkupem."@cs .
@@ -44282,7 +44278,7 @@
     skos:broaderTransitive <https://teater.aiscr.cz/id/3549> ;
     skos:inScheme <https://w3id.org/atrium/scheme/teater-harvest> ;
     skos:notation "3612" ;
-    skos:prefLabel "*Lehnrecht (s)"@de ;
+    skos:prefLabel "Lehnrecht (s)"@de ;
     skos:prefLabel "feudal law"@en ;
     skos:prefLabel "lenní právo"@cs .
 
@@ -44484,7 +44480,7 @@
     skos:broaderTransitive <https://teater.aiscr.cz/id/3622> ;
     skos:inScheme <https://w3id.org/atrium/scheme/teater-harvest> ;
     skos:notation "3629" ;
-    skos:prefLabel "*Unterschicht (e)"@de ;
+    skos:prefLabel "Unterschicht (e)"@de ;
     skos:prefLabel "lower class"@en ;
     skos:prefLabel "nižší společenská třída"@cs .
 
@@ -55636,7 +55632,6 @@
     skos:scopeNote "(z angličtiny: totemism, „totemismus“; z algonkinského slova ototeman, „pocházející z mé rodiny“), systém představ, podle nichž je původ určité skupiny lidí odvozován od společného předka (totemu). Totemová náboženství byla postupně rozpoznána zejména u nativních etnik, žijících v Severní Americe a v Austrálii. Příslušnost k totemu se obvykle dědí po matce, ačkoliv společnost může být patriarchální. Klany jsou většinou exogamní a „drží při sobě“, i když neobývají souvislá území. Spojení klanu a totemu není libovolné, vzájemný vztah se přizpůsobuje zejména tomu, jaký rituální zájem daný totem v lidech podněcuje. Mezi totemy tak mohou patřit zvířata a rostliny, které však nemusí být ani nápadné, ani reprezentativní a nemusí mít ani žádný zvláštní význam pro obživu skupiny. Totemem se může stát i část těla zvířete, nebo různé nemoci a jejich příznaky (závrať, zvracení, mrtvola), ale také stav mysli (smích aj.). Totemem mohou být rovněž některé hvězdy a planety, rozličná roční období nebo počasí (mraky, krupobití, déšť apod.). Totemismus poprvé popsal (na přelomu 18. a 19. století) katolický misionář G. Thavenet u severoamerického indiánského etnika Odžibvejů (ze skupiny Algonkinů), sídlícího mezi dnešními kanadskými provinciemi Ontario a Québec. Podle Thaveneta vyjadřoval totem příslušnost ke klanu, každý klan měl své specifické zvíře (zpravidla charakteristické pro danou oblast a zde běžně lovené), které však bylo sdíleno kolektivně a nesouviselo se zvířetem, představujícím ochranného ducha jedince (namísto strážného ducha). Poté prošel pojem totemismus, výklad jeho vzniku a funkce, řadou proměn kopírujících změny antropologických paradigmat: vznik totemismu souvisí s obdobím divošství, kdy nebyl znám otec dětí, a proto nedostávali potomci jména podle svých otců, ale podle přírodních druhů (James George Frazer). Totemismus tkví v počátečním hříchu, kdy synové zabili svého otce (mrtvolu snědli), aby se tak zmocnili jeho žen, k nimž neměli přístup (endogamie). Z hrůzy před svým činem označili otcovo tělo za totem a zvíře, které ho symbolizovalo, označili za tabu. Poté se vzdali otcových žen, aby si nalezli jiné mimo svou skupinu, čímž započala exogamie (Sigmung Freud); Totemismus prezentuje svět zvířat a rostlin analogicky k lidské společnosti. Vztahy, které člověk vytváří mezi totemickými předměty, tak odpovídají sociálním vztahům existujícím mezi lidskými kolektivy a plní proto dvě úlohy – 1) klasifikačního systému, který využívá přírodniny k identifikaci lidských bytostí a 2) přiřazuje skupinám, mezi nimiž jsou příbuzenské vztahy termíny, jimiž se označují přírodniny (Alfred Reginald Radcliffe-Brown); na rozdíl od jiných klasifikačních systémů, které jsou rázu duchovního (například mýtus) nebo praktického (například obřad), je totemismus spjat s každodenním životem, proto je nutně dědičný, neboť jako takový je denně vázán ke každému jedinci a prezentován v každé skupině."@cs .
 
 <https://teater.aiscr.cz/id/691> rdf:type skos:Concept ;
-    skos:altLabel "* theism"@en ;
     skos:broader <https://teater.aiscr.cz/id/683> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/288> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/352> ;
@@ -56888,7 +56883,6 @@
     skos:prefLabel "relics of saints"@en .
 
 <https://teater.aiscr.cz/id/756> rdf:type skos:Concept ;
-    skos:altLabel "* liturgy"@en ;
     skos:broader <https://teater.aiscr.cz/id/693> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/288> ;
     skos:broaderTransitive <https://teater.aiscr.cz/id/352> ;

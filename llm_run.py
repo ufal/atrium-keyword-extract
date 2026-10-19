@@ -32,7 +32,12 @@ from tqdm import tqdm  # noqa: E402
 import llm_utils  # noqa: E402  (side-effect: env-var guard + compat patches)
 import prompt_template  # noqa: E402
 from atrium_paradata import ParadataLogger  # noqa: E402
-from llm_client_shared import redact_secrets  # noqa: E402
+from llm_client_shared import (  # noqa: E402
+    composite_half_variants,
+    composite_halves_from_config,
+    offered_composite_halves,
+    redact_secrets,
+)
 from llm_utils import (  # noqa: E402
     CONTEXT_RESERVED,
     _check_backend_deps,
@@ -65,7 +70,7 @@ def _first_letter_variants(term_names: List[str]) -> Dict[str, str]:
     return {variant: names[0] for variant, names in found.items() if len(names) == 1}
 
 
-def build_schema(term_names: List[str]) -> type:
+def build_schema(term_names: List[str], halves: Optional[Dict[str, str]] = None) -> type:
     if not term_names:
         raise ValueError("term_names is empty — vocabulary failed to load or was fully truncated.")
 
@@ -74,7 +79,10 @@ def build_schema(term_names: List[str]) -> type:
     # back as `Artemísion`, the one label starting "Art" (up to 18% of a model's lines in
     # the 2026-10-12 runs). Every label is accepted with either case of its first letter,
     # and category_name() returns the vocabulary's spelling.
-    variants = _first_letter_variants(term_names)
+    # The accepted halves of composite labels go into the enum too and map back the same way
+    # (issue #2, Option 2): `jímka` decodes as itself and is recorded as `jáma odpadní/jímka`,
+    # instead of being finished as `jámová kultura`.
+    variants = {**composite_half_variants(term_names, halves), **_first_letter_variants(term_names)}
     TermEnum = enum.Enum(
         "TermEnum", {f"term_{i}": name for i, name in enumerate([*term_names, *variants])}
     )
@@ -492,7 +500,9 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             excluded_themes=excluded_themes,
             prompt_config=config,
         )
-        EnrichmentModel = build_schema(surviving_terms)
+        halves = composite_halves_from_config(config)
+        EnrichmentModel = build_schema(surviving_terms, halves)
+        halves_offered = offered_composite_halves(surviving_terms, halves)
 
         # What the model was told, as one fingerprint (D3): the instructions, the flags, the
         # vocabulary build, its grouping and its truncation all change it, so two runs with
@@ -505,6 +515,10 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             # The category enum takes either case of a label's first letter (build_schema):
             # runs without this key let a capital letter force a proper-noun label.
             "category_case_folding": True,
+            # The prompt blocks in force (issue #2: the 2026-10-16 blocks are named here).
+            "blocks": prompt_template.rendered_blocks(config),
+            # Halves of composites the category may take, mapped back (issue #2, Option 2).
+            "composite_halves": len(halves_offered),
         }
         print(
             f"  prompt: sha256 {prompt_sha256[:16]}…, {len(surviving_terms) - 1} vocabulary "

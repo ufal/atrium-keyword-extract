@@ -322,7 +322,11 @@ def test_info_reports_the_controlled_kind(controlled):
     assert controlled_info["ready"] is True and controlled_info["detail"] is None
     assert controlled_info["backend"] == "openrouter" and controlled_info["model"] == "test/model"
     assert controlled_info["vocabulary"]["terms"] == controlled_info["vocabulary"]["prompt_terms"]
-    assert controlled_info["prompt"] == {
-        "geo_guardrail": "preference",
-        "vocabulary_grouping": "facet_sub",
-    }
+    prompt = controlled_info["prompt"]
+    assert (prompt["geo_guardrail"], prompt["vocabulary_grouping"]) == ("preference", "facet_sub")
+    # The issue #2 blocks and the accepted halves of composite terms (v1.4.0-beta).
+    assert {"rule.category_from_list", "rule.most_specific", "rule.confidence"} <= set(
+        prompt["blocks"]
+    )
+    assert prompt["blocks"][0] == "role"
+    assert prompt["composite_halves"] > 0

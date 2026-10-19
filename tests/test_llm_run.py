@@ -139,6 +139,21 @@ def test_build_schema_takes_either_case_of_the_first_letter():
     assert {"Artefakt", "artefakt", "Artemísion", "artemísion"} <= set(enum_values)
 
 
+def test_build_schema_decodes_a_half_and_records_its_composite():
+    """Under the enum, `jímka` could only be finished as a label sharing its prefix
+    (`jámová kultura`, 2026-10-16). An accepted half is an enum value of its own and is
+    recorded as its composite (issue #2, Option 2)."""
+    labels = ["Nerelevantní (meta-text)", "jáma odpadní/jímka", "jámová kultura"]
+    Model = llm_run.build_schema(labels, {"jímka": "jáma odpadní/jímka"})
+    assert Model.model_validate(_enrichment("jímka")).category_name() == "jáma odpadní/jímka"
+    assert Model.model_validate(_enrichment("Jímka")).category_name() == "jáma odpadní/jímka"
+    enum_values = Model.model_json_schema()["$defs"]["TermEnum"]["enum"]
+    assert {"jímka", "Jímka"} <= set(enum_values)
+    assert (
+        "jímka" not in llm_run.build_schema(labels).model_json_schema()["$defs"]["TermEnum"]["enum"]
+    )
+
+
 def test_build_schema_keeps_a_label_whose_other_spelling_is_another_label():
     from pydantic import ValidationError
 

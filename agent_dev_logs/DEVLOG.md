@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12. `test` = `6efb40c` (2026-10-14) · **v1.2.0-beta** (2026-10-09, with `atrium-vocabulary-v1.2.0-beta.zip`)._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12. `test` = `911982e` (2026-10-16) · **v1.3.0-beta** (2026-10-16, with `atrium-vocabulary-v1.3.0-beta.zip`)._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -710,6 +710,50 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   * the plan runs: clean runs → a home for the corpus (atrium-project#16) → gold labels → scorer → score.
 * **Checks:** `pytest tests/test_vocab_theme_maps.py`, 5 passed, and it fails when a map entry is changed;
   `vocab_build.py --from-flat --check` up to date; `prompt_template.py --check` clean.
+
+  Files delivered in chat.
+
+## 2026-10-16 — #2: the runs reviewed; the remote paths take either case; v1.3.0-beta
+* **#2, K4TEL's review** (comment 6216185215): forced capital labels in ten runs (`qwen3-14b` too); the cause is
+  the enum decoder finishing whatever label shares the prefix the model began (`zvonice` for Bell Beaker vessels,
+  `Pentelikon` for *peníz*, `jámová kultura` for *jímka*); `confidence_score` cannot rank (91 % at 0.95 or 0.85);
+  three options proposed: prompt blocks, the halves of composites, free decoding. Duplicated periods and
+  `**suborál` for @david-spacil.
+* **`500372a`:** the service and the OpenRouter/Ollama clients accept either case of a label's first letter after the
+  reply; the schema sent stays the label enum. The comment cites it as `03b3306`, its hash before the rebase.
+* **v1.3.0-beta** (`88cf1aa`; the vocabulary asset re-tagged in `59132b3`): the GPU path, 17 sample runs, the case
+  fix on every path, `teater_category_ids` in the record schema, source URIs in the RO-Crate.
+
+## 2026-10-19 — #2, round 3: Options 1 and 2, the scorer, `**suborál`, Known limits (delivered, not on `test`)
+* **Option 1, three prompt blocks** before the vocabulary, each with a `PROMPT_*` flag, on by default:
+  `rule.category_from_list`, `rule.most_specific`, `rule.confidence` (the rubric, moved from the schema
+  descriptions the GPU path never shows). Fourteen blocks, twelve flags; the four prompt sheets and
+  `context_budget.csv` regenerated (8 192 tokens: 397 terms; 32 768: 3 057). `/info` `controlled.prompt` and the GPU
+  paradata `config.prompt` name the blocks (`blocks`).
+* **Option 2, the halves of composites:** `vocab_review.py --composite-halves` writes
+  `data_samples/vocab/composite_halves.csv` (115 rows; 103 halves of 76 composites). The rule accepts 79; 13 are
+  `ambiguous` (the 7 shared by several composites, 6 that begin other labels), 11 `fragment`. A reviewer's `verdict`
+  overrides it and survives regeneration. `llm_run.build_schema` decodes an accepted half and records its
+  composite; `llm_client_shared.build_schema` and the document resolver accept it after the reply.
+  `ACCEPT_COMPOSITE_HALVES` (default true) and `COMPOSITE_HALVES_PATH` in `llm_config.txt`; with the switch on and
+  no sheet, the controlled kind and the runs stop with the fix. `.dockerignore` keeps the sheet in the api image.
+  `/info` and paradata count the halves (`composite_halves`). The spec gains the two fields (additive).
+* **`score_categories.py`** (top level, torch-free; not in the image): expected lines from `gold_workbook.csv` or
+  the inputs through `should_process_line`; per run missing and unexpected lines, meta-text, forced capital labels
+  and the 10-16 watch list, lines sharing no word with their category, confidence spread; agreement between runs;
+  a `KW_PER_DOC_LLM_R<n>_<model>` run against its earlier run; strict accuracy where gold is filled. No line text
+  in its output. On the committed runs it gives 1,029 expected, 71/15/3 missing, and the 10-16 table.
+* **`**suborál`:** Markdown at the edge of a TEATER label is dropped at harvest and when a flat file is read (nine
+  fields, `**suborál (paleoklimatologie)` and `*předmět ze zlata` among them). The committed harvest of 09-04 is not
+  re-fetched: a fresh one adds fields to every record, and its labels equal what the read now gives. The nested
+  files, `vocabulary.csv` and the SKOS view change, so the vocabulary asset of the next release does.
+* **Docs:** `service/README.md` gets Known limits (forced labels, `confidence_score`, research output, the KeyBERT
+  cache), the halves, and an `HF_HOME` row; README.md's "constrained" paragraph says what the enum does not
+  guarantee; the data runbook has nine sheets and 31 files; `llm_config.txt:48` lists the six vLLM runs.
+* **Cluster kit K1** (`atrium-keyword-extract__cluster__issue2_rerun_job.sh`): the five models, each into its own
+  `OUTPUT_DIR`, then the scorer.
+* **Checks:** `pytest -m "not slow"` 1,039 passed, 5 skipped; `vocab_build.py --from-flat --skos --check` and
+  `prompt_template.py --check` clean; ruff clean; `atrium_openapi.py compare` against `v1.3.0-beta`: compatible.
 
   Files delivered in chat.
 

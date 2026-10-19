@@ -2,20 +2,22 @@
 """
 vocab_review.py — read-only review artifacts for issue #6's open vocabulary questions.
 
-Eight independent reports. Each is a CSV a domain reviewer reads and turns into either
+Nine independent reports. Each is a CSV a domain reviewer reads and turns into either
 a ``taxonomy_overrides.json`` entry or a ``teater_branch_map``/``heslar_map`` flip.
-Nothing here writes to the vocabulary itself, and none of the eight guesses a semantic
-verdict — they rank and surface candidates; a human still decides.
+Nothing here writes to the vocabulary itself, and none of the nine guesses a semantic
+verdict — they rank and surface candidates; a human still decides. The one exception to
+"read-only" is ``composite_halves.csv``: the LLM runs read its accepted rows (issue #2).
 
     python3 vocab_review.py --collisions    # M8: same-label groups that might be homonyms
     python3 vocab_review.py --composites    # O1/F: "X/Y" labels vs. standalone X, Y
+    python3 vocab_review.py --composite-halves  # #2: "X/Y" halves that are no label
     python3 vocab_review.py --exclusions    # O3/O4: impact of reinstating each excluded list
     python3 vocab_review.py --subbranches   # O3/O4: the same, one level finer-grained
     python3 vocab_review.py --reinstate     # O3/O4: usable_count / collisions / token delta
     python3 vocab_review.py --specificity   # D1: terms offered alongside their own broader term
     python3 vocab_review.py --budget        # what survives truncation at each context window
     python3 vocab_review.py --census        # A1-facets: what is in each facet, and what it costs
-    python3 vocab_review.py --all           # all eight, offline from the committed flat files
+    python3 vocab_review.py --all           # all nine, offline from the committed flat files
 
 Offline and pure: reads ``data_samples/vocab/*_flat.json`` + the taxonomy config, never
 touches the network, never writes anywhere but the report CSVs.
@@ -26,6 +28,7 @@ from __future__ import annotations
 import argparse
 import csv
 import io
+import re
 import sys
 from collections import Counter, defaultdict
 from difflib import SequenceMatcher
@@ -39,6 +42,7 @@ from vocab_manager import (
     DEFAULT_COMPOSITE_SEPARATORS,
     DEFAULT_EXCLUSION_STATUS,
     VocabularyManager,
+    _norm,
     attach_same_as,
     find_composite_links,
 )
@@ -407,6 +411,129 @@ COMPOSITE_COLUMNS = [
     "same_facet",
     "link_status",
 ]
+
+
+# ── issue #2, Option 2: the halves of composites that are no label ───────────────
+
+#: The columns a reviewer fills; a regeneration keeps them, row by row.
+HALF_REVIEW_COLUMNS = ("verdict", "reviewer", "note")
+COMPOSITE_HALF_COLUMNS = [
+    "composite",
+    "composite_facet",
+    "half",
+    "position",
+    "shared_with",
+    "auto_verdict",
+    "auto_reason",
+    *HALF_REVIEW_COLUMNS,
+]
+#: A lone Czech adjective (`geologická`, `kultovní`, `stavební`): the end of a noun phrase the
+#: split cut in two, not a category of its own. Verbal nouns end in -ní too (`ohrazení`,
+#: `opevnění`, `zkoumání`), so those endings are nouns.
+_ADJECTIVE_ENDINGS = ("á", "é", "ý", "ní", "ský", "cký", "ový", "ová")
+_VERBAL_NOUN_ENDINGS = ("ení", "ění", "ání", "tí")
+
+
+def _half_auto_verdict(half: str, shared: Sequence[str], starts: Sequence[str]) -> Tuple[str, str]:
+    """(`accept` | `fragment` | `ambiguous`, the reason). `ambiguous`: the half could mean more
+    than one label: it belongs to several composites (``shared``), or other labels begin
+    with it (``starts``: `předmět` begins `předmět z kovu`), so a model that stops there
+    may have meant one of those. A reviewer's `verdict` overrides it."""
+    if shared:
+        return "ambiguous", f"half of {len(shared) + 1} composites"
+    letters = sum(ch.isalpha() for ch in half)
+    if half.count("(") != half.count(")"):
+        return "fragment", "unbalanced parenthesis"
+    if letters < 3 or not half[:1].isalpha():
+        return "fragment", "not a word"
+    word = half.casefold()
+    if (
+        len(half.split()) == 1
+        and word.endswith(_ADJECTIVE_ENDINGS)
+        and not word.endswith(_VERBAL_NOUN_ENDINGS)
+    ):
+        return "fragment", "lone adjective"
+    if starts:
+        return "ambiguous", f"begins {len(starts)} other label(s), e.g. {starts[0]}"
+    return "accept", ""
+
+
+def read_half_reviews(path: Path) -> Dict[Tuple[str, str], Dict[str, str]]:
+    """The reviewer columns of an existing ``composite_halves.csv``, by (composite, half)."""
+    if not path.is_file():
+        return {}
+    with open(path, encoding="utf-8", newline="") as fh:
+        return {
+            (row.get("composite", ""), row.get("half", "")): {
+                k: row.get(k, "") for k in HALF_REVIEW_COLUMNS
+            }
+            for row in csv.DictReader(fh)
+        }
+
+
+def composite_half_rows(
+    nested: Dict[str, Dict[str, Any]],
+    manager: Optional[VocabularyManager] = None,
+    reviews: Optional[Dict[Tuple[str, str], Dict[str, str]]] = None,
+) -> List[Dict[str, Any]]:
+    """Every half of an offered "X/Y[/Z]" label that is not itself a label (issue #2,
+    2026-10-16, Option 2).
+
+    The category is decoded under the label enum: a model that starts `jímka`, which exists
+    only as the second half of `jáma odpadní/jímka`, was finished as whatever label shares
+    the prefix (`jámová kultura`). The halves this sheet accepts are added to the enum and
+    mapped back to their label (``llm_client_shared.composite_half_variants``). A first half
+    is the label's own prefix, so the decoder could already finish it; it is listed so the
+    model may also stop there, and so the clients that check the reply afterwards accept it.
+    The complement, halves that ARE labels, is ``composite_pairs.csv``.
+
+    ``auto_verdict`` is a rule (:func:`_half_auto_verdict`); ``verdict``/``reviewer``/``note``
+    are the reviewer's and survive regeneration (``reviews``).
+    """
+    separators = manager.composite_separators() if manager else DEFAULT_COMPOSITE_SEPARATORS
+    seps = [str(sep) for sep in separators if str(sep)]
+    splitter = re.compile("|".join(re.escape(sep) for sep in seps))
+    offered = [cs for facet, terms in nested.items() if not facet.startswith("_") for cs in terms]
+    labels = {_norm(cs) for cs in offered}
+    found: List[Tuple[str, str, str, int]] = []
+    for facet, terms in nested.items():
+        if facet.startswith("_"):
+            continue
+        for cs in terms:
+            if not any(sep in cs for sep in seps):
+                continue
+            parts = [part.strip() for part in splitter.split(cs) if part.strip()]
+            for position, part in enumerate(parts, start=1):
+                if _norm(part) not in labels:
+                    found.append((cs, facet, part, position))
+    by_half: Dict[str, List[str]] = defaultdict(list)
+    for cs, _facet, part, _position in found:
+        by_half[_norm(part)].append(cs)
+    reviews = reviews or {}
+    rows: List[Dict[str, Any]] = []
+    for cs, facet, part, position in sorted(found, key=lambda t: (t[0], t[3])):
+        others = sorted(set(by_half[_norm(part)]) - {cs})
+        stem = _norm(part)
+        starts = sorted(
+            label
+            for label in offered
+            if label != cs and _norm(label).startswith((stem + " ", *(stem + sep for sep in seps)))
+        )
+        verdict, reason = _half_auto_verdict(part, others, starts)
+        review = reviews.get((cs, part), {})
+        rows.append(
+            {
+                "composite": cs,
+                "composite_facet": facet,
+                "half": part,
+                "position": position,
+                "shared_with": "; ".join(others),
+                "auto_verdict": verdict,
+                "auto_reason": reason,
+                **{k: review.get(k, "") for k in HALF_REVIEW_COLUMNS},
+            }
+        )
+    return rows
 
 
 # ── O3/O4: TEATER sub-branch decomposition (Track 4, finer grain) ───────────────
@@ -1108,7 +1235,12 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="A1-facets: one row per facet — contents, feeding rules, cost, cut point",
     )
-    p.add_argument("--all", action="store_true", help="all eight reports")
+    p.add_argument(
+        "--composite-halves",
+        action="store_true",
+        help="issue #2: halves of composites that are no label (reviewed; kept on regeneration)",
+    )
+    p.add_argument("--all", action="store_true", help="all nine reports")
     p.add_argument("--vocab-dir", type=Path, default=DEFAULT_VOCAB_DIR)
     p.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     p.add_argument("--overrides", type=Path, default=None)
@@ -1120,6 +1252,7 @@ def main(argv: Any = None) -> int:
     if not (
         args.collisions
         or args.composites
+        or args.composite_halves
         or args.exclusions
         or args.subbranches
         or args.reinstate
@@ -1129,8 +1262,8 @@ def main(argv: Any = None) -> int:
         or args.all
     ):
         print(
-            "Nothing to do — pass --collisions, --composites, --exclusions, "
-            "--subbranches, --reinstate, --specificity, --budget, --census, or --all."
+            "Nothing to do — pass --collisions, --composites, --composite-halves, "
+            "--exclusions, --subbranches, --reinstate, --specificity, --budget, --census, or --all."
         )
         return 2
 
@@ -1162,6 +1295,14 @@ def main(argv: Any = None) -> int:
         nested, _audit, _collisions = vb._nest(manager, records, qualifiers=qualifiers)
         rows = composite_pair_rows(nested, manager)
         _write_csv(args.vocab_dir / "composite_pairs.csv", rows, COMPOSITE_COLUMNS)
+
+    if args.composite_halves or args.all:
+        qualifiers = manager.qualifier_overrides()
+        records = filtered.get("amcr", []) + filtered.get("teater", [])
+        nested, _audit, _collisions = vb._nest(manager, records, qualifiers=qualifiers)
+        sheet = args.vocab_dir / "composite_halves.csv"
+        rows = composite_half_rows(nested, manager, reviews=read_half_reviews(sheet))
+        _write_csv(sheet, rows, COMPOSITE_HALF_COLUMNS)
 
     if args.exclusions or args.all:
         rows = exclusion_impact_rows(per_source, manager)

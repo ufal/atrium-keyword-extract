@@ -33,7 +33,7 @@ The four `prompt_*.txt` sheets are the prompt as a file you can open in a diff. 
 
 ## 1. `system_prompt.txt` — the instruction text
 
-Eleven blocks. A header is `[[name]]` alone on a line; everything to the next header is
+Fourteen blocks. A header is `[[name]]` alone on a line; everything to the next header is
 that block's body, and **order in the file is render order**. To move a rule, move it in
 the file. Lines starting with `#` *before the first block* are file comments; inside a
 block everything is prompt text.
@@ -42,30 +42,33 @@ Three blocks always render (`role`, `rule.json_only`, `vocabulary.header`) — w
 the prompt would not state the task, the output contract, or where the terms begin.
 Everything else is gated by a flag.
 
-| Block                             | Flag                       | ~tok | Says                                                        |
-|-----------------------------------|----------------------------|-----:|-------------------------------------------------------------|
-| `role`                            | *always*                   |   47 | who the model is, and that `<target_line>` is the subject   |
-| `task.extract`                    | `PROMPT_TASK_EXTRACT`      |   53 | pull archaeological entities, not researchers or dates      |
-| `task.select`                     | `PROMPT_TASK_SELECT`       |   25 | choose exactly one category                                 |
-| `rule.metatext`                   | `PROMPT_METATEXT_RULE`     |   79 | when to answer `Nerelevantní (meta-text)`                   |
-| `guardrail.geographic.strict`     | `PROMPT_GEO_GUARDRAIL`     |   72 | **never** a country/language/region name                    |
-| `guardrail.geographic.preference` | `PROMPT_GEO_GUARDRAIL`     |   41 | geographic terms only when the line is genuinely about them |
-| `rule.ocr_normalisation`          | `PROMPT_OCR_NORMALISATION` |   62 | normalise OCR damage before emitting a keyword              |
-| `rule.exact_term`                 | `PROMPT_EXACT_TERM`        |   19 | use the vocabulary's exact Czech string                     |
-| `rule.json_only`                  | *always*                   |   23 | reply with JSON matching the schema                         |
-| `vocabulary.header`               | *always*                   |    7 | `THEMATIC VOCABULARY:` — the terms are injected here        |
-| `examples`                        | `PROMPT_EXAMPLES`          |  146 | two worked records, one of them the meta-text case          |
+| Block                             | Flag                        | ~tok | Says                                                        |
+|-----------------------------------|-----------------------------|-----:|-------------------------------------------------------------|
+| `role`                            | *always*                    |   47 | who the model is, and that `<target_line>` is the subject   |
+| `task.extract`                    | `PROMPT_TASK_EXTRACT`       |   53 | pull archaeological entities, not researchers or dates      |
+| `task.select`                     | `PROMPT_TASK_SELECT`        |   25 | choose exactly one category                                 |
+| `rule.metatext`                   | `PROMPT_METATEXT_RULE`      |   79 | when to answer `Nerelevantní (meta-text)`                   |
+| `guardrail.geographic.strict`     | `PROMPT_GEO_GUARDRAIL`      |   72 | **never** a country/language/region name                    |
+| `guardrail.geographic.preference` | `PROMPT_GEO_GUARDRAIL`      |   41 | geographic terms only when the line is genuinely about them |
+| `rule.ocr_normalisation`          | `PROMPT_OCR_NORMALISATION`  |   62 | normalise OCR damage before emitting a keyword              |
+| `rule.exact_term`                 | `PROMPT_EXACT_TERM`         |   19 | use the vocabulary's exact Czech string                     |
+| `rule.category_from_list`         | `PROMPT_CATEGORY_FROM_LIST` |   76 | the category is a `- ` entry, never a heading or a keyword  |
+| `rule.most_specific`              | `PROMPT_MOST_SPECIFIC`      |   51 | the most specific entry the line supports, else broader     |
+| `rule.confidence`                 | `PROMPT_CONFIDENCE_RUBRIC`  |   97 | what each `confidence_score` range means                    |
+| `rule.json_only`                  | *always*                    |   23 | reply with JSON matching the schema                         |
+| `vocabulary.header`               | *always*                    |    7 | `THEMATIC VOCABULARY:` — the terms are injected here        |
+| `examples`                        | `PROMPT_EXAMPLES`           |  146 | two worked records, one of them the meta-text case          |
 
 Regenerate the table with `python3 prompt_template.py --blocks`; the same line prints in
 the run banner, so a log always says what the model was told. Token figures are estimated
 at 3.35 chars/token, not tokenised — read them as relative weights.
 
 **Why the costs are on the same page as the wording.** The instructions and the term list
-compete for one budget. At 8 192 tokens the whole prompt admits 419 of 4 711 terms, so
+compete for one budget. At 8 192 tokens the whole prompt admits 397 of 4 711 terms, so
 `examples` at ~146 tokens is worth roughly 40 terms there. At 128k it is free. The trade is
 real only at the small end — see [`context_budget.csv`](../data_samples/vocab/context_budget.csv).
 
-### The nine flags
+### The twelve flags
 
 All live in `llm_config.txt`, all read by `prompt_template.py`.
 
@@ -73,6 +76,7 @@ All live in `llm_config.txt`, all read by `prompt_template.py`.
 |----------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------|-----------------------------|--------------|
 | `PROMPT_TEMPLATE`                                                                                                                            | a path                          | `prompts/system_prompt.txt` | same         |
 | `PROMPT_TASK_EXTRACT` · `PROMPT_TASK_SELECT` · `PROMPT_METATEXT_RULE` · `PROMPT_OCR_NORMALISATION` · `PROMPT_EXACT_TERM` · `PROMPT_EXAMPLES` | `true` / `false`                | all `true`                  | `true`       |
+| `PROMPT_CATEGORY_FROM_LIST` · `PROMPT_MOST_SPECIFIC` · `PROMPT_CONFIDENCE_RUBRIC` (#2, 2026-10-16)                                           | `true` / `false`                | all `true`                  | `true`       |
 | `PROMPT_GEO_GUARDRAIL`                                                                                                                       | `strict` / `preference` / `off` | **`preference`** (M11/M12)  | `strict`     |
 | `PROMPT_VOCAB_GROUPING`                                                                                                                      | `facet_sub` / `facet` / `flat`  | `facet_sub`                 | `facet_sub`  |
 
@@ -206,8 +210,8 @@ three modes give **two clean contrasts** rather than one scale:
 * `facet` vs `flat` — the header lines alone;
 * `facet_sub` vs `facet` — the source's own second level, headers and adjacency together.
 
-The cost side is already measured: the headers buy their place at 8 192 tokens (419 terms
-grouped vs 445 flat) and at 32 768 (3 080 vs 3 201), and cost nothing at 128k where
+The cost side is already measured: the headers buy their place at 8 192 tokens (397 terms
+grouped vs 424 flat) and at 32 768 (3 057 vs 3 181), and cost nothing at 128k where
 everything fits. Whether they *help* is unmeasured — it needs the corpus and the D1 rubric,
 not code. Tracked as **A2-grouping**.
 
@@ -317,5 +321,6 @@ runbook's own order of operations includes it for that reason.
 | Which vocabulary build is used            | `VOCAB_PATH` in `llm_config.txt`                                                                     |
 | Whether a facet reaches the prompt at all | `taxonomy_config.json` → that facet's `in_prompt`                                                    |
 | Whether ids are emitted                   | `EMIT_CATEGORY_IDS`                                                                                  |
+| Which halves of composite terms count     | `data_samples/vocab/composite_halves.csv` → `verdict`; `ACCEPT_COMPOSITE_HALVES` switches them off   |
 | What one output record looks like         | `prompts/output_template.json` — and the schema and prompt examples move with it                     |
 | Nothing                                   | `prompts/prompt_*.txt` — generated; edit the template or a flag, then `--write`                      |

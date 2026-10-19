@@ -132,16 +132,16 @@ def test_the_prompt_runbook_names_every_prompt_flag():
 
 
 def test_the_documented_flag_count_matches_the_flags_that_exist():
-    """The runbook and README both say "nine". If a tenth is added, both sentences become
-    wrong in a way no reader can catch."""
+    """The runbook says "twelve". If a thirteenth is added, that heading becomes wrong in a
+    way no reader can catch."""
     flags = {pt.TEMPLATE_PATH_FLAG, pt.GEO_GUARDRAIL_FLAG, pt.GROUPING_FLAG} | set(
         pt.BLOCK_FLAGS.values()
     )
-    assert len(flags) == 9, (
-        f"{len(flags)} PROMPT_* flags now exist — update the count in prompts/RUNBOOK.md "
-        "and README.md, which both say nine"
+    assert len(flags) == 12, (
+        f"{len(flags)} PROMPT_* flags now exist — update the count in prompts/RUNBOOK.md, "
+        "which says twelve"
     )
-    assert "The nine flags" in _prompt_runbook()
+    assert "The twelve flags" in _prompt_runbook()
 
 
 def test_the_documented_grouping_modes_are_the_modes_that_exist():
@@ -189,6 +189,6 @@ def test_the_vocabulary_runbook_lists_every_review_sheet_flag():
         for option in action.option_strings
         if option.startswith("--") and option not in plumbing
     ]
-    assert len(sheet_flags) == 8, f"{len(sheet_flags)} sheets now — the runbook says eight"
+    assert len(sheet_flags) == 9, f"{len(sheet_flags)} sheets now — the runbook says nine"
     missing = sorted(f for f in sheet_flags if f not in doc)
     assert not missing, f"data_samples/vocab/RUNBOOK.md does not document {missing}"

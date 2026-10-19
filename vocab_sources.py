@@ -41,6 +41,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import re
 import time
 import unicodedata
 import urllib.parse
@@ -374,14 +375,40 @@ def harvest_amcr(
 # ── TEATER ────────────────────────────────────────────────────────────────────
 
 
+#: Markdown left at the start or end of a TEATER label by its editors: `**suborál
+#: (paleoklimatologie)` (1068), `* cognitive archaeology` (an alternative label of 28),
+#: `*předmět ze zlata` (2526). Offered as is, `**suborál` was a label no text can match
+#: (atrium-keyword-extract#2, 2026-10-16). The snapshot keeps them; the harvest drops them,
+#: and so does :func:`read_flat_json` for a flat file harvested before (the committed one).
+_EDGE_MARKUP = re.compile(r"^[*_]+\s*|\s*[*_]+$")
+
+
+def _clean_label(value: Any) -> Optional[str]:
+    """A label stripped of whitespace and of the Markdown at its edges; None when empty."""
+    if not isinstance(value, str):
+        return None
+    return _EDGE_MARKUP.sub("", value.strip()).strip() or None
+
+
+def _clean_alt(values: Any, preferred: Optional[str]) -> Tuple[str, ...]:
+    """Cleaned alternative labels, without the ones the cleaning made equal to the preferred
+    label, as the harvest drops them (:func:`_teater_walk`)."""
+    cleaned = (_clean_label(value) for value in values or ())
+    return tuple(
+        dict.fromkeys(
+            value for value in cleaned if value and norm_label(value) != norm_label(preferred or "")
+        )
+    )
+
+
 def _teater_labels(node: Dict[str, Any]) -> Dict[str, Optional[str]]:
     """TEATER names are ``{cz, en, de}`` in the snapshot and ``{cs, en, de}`` in the
     live export DTO. Accept both."""
     name = node.get("name") or {}
     return {
-        "cs": (name.get("cz") or name.get("cs") or "").strip() or None,
-        "en": (name.get("en") or "").strip() or None,
-        "de": (name.get("de") or "").strip() or None,
+        "cs": _clean_label(name.get("cz") or name.get("cs")),
+        "en": _clean_label(name.get("en")),
+        "de": _clean_label(name.get("de")),
     }
 
 
@@ -409,8 +436,8 @@ def _teater_descriptions(node: Dict[str, Any]) -> Dict[str, Any]:
             if not isinstance(entry, dict):
                 continue
             text = entry.get("text")
-            if key in _TEATER_ALT_KEYS and isinstance(text, str) and text.strip():
-                alt[_TEATER_ALT_KEYS[key]].append(text.strip())
+            if key in _TEATER_ALT_KEYS and _clean_label(text):
+                alt[_TEATER_ALT_KEYS[key]].append(_clean_label(text))
             elif key == _TEATER_NOTE_KEY and isinstance(text, dict):
                 note_cs = note_cs or (text.get("cz") or "").strip() or None
                 note_en = note_en or (text.get("en") or "").strip() or None
@@ -695,11 +722,12 @@ def read_flat_json(path: Path) -> Tuple[List[VocabRecord], Dict[str, Any]]:
         payload = json.load(fh)
     records = []
     for item in payload.get("terms", []):
+        cs, en = _clean_label(item.get("cs")) or "", _clean_label(item.get("en"))
         records.append(
             VocabRecord(
-                cs=item.get("cs", ""),
-                en=item.get("en"),
-                de=item.get("de"),
+                cs=cs,
+                en=en,
+                de=_clean_label(item.get("de")),
                 source=item.get("source", ""),
                 source_id=item.get("source_id", ""),
                 uri=item.get("uri", ""),
@@ -708,8 +736,8 @@ def read_flat_json(path: Path) -> Tuple[List[VocabRecord], Dict[str, Any]]:
                 broader=tuple(item.get("broader") or ()),
                 sort=item.get("sort"),
                 abbr=item.get("abbr"),
-                alt_cs=tuple(item.get("alt_cs") or ()),
-                alt_en=tuple(item.get("alt_en") or ()),
+                alt_cs=_clean_alt(item.get("alt_cs"), cs),
+                alt_en=_clean_alt(item.get("alt_en"), en),
                 note_cs=item.get("note_cs"),
                 note_en=item.get("note_en"),
                 exact_match=tuple(item.get("exact_match") or ()),

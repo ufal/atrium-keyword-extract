@@ -141,11 +141,17 @@ def test_preamble_ends_at_the_vocabulary_anchor_and_footer_follows_it():
     assert "EXAMPLES" not in preamble
 
 
+#: The blocks added for issue #2 on 2026-10-16 (Option 1). With them off, the template renders
+#: the prompt every run before them was made with.
+_ISSUE2_FLAGS = ("PROMPT_CATEGORY_FROM_LIST", "PROMPT_MOST_SPECIFIC", "PROMPT_CONFIDENCE_RUBRIC")
+
+
 def test_the_default_render_is_the_prompt_the_pipeline_shipped_with():
     """Byte-for-byte against the wording that was hard-coded in llm_run.py before the
     template existed. Moving text into a file must not change what the model reads —
-    otherwise every score before and after this refactor is incomparable."""
-    preamble, footer = pt.render({})
+    otherwise every score before and after this refactor is incomparable. The three issue-#2
+    blocks (on by default) are switched off here, so the committed runs stay reproducible."""
+    preamble, footer = pt.render({flag: "false" for flag in _ISSUE2_FLAGS})
     assert preamble == (
         "You are an expert archaeological data extractor. "
         "Analyze the MARKED LINE enclosed in <target_line> ... </target_line> "
@@ -779,3 +785,13 @@ def test_check_exits_1_on_drift_and_0_when_current(tmp_path, monkeypatch, capsys
     assert pt.main(["--write", "--config", str(config_file)]) == 0
     assert pt.main(["--check", "--config", str(config_file)]) == 0
     assert "match the configured prompt" in capsys.readouterr().out
+
+
+def test_the_issue2_blocks_sit_before_the_vocabulary_and_render_by_default():
+    """Blocks after `vocabulary.header` would reach the model after 4,711 terms."""
+    names = pt.selected_blocks(_blocks(), {})
+    anchor = names.index(pt.VOCABULARY_ANCHOR)
+    for block in ("rule.category_from_list", "rule.most_specific", "rule.confidence"):
+        assert block in names and names.index(block) < anchor
+    preamble, _footer = pt.render({})
+    assert 'starting with "- "' in preamble and "confidence_score says" in preamble

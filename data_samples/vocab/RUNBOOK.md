@@ -19,12 +19,12 @@ Three tools, in dependency order:
 | Tool               | Needs network      | Needs the document corpus | Writes                                        |
 |--------------------|--------------------|---------------------------|-----------------------------------------------|
 | `vocab_build.py`   | only for a harvest | no                        | the 14 vocabulary artifacts in this directory |
-| `vocab_review.py`  | no                 | no                        | 8 review sheets (corpus-independent)          |
+| `vocab_review.py`  | no                 | no                        | 9 review sheets (corpus-independent)          |
 | `corpus_review.py` | no                 | **yes**                   | 3 evidence sheets + `corpus_review.meta.json` |
 
 ### What is in this directory
 
-30 files, three kinds. Only the first kind is input; everything else is generated and is
+31 files, three kinds. Only the first kind is input; everything else is generated and is
 overwritten without warning by the command in its row.
 
 | Files                                                | Kind                                                                                                       | Written by                               |
@@ -35,7 +35,7 @@ overwritten without warning by the command in its row.
 | `{amcr,teater,union}_placement_audit.csv`            | one row per term: which rule placed it, and where                                                          | `vocab_build.py --from-flat`             |
 | `vocabulary.csv`                                     | the union as one flat spreadsheet, for reading outside the repo                                            | `vocab_build.py --from-flat`             |
 | `union.skos.ttl`                                     | the SKOS view: every harvested concept as `skos:Concept`, under the SOURCES' own URIs (5.2 MB)             | `vocab_build.py --from-flat --skos`      |
-| the 8 review sheets (§2)                             | evidence for an open question                                                                              | `vocab_review.py --all`                  |
+| the 9 review sheets (§2)                             | evidence for an open question                                                                              | `vocab_review.py --all`                  |
 | the 3 corpus sheets + `corpus_review.meta.json` (§3) | evidence from real report text                                                                             | `corpus_review.py --all`                 |
 | `6.*.decision-package.md`, `RUNBOOK.md`              | prose                                                                                                      | hand-written                             |
 
@@ -101,16 +101,18 @@ counts and says so on exit. (It was not always: it used to run the legacy AMCR-o
 against `union_nested.json` and save the result, which sent every term to `Other` and left
 the pipeline injecting an empty vocabulary. Looking at the vocabulary destroyed it.)
 
-## 2. `vocab_review.py` — the eight reviewer sheets
+## 2. `vocab_review.py` — the nine reviewer sheets
 
 Offline, pure, deterministic. Reads the committed `*_flat.json` plus the taxonomy
 config; writes only the CSVs below. Nothing here decides anything — each sheet ranks
-and surfaces candidates for a human.
+and surfaces candidates for a human. The one sheet the pipeline reads,
+`composite_halves.csv`, ships its rule's verdicts until a reviewer's replace them.
 
 ```bash
-python3 vocab_review.py --all            # all eight
+python3 vocab_review.py --all            # all nine
 python3 vocab_review.py --collisions     # collision_review.csv        (M8/M13, @david-spacil)
 python3 vocab_review.py --composites     # composite_pairs.csv         (O1/F)
+python3 vocab_review.py --composite-halves  # composite_halves.csv   (#2, read by the LLM runs)
 python3 vocab_review.py --exclusions     # exclusion_impact.csv        (O3/O4, @motyc)
 python3 vocab_review.py --subbranches    # teater_subbranch_impact.csv (O3/O4, finer grain)
 python3 vocab_review.py --reinstate      # reinstatement_preview.csv   (O3/O4 go/no-go)
@@ -119,7 +121,7 @@ python3 vocab_review.py --budget         # context_budget.csv          (which mo
 python3 vocab_review.py --census         # facet_census.csv            (A1-facets, @david-spacil)
 ```
 
-Two of the eight are **empty or near-empty on purpose** right now, and that is not a
+Two of the nine are **empty or near-empty on purpose** right now, and that is not a
 broken report: `teater_subbranch_impact.csv` decomposes *excluded* TEATER branches and
 M11 reinstated all of them, and `exclusion_impact.csv` is down to the 23 settled AMCR
 lists. Both come back the moment something is excluded again.
@@ -156,6 +158,16 @@ says.
 > `HES-000992`, another mortar record, in a build that is green and validates. Read
 > `holds_bare_label` before writing any qualifier; no test can rule which concept
 > deserves the bare word.
+
+Reading `composite_halves.csv`: one row per half of an `X/Y` label that is not a label
+itself (115 rows: 103 halves of 76 composites). **It is the one sheet the pipeline reads:**
+the category may take an accepted half, and the record carries the composite label
+(issue #2, Option 2; `ACCEPT_COMPOSITE_HALVES`, `COMPOSITE_HALVES_PATH` in `llm_config.txt`).
+`auto_verdict` is a rule, with `auto_reason`: `ambiguous` when the half belongs to several
+composites (`mladší`, `objekt`, `souvrství`) or begins other labels (`předmět`), `fragment`
+for a lone adjective or a broken parenthesis, else `accept`. A reviewer's `verdict`
+(`accept`, `ambiguous`, `fragment`) overrides it; `verdict`, `reviewer` and `note` survive
+regeneration, row by row.
 
 Reading `facet_census.csv`: one row per facet, in render order. `cumulative_tokens` is
 the column that explains truncation — a facet is cut when everything *ahead* of it has
@@ -257,7 +269,7 @@ $EDITOR data_samples/taxonomy_config.json    # 1. change teater_branch_map value
                                              #    declare any NEW facet with priority + in_prompt,
                                              #    and list it in tie_break
 python3 vocab_build.py --from-flat           # 2. rebuild
-python3 vocab_review.py --all                # 3. refresh all eight sheets
+python3 vocab_review.py --all                # 3. refresh all nine sheets
 python3 prompt_template.py --write           # 4. prompt_full.txt contains every term
 python3 -m pytest -q                         # 5. all gates
 ```
@@ -329,6 +341,6 @@ reports every problem at once, not one per rebuild).
 | **Reading the prompt without a GPU run**       | `python3 prompt_template.py --blocks` (what is on) · `--preview` (instructions, terms elided) · `--full` (the whole prompt, all 4 711 terms) · `--diff KEY=A KEY=B` (what a flag change does to the wording). All four are committed under `prompts/`                                          |
 | **A committed sheet after any prompt change**  | `python3 prompt_template.py --write`, then commit `prompts/prompt_*.txt`. `--check` is the gate, and `vocab-drift.yml` runs it on every PR, so a stale sheet fails CI rather than misleading a reviewer                                                                                        |
 | **Whether the facet grouping matters**         | `llm_config.txt` → `PROMPT_VOCAB_GROUPING` = `facet_sub` / `facet` / `flat`. Same terms, same truncation; only the headers move. `facet` vs `flat` isolates the headers, `facet_sub` vs `facet` the source's second level. Costs 121 terms at 32k, nothing at 128k                             |
-| **Whether a model can still hold it**          | `context_budget.csv` — per context window and facet, how much survives truncation. At 32k the two probation facets are cut (`Related Disciplines & Society` whole, the last 60 terms of `Cultural & Geographic Context`); at 8k 419 of 4 711 terms reach the model                             |
+| **Whether a model can still hold it**          | `context_budget.csv` — per context window and facet, how much survives truncation. At 32k the two probation facets are cut (`Related Disciplines & Society` whole, the last 83 terms of `Cultural & Geographic Context`); at 8k 397 of 4 711 terms reach the model                             |
 | **Which facet a reinstated branch lands in**   | `taxonomy_config.json` → the `teater_branch_map` value, **plus** the facet's own `priority` / `in_prompt` block if it is a new one. `facet_census.csv` is the evidence: contents, feeding rules, cost and cut point, one row per facet. This is **A1-facets**                                  |
 | Nothing                                        | a generated CSV. Every sheet in this directory is rebuilt from the two files above; hand-editing one is discarded on the next run.                                                                                                                                                             |

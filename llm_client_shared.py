@@ -486,7 +486,84 @@ def first_letter_variants(term_names: List[str]) -> Dict[str, str]:
     return {variant: names[0] for variant, names in found.items() if len(names) == 1}
 
 
-def build_schema(term_names: List[str]) -> type:
+#: The reviewed halves of composite labels (issue #2, Option 2), from
+#: ``vocab_review.py --composite-halves``.
+COMPOSITE_HALVES_PATH = "data_samples/vocab/composite_halves.csv"
+
+
+def load_composite_halves(path: Any = None) -> Dict[str, str]:
+    """``{half: composite}`` for the sheet's accepted rows: ``verdict``, else ``auto_verdict``,
+    is ``accept``. A half accepted for two composites cannot map back to one, so it is left
+    out. A missing sheet gives ``{}``: the vocabulary's enum as it was."""
+    sheet = repo_path(path or COMPOSITE_HALVES_PATH)
+    if not sheet.is_file():
+        return {}
+    found: Dict[str, set] = {}
+    with open(sheet, encoding="utf-8", newline="") as fh:
+        for row in csv.DictReader(fh):
+            verdict = (row.get("verdict") or "").strip() or (row.get("auto_verdict") or "").strip()
+            half, composite = (row.get("half") or "").strip(), (row.get("composite") or "").strip()
+            if verdict == "accept" and half and composite:
+                found.setdefault(half, set()).add(composite)
+    return {
+        half: next(iter(composites)) for half, composites in found.items() if len(composites) == 1
+    }
+
+
+def composite_halves_from_config(config: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+    """The accepted halves when ``ACCEPT_COMPOSITE_HALVES`` (default true) is on, else ``{}``.
+
+    On, with no sheet at ``COMPOSITE_HALVES_PATH``, it refuses rather than run without the
+    halves unnoticed: an image built without the sheet would decode as before v1.4.0-beta.
+    """
+    config = config or {}
+    switch = str(config.get("ACCEPT_COMPOSITE_HALVES", "true")).strip().lower()
+    if switch not in {"1", "true", "yes", "on"}:
+        return {}
+    configured = config.get("COMPOSITE_HALVES_PATH") or COMPOSITE_HALVES_PATH
+    if not repo_path(configured).is_file():
+        raise FileNotFoundError(
+            f"ACCEPT_COMPOSITE_HALVES is on, but COMPOSITE_HALVES_PATH ({configured}) is not a "
+            "file. Write it with `python3 vocab_review.py --composite-halves`, point "
+            "COMPOSITE_HALVES_PATH at it, or set ACCEPT_COMPOSITE_HALVES=false in llm_config.txt."
+        )
+    return load_composite_halves(configured)
+
+
+def offered_composite_halves(
+    term_names: List[str], halves: Optional[Dict[str, str]]
+) -> Dict[str, str]:
+    """``{half: label}`` for the accepted halves whose composite is offered here and which are
+    no label themselves: what paradata and ``/info`` count."""
+    labels = set(term_names)
+    return {
+        half: composite
+        for half, composite in (halves or {}).items()
+        if composite in labels and half not in labels
+    }
+
+
+def composite_half_variants(
+    term_names: List[str], halves: Optional[Dict[str, str]]
+) -> Dict[str, str]:
+    """``{spelling: label}`` for the accepted halves of the composites offered here
+    (:func:`offered_composite_halves`), each also with the other case of its first letter.
+
+    The model starts a category it has in mind; when that is only one half of a label
+    (`jímka` of `jáma odpadní/jímka`), the decoder used to finish it as whatever label shared
+    the prefix (`jámová kultura`; issue #2, 2026-10-16). A half that is a label itself, or a
+    spelling that already means something else, is left out.
+    """
+    labels = set(term_names)
+    offered = offered_composite_halves(term_names, halves)
+    out: Dict[str, str] = dict(offered)
+    for variant, half in first_letter_variants(list(offered)).items():
+        if variant not in labels and variant not in out:
+            out[variant] = offered[half]
+    return out
+
+
+def build_schema(term_names: List[str], halves: Optional[Dict[str, str]] = None) -> type:
     _assert_vocabulary_reached_the_model(term_names)
 
     TermEnum = enum.Enum("TermEnum", {f"term_{i}": name for i, name in enumerate(term_names)})
@@ -496,8 +573,9 @@ def build_schema(term_names: List[str]) -> type:
     # the enum it decodes under (issue #2, 2026-10-13); here they are accepted after the
     # reply instead, so the schema sent to OpenRouter and Ollama stays the label enum rather
     # than twice its size. A backend that decodes strictly under that enum can still be
-    # forced into a capitalised label.
-    variants = first_letter_variants(term_names)
+    # forced into a capitalised label. The accepted halves of composites are mapped back the
+    # same way (issue #2, Option 2).
+    variants = {**composite_half_variants(term_names, halves), **first_letter_variants(term_names)}
 
     class ConstrainedEnrichment(BaseModel):
         extracted_keywords_cs: List[str] = Field(
@@ -844,7 +922,7 @@ _DOC_EXAMPLES_FOOTER = (
 )
 
 
-def build_document_schema(term_names: List[str]) -> type:
+def build_document_schema(term_names: List[str], halves: Optional[Dict[str, str]] = None) -> type:
     """Whole-document variant of build_schema(): a wrapper model holding a
     list of located enrichment items, instead of one object per target line.
     Used by run_document_level() for BACKEND=openrouter/ollama .md input."""
@@ -883,6 +961,8 @@ def build_document_schema(term_names: List[str]) -> type:
     #: near-miss category without reaching back into pydantic's internals. Assigned after
     #: class creation so pydantic does not mistake it for a field.
     DocumentEnrichment.allowed_terms = tuple(term_names)
+    #: The accepted halves of composites, for _term_resolver (issue #2, Option 2).
+    DocumentEnrichment.half_terms = composite_half_variants(term_names, halves)
     return DocumentEnrichment
 
 
@@ -1489,6 +1569,10 @@ def _term_resolver(model: type) -> Callable[[Any], Optional[str]]:
     """
     allowed = tuple(getattr(model, "allowed_terms", ()) or ())
     loose = {" ".join(term.casefold().split()): term for term in allowed}
+    # A half of a composite resolves to its label (issue #2, Option 2), after every label has
+    # had its chance, so a half never shadows a term.
+    for half, label in (getattr(model, "half_terms", None) or {}).items():
+        loose.setdefault(" ".join(half.casefold().split()), label)
 
     def _loose(value: str) -> Optional[str]:
         return loose.get(" ".join(value.casefold().split()))

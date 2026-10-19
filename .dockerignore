@@ -24,6 +24,8 @@ data_samples/
 !data_samples/vocab/union_nested.meta.json
 !data_samples/vocab/amcr_flat.json
 !data_samples/vocab/teater_flat.json
+# The reviewed halves of composite labels the category may take (COMPOSITE_HALVES_PATH; #2).
+!data_samples/vocab/composite_halves.csv
 # Not runtime (atrium-project#69, roadmap H5): ker_data/ holds two IDF pickles (26 MB) that
 # no shipped code reads; the test suite runs on the CI runner; the dev logs are
 # documentation.
@@ -36,6 +38,7 @@ agent_dev_logs/
 # release line"; .github/production-image.json is the api image's closure).
 corpus_review.py
 vocab_review.py
+score_categories.py
 TEMP/
 *.log
 *.png

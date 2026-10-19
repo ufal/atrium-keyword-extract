@@ -364,6 +364,17 @@ class ControlledPrompt(BaseModel):
     vocabulary_grouping: str = Field(
         description="`PROMPT_VOCAB_GROUPING`: `facet_sub`, `facet` or `flat`."
     )
+    blocks: List[str] = Field(
+        default_factory=list,
+        description="The prompt blocks in force, in the order the model reads them "
+        "(`prompts/system_prompt.txt`, switched by the `PROMPT_*` flags).",
+    )
+    composite_halves: int = Field(
+        0,
+        description="Halves of composite labels (`jímka` of `jáma odpadní/jímka`) the category "
+        "may take; each is recorded as its label (`ACCEPT_COMPOSITE_HALVES`, "
+        "`COMPOSITE_HALVES_PATH`).",
+    )
 
 
 class ControlledInfo(BaseModel):
@@ -485,7 +496,8 @@ def _load_controlled() -> Dict[str, Any]:
     prompt, labels = llm.build_system_prompt(
         vocab_data, max_tokens=budget, excluded_themes=excluded, prompt_config=config
     )
-    model_cls = llm.build_schema(labels)
+    halves = llm.composite_halves_from_config(config)
+    model_cls = llm.build_schema(labels, halves)
     id_lookup, strip_map = llm.category_maps(vocab_data, labels, excluded)
 
     # The vocabulary cut (atrium-project#53): terms that do not fit the prompt budget are out of
@@ -566,6 +578,8 @@ def _load_controlled() -> Dict[str, Any]:
         "prompt_info": {
             "geo_guardrail": prompt_template.resolve_geo_guardrail(config),
             "vocabulary_grouping": prompt_template.resolve_grouping(config),
+            "blocks": prompt_template.rendered_blocks(config),
+            "composite_halves": len(llm.offered_composite_halves(labels, halves)),
         },
         # Where the flat vocabulary artifacts sit, for entities[].pid: beside the vocabulary the
         # prompt was built from, so the two can never come from different builds.

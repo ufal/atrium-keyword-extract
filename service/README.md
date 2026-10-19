@@ -91,7 +91,8 @@ keyword carries `method` and `rank`.
 Each line the quality filter keeps (not `Trash`, `Garbage`, `Inverted` or `Empty`, and long enough to
 read) is sent to the model on its own, marked inside its neighbours on the same page, with the
 document's first lines and the current heading as context. The model answers in a JSON schema whose
-`teater_category` is an enum of the vocabulary's terms, so it cannot invent one:
+`teater_category` is an enum of the vocabulary's terms, so it cannot invent one; it can, however, land on
+an unrelated term (see [Known limits](#known-limits)):
 
 | Field                   | What it is                                                                                                                                                                                                                               |
 |-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -108,6 +109,13 @@ every block and flag. The vocabulary is `data_samples/vocab/union_nested.json` (
 `vocab_build.py`; `data_samples/vocab/RUNBOOK.md`). A service whose configured guardrail wording
 contradicts the vocabulary (`PROMPT_GEO_GUARDRAIL` against `taxonomy_config.json`'s `geo_guardrail`)
 does not start the controlled kind, and `/info` `controlled.detail` says why.
+
+A category given as one half of a composite term (`jímka` of `jáma odpadní/jímka`) is recorded as that term
+when `data_samples/vocab/composite_halves.csv` accepts the half (`ACCEPT_COMPOSITE_HALVES`,
+`COMPOSITE_HALVES_PATH` in `llm_config.txt`; the sheet is `vocab_review.py --composite-halves`, reviewed per
+row). With the switch on and no sheet at the path, the controlled kind does not start, and
+`/info` `controlled.detail` names the fix. `/info` `controlled.prompt` reports `blocks`, the prompt blocks in
+force, and `composite_halves`, how many halves are accepted.
 
 The entity links: `entities[]` rows of the record (nlp-enrich's) whose lemma or surface is a vocabulary
 term get a `pid` with the term's AMČR URI and its AAT exact match (`vocab_manager.resolve_pid`).
@@ -178,22 +186,23 @@ has lines. The image carries no model: the weights stay in the inference service
 
 ## Configuration (environment)
 
-| Variable              | Default                                | Meaning                                                                                                                     |
-|-----------------------|----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-| `PORT`                | `8000`                                 | port the service **binds**, and the one `service/healthcheck.py` probes (issues #55, #58)                                   |
-| `HOST`                | `0.0.0.0`                              | bind address (issue #58). ⚠️ see the warning below                                                                          |
-| `GRACEFUL_SHUTDOWN_S` | `20`                                   | seconds uvicorn waits for in-flight requests (issue #55)                                                                    |
-| `RELOAD`              | `false`                                | filesystem auto-reload — development only                                                                                   |
-| `LOG_LEVEL`           | `INFO`                                 | root logger level for the `python -m service.api` start path (issue #61)                                                    |
-| `ALLOWED_ORIGINS`     | `*`                                    | CORS origins                                                                                                                |
-| `DEFAULT_KW_METHOD`   | `keybert`                              | default statistical method                                                                                                  |
-| `LLM_BACKEND`         | `openrouter`                           | the controlled kind's backend: `openrouter` or `ollama`                                                                     |
-| `LLM_CONFIG`          | `llm_config.txt`                       | config file for what the environment does not set: the `PROMPT_*` flags, `VOCAB_PATH`, `EMIT_CATEGORY_IDS`, the line filter |
-| `OPENROUTER_API_KEY`  | —                                      | **secret**, required for the controlled kind with `openrouter`                                                              |
-| `OPENROUTER_MODEL`    | —                                      | required with it — an OpenRouter model id                                                                                   |
-| `OLLAMA_HOST`         | `http://localhost:11434`               | the Ollama server (compose supplies the host's: `http://host.docker.internal:11434`)                                        |
-| `OLLAMA_MODEL`        | —                                      | required for the controlled kind with `ollama` — an Ollama model tag                                                        |
-| `VOCAB_PATH`          | `data_samples/vocab/union_nested.json` | the built vocabulary (and, beside it, the flat files that resolve `entities[].pid`)                                         |
+| Variable              | Default                                | Meaning                                                                                                                                                                                                    |
+|-----------------------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `PORT`                | `8000`                                 | port the service **binds**, and the one `service/healthcheck.py` probes (issues #55, #58)                                                                                                                  |
+| `HOST`                | `0.0.0.0`                              | bind address (issue #58). ⚠️ see the warning below                                                                                                                                                         |
+| `GRACEFUL_SHUTDOWN_S` | `20`                                   | seconds uvicorn waits for in-flight requests (issue #55)                                                                                                                                                   |
+| `RELOAD`              | `false`                                | filesystem auto-reload — development only                                                                                                                                                                  |
+| `LOG_LEVEL`           | `INFO`                                 | root logger level for the `python -m service.api` start path (issue #61)                                                                                                                                   |
+| `ALLOWED_ORIGINS`     | `*`                                    | CORS origins                                                                                                                                                                                               |
+| `DEFAULT_KW_METHOD`   | `keybert`                              | default statistical method                                                                                                                                                                                 |
+| `LLM_BACKEND`         | `openrouter`                           | the controlled kind's backend: `openrouter` or `ollama`                                                                                                                                                    |
+| `LLM_CONFIG`          | `llm_config.txt`                       | config file for what the environment does not set: the `PROMPT_*` flags, `VOCAB_PATH`, `EMIT_CATEGORY_IDS`, the line filter, `ACCEPT_COMPOSITE_HALVES` and `COMPOSITE_HALVES_PATH`                         |
+| `OPENROUTER_API_KEY`  | —                                      | **secret**, required for the controlled kind with `openrouter`                                                                                                                                             |
+| `OPENROUTER_MODEL`    | —                                      | required with it — an OpenRouter model id                                                                                                                                                                  |
+| `OLLAMA_HOST`         | `http://localhost:11434`               | the Ollama server (compose supplies the host's: `http://host.docker.internal:11434`)                                                                                                                       |
+| `OLLAMA_MODEL`        | —                                      | required for the controlled kind with `ollama` — an Ollama model tag                                                                                                                                       |
+| `VOCAB_PATH`          | `data_samples/vocab/union_nested.json` | the built vocabulary (and, beside it, the flat files that resolve `entities[].pid`)                                                                                                                        |
+| `HF_HOME`             | `/cache/huggingface` (image)           | the KeyBERT model's cache: fetched from huggingface.co at startup, not in the image. Mount a volume (compose: `hf-cache`); without egress, fill it once elsewhere, or `keybert` answers 500 (`yake` works) |
 
 Every limit — `MAX_UPLOAD_MB`, `MAX_DOCUMENT_WORDS`, `MAX_KEYWORDS`, `MAX_CONCURRENT_REQUESTS`, the
 KeyBERT chunk settings and the LLM settings — is listed under [Limits](#limits).
@@ -237,6 +246,22 @@ counts of the controlled kind are estimates at 4 characters per token
 (`llm_client_shared.approx_token_count`): the whole vocabulary prompt is about 40000, so it fits the
 OpenRouter default whole and is cut at Ollama's. There is no per-request time limit: the work runs in a
 thread that cannot be stopped, and each LLM call has its own (`LLM_TIMEOUT`).
+
+## Known limits
+
+- **Forced labels.** The enum keeps `teater_category` inside the vocabulary, not on topic. A model that
+  starts a word that is no term is finished as a term sharing its start: `zvonice` (a bell tower) for
+  Bell Beaker vessels, `Pentelikon` (a mountain) for *peníz* (a coin). The prompt rules and the
+  accepted composite halves of v1.4.0-beta reduce it; how far, the re-runs of
+  [#2](https://github.com/ufal/atrium-keyword-extract/issues/2) measure, and `score_categories.py` counts it
+  in a run. With OpenRouter and Ollama the reply is checked after it arrives, so only a provider that
+  decodes under the schema can be forced.
+- **`confidence_score` is not calibrated.** Most lines get one of two values (0.95, 0.85): do not rank or
+  filter on it.
+- **Research output.** No category has been checked against a reviewed answer yet
+  (`data_samples/vocab/gold_workbook.csv` has no `gold_category`); treat the categories as suggestions.
+- **The KeyBERT model is fetched at startup** into `HF_HOME`, not shipped in the image: see
+  [Configuration](#configuration-environment).
 
 ## Errors
 

@@ -62,6 +62,7 @@ from llm_client_shared import (
     build_system_prompt,
     category_maps,
     classify_outcome,
+    composite_halves_from_config,
     contributes_document_record,
     excluded_prompt_themes,
     has_reader,
@@ -392,8 +393,9 @@ def main(argv: Optional[List[str]] = None) -> None:
             excluded_themes=excluded_themes,
             prompt_config=config,
         )
-        LineModel = build_schema(line_terms)
-        DocModel = build_document_schema(doc_terms)
+        halves = composite_halves_from_config(config)
+        LineModel = build_schema(line_terms, halves)
+        DocModel = build_document_schema(doc_terms, halves)
         line_maps = category_maps(vocab_data, line_terms, excluded_themes)
         doc_maps = category_maps(vocab_data, doc_terms, excluded_themes)
 

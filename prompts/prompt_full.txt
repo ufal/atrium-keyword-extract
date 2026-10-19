@@ -6,33 +6,15 @@ CRITICAL: If the marked line is purely administrative, a table of contents, a ge
 Select a geographic, ethnic or dynastic term only when the line is genuinely about it; prefer an archaeological content term otherwise.
 When extracting keywords, normalize obvious OCR artifacts and typos to their correct Czech forms. Do NOT include garbled tokens or split words as keywords. Prefer the normalized phrase over the raw OCR text.
 You MUST use the exact Czech term as written in the vocabulary.
+Copy teater_category exactly as one entry of the vocabulary list below is written (the lines starting with "- "). Never use a group heading (a line starting with "---"), one of your extracted keywords, or a word that only begins like a vocabulary entry.
+Of the entries that fit, choose the most specific one the marked line itself supports. If no entry fits exactly, choose the closest broader entry, never an unrelated one.
+confidence_score says how sure you are that teater_category is right: 1.0 for an unambiguous match that needs no interpretation; 0.7–0.9 for a reasonable but non-obvious match; 0.5–0.7 when several categories could apply; below 0.5 for a guess. Do not give every line the same score: the score is used to filter the results.
 You MUST respond ONLY with a valid JSON object matching the requested schema.
 
 THEMATIC VOCABULARY:
 
 --- Administrative / Meta ---
 - Nerelevantní (meta-text) (Irrelevant / Meta-text)
-
---- Chronology / geologická doba ---
-- **suborál (paleoklimatologie) (Subboreal (paleoclimatology))
-- atlantik (paleoklimatologie) (Atlantic (paleoclimatology))
-- boreál (paleoklimatologie) (Boreal (paleoclimatology))
-- doba ledová (glacial epoch)
-- doba meziledová (interglacial period)
-- druhohory (mesozoic)
-- epiatlantik (paleoklimatologie) (Epi-atlantic (paleoclimatology))
-- geologická doba (geological era)
-- holocén (holocene)
-- kenozoikum (cenozoic)
-- neogén (neogene)
-- paleogén (palaeogene)
-- pleistocén (pleistocene)
-- prahory (Archean)
-- preboreál (paleoklimatologie) (Preboreal (paleoclimatology))
-- prvohory (palaeozoic)
-- subatlantik (paleoklimatologie) (Subatlantic (paleoclimatology))
-- třetihory (tertiary)
-- čtvrtohory (Quaternary)
 
 --- Chronology / období ---
 - HaD–LtA (HaD–LtA)
@@ -289,6 +271,27 @@ THEMATIC VOCABULARY:
 - časná doba laténska (LtA) (early La Tène period)
 - čerňjachovská kultura (Chernyakhov culture)
 - želiezovský typ (Želizovce group)
+
+--- Chronology / geologická doba ---
+- atlantik (paleoklimatologie) (Atlantic (paleoclimatology))
+- boreál (paleoklimatologie) (Boreal (paleoclimatology))
+- doba ledová (glacial epoch)
+- doba meziledová (interglacial period)
+- druhohory (mesozoic)
+- epiatlantik (paleoklimatologie) (Epi-atlantic (paleoclimatology))
+- geologická doba (geological era)
+- holocén (holocene)
+- kenozoikum (cenozoic)
+- neogén (neogene)
+- paleogén (palaeogene)
+- pleistocén (pleistocene)
+- prahory (Archean)
+- preboreál (paleoklimatologie) (Preboreal (paleoclimatology))
+- prvohory (palaeozoic)
+- subatlantik (paleoklimatologie) (Subatlantic (paleoclimatology))
+- suborál (paleoklimatologie) (Subboreal (paleoclimatology))
+- třetihory (tertiary)
+- čtvrtohory (Quaternary)
 
 --- Chronology / období (kategorie) ---
 - mladší–pozdní eneolit (Late–Final Eneolithic)

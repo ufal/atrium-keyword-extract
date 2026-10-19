@@ -1808,6 +1808,20 @@
             "type": "string",
             "title": "Vocabulary Grouping",
             "description": "`PROMPT_VOCAB_GROUPING`: `facet_sub`, `facet` or `flat`."
+          },
+          "blocks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Blocks",
+            "description": "The prompt blocks in force, in the order the model reads them (`prompts/system_prompt.txt`, switched by the `PROMPT_*` flags)."
+          },
+          "composite_halves": {
+            "type": "integer",
+            "title": "Composite Halves",
+            "description": "Halves of composite labels (`jímka` of `jáma odpadní/jímka`) the category may take; each is recorded as its label (`ACCEPT_COMPOSITE_HALVES`, `COMPOSITE_HALVES_PATH`).",
+            "default": 0
           }
         },
         "additionalProperties": true,

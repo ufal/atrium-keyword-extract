@@ -1,13 +1,5 @@
 {
   "Chronology": {
-    "**suborál (paleoklimatologie)": {
-      "cs": "**suborál (paleoklimatologie)",
-      "en": "Subboreal (paleoclimatology)",
-      "sub": "geologická doba",
-      "source": "teater",
-      "source_id": "1068",
-      "discarded_ids": []
-    },
     "HaD–LtA": {
       "cs": "HaD–LtA",
       "en": "HaD–LtA",
@@ -2876,6 +2868,14 @@
       "sub": "geologická doba",
       "source": "teater",
       "source_id": "1069",
+      "discarded_ids": []
+    },
+    "suborál (paleoklimatologie)": {
+      "cs": "suborál (paleoklimatologie)",
+      "en": "Subboreal (paleoclimatology)",
+      "sub": "geologická doba",
+      "source": "teater",
+      "source_id": "1068",
       "discarded_ids": []
     },
     "szeletien": {

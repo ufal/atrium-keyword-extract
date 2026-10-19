@@ -492,3 +492,68 @@ def test_vocabulary_csv_is_strictly_two_columns(tmp_path):
     assert all(len(r) == 2 for r in rows)
     assert rows[1] == ["most, dřevěný", "bridge, wooden"]  # comma survives quoting
     assert len(rows) == 2  # the EN-less term is omitted from a translation glossary
+
+
+# ── Markdown at the edge of a TEATER label (issue #2, 2026-10-16) ────────────────
+
+
+@pytest.mark.parametrize(
+    "raw,clean",
+    [
+        ("**suborál (paleoklimatologie)", "suborál (paleoklimatologie)"),
+        ("* cognitive archaeology", "cognitive archaeology"),
+        ("*předmět ze zlata", "předmět ze zlata"),
+        ("  kostel  ", "kostel"),
+        ("a_b", "a_b"),
+        ("**", None),
+        (None, None),
+    ],
+)
+def test_clean_label_drops_markdown_only_at_the_edges(raw, clean):
+    assert vs._clean_label(raw) == clean
+
+
+def test_the_harvest_drops_markdown_from_teater_names():
+    labels = vs._teater_labels(
+        {"name": {"cz": "**suborál (paleoklimatologie)", "en": "Subboreal", "de": " "}}
+    )
+    assert labels == {"cs": "suborál (paleoklimatologie)", "en": "Subboreal", "de": None}
+
+
+def test_a_flat_file_harvested_before_the_fix_reads_clean(tmp_path):
+    """The committed teater_flat.json predates the fix; reading it gives what a fresh
+    harvest gives, so no re-harvest is needed to clean the vocabulary."""
+    flat = tmp_path / "teater_flat.json"
+    flat.write_text(
+        json.dumps(
+            {
+                "_meta": {},
+                "terms": [
+                    {
+                        "cs": "**suborál (paleoklimatologie)",
+                        "en": "Subboreal (paleoclimatology)",
+                        "source": "teater",
+                        "source_id": "1068",
+                        "alt_cs": ["suborál (paleoklimatologie)"],
+                        "alt_en": ["* Subboreal", "Sub-Boreal"],
+                    }
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+    (record,), _meta = vs.read_flat_json(flat)
+    assert record.cs == "suborál (paleoklimatologie)"
+    assert record.alt_cs == ()
+    assert record.alt_en == ("Subboreal", "Sub-Boreal")
+
+
+def test_no_offered_label_carries_markdown():
+    vocab = json.loads(
+        (
+            Path(__file__).resolve().parent.parent / "data_samples" / "vocab" / "union_nested.json"
+        ).read_text(encoding="utf-8")
+    )
+    labels = [cs for facet, terms in vocab.items() if not facet.startswith("_") for cs in terms]
+    assert not [label for label in labels if label[:1] in "*_" or label[-1:] in "*_"]

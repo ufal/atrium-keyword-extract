@@ -233,7 +233,10 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, �
 
 The controlled kind maps each line onto the AMČR keyword lists and the TEATER thesaurus with a language model whose
 answer is constrained to the vocabulary's terms (a JSON schema whose category is an enum of its 4711 terms and the
-meta-text answer `Nerelevantní (meta-text)`). One
+meta-text answer `Nerelevantní (meta-text)`, plus the halves of composite terms that
+`data_samples/vocab/composite_halves.csv` accepts, recorded as their term). The constraint keeps the answer inside
+the vocabulary, not on topic: a model can be forced onto an unrelated term that shares the start of the word it began
+(the [service's Known limits](service/README.md#known-limits); #2). One
 prompt serves every path: [`prompts/system_prompt.txt`](prompts/system_prompt.txt), whose blocks the `PROMPT_*` flags
 of `llm_config.txt` select — [`prompts/RUNBOOK.md`](prompts/RUNBOOK.md) explains each — followed by the vocabulary
 and the examples; `python3 prompt_template.py --preview` prints it. Each answer carries the AMČR/TEATER records behind
@@ -292,6 +295,8 @@ The vocabulary:
   [RUNBOOK](data_samples/vocab/RUNBOOK.md)). The vocabularies are **CC0**; the build is to be published as a versioned
   release asset for the translator and the end-to-end test.
 * `corpus_review.py` — the vocabulary-gap review used for the TEATER experiment.
+* `score_categories.py` — the category picks of `llm_run.py` runs, run by run: lines missing, forced labels,
+  confidence spread, agreement between runs, a re-run against its earlier run (#2). Torch-free.
 
 The LLM engine and the vocabulary code existed twice, in nlp-enrich and in llm-enrich, and partly diverged. This
 repository holds the one copy: nlp-enrich's came with the repository, and llm-enrich's (atrium-digital-convert

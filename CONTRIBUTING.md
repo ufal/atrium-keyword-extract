@@ -228,9 +228,10 @@ Some files are modified automatically by scripts or hooks:
 | `keywords.py`            | `keywords_summary*.csv` and `KW_PER_DOC*/` — the CLI's master table and per-document CSVs (`data_samples/`)                       |
 | `atrium_openapi.py`      | `service/openapi.json` — regenerate after every API or setting change (`export --app service.api:app`)                            |
 | **`vocab_build.py`**     | the 14 vocabulary artefacts in `data_samples/vocab/` — harvests, nested facets, meta sidecars, placement audits, `vocabulary.csv` |
-| **`vocab_review.py`**    | the 8 reviewer sheets in `data_samples/vocab/` (`--all`)                                                                          |
+| **`vocab_review.py`**    | the 9 reviewer sheets in `data_samples/vocab/` (`--all`); `composite_halves.csv` keeps its reviewer columns, and the runs read it |
 | **`corpus_review.py`**   | the 3 corpus-evidence sheets + `corpus_review.meta.json` (`--all`; needs the document corpus)                                     |
 | **`prompt_template.py`** | the 4 committed prompt renders in `prompts/` (`--write`)                                                                          |
+| `score_categories.py`    | `report.md` and four CSVs on the LLM runs' category picks (issue #2), into `TEMP/category_scores/`; never committed               |
 
 Rules:
 

@@ -45,7 +45,9 @@
 #   gemma-4-26b-moe-awq      — a community 4-bit (AWQ) Gemma 4 26B-A4B, ~17 GB; one GPU
 #                               by default: tp=2 needs quantisation group size 32 (see
 #                               "quantization_config" in its config.json)
-#   The vLLM entries have not been run here to the end yet (2026-10-13).
+#   Six vLLM entries have full runs committed (data_samples/KW_PER_DOC_LLM_*): qwen25-14b-awq,
+#   gemma-4-12b-it-qat, gemma-4-31b-it-qat, qwen-3.5-35b-moe-gptq, qwen-3.8-27b-fp8,
+#   qwen-3.6-35b-moe-fp8 (2026-10-12/13; issue #2).
 #
 # MoE / large  (vLLM backend, auto-selected):
 #
@@ -116,6 +118,11 @@ PROMPT_TASK_SELECT=true
 PROMPT_METATEXT_RULE=true
 PROMPT_OCR_NORMALISATION=true
 PROMPT_EXACT_TERM=true
+# atrium-keyword-extract#2 (2026-10-16, Option 1): copy the category from a "- " entry, never a
+# heading or a keyword; the most specific entry the line supports; the confidence rubric.
+PROMPT_CATEGORY_FROM_LIST=true
+PROMPT_MOST_SPECIFIC=true
+PROMPT_CONFIDENCE_RUBRIC=true
 PROMPT_EXAMPLES=true
 
 # The one three-way switch, because the decision has three states rather than two
@@ -141,6 +148,17 @@ PROMPT_GEO_GUARDRAIL=preference
 # each facet's sub-groups contiguous. So `facet` vs `flat` measures the headers alone, and
 # `facet_sub` vs `facet` measures the source's second level.
 PROMPT_VOCAB_GROUPING=facet_sub
+
+# =============================================================================
+# Category: halves of composite labels (atrium-keyword-extract#2, Option 2)
+# =============================================================================
+# The category is decoded under the label enum, so a model that starts `jímka` (only the
+# second half of `jáma odpadní/jímka`) was finished as whatever label shares the prefix
+# (`jámová kultura`). The halves accepted in this sheet are allowed too and recorded as their
+# label. The sheet comes from `vocab_review.py --composite-halves`; its `verdict` column
+# overrides the rule's `auto_verdict`. false = the label enum only, as before v1.4.0-beta.
+ACCEPT_COMPOSITE_HALVES=true
+COMPOSITE_HALVES_PATH=data_samples/vocab/composite_halves.csv
 
 # =============================================================================
 # Line-quality filter
