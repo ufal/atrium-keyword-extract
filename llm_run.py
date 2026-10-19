@@ -290,7 +290,7 @@ def _write_abort_marker(
 def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = None) -> None:
     config = load_config(config_path)
 
-    MODEL_KEY = config.get("MODEL_KEY", "qwen-3.6-27b-it")
+    MODEL_KEY = config.get("MODEL_KEY", "qwen-3.8-27b-it")
     HF_TOKEN = config.get("HF_TOKEN", os.environ.get("HF_TOKEN", None))
 
     if download is not None:

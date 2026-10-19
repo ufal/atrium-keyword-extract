@@ -757,6 +757,23 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files delivered in chat.
 
+## 2026-10-19 (evening) — #2: K1 read; v1.4.0-beta prepared
+* **On `test`:** round 3 (`672ab3e`; `dfa4560` fixed the Vocabulary Drift job, which has no pydantic); K1's runs
+  (`ebee156`, `KW_PER_DOC_LLM_R3_*` with paradata: the three new blocks, 79 halves, case folding).
+* **`score_categories.py`** on the four complete runs against their earlier runs (forced capitals; 10-16 watch list):
+  - `qwen-3.8-27b-it`: 0 → 0; 0 → 0.
+  - `qwen-3.8-27b-fp8`: 1 → 0; 2 → 0.
+  - `qwen-3.6-35b-moe-fp8`: 0 → 0; `prahory` 2 → 2.
+  - `qwen-3.6-27b-it`: 0 → 1; `zvonice` 12 → 10.
+
+  The top-2 confidence share falls (0.97 → 0.92 for Qwen3.8). `qwen3-14b` is still running: 9 documents, `zvonice` 10.
+* **`v1.4.0-beta` prepared:** `MODEL_KEY` (and `llm_run.py`'s fallback) = `qwen-3.8-27b-it`; `para_config.txt`,
+  `CITATION.cff`, the spec (version; compatible with `v1.3.0-beta`), the CONTRIBUTING row (table re-padded).
+  The vocabulary asset changes (`**suborál`).
+* **Dev logs:** `{2}` (K1, the 13 ambiguous halves for @david-spacil, Option 3 open).
+
+  Files and the #2 comment delivered in chat.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

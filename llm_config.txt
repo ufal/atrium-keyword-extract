@@ -47,7 +47,8 @@
 #                               "quantization_config" in its config.json)
 #   Six vLLM entries have full runs committed (data_samples/KW_PER_DOC_LLM_*): qwen25-14b-awq,
 #   gemma-4-12b-it-qat, gemma-4-31b-it-qat, qwen-3.5-35b-moe-gptq, qwen-3.8-27b-fp8,
-#   qwen-3.6-35b-moe-fp8 (2026-10-12/13; issue #2).
+#   qwen-3.6-35b-moe-fp8 (2026-10-12/13; issue #2). The re-runs with the prompt rules and the
+#   composite halves are data_samples/KW_PER_DOC_LLM_R3_* (2026-10-19).
 #
 # MoE / large  (vLLM backend, auto-selected):
 #
@@ -78,7 +79,10 @@
 #   mistral-nemo-12b | llama3.1-8b | bielik-11b-v3.0 | ministral-3-14b — dropped earlier
 #   in issue #2; aya-expanse-8b | bielik-11b — 8k windows; gemma-4-26b-moe-gguf — 8k
 #   window, needs llama-cpp-python and network access.
-MODEL_KEY=qwen-3.6-27b-it
+# The default since v1.4.0-beta: the re-runs of 2026-10-19 (issue #2) left qwen-3.8-27b-it
+# (and its -fp8) with no forced label; qwen-3.6-27b-it still gives `zvonice` for Bell Beaker
+# vessels on 10 lines.
+MODEL_KEY=qwen-3.8-27b-it
 
 # =============================================================================
 # HuggingFace credentials
