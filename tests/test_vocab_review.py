@@ -407,12 +407,18 @@ def test_composite_halves_keep_the_reviewers_columns(tmp_path):
 
 
 def test_the_shipped_halves_sheet_offers_jimka_and_not_the_shared_halves():
-    """The 10-16 case (`jímka` finished as `jámová kultura`) is covered; the halves shared
-    by several composites never map back."""
-    import llm_client_shared as lcs
-
-    halves = lcs.load_composite_halves(VOCAB_DIR / "composite_halves.csv")
-    assert halves["jímka"] == "jáma odpadní/jímka"
+    """The 10-16 case (`jímka` finished as `jámová kultura`) is accepted; the halves shared
+    by several composites never are. Read as the sheet, not through llm_client_shared:
+    vocab-drift.yml runs this file without pydantic (test_llm_client_shared.py checks the
+    loader on the same sheet)."""
+    with open(VOCAB_DIR / "composite_halves.csv", encoding="utf-8", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+    verdict = {}
+    for row in rows:
+        verdict.setdefault(row["half"], set()).add(
+            (row["composite"], row["verdict"].strip() or row["auto_verdict"])
+        )
+    assert verdict["jímka"] == {("jáma odpadní/jímka", "accept")}
     for shared in (
         "mladší",
         "objekt",
@@ -422,7 +428,8 @@ def test_the_shipped_halves_sheet_offers_jimka_and_not_the_shared_halves():
         "souvrství",
         "střední",
     ):
-        assert shared not in halves
+        assert len(verdict[shared]) > 1
+        assert {v for _composite, v in verdict[shared]} == {"ambiguous"}
 
 
 # ── specificity_pair_rows (D1 / O2) ──────────────────────────────────────────────

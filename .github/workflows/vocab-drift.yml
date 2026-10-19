@@ -147,7 +147,7 @@ jobs:
           fi
           echo "[expected] --check rejected the stale sheet with exit $rc"
 
-      # test_vocab_review.py carries the ONLY drift gate on the eight reviewer sheets
+      # test_vocab_review.py carries the ONLY drift gate on the nine reviewer sheets
       # -- the CSVs @david-spacil and @motyc actually rule from. It used to run just
       # weekly in scheduled-smoke.yml, so a taxonomy edit that left facet_census.csv or
       # context_budget.csv stale shipped green for up to seven days, and the next
