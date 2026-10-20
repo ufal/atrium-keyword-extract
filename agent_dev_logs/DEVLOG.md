@@ -783,6 +783,13 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **The first `v1.4.0-beta` tag** (on `2d633c8`, pushed before the restamp) failed exactly there: Release run
   39271331164, "the vocabulary sidecars are stamped … v1.3.0-beta". No release was published, so immutability does not
   hold the tag: it is deleted and set again on the `test` head that carries the restamp, as for `v1.3.0-beta` on 10-16.
+* **`v1.4.0-beta` published** (10-19 20:20 UTC, immutable) on `a3dc910`: Release run 39318278363 and Docker run
+  39318278919 green; the assets' checksums verify, and `openapi.json` (`360be5ae…`) is what `/info` reports.
+  **The image tags moved once:** the first tag push had already built and promoted `1.4.0-beta` and `latest`
+  (Docker run 39271331694), so from 15:05 to 20:41 UTC they named the `2d633c8` build, now only `sha-2d633c8`
+  (API `sha256:41d975ca…`); since then the `a3dc910` build (API `sha256:3ce80276…`). Same code; the earlier image
+  lacks the runbook and carries the `v1.3.0-beta` stamps. A tag ruleset would have refused the move and forced
+  `v1.4.1-beta`; this repository has none yet (atrium-project#72).
 * **Dev logs:** `{2}` (K1, the 13 ambiguous halves for @david-spacil, Option 3 open).
 
   Files and the #2 comment delivered in chat.
