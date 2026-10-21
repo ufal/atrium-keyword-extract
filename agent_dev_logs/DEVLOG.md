@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12. `test` = `911982e` (2026-10-16) · **v1.3.0-beta** (2026-10-16, with `atrium-vocabulary-v1.3.0-beta.zip`)._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12 (its pair removed 2026-10-21). `test` = `f781d6c` (2026-10-21) · **v1.3.0-beta** (2026-10-16, with `atrium-vocabulary-v1.3.0-beta.zip`)._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -813,6 +813,20 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **Checks:** the client against a local server (YAKE): records, texts, stdin, CSV/JSON, 501 without a backend,
   422 `invalid_record`, the legacy method without lemmas, `limit_exceeded`; skill-validate steps 1–4a; drift check
   aligned. Delivered as `atrium-keyword-extract-agent-skill.zip`, not pushed.
+
+## 2026-10-21 (round 3) — The skill branch carries the vocabulary; a stray file; the TEITOK adoption prepared
+* **The agent-skill branch carries what the image carries** (atrium-project#77): the hub's `skill_ify.py` now keeps
+  the `data_samples/` files `.dockerignore` lets into the image, so the branch has the vocabulary and the taxonomy
+  (7 files, 6.3 MB) and a server built or started from it serves the controlled kind. Checked with a local server
+  from the skill tree and a stand-in backend: `/info` `controlled.ready` true, 4,712 terms. SKILL.md, the branch
+  README, `service/README.md` and `scripts/server.sh` no longer say the controlled kind needs the published image;
+  the runbook links the two vocabulary files the image leaves out (`RUNBOOK.md`, `gold_workbook.csv`) to `test`.
+  `ker_data/` stays off the branch (no shipped code reads it).
+* `api_util/__init__` (empty, no `.py`, read by nothing) is removed from `test` and `agent-skill`.
+* `plans/2.plan.md`: `v1.4.0-beta` was published on 10-19, not "prepared". The closed #1's pair is removed.
+* **The adoption of nlp-enrich's owner header (atrium-project#82), prepared:** `api_util/teitok_read.py` from
+  nlp-enrich `477f68c`, `VENDORED` re-pinned, `ADOPTED` = `477f68c` / `v1.1.3-beta` (on `test` and `agent-skill`).
+  A separate archive, to push after nlp-enrich's `v1.1.3-beta`. `tests/test_vendored_teitok_parity.py`: 6 passed.
 
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
