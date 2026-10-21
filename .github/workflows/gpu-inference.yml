@@ -71,5 +71,10 @@ jobs:
         run: |
           rc=0
           python -m pytest -m slow -v --tb=short || rc=$?
-          if [ "$rc" -eq 5 ]; then echo "[gpu] No slow tests collected — OK (infra ready)"; exit 0; fi
+          # ci-optional: dispatch-only lane; no slow tests exist yet and no GPU runner (#40)
+          if [ "$rc" -eq 5 ]; then
+            echo "[gpu] No slow tests collected — OK (infra ready)"
+            echo "**Optional:** no \`slow\` tests collected (exit 5); this lane proves nothing until they exist." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           exit $rc

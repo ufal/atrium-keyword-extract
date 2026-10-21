@@ -794,6 +794,13 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 
   Files and the #2 comment delivered in chat.
 
+## 2026-10-21 — The adopted owner commit; the GPU lane's optional exit marked (atrium-project#82, #81)
+* `tests/test_vendored_teitok_parity.py`: `ADOPTED` names atrium-nlp-enrich `6726124…` (`v1.1.0-beta`), with a test
+  that it is a full commit SHA. Both pinned files match nlp-enrich at that commit.
+* `.github/workflows/gpu-inference.yml`: the exit-5 path carries `# ci-optional:` (the hub's new lint rule) and
+  writes its reason to the job summary.
+* **Checks:** the parity module passes; the hub's `workflow_lint.py` passes on this repository.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);
