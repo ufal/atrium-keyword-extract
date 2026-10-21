@@ -1,154 +1,123 @@
 <p align="center">
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.8+-blue.svg" title="Python Version"></a>
-  <a href="https://lindat.mff.cuni.cz/services/udpipe/api-reference.php"><img src="https://img.shields.io/badge/API-UDPipe%202-0055A4.svg" title="UDPipe 2 API (Lindat)"></a>
-  <a href="https://lindat.mff.cuni.cz/services/nametag/api-reference.php"><img src="https://img.shields.io/badge/API-NameTag%203-0055A4.svg" title="NameTag 3 API (Lindat)"></a>
-  <a href="https://opensource.org/license/mit/"><img src="https://img.shields.io/github/license/ufal/atrium-nlp-enrich" title="MIT License"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" title="Python Version"></a>
+  <a href="https://opensource.org/license/mit/"><img src="https://img.shields.io/github/license/ufal/atrium-keyword-extract" title="MIT License"></a>
   <a href="https://atrium-research.eu/"><img src="https://img.shields.io/badge/funded%20by-ATRIUM-8A2BE2.svg" title="ATRIUM Project"></a>
 </p>
 
 ---
 
-# ATRIUM NLP Enrichment - Agent Skill 🤖📖
+# ATRIUM keyword-extract - Agent Skill 🤖🗝️
 
-### Goal: let coding agents enrich digitized text with Czech NLP annotations via a server-client skill
+### Goal: let coding agents extract statistical and vocabulary-guided keywords via a server-client skill
 
-This branch (`agent-skill`) packages the **ATRIUM NLP Enrichment API service** together
-with a **Skill for coding agents** (Claude Code, Codex, Gemini/Antigravity). The design
-follows a strict server-client split:
+This branch (`agent-skill`) packages the **ATRIUM keyword-extract API service** together with a **Skill for
+coding agents** (Claude Code, Codex, Gemini/Antigravity). The design follows a strict server-client split:
 
-- **Server** 🖥️ - the FastAPI service in [`service/`](service/) runs the
-  UDPipe + NameTag + keyword pipeline (Docker Compose `api` profile or local venv).
-- **Client** 🪶 - [`scripts/atrium_enrich.py`](scripts/atrium_enrich.py), a
-  **zero-dependency** stdlib-only script that agents call directly (sync, async
-  jobs, stdin lines, and workspace-ZIP modes).
-- **Skill contract** 📜 - [`SKILL.md`](SKILL.md) tells the agent when and how to use
-  it: pipeline stages, keyword-method selection, busy/error playbooks.
+- **Server** 🖥️ - the FastAPI service in [`service/`](service/) runs KeyBERT, YAKE and the legacy method, and
+  the vocabulary-guided language-model calls of the controlled kind (Docker Compose `api` profile, CPU or GPU, or a
+  local venv).
+- **Client** 🪶 - [`scripts/atrium_keywords.py`](scripts/atrium_keywords.py), a **zero-dependency** stdlib-only
+  script that agents call directly.
+- **Skill contract** 📜 - [`SKILL.md`](SKILL.md) tells the agent when and how to use it: the two kinds,
+  method choice, what each kind needs, refusals and what to do about each.
 
-For pipeline development, batch workflows, and full project documentation, see the
-[`test`](https://github.com/ufal/atrium-nlp-enrich/tree/test) branch - this branch
-intentionally carries only what the skill needs.
+For the batch keyword CLI, the vocabulary build, the research GPU path and the full project documentation, see the
+[`test`](https://github.com/ufal/atrium-keyword-extract/tree/test) branch; this branch carries only what the
+skill needs.
 
 ### Table of contents 📑
 
   * [Quick start 🚀](#quick-start-)
   * [Skill installation 🔧](#skill-installation-)
-  * [Server setup 🖥️](#server-setup-)
+  * [Server setup 🖥️](#server-setup-️)
   * [Client usage 🪶](#client-usage-)
-  * [Remote server / LINDAT 🌐](#remote-server--lindat-)
   * [Maintenance notes 🔍](#maintenance-notes-)
   * [Contacts 📧](#contacts-)
-
-----
 
 ## Quick start 🚀
 
 ```bash
-git clone -b agent-skill https://github.com/ufal/atrium-nlp-enrich.git
-cd atrium-nlp-enrich
-
-bash scripts/server.sh                                            # start the server
-python3 scripts/atrium_enrich.py small_data_samples/CTX000000001.csv   # enrich a sample
+git clone -b agent-skill https://github.com/ufal/atrium-keyword-extract.git
+cd atrium-keyword-extract
+bash scripts/server.sh                                           # start (or reuse) the server
+python3 scripts/atrium_keywords.py small_data_samples/report.document.json --kind statistical
 ```
 
-> [!NOTE]
-> The first server start prefetches the KeyBERT embedding model (~500 MB) into
-> the HF cache - be patient. ⏳
+Expected: the keywords of the document and of its two pages, each with its method, score and rank, such as
+"Horní Mezí" and "okres Beroun" on page 1.
 
 ## Skill installation 🔧
 
 ### Claude Code
 
 ```bash
-git clone -b agent-skill https://github.com/ufal/atrium-nlp-enrich.git \
-    ~/.claude/skills/atrium-nlp-enrich
+git clone -b agent-skill https://github.com/ufal/atrium-keyword-extract.git \
+    ~/.claude/skills/atrium-keyword-extract
 ```
-
-Restart Claude Code - the skill is available as `/atrium-nlp-enrich` and is selected
-automatically for NLP-enrichment requests. For a project-local install, clone into
-`.claude/skills/atrium-nlp-enrich` inside the target repository.
 
 ### Codex
 
 ```bash
-git clone -b agent-skill https://github.com/ufal/atrium-nlp-enrich.git \
-    ~/.codex/skills/atrium-nlp-enrich
+git clone -b agent-skill https://github.com/ufal/atrium-keyword-extract.git \
+    ~/.codex/skills/atrium-keyword-extract
 ```
-
-The skill is detected automatically in the next Codex session.
 
 ### Google Antigravity
 
-Clone the branch into your project and point `AGENTS.md` at it:
+Clone anywhere and point `AGENTS.md` at the skill:
 
 ```
-Use the ATRIUM NLP enrichment skill from `atrium-nlp-enrich/SKILL.md` for
-enriching OCR/HTR text lines with morphology, named entities, and keywords.
-Start the server with `bash atrium-nlp-enrich/scripts/server.sh`, then run
-`python3 atrium-nlp-enrich/scripts/atrium_enrich.py [FILES...]`.
+Use the ATRIUM keyword-extract skill from `atrium-keyword-extract/SKILL.md`.
+Start the server with `bash atrium-keyword-extract/scripts/server.sh`, then run
+`python3 atrium-keyword-extract/scripts/atrium_keywords.py [FILES...]`.
 ```
 
-Update any install with `git pull` inside the cloned skill directory.
+Update with `git pull` in the installed clone.
 
 ## Server setup 🖥️
 
-The server exposes the enrichment API (see [`service/README.md`](service/README.md)
-for details): `GET /info`, `GET /health`, `POST /enrich`, `POST /enrich_text`,
-`POST /rescale`, and the async jobs API (`POST /jobs`, `GET /jobs/{id}`,
-`GET /jobs/{id}/result`, `DELETE /jobs/{id}`).
-
 ```bash
-bash scripts/server.sh          # auto: Docker Compose api profile, else local uvicorn
-bash scripts/server.sh --local  # force local uvicorn via setup_api_service.sh
+bash scripts/server.sh          # Docker Compose api profile, or the local fallback
+bash scripts/server.sh --gpu    # Docker with the GPU overlay (KeyBERT on the GPU)
+bash scripts/server.sh --local  # a local server in venv-kw (no Docker; statistical kind only)
 ```
 
-The script is idempotent and health-waits on `/info`. Port defaults to `8000`
-(`ATRIUM_NE_PORT` to change).
+The script exits at once if `/ready` already answers, and otherwise waits for it. With Docker it runs the
+released image of this branch's version (from `para_config.txt`), which carries the AMČR/TEATER vocabulary, and
+builds the image from the checkout when it cannot pull it (then only the statistical kind runs). The port defaults
+to `8000` (`ATRIUM_KW_PORT`). For the controlled kind, set `LLM_BACKEND` and its key or server in `.env` (see
+`.env.example`). Every setting, limit and error is in [`service/README.md`](service/README.md).
 
 ## Client usage 🪶
 
 ```bash
-python3 scripts/atrium_enrich.py lines.csv                          # sync enrichment
-python3 scripts/atrium_enrich.py notes.txt --kw-method yake         # different backend
-python3 scripts/atrium_enrich.py lines.csv --jobs                   # async jobs API
-python3 scripts/atrium_enrich.py lines.csv --zip out.zip            # workspace ZIP
-python3 scripts/atrium_enrich.py - --doc-id CTX1 < lines.txt        # stdin lines
-python3 scripts/atrium_enrich.py --info                             # capabilities
+python3 scripts/atrium_keywords.py record.document.json               # both kinds, per document and page
+python3 scripts/atrium_keywords.py notes.txt --method yake             # a plain text, YAKE
+python3 scripts/atrium_keywords.py record.document.json --out-dir out/  # + the record with its keywords
+python3 scripts/atrium_keywords.py record.document.json --format json  # the whole answer
+python3 scripts/atrium_keywords.py --info                              # methods, kinds, limits
 ```
 
-Output rows: `DOC, RANK, KEYWORD, SCORE` (`--format table|csv|json`). The full
-envelope (TEITOK XML, entities, paradata) is available via `--format json`; the
-complete pipeline workspace via `--zip`. Semantics are documented in
-[`SKILL.md`](SKILL.md).
-
-## Remote server / LINDAT 🌐
-
-The client is location-agnostic: point it at any deployment with `--base-url` or
-
-```bash
-export ATRIUM_NE_URL="https://<hosted-instance>/atrium-ne"
-```
-
-A hosted LINDAT instance is planned; once available, the environment variable is the
-only change needed - the skill contract and client stay identical.
+Point the client at another deployment with `--base-url` or `ATRIUM_KW_URL`. The kinds and methods are
+explained in [`SKILL.md`](SKILL.md#keyword-kinds-and-methods-).
 
 ## Maintenance notes 🔍
 
-Review checklist for every change / sync-merge into this branch (the ATRIUM skill
-anti-pattern checklist):
+Review checklist for every change or sync-merge into this branch:
 
-- [ ] no doc references a script name that differs from the committed file;
-- [ ] no provenance/paradata claim unless the service imports it on this branch;
-- [ ] no reference to directories/files absent from this branch;
-- [ ] documented response fields match what `service/api.py` actually returns;
-- [ ] client smoke test re-run on `small_data_samples/` against a locally started server.
+- [ ] no document names a script that differs from the committed file;
+- [ ] no provenance claim the service does not make on this branch;
+- [ ] no reference to a file or directory absent from this branch;
+- [ ] the documented response fields match what `service/api.py` returns;
+- [ ] the client re-run on `small_data_samples/` against a locally started server.
 
 ## Contacts 📧
 
-**For support write to:** lutsai.k@gmail.com responsible for the
-[GitHub repository](https://github.com/ufal/atrium-nlp-enrich)
+**For support write to:** lutsai.k@gmail.com, responsible for the
+[GitHub repository](https://github.com/ufal/atrium-keyword-extract).
 
 ### Acknowledgements 🙏
 
-- **Developed by** UFAL, Charles University 👥
+- **Developed by** ÚFAL, Charles University 👥
 - **Funded by** [ATRIUM](https://atrium-research.eu/) 💰
-- **Powered by** [LINDAT/CLARIAH-CZ](https://lindat.cz) UDPipe & NameTag services 🔗
+- **Vocabularies**: AMČR and TEATER, of the Archaeological Map of the Czech Republic

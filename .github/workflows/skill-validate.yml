@@ -37,9 +37,9 @@ jobs:
     # ecosystem moved to `@v1` in the 2026-07-31 pin migration.
     uses: ufal/atrium-project/.github/workflows/skill-validate.reusable.yml@v1
     with:
-      client-script: scripts/atrium_enrich.py
+      client-script: scripts/atrium_keywords.py
       app-import: service.api
-      primary-endpoints: "/enrich /enrich_text /rescale /jobs"
+      primary-endpoints: "/extract_keywords /extract_keywords_text"
       # skill-docs: "SKILL.md README.md service/README.md"   # (default)
       # service-requirements: service/requirements.txt        # (default)
       # python-version: "3.11"                                # (default)

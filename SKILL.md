@@ -1,156 +1,127 @@
 ---
-name: atrium-nlp-enrich
-description: Enriches OCR/HTR text lines (CSV/XLSX/TXT or inline JSON) with Czech NLP annotations - UDPipe morphology, NameTag named entities, KeyBERT/YAKE keywords - producing TEITOK XML plus a keywords-and-entities envelope. Use this skill to linguistically enrich digitized archival documents after OCR and quality filtering, or to rescale TEITOK page coordinates to a new image size.
+name: atrium-keyword-extract
+description: Extracts keywords from Czech archival text, as an ATRIUM document record or plain text, of two kinds kept apart - statistical keywords of the document and of each page (KeyBERT, YAKE or a lemma count, each with its score and rank), and, when the server has a language-model backend, per line the AMČR/TEATER vocabulary term that describes it with the Czech and English keywords found in it. Use this skill after OCR quality filtering and NLP enrichment, to index or summarise archaeological documents by their terms.
 ---
 
-# ATRIUM NLP Enrichment Skill 📖
+# ATRIUM keyword-extract Skill 🗝️
 
-This skill provides agent access to the **ATRIUM NLP Enrichment** service - a
-UDPipe + NameTag + keyword-extraction pipeline that turns plain text lines from
-digitized documents into enriched **TEITOK XML** with morphology, named
-entities, and document keywords. It follows a **server-client** design: a
-FastAPI server (in `service/`) runs the heavy pipeline, and a zero-dependency
-client script (`scripts/atrium_enrich.py`) is the only thing the agent calls
-directly.
+This skill gives agents access to the **ATRIUM keyword-extract** service, the "keywords" stage of the ATRIUM
+pipeline. It follows a **server-client** design: a FastAPI server (in `service/`) runs the keyword methods and
+the vocabulary-guided language-model calls, and a zero-dependency client script (`scripts/atrium_keywords.py`) is
+the only thing the agent calls directly.
 
 ## Operational Requirements ⚙️
 
-- **Server**: a running instance is required. Default `http://localhost:8000`;
-  override with `--base-url` or the `ATRIUM_NE_URL` environment variable.
-- **Client dependencies**: none - `scripts/atrium_enrich.py` uses only the
-  Python 3 standard library.
-- **Server dependencies**: Docker (recommended, compose `api` profile) or a
-  Python venv provisioned by `setup_api_service.sh` (installs repo +
-  `service/requirements.txt`, prefetches the KeyBERT embedding model).
-- **First launch**: the KeyBERT sentence-transformer
-  (`paraphrase-multilingual-MiniLM-L12-v2`, ~500 MB) is downloaded into the HF
-  cache; UDPipe/NameTag run against LINDAT web services. Warmup takes minutes,
-  not seconds - do **not** treat a slow first start as failure.
-- **Limits**: 5 MB per upload, 30 000 words per synchronous request, 2
-  concurrent pipeline runs (HTTP 429 when busy - use `--jobs` or retry later).
-- **Readiness**: `GET /health` is liveness (stays 200 while draining); `GET /ready` is the
-  orchestrator-facing readiness probe — 503 while warming up or shutting down.
+- **Server**: a running instance is required. Default `http://localhost:8000`; override with `--base-url` or the
+  `ATRIUM_KW_URL` environment variable. `ATRIUM_KW_URL` is *inbound*, where the client finds this service. It is
+  unrelated to the server's *outbound* `LLM_BACKEND` settings, which say where the controlled kind finds its
+  language model.
+- **Client dependencies**: none - Python 3 standard library only.
+- **Server dependencies**: Docker (recommended, compose `api` profile; `--gpu` adds the GPU overlay for KeyBERT)
+  or a Python venv with `requirements.txt` and `service/requirements.txt`.
+- **The two kinds need different things.** The statistical kind needs nothing beyond the server. The controlled
+  kind needs an LLM backend (`LLM_BACKEND=openrouter` with `OPENROUTER_API_KEY` and `OPENROUTER_MODEL`, or
+  `LLM_BACKEND=ollama` with `OLLAMA_HOST` and `OLLAMA_MODEL`), and the AMČR/TEATER vocabulary, which the
+  **published image** carries and this branch does not. Without either, `--kind both` returns the statistical
+  keywords and reports the controlled kind as `skipped`; `--info` says why (`controlled.detail`).
+- **First launch**: the KeyBERT model (`paraphrase-multilingual-MiniLM-L12-v2`, about 500 MB) is downloaded into
+  the Hugging Face cache. Warmup takes minutes, not seconds; do **not** treat a slow first start as failure.
+  YAKE needs no model.
+- **Limits**: 10 MB per record or text, 200,000 words per document, at most 100 keywords per list, 2 requests at
+  once (HTTP 429 with `Retry-After` when busy). The controlled kind makes one language-model call per line, so a
+  long record takes minutes.
+- **Readiness**: `GET /health` is liveness (stays 200 while draining); `GET /ready` is the readiness probe, 503
+  until the startup warm-up has finished and while shutting down.
 
-## Pipeline & keyword methods 📖
+## Keyword kinds and methods 🔑
 
-Stage plan (always runs in full; LLM enrichment is excluded from the API):
+| Kind          | What comes back                                                                                                                        | Needs                             |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------|
+| `statistical` | the keywords of the document and of each page, each with its `method`, `score` and `rank`; written to the record's `keywords` block    | nothing                           |
+| `controlled`  | per line: `teater_category` (a vocabulary term), its AMČR/TEATER ids, the Czech and English keywords in the line, a `confidence_score` | an LLM backend and the vocabulary |
 
-| Stage      | What it does                                                   |
-|------------|----------------------------------------------------------------|
-| `manifest` | normalize input lines into per-document processing manifests   |
-| `udp`      | UDPipe tokenization, lemmatization, morphology (LINDAT)        |
-| `nt`       | NameTag named-entity recognition (LINDAT)                      |
-| `stats`    | keyword extraction + summary statistics + TEITOK XML assembly  |
+| `--method` | What it is                                                      | Score                                       |
+|------------|-----------------------------------------------------------------|---------------------------------------------|
+| `keybert`  | embedding-based; the best quality; uses a GPU when there is one | cosine similarity, 0 to 1                   |
+| `yake`     | statistical, CPU only, no model (AGPL-3.0)                      | inverted YAKE score, 0 to 1                 |
+| `legacy`   | counts the lemmas of nouns, proper nouns and adjectives         | a count; needs nlp-enrich's `lines[].lemma` |
 
-Keyword backends (`--kw-method`):
-
-| Method    | Character                                                       |
-|-----------|------------------------------------------------------------------|
-| `keybert` | best quality; embedding-based; GPU-capable (default)            |
-| `yake`    | fast CPU statistical extraction                                 |
-| `legacy`  | stdlib KER lemma-frequency baseline                             |
-| `none`    | skip keyword extraction (TEITOK + entities only)                |
-
-If the KeyBERT preflight fails at runtime the service degrades once to `yake`
-and reports `method_requested` vs `method_used` instead of failing the run.
-Input language is Czech-pinned (`lang=cs`) in v1.
+Scores mean different things per method: compare them only within one method and one list. Lines marked `Trash`,
+`Garbage`, `Inverted` or `Empty` by ocr-postprocess or digital-convert are left out.
 
 ## Workflows 🪄
 
 ### 1. Ensure the server is running
 
 ```bash
-bash scripts/server.sh          # Docker Compose api profile (or local fallback)
-bash scripts/server.sh --local  # force local uvicorn (no Docker)
+bash scripts/server.sh          # Docker Compose api profile (or the local fallback)
+bash scripts/server.sh --gpu    # Docker with the GPU overlay
+bash scripts/server.sh --local  # force a local server in venv-kw (no Docker; statistical kind only)
 ```
 
-Idempotent: exits immediately if `GET /info` already answers; waits for
-first-run warmup.
+Idempotent: exits at once if `GET /ready` already answers 200; otherwise waits for the first-run download.
 
-### 2. Enrich
+### 2. Extract keywords
 
 ```bash
-# CSV/XLSX with a `text` column, or plain TXT lines - synchronous
-python3 scripts/atrium_enrich.py small_data_samples/CTX000000001.csv
+# A record (after digital-convert, ocr-postprocess or nlp-enrich): per document and per page
+python3 scripts/atrium_keywords.py small_data_samples/report.document.json
 
-# Different keyword backend, fewer keywords, machine-readable CSV
-python3 scripts/atrium_enrich.py notes.txt --kw-method yake --num-keywords 10 --format csv
+# The same with YAKE, three per list, and the record with its keywords block written out
+python3 scripts/atrium_keywords.py small_data_samples/report.document.json --method yake --num-keywords 3 --out-dir out/
 
-# Long-running input: async jobs API (submit → poll → result; 429-safe)
-python3 scripts/atrium_enrich.py lines.csv --jobs
+# A plain text, statistical only, as CSV
+python3 scripts/atrium_keywords.py small_data_samples/report.txt --kind statistical --format csv
 
-# Full workspace ZIP (TEITOK/, UDP_NE/, keyword CSVs, paradata/)
-python3 scripts/atrium_enrich.py lines.csv --zip enriched.zip
+# Text from stdin, with its document id
+cat notes.txt | python3 scripts/atrium_keywords.py - --doc-id CTX000000042
 
-# Inline lines from stdin (no file needed)
-printf 'Výzkum odhalil základy kostela.\n' | python3 scripts/atrium_enrich.py - --doc-id CTX1
+# The controlled kind (the server needs an LLM backend), document keywords only
+python3 scripts/atrium_keywords.py record.document.json --kind controlled --no-per-page --format json
 
-# Discover capabilities and limits
-python3 scripts/atrium_enrich.py --info
+# The legacy method on a record that nlp-enrich has lemmatised
+python3 scripts/atrium_keywords.py enriched.document.json --method legacy
+
+# Discover capabilities: methods, the default, the kinds available, the controlled kind's model and vocabulary
+python3 scripts/atrium_keywords.py --info
 ```
 
-### 3. ATRIUM Document JSON accretion (optional)
+### 3. Interpret the output
 
-Accrete this tool's `entities[]` and `pages[].teitok_surface` onto an existing baseline
-record (accretion contract, `docs/document_schema.md` in the hub repo; single-file only,
-not combined with `--jobs`/`--zip`):
-
-```bash
-python3 scripts/atrium_enrich.py lines.csv --document-json in.document.json \
-    --document-json-out-file out.document.json
-
-# also works from stdin
-printf 'Výzkum odhalil základy kostela.\n' | python3 scripts/atrium_enrich.py - \
-    --doc-id CTX1 --document-json in.document.json --document-json-out-file out.document.json
-```
-
-Every other tool's block (`page_categories`, `lines`, `translations`, `enrichment`, ...)
-passes through unchanged.
-
-### 4. Interpret output
-
-- `table` (default): `DOC, RANK, KEYWORD, SCORE` rows plus a one-line summary
-  (`doc_id`, `pages`, `kw_method` used, entity count) on stderr.
-- `csv`: same rows for downstream tabular processing.
-- `json`: the full envelope - `doc_id`, `pages`, `stages`, `teitok_xml`,
-  `keywords`, `ne_summary`, `paradata`, `method_requested`/`method_used`.
-- `--zip` saves the complete pipeline workspace instead (TEITOK XML files,
-  UDPipe/NameTag outputs, keyword CSVs, paradata records).
+- **Table and CSV**: FILE, KIND, WHERE (`document`, `page N`, or `page N line M`), TERM, SCORE, DETAIL. For a
+  statistical keyword, DETAIL is its method and rank. For a controlled line, TERM is the vocabulary term and
+  DETAIL its Czech / English keywords. The table cuts DETAIL to 60 characters; CSV and JSON keep it whole.
+- **JSON** (`--format json`): the server's whole answer per document, keyed by `doc_id`: `keywords`, `pages`,
+  `kinds`, `enrichment`, `controlled` (backend, model, outcome, counts), `document_json`, `paradata` and
+  `limits_applied`.
+- **Files** (`--out-dir`): `<doc_id>.document.json`, the record with keyword-extract's blocks written and every
+  other block as it came.
+- One summary line per document goes to stderr (with any kind that did not run, and why); stdout stays clean for
+  CSV and JSON.
 
 ## Agent Guidelines 🤖
 
-1. **Method selection**: keep the default `keybert` unless the user asks for
-   speed (`yake`) or a no-model baseline (`legacy`). Report `method_used` when
-   it differs from the requested method (automatic degradation).
-2. Prefer `--format json` when the result feeds further processing; the
-   TEITOK XML is in the envelope's `teitok_xml` field, and `--zip` materializes
-   the whole workspace as files.
-3. For full request/response schemas, fetch `GET /openapi.json` from the
-   running server (Swagger UI at `/docs`).
-4. Exit code `2` (unreachable): start the server (`bash scripts/server.sh`)
-   and retry once. Exit code `3` (server error): the client already retried
-   502/503/504 three times - check `GET /health?deep=true` (verifies the
-   LINDAT UDPipe/NameTag upstreams) and server logs; do not loop.
-5. **Busy handling**: HTTP 429 means the concurrent-run limit is reached -
-   switch to `--jobs` (async submit/poll) or retry later; do not hammer the
-   sync endpoint.
-6. **Polling `--jobs`**: a `404` on a job id the server ACCEPTED earlier does not mean
-   the id was wrong - the job record is in-memory (`service/jobs.py`), so a restart or a
-   different replica behind the same URL loses it. Resubmit the input once and poll the
-   new id; never loop on the old one, and never report the run as failed on that basis.
-   A `404` for an id the server never returned to you IS a client error - fix the id.
-7. **Size limits**: 5 MB per file, 30 000 words per sync request. Split larger
-   documents into parts and tell the user you did so.
-8. **Input errors**: HTTP 415 means the file type is unsupported (accepted:
-   `.csv` with a `text` column, `.xlsx`, `.txt`) - convert first, do not retry.
-   HTTP 422 means a supported file had unusable content (e.g. missing `text`
-   column, no non-empty rows); fix the input rather than retrying.
-9. Do not bypass the API by importing the pipeline code directly; server-side
-   runs produce the paradata provenance records shipped in every envelope.
+1. **Pick the method for the job.** `keybert` (usually the server's default) for quality; `yake` when no model can
+   be loaded; `legacy` only on records with lemmas. Name the method when you report keywords.
+2. **Keep the two kinds apart.** Statistical keywords are extracted phrases; controlled terms come from the
+   vocabulary. `confidence_score` is not calibrated (most lines get 0.95 or 0.85): do not rank or filter on it,
+   and present the controlled terms as suggestions, not as checked results.
+3. Prefer `--format json` when the result feeds further processing; pass the record on with `--out-dir`.
+4. For full request and response schemas, fetch `GET /openapi.json` from the running server (Swagger UI at
+   `/docs`); `service/README.md` is the runbook.
+5. Exit code `2` (unreachable): start the server (`bash scripts/server.sh`) and retry once. Exit code `3` (server
+   error): the client has already retried a 503 or 504, and a 502 that is not final, three times. A 502 from the
+   service itself (every language-model call failed) is not retried; read the hint, check `GET /health?deep=true`
+   and the server log, and do not loop.
+6. **Busy (429):** wait for `Retry-After` and send again; do not start parallel requests against one server.
+7. **501 on `--kind controlled`:** the server has no working LLM backend. Say so, and offer the statistical
+   keywords (`--kind statistical`) instead.
+8. **Size:** inputs over 10 MB or 200,000 words are refused. Split by page or section, and tell the user you did.
+9. Do not bypass the API by importing the keyword code directly. Every call returns its provenance as `paradata`,
+   a Process Run Crate `CreateAction`.
 
 ## Acknowledgements & Citations 🙏
 
-Developed within the [ATRIUM](https://atrium-research.eu/) project at ÚFAL,
-Charles University; UDPipe and NameTag are
-[LINDAT/CLARIAH-CZ](https://lindat.cz) services. If you use this service for
-research, cite the repository's `CITATION.cff`.
+Developed within the [ATRIUM](https://atrium-research.eu/) project at ÚFAL, Charles University, with the AMČR and
+TEATER vocabularies of the Archaeological Map of the Czech Republic. If you use this service for research, cite
+the repository's `CITATION.cff`.

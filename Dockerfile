@@ -2,7 +2,7 @@
 FROM python:3.11-slim AS base
 
 ARG ATRIUM_RUNNER_IMAGE=""
-ARG ATRIUM_RUNNER_REPO="https://github.com/ufal/atrium-nlp-enrich"
+ARG ATRIUM_RUNNER_REPO="https://github.com/ufal/atrium-keyword-extract"
 ARG ATRIUM_RUNNER_REF=""
 
 ENV ATRIUM_RUNNER_IMAGE=${ATRIUM_RUNNER_IMAGE} \
@@ -54,19 +54,35 @@ RUN apt-get update \
 
 WORKDIR /app
 
-COPY requirements.txt requirements-test.txt ./
-RUN pip install -r requirements.txt -r requirements-test.txt
+# Runtime requirements only (atrium-project#69, roadmap H4). requirements-test.txt (pytest,
+# pytest-cov, httpx, openapi-spec-validator, PyYAML, …) used to be installed here too:
+# nothing the ENTRYPOINTs reach imports a package only it carries, so it only added to all
+# three images and to the Trivy surface the release gate scans. The tests run on the CI
+# runner, never in an image. The `api` stage gets fastapi/pydantic (exact pins) and
+# uvicorn from service/requirements.txt, as before.
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN chmod +x api_1_manifest.sh api_2_udp.sh api_3_nt.sh api_4_stats.sh \
-    && useradd --create-home --uid 10001 atrium \
+# Non-root runtime user. Owned atrium:0 and group-writable (`g=u`): the arbitrary-UID
+# convention (OpenShift's), atrium-project#69 / roadmap B6. docker-compose.yaml runs these
+# images as `user: "${ATRIUM_UID:-10001}:0"`, so on Linux the container can run as the uid
+# that owns the ./data bind mount, and a uid with no passwd entry still reaches /app,
+# /cache, /data and $HOME through group 0. HOME is explicit because without a passwd entry
+# it would be `/`. The default runtime -- uid 10001 as the owner -- is unchanged.
+RUN useradd --create-home --uid 10001 atrium \
     && mkdir -p /cache/huggingface /data \
-    && chown -R atrium:atrium /app /cache /data
+    && chown -R atrium:0 /app /cache /data /home/atrium \
+    && chmod -R g=u /app /cache /data /home/atrium
+ENV HOME=/home/atrium
 
 USER atrium
 
-ENTRYPOINT ["python", "run_pipeline.py"]
+# The batch form of the stage: the statistical keywords of CoNLL-U files (nlp-enrich's UDP/ output) or
+# TEITOK, `python keywords.py -i <dir> -m keybert|yake|legacy`. Published as :<version>, never pinned;
+# the production image is `api` below.
+ENTRYPOINT ["python", "keywords.py"]
 CMD []
 
 
@@ -78,7 +94,9 @@ FROM base AS api
 USER root
 COPY service/requirements.txt ./service_requirements.txt
 RUN pip install -r service_requirements.txt
-RUN chown -R atrium:atrium /app
+# Same arbitrary-UID ownership as `base` (atrium:0, g=u), re-applied to what this stage adds.
+RUN chown -R atrium:0 /app /home/atrium \
+    && chmod -R g=u /app /home/atrium
 USER atrium
 
 # EXPOSE tracks the DEFAULT port: it is image metadata and cannot read $PORT at
@@ -99,10 +117,8 @@ STOPSIGNAL SIGTERM
 #
 # GRACEFUL_SHUTDOWN_S carries the `--timeout-graceful-shutdown 20` that used to sit on
 # the ENTRYPOINT line. It bounds uvicorn's own wait for in-flight HTTP
-# requests (20s here; nlp-enrich's background /jobs queue is a SEPARATE mechanism — see
-# service/api.py's ServiceState.track() — not covered by this budget at all, since a
-# job-submission request has already returned before the job finishes). --start-period
-# on HEALTHCHECK below covers first-run model downloads; see docs/docker_gha.md §3.4
+# requests (20s here). --start-period
+# on HEALTHCHECK below covers first-run model downloads (the KeyBERT embedding model); see docs/docker_gha.md §3.4
 # and docs/k8s_deployment.md for the full grace-period budget this is sized against.
 ENV PORT=8000 GRACEFUL_SHUTDOWN_S=20
 
@@ -126,13 +142,16 @@ FROM base AS llm
 USER root
 COPY requirements_llm.txt ./
 
-# Dynamically remove the strict torch==2.7.0 pin so vllm can install its required version
+# requirements_llm.txt carries no torch pin (vllm pins torch exactly; see the file's header). The
+# sed stays as a guard: a `torch==` line added back by hand would make the install unsatisfiable.
 RUN sed -i '/^torch==/d' requirements_llm.txt \
     && pip install \
         --extra-index-url https://download.pytorch.org/whl/cpu \
         -r requirements_llm.txt
 
-RUN chown -R atrium:atrium /app
+# Same arbitrary-UID ownership as `base` (atrium:0, g=u), re-applied to what this stage adds.
+RUN chown -R atrium:0 /app /home/atrium \
+    && chmod -R g=u /app /home/atrium
 USER atrium
 
 ENTRYPOINT ["python", "llm_run.py"]

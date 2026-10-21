@@ -1,0 +1,251 @@
+# =============================================================================
+# LLM Semantic Enrichment Pipeline — Configuration
+# =============================================================================
+#
+# The ONLY required change is MODEL_KEY.  All inference parameters (backend,
+# GPU count, memory utilization, batch size, context-window cap, …) are loaded
+# automatically from the model registry in llm_utils.py.
+#
+# When the pipeline starts it prints every effective value next to a label that
+# shows where it came from:
+#   ← llm_config.txt   — you set this explicitly
+#   (model default)    — from inference_defaults in MODEL_REGISTRY
+#   (global default)   — pipeline-wide fallback
+#
+# To change any value, uncomment the corresponding line in the
+# "Inference parameter overrides" section at the bottom of this file.
+#
+# =============================================================================
+# Model selection
+# =============================================================================
+#
+# Small  (≤14 B, transformers backend):
+#   qwen-3.5-9b-it  |  qwen3-8b  |  qwen3-14b  |  gemma-3-12b-it  |  gemma-4-12b-it
+#   granite-4.1-8b  |  qwen2.5-7b
+#   The ~58k-token prompt's KV cache comes on top of the weights: 2 GPUs of 24 GB.
+#   qwen3-8b, qwen3-14b and qwen2.5-7b are trained to 32k tokens; the registry turns on
+#   the YaRN scaling Qwen documents for their 128k window (off in the checkpoints).
+#   Granite 4.1 is the one family here that lists Czech among its languages.
+#
+# Small, vLLM backend:
+#   qwen2.5-14b-awq          — AWQ runs natively in vLLM (the transformers backend would
+#                               need gptqmodel); tp=2 on 24 GB cards; YaRN as above
+#   gemma-4-12b-it-qat       — Google's 4-bit (QAT) Gemma 4 12B, 8.3 GB; one GPU
+#
+# Mid    (≤31 B, transformers backend, BnB 4-bit over 2 GPUs of 24 GB):
+#   qwen-3.6-27b-it  |  qwen-3.8-27b-it  |  gemma-4-31b-it  |  granite-4.1-30b
+#
+# Pre-quantized, vLLM backend, 2 GPUs of 24 GB (tp=2):
+#   gemma-4-31b-it-qat       — Google's 4-bit (QAT) Gemma 4 31B, 19.8 GB
+#   qwen-3.5-35b-moe-gptq    — Qwen's own 4-bit Qwen3.5-35B-A3B (3B active), ~20 GB
+#   qwen-3.8-27b-fp8         — Qwen's FP8 Qwen3.8-27B; on Ampere the weights stay FP8
+#                               and the compute is bf16
+#   qwen-3.6-35b-moe-fp8     — Qwen's FP8 Qwen3.6-35B-A3B (3B active), ~36 GB: ~18 GB
+#                               per GPU, with room for the prompt's 64k window only
+#   gemma-4-26b-moe-awq      — a community 4-bit (AWQ) Gemma 4 26B-A4B, ~17 GB; one GPU
+#                               by default: tp=2 needs quantisation group size 32 (see
+#                               "quantization_config" in its config.json)
+#   Six vLLM entries have full runs committed (data_samples/KW_PER_DOC_LLM_*): qwen25-14b-awq,
+#   gemma-4-12b-it-qat, gemma-4-31b-it-qat, qwen-3.5-35b-moe-gptq, qwen-3.8-27b-fp8,
+#   qwen-3.6-35b-moe-fp8 (2026-10-12/13; issue #2). The re-runs with the prompt rules and the
+#   composite halves are data_samples/KW_PER_DOC_LLM_R3_* (2026-10-19).
+#
+# MoE / large  (vLLM backend, auto-selected):
+#
+#   gemma-4-26b-moe          — bf16, ~52 GB: 2× 48 GB (vLLM has no bitsandbytes);
+#                               on 2× 24 GB use gemma-4-26b-moe-awq
+#
+#   qwen-3.6-35b-moe         — bf16, ~70 GB: more than 2× 24 GB; there, use
+#                               qwen-3.6-35b-moe-fp8 or qwen-3.5-35b-moe-gptq
+#
+#   llama3.1-70b             — transformers, 4-bit BnB: ~40 GB of weights plus ~20 GB of
+#                               KV cache for the full prompt — two 48 GB cards or four A30
+#
+#   qwen3-235b-a22b-fp8      — requires vLLM ≥ 0.8.x (Qwen3 MoE arch not in 0.7.3)
+#                               tp=8 on tdll-8gpu (8× A100 40 GB, 320 GB total);
+#                               weights ~235 GB fit, but A100 is CC 8.0 — FP8 compute
+#                               falls back to BF16 (no throughput gain, memory OK).
+#                               Alternatively: tp=4 on dll-4gpu3 (4× L40 48 GB, CC 8.9)
+#                               with CPU_OFFLOAD_GB=70 — full hardware FP8 acceleration.
+#
+#   llama4-maverick          — ⚠ INSUFFICIENT HARDWARE: ~400 B total params; FP8
+#                               footprint ~400 GB > 8× A100 40 GB (320 GB). Needs
+#                               8× A100 80 GB or H100 class (not available). Also
+#                               requires vLLM ≥ 0.8.x. HF_TOKEN required.
+#
+#   deepseek-v3              — tp=8, exceeds available hardware (671 B params)
+#
+# Archived (kept in the registry for reference, not for these runs):
+#   mistral-nemo-12b | llama3.1-8b | bielik-11b-v3.0 | ministral-3-14b — dropped earlier
+#   in issue #2; aya-expanse-8b | bielik-11b — 8k windows; gemma-4-26b-moe-gguf — 8k
+#   window, needs llama-cpp-python and network access.
+# The default since v1.4.0-beta: the re-runs of 2026-10-19 (issue #2) left qwen-3.8-27b-it
+# (and its -fp8) with no forced label; qwen-3.6-27b-it still gives `zvonice` for Bell Beaker
+# vessels on 10 lines.
+MODEL_KEY=qwen-3.8-27b-it
+
+# =============================================================================
+# HuggingFace credentials
+# Only needed for gated models: gemma-4-*, gemma-3-*, llama3.1-70b, llama4-*
+# =============================================================================
+# HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxx
+
+# =============================================================================
+# Paths
+# =============================================================================
+# Output goes to <OUTPUT_DIR>_<MODEL_KEY>/, and a document whose output is already there
+# is skipped. Give each variant of one model (PROMPT_* flags, VOCAB_PATH, MAX_MODEL_LEN)
+# its own OUTPUT_DIR, or the second run skips every document; paradata's
+# config.prompt.sha256 tells the variants apart.
+INPUT_DIR=data_samples/DOC_LINE_CATEG
+OUTPUT_DIR=data_samples/KW_PER_DOC_LLM
+VOCAB_PATH=data_samples/vocab/union_nested.json
+PARADATA_DIR=paradata
+
+# Attach the surviving vocabulary term's source record id(s) to each enrichment as
+# teater_category_ids (issue #6, M7). Kept behind a switch since it was agreed to be
+# reversible: "list them now and drop it if it will create some issues."
+EMIT_CATEGORY_IDS=true
+
+# =============================================================================
+# System prompt
+# =============================================================================
+# The instruction text lives in prompts/system_prompt.txt, one [[block]] per rule, in
+# the order the model sees them. These flags choose which blocks render; the run banner
+# prints the resulting on/off list so a log always says what the model was told.
+#
+# `role`, `rule.json_only` and `vocabulary.header` always render and have no flag.
+PROMPT_TEMPLATE=prompts/system_prompt.txt
+
+PROMPT_TASK_EXTRACT=true
+PROMPT_TASK_SELECT=true
+PROMPT_METATEXT_RULE=true
+PROMPT_OCR_NORMALISATION=true
+PROMPT_EXACT_TERM=true
+# atrium-keyword-extract#2 (2026-10-16, Option 1): copy the category from a "- " entry, never a
+# heading or a keyword; the most specific entry the line supports; the confidence rubric.
+PROMPT_CATEGORY_FROM_LIST=true
+PROMPT_MOST_SPECIFIC=true
+PROMPT_CONFIDENCE_RUBRIC=true
+PROMPT_EXAMPLES=true
+
+# The one three-way switch, because the decision has three states rather than two
+# (issue #6, C1 / M11 / M12):
+#   strict      — "NEVER select a country/language/region name" (pairs with the
+#                 geographic TEATER branches being excluded)
+#   preference  — "select one only when the line is genuinely about it" (pairs with
+#                 those branches reinstated)
+#   off         — no geographic rule at all
+# taxonomy_config.json's `geo_guardrail.active` must agree: vocab_build.py renders this
+# prompt and refuses to build a vocabulary that contradicts it.
+PROMPT_GEO_GUARDRAIL=preference
+
+# How the term list is laid out under "THEMATIC VOCABULARY:" — the same terms in the same
+# order, under three amounts of structure. @motyc (issue #6, M2) asked to separate "which
+# terms are available to the model" from "how those terms are grouped for inference", and
+# to check empirically how much the grouping affects results now that the whole
+# vocabulary fits a 128k window. This flag is that experiment's only moving part:
+#   facet_sub — "--- Facet / Subgroup ---", both curated levels (the shipped prompt)
+#   facet     — "--- Facet ---" only, without the source's own second level
+#   flat      — no headers at all
+# All three offer the same terms and truncate identically; `facet_sub` additionally makes
+# each facet's sub-groups contiguous. So `facet` vs `flat` measures the headers alone, and
+# `facet_sub` vs `facet` measures the source's second level.
+PROMPT_VOCAB_GROUPING=facet_sub
+
+# =============================================================================
+# Category: halves of composite labels (atrium-keyword-extract#2, Option 2)
+# =============================================================================
+# The category is decoded under the label enum, so a model that starts `jímka` (only the
+# second half of `jáma odpadní/jímka`) was finished as whatever label shares the prefix
+# (`jámová kultura`). The halves accepted in this sheet are allowed too and recorded as their
+# label. The sheet comes from `vocab_review.py --composite-halves`; its `verdict` column
+# overrides the rule's `auto_verdict`. false = the label enum only, as before v1.4.0-beta.
+ACCEPT_COMPOSITE_HALVES=true
+COMPOSITE_HALVES_PATH=data_samples/vocab/composite_halves.csv
+
+# =============================================================================
+# Line-quality filter
+# =============================================================================
+INCLUDE_NON_TEXT=true
+MIN_CHAR_COUNT=3
+MIN_CHAR_NON_TEXT=8
+MIN_ALPHA_RATIO_NON_TEXT=0.4
+
+# =============================================================================
+# Transformers backend: chunked prefill
+# =============================================================================
+# The whole prompt is 58 260 tokens with Qwen3.6's tokenizer. Prefilled in one pass, a
+# single layer's activations outgrow what a 24 GB card has left beside the weights (OOM on
+# every line, Qwen3.6-27B on 2x A30, 2026-10-12). In chunks of this many tokens the peak
+# stays bounded, and the cache carries the state from chunk to chunk, so the computation is
+# the same. 0 = one pass. vLLM chunks its prefill by itself and ignores this.
+PREFILL_CHUNK_SIZE=8192
+
+# =============================================================================
+# Transformers backend: reuse the shared prompt
+# =============================================================================
+# Every line's prompt is the same ~58k tokens of instructions and vocabulary followed by a
+# few hundred of its own, and without this every line prefills all of it again (~75 s a
+# line for Qwen3.6-27B on 2x A30, 2026-10-12). true: the shared part is prefilled once at
+# start-up (PREFILL_CHUNK_SIZE applies there) and every line starts from it, so a line costs
+# its own tokens and its output. The computation is the same -- identical outputs in fp32
+# tests on every architecture in the registry; bf16 rounding can tip a near-tie. The big
+# full-attention part of the cache is shared, not copied, so this needs no more GPU memory
+# than one line's prefill did; a line that still runs out of it drops the cache, and the run
+# goes on with the full prefill. vLLM does the same by itself (ENABLE_PREFIX_CACHING).
+REUSE_PROMPT_CACHE=true
+
+# =============================================================================
+# Inference parameter overrides  (all auto-set from model registry by default)
+# =============================================================================
+#
+# Uncomment and edit only when you need to deviate from the model's recommended
+# configuration — for example, to adapt to a different node or reduce memory.
+#
+# The startup log shows every active value and its source, so you can confirm
+# which parameters are already covered by model defaults before adding overrides.
+
+# Backend: transformers (4-bit BnB, single GPU) | vllm (multi-GPU, large models)
+# Large and MoE models auto-select "vllm"; small/mid models auto-select "transformers".
+# BACKEND=vllm
+
+# Number of GPUs to shard the model across (vLLM only).
+# TENSOR_PARALLEL_SIZE=8
+
+# Fraction of each GPU's VRAM allocated to vLLM (0.0–0.95).
+# GPU_MEMORY_UTILIZATION=0.88
+
+# Lines submitted per vLLM generate() call.
+# Larger = higher GPU utilisation; lower = less memory pressure.
+# VLLM_BATCH_SIZE=8
+
+# Override the model's native context window to reduce KV-cache memory (vLLM only).
+# Required for llama4-maverick (1 M token native window causes OOM otherwise).
+# The four large vLLM models default to 16 384, and the system prompt is fitted to the
+# window the engine serves: the whole prompt — 4 711 terms and the instructions — is
+# 58 260 tokens with Qwen3.6's tokenizer, so at 16 384 only ~1 100 terms (Chronology,
+# Activity Area, Feature, the start of Artefact) reach the model, and the run's
+# paradata records the cut as a `vocab_prompt_budget_tokens` note. For a run over the
+# whole vocabulary set 65536, and size the KV cache / CPU offload for it.
+# MAX_MODEL_LEN=65536
+
+# GB of model weights to keep in CPU RAM when GPU VRAM is insufficient.
+# Useful configurations (requires vLLM ≥ 0.8.x for Qwen3 MoE):
+#
+#   qwen3-235b-a22b-fp8  on 4× L40 48 GB (dll-4gpu3, CC 8.9 — hardware FP8!):
+#     TENSOR_PARALLEL_SIZE=4
+#     CPU_OFFLOAD_GB=70     ← moves ~70 GB of weights to CPU; 503 GB CPU RAM available
+#
+#   qwen3-235b-a22b-fp8  on 8× A100 40 GB (tdll-8gpu, CC 8.0 — BF16 fallback):
+#     TENSOR_PARALLEL_SIZE=8
+#     CPU_OFFLOAD_GB=0      ← 235 GB weights fit in 320 GB without offload
+#
+# CPU_OFFLOAD_GB=0
+
+# Guided-decoding engine (vLLM only): xgrammar (default, fastest) | guidance | outlines
+# | lm-format-enforcer — vLLM's structured-outputs backend
+# GUIDED_DECODING_BACKEND=xgrammar
+
+# Disable Automatic Prefix Caching — not recommended; reduces throughput.
+# ENABLE_PREFIX_CACHING=false

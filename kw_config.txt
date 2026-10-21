@@ -1,0 +1,19 @@
+[DEFAULTS]
+# I/O Directories and Files
+INPUT_DIR = data_samples/UDP
+OUTPUT_FILE = data_samples/keywords_summary_{method}.csv
+PER_DOC_OUT_DIR = data_samples/KW_PER_DOC_{METHOD}
+
+# Extraction settings
+METHOD = keybert
+NUM_KEYWORDS = 20
+LANG = cs
+MAX_WORDS = 3
+
+# KeyBERT specific settings
+KEYBERT_MODEL = paraphrase-multilingual-MiniLM-L12-v2
+NO_MMR = False
+DIVERSITY = 0.5
+BATCH_SIZE = 16
+
+WORKERS = 0

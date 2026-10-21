@@ -1,0 +1,48 @@
+# requirements_llm.txt — the research `-llm` target: the GPU inference stack (transformers + vLLM)
+# that llm_run.py runs on. The `llm` Dockerfile stage builds FROM `base`, so requirements.txt is
+# installed underneath; the controlled kind of the service and the two batch clients
+# (openrouter_client.py, ollama_client.py) need none of this — their set is
+# requirements_remote.txt.
+#
+# NO STANDALONE `torch==` PIN, deliberately (atrium-project#10). vLLM pins torch EXACTLY --
+# `vllm 0.9.2` requires `torch==2.7.0`, `0.14.1` requires `2.9.1`, `0.22.0` requires `2.11.0`,
+# `0.27.1` requires `2.13.0` -- so a second torch pin in this file cannot coexist with any vllm but
+# the one matching it. The `torch==2.7.0` this file carried until 2026-10-07 made it unsatisfiable
+# next to `vllm>=0.30.0`: the Dockerfile's `llm` stage strips the line before installing (a guard
+# it keeps), but gpu-inference.yml installs this file as it is. llm-enrich dropped the pin for the
+# same reason (its copy, atrium-digital-convert 31534d5); torch is whatever vllm requires.
+#
+# `transformers>=4.57.6` stays as the FLOOR THIS REPO REQUIRES, but it is not the effective one:
+# recent vllm releases require `transformers>=5.5.3` and win. Dependabot ignores
+# `transformers >= 5.0.0`, which stops it PROPOSING a 5.x bump -- it does not stop pip resolving
+# one when vllm demands it.
+#
+# BACKEND=transformers (the default for every model up to 31B) needs two packages vllm does not
+# bring: `accelerate`, which transformers requires for device_map="auto" and BnB 4-bit loading
+# (1.1.0 is its own floor), and `lm-format-enforcer` for the constrained decoding. The latter
+# arrives with vllm today (pinned there); it is listed because llm_run.py imports it directly.
+# Without accelerate the run stopped at model load: "Using a `device_map` ... requires
+# `accelerate`" (2026-10-12, a venv built from this file).
+#
+# `flash-linear-attention` (pure Python + Triton, no build step) for the hybrid models: Qwen3.5 and
+# Qwen3.6 (qwen-3.5-9b-it, qwen-3.6-27b-it, qwen-3.6-35b-moe) put a gated-delta-rule layer in
+# three of every four places, and without this package transformers runs those on a reference
+# PyTorch kernel -- more than ten times slower, and for the ~58k-token prompt its fp32
+# temporaries ran Qwen3.6-27B out of memory on every line on 2x A30 (2026-10-12). transformers
+# also offers `causal-conv1d` for the short convolution; it needs a CUDA build, and its PyTorch
+# fallback is cheap, so it is not listed.
+accelerate>=1.1.0
+flash-linear-attention
+lm-format-enforcer
+configparser
+tqdm
+requests
+bitsandbytes==0.50.2
+keybert
+openpyxl
+pandas
+pydantic==2.13.5
+sentence_transformers==6.1.0
+transformers>=4.57.6
+yake
+vllm>=0.30.0
