@@ -1,7 +1,9 @@
 """teitok_read.py -- stdlib-only reader for TEITOK XML.
 
-Canonical copy: atrium-nlp-enrich ``api_util/teitok_read.py``. atrium-llm-enrich vendors it
-verbatim (its ``tests/test_vendored_teitok_parity.py`` pins the hash) -- change it here first.
+Canonical copy: atrium-nlp-enrich ``api_util/teitok_read.py``. atrium-digital-convert and
+atrium-keyword-extract vendor it verbatim; each pins the hash and the commit it took in its
+``tests/test_vendored_teitok_parity.py`` -- change it here first (atrium-project
+``docs/shared_components.md``).
 
 Reads any TEITOK document the ecosystem meets, following the conventions of the TEITOK
 tools themselves (flexipipe, flexiconv, teitok-tools):
@@ -158,8 +160,8 @@ def _join_tokens(records: list) -> str:
 
 def pb_page_number(elem: ET.Element, page_num: int, first: bool) -> int:
     """Page number that starts at this ``<pb>`` (``page_num``: the current one; ``first``:
-    no ``<pb>`` seen yet). Public so other TEITOK readers (llm-enrich ``xml_to_md``) number
-    pages the same way.
+    no ``<pb>`` seen yet). Public so a TEITOK reader in another tool numbers pages the same
+    way.
 
     ``n`` is usually a plain page count, but archival front matter / appendices use roman
     numerals or other labels (``n="I"``, ``n="priloha1"``), and converters often omit it --
