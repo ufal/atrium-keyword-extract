@@ -801,6 +801,19 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   writes its reason to the job summary.
 * **Checks:** the parity module passes; the hub's `workflow_lint.py` passes on this repository.
 
+## 2026-10-21 (round 2) — The agent-skill branch gets a skill of its own (atrium-project#77 C)
+* The branch carried nlp-enrich's skill. Removed: its client, pipeline scripts, `api_util` stages, schemas,
+  frontend, jobs and rescale modules and samples (30 files, none on `test`). New: `SKILL.md`
+  (`atrium-keyword-extract`), the client `scripts/atrium_keywords.py` (records → `/extract_keywords`, texts and stdin
+  → `/extract_keywords_text`; `--kind`, `--method`, `--out-dir`; `ATRIUM_KW_URL`; the 502 rule, so a 502 from the
+  LLM backend is reported at once), `scripts/server.sh` (the release image, which carries the vocabulary; `--gpu`;
+  `--local` in `venv-kw`; `/ready`), two synthetic samples (a text, and its record written by digital-convert), the
+  branch README, and `service/README.md` as the runbook. The skill says that the controlled kind needs the published
+  image and an LLM backend.
+* **Checks:** the client against a local server (YAKE): records, texts, stdin, CSV/JSON, 501 without a backend,
+  422 `invalid_record`, the legacy method without lemmas, `limit_exceeded`; skill-validate steps 1–4a; drift check
+  aligned. Delivered as `atrium-keyword-extract-agent-skill.zip`, not pushed.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);
