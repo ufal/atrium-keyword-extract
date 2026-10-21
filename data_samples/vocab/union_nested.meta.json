@@ -1,0 +1,56 @@
+{
+  "counts": {
+    "by_theme": {
+      "Activity Area": 266,
+      "Artefact": 728,
+      "Chronology": 272,
+      "Cultural & Geographic Context": 965,
+      "Feature": 374,
+      "Finds Context": 11,
+      "Location & Admin": 71,
+      "Material": 160,
+      "Methods": 293,
+      "Other": 0,
+      "Related Disciplines & Society": 1571
+    },
+    "collisions": 622,
+    "same_as_links": 102,
+    "total": 4711
+  },
+  "generated_utc": "2026-10-19T18:56:08Z",
+  "generator": "vocab_build.py",
+  "schema_version": 1,
+  "sources": [
+    {
+      "endpoint": "https://api.aiscr.cz/2.2/oai",
+      "license": "CC0",
+      "metadata_prefix": "oai_amcr",
+      "name": "amcr",
+      "pages": 16,
+      "records": 1460,
+      "set": "heslo",
+      "strategy": "oai-pmh",
+      "without_en": 0
+    },
+    {
+      "endpoint": "https://raw.githubusercontent.com/ARUP-CAS/aiscr-teater/2106c59103556731c56dc116573c4b02e1199466/backend/json/import_{n}.json",
+      "files": 12,
+      "license": "CC0",
+      "name": "teater",
+      "records": 4134,
+      "roots": 12,
+      "snapshot_ref": "2106c59103556731c56dc116573c4b02e1199466",
+      "strategy": "snapshot",
+      "without_en": 0
+    }
+  ],
+  "taxonomy_config": {
+    "path": "data_samples/taxonomy_config.json",
+    "sha256": "19bc42f3854da8ac4107732bd8b15d0d0798df47621a8edea71ab75662c6d1ba"
+  },
+  "taxonomy_overrides": {
+    "path": "data_samples/taxonomy_overrides.json",
+    "sha256": "889412a5363ab0454bbfbe829bdb2472375cfb5e1e33eb76143eab512fad3573"
+  },
+  "tool_version": "v1.4.0-beta"
+}

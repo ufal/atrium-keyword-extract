@@ -54,10 +54,6 @@ curl -s -X POST localhost:8000/extract_keywords \
 The [`test` branch](https://github.com/ufal/atrium-keyword-extract/tree/test) has a live check of a backend
 (two calls end to end), run weekly and on demand.
 
-**On this `agent-skill` branch** the vocabulary (`data_samples/vocab/`) is not carried: the controlled kind
-runs from the published image, which has it. A server built or started from this checkout serves the statistical
-kind only, and `/info` `controlled.detail` says why.
-
 ## Models and caches
 
 | What                                 | From where                                         | Revision                      | Into                                          | Without egress                                                                                                                  |
@@ -121,7 +117,7 @@ The prompt is the research GPU path's (`llm_run.py`): `prompts/system_prompt.txt
 `PROMPT_*` flags of `llm_config.txt` select, then the vocabulary in the `PROMPT_VOCAB_GROUPING` layout,
 then the examples — `python3 prompt_template.py --preview` prints it, and `prompts/RUNBOOK.md` explains
 every block and flag. The vocabulary is `data_samples/vocab/union_nested.json` (4711 terms, built by
-`vocab_build.py`; `data_samples/vocab/RUNBOOK.md`). A service whose configured guardrail wording
+`vocab_build.py`; [data_samples/vocab/RUNBOOK.md on `test`](https://github.com/ufal/atrium-keyword-extract/blob/test/data_samples/vocab/RUNBOOK.md)). A service whose configured guardrail wording
 contradicts the vocabulary (`PROMPT_GEO_GUARDRAIL` against `taxonomy_config.json`'s `geo_guardrail`)
 does not start the controlled kind, and `/info` `controlled.detail` says why.
 
@@ -286,7 +282,7 @@ A 200 can carry less than was asked for. Read these before using the result:
 - **`confidence_score` is not calibrated.** Most lines get one of two values (0.95, 0.85): do not rank or
   filter on it.
 - **Research output.** No category has been checked against a reviewed answer yet
-  (`data_samples/vocab/gold_workbook.csv` has no `gold_category`); treat the categories as suggestions.
+  ([data_samples/vocab/gold_workbook.csv on `test`](https://github.com/ufal/atrium-keyword-extract/blob/test/data_samples/vocab/gold_workbook.csv) has no `gold_category`); treat the categories as suggestions.
 - **The KeyBERT model is fetched at startup** into `HF_HOME`, not shipped in the image: see
   [Configuration](#configuration-environment).
 

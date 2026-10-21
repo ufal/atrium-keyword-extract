@@ -5,9 +5,9 @@
 #   1. GET <base-url>/ready answers 200 -> exit 0 (idempotent).
 #   2. Otherwise start it: Docker Compose (`api` profile) by default, --gpu adds the GPU overlay,
 #      --local runs the service in the repository's venv. Docker first pulls the released image of
-#      this branch's version (para_config.txt [tool] version), which also carries the AMČR/TEATER
-#      vocabulary the controlled kind needs; when it cannot, compose builds the image from this
-#      checkout, and then only the statistical kind is available.
+#      this branch's version (para_config.txt [tool] version); when it cannot, compose builds the
+#      image from this checkout. Both carry the AMČR/TEATER vocabulary the controlled kind needs
+#      (data_samples/vocab/), as does a --local server.
 #   3. Poll /ready for up to 15 minutes (the first start downloads the KeyBERT model); on timeout
 #      say where the logs are and exit non-zero.
 #
@@ -56,12 +56,12 @@ start_docker() {
     export ATRIUM_VERSION PORT
     echo "🐳 Starting keyword-extract ${ATRIUM_VERSION} via docker compose ($* api profile)..."
     docker compose "$@" --profile api pull kw-api \
-        || echo "Could not pull the ${ATRIUM_VERSION} image; building it from this checkout (statistical kind only)."
+        || echo "Could not pull the ${ATRIUM_VERSION} image; building it from this checkout."
     docker compose "$@" --profile api up -d kw-api
 }
 
 start_local() {
-    echo "🐍 Starting the service locally (statistical kind; the vocabulary is in the published image)..."
+    echo "🐍 Starting the service locally..."
     if [ ! -d "venv-kw" ]; then
         echo "No venv found - creating venv-kw and installing requirements.txt and service/requirements.txt..."
         python3 -m venv venv-kw

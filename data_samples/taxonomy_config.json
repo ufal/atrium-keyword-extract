@@ -1,0 +1,427 @@
+{
+  "_settings": {
+    "_comment": [
+      "Facet taxonomy for the unified AMCR u TEATER vocabulary.",
+      "Keys starting with '_' are never treated as facets.",
+      "",
+      "PLACEMENT PRECEDENCE (vocab_manager.assign_theme):",
+      "  overrides         per-(source,id) correction from taxonomy_overrides.json,",
+      "                    checked FIRST. Use it for a single mis-sorted record inside",
+      "                    an otherwise-correct list; moving a whole list belongs in",
+      "                    heslar_map, a whole TEATER (sub-)branch in teater_branch_map.",
+      "  heslar_map        AMCR nazev_heslare -> facet",
+      "  teater_branch_map TEATER branch -> facet, resolved MOST-SPECIFIC FIRST",
+      "                    along the term's broader chain, so a depth-2 sub-branch",
+      "                    overrides its depth-1 parent (used both for whole excluded",
+      "                    sub-branches, e.g. 2560 'etnika', and for moving a TEATER",
+      "                    depth-2 group to a different facet, e.g. 220 'muzeum').",
+      "  keyword match     legacy substring fallback; fires for nothing today",
+      "  cross-source rescue / LLM fallback (opt-in) / Other",
+      "Every placement is recorded in *_placement_audit.csv with the rule that made",
+      "it, so the mapping can be reviewed instead of trusted. Sort that file by",
+      "'scheme' to correct a whole source list at once; an override shows up as",
+      "'override:<source>:<id>'.",
+      "",
+      "'__exclude__' drops the term from the vocabulary entirely; see _exclusions",
+      "for why each list is dropped.",
+      "",
+      "_exclusions is keyed by the rule string the placement audit reports --",
+      "'heslar:<list>' or 'teater:<id>' -- so a note is looked up by the exact rule",
+      "that excluded the term. Each entry carries 'status' and 'reason'. 'status' is",
+      "whose call the exclusion still is, and drives the status column of",
+      "vocab_review.py --exclusions:",
+      "  settled          already ruled on (M4/M3); not an open question",
+      "  open_geo_ethnic  O3/O4 Q1 -- conflicts with the prompt's geographic",
+      "                   guardrail, so reinstating it REQUIRES relaxing that",
+      "                   wording in the same change",
+      "  open_other       O4 Q2 -- excluded a priori, no guardrail conflict at all",
+      "A bare string in place of the object still works and means status 'settled'.",
+      "",
+      "composite_separators is what splits a composite 'X/Y' label when looking for",
+      "components also offered on their own (issue #6 O1/F). Both sources are",
+      "hand-maintained, so a second convention in a later harvest is an edit here,",
+      "not a code change. Per-pair corrections -- link two records no label",
+      "connects, or drop a link a reviewer judges wrong -- are 'same_as' and",
+      "'same_as_suppress' on a taxonomy_overrides.json entry.",
+      "",
+      "nested_keep lists the keys a harvested record keeps in the built entry.",
+      "Dropping one shrinks the prompt payload; 'discarded_ids' and 'bare_cs' are",
+      "read back by the enrichment output (teater_category_ids and the bracket",
+      "strip), so dropping either changes behaviour, not just size.",
+      "",
+      "admin_stop_words sorts a term containing one of these to the BACK of its",
+      "facet, so prompt truncation drops boilerplate before it drops",
+      "archaeological vocabulary. Which words read as boilerplate is a judgement",
+      "about report language and belongs in this file, not in code -- and it is",
+      "load-bearing, since it decides what a small-context model still sees.",
+      "",
+      "geo_guardrail keeps ONE decision in step across two files. The strict block",
+      "of prompts/system_prompt.txt (PROMPT_GEO_GUARDRAIL=strict) forbids selecting",
+      "a country, language or region name, and pairs with the branches holding those",
+      "terms being excluded here. Change either half alone and the",
+      "scores measure the contradiction, not the model -- so vocab_build.py",
+      "refuses to build a vocabulary that disagrees with the prompt. 'active'",
+      "says whether the clause is in force, 'prompt_markers' is how the build",
+      "recognises it (a reworded prompt is an edit here, not a code change), and",
+      "'covers' names the rules that wording actually reaches. To reinstate one",
+      "of them: relax the prompt wording, set active false, and flip the branch",
+      "-- in the same change. Done for all four under M11/M12 (preference wording,",
+      "active false); see data_samples/vocab/6.O3O4.decision-package.md.",
+      "",
+      "FACET ORDER IS LOAD-BEARING. build_system_prompt keeps the largest fitting",
+      "*prefix* of the flattened term list, so priority decides what a small-context",
+      "model keeps. Chronology/Area/Feature/Artefact lead because that is what a",
+      "report line is most often about; Location & Admin closes the content facets,",
+      "and the two facets M11 reinstated follow at priority 0, so a tight budget",
+      "drops them first.",
+      "",
+      "heslar_labels renames AMCR's machine list names for the prompt sub-header: the model reads 'Chronology / období (kategorie)', not 'Chronology / obdobi_kat'. TEATER's depth-2 labels are already human-readable and pass through unchanged.",
+      "",
+      "'Documentation' was dissolved (issue #6, motyc 5424905539): excluding the",
+      "purely technical/administrative dokument_* lists and ext_zdroj_typ left it",
+      "with only udalost_typ, which now lives in Location & Admin. Implementation",
+      "detail, not a reclassification of AMCR's own udalost_typ list."
+    ],
+    "tie_break": [
+      "Chronology",
+      "Activity Area",
+      "Feature",
+      "Artefact",
+      "Material",
+      "Finds Context",
+      "Methods",
+      "Location & Admin",
+      "Cultural & Geographic Context",
+      "Related Disciplines & Society"
+    ],
+    "composite_separators": [
+      "/"
+    ],
+    "nested_keep": [
+      "cs",
+      "en",
+      "sub",
+      "source",
+      "source_id",
+      "discarded_ids",
+      "bare_cs"
+    ],
+    "admin_stop_words": [
+      "datum",
+      "obsah",
+      "projekt",
+      "příloha",
+      "rok",
+      "strana",
+      "tabulka",
+      "text",
+      "zpráva",
+      "číslo"
+    ],
+    "geo_guardrail": {
+      "active": false,
+      "prompt_markers": [
+        "country name",
+        "language name",
+        "geographic region name"
+      ],
+      "covers": [
+        "heslar:zeme",
+        "teater:2560",
+        "teater:2900",
+        "teater:3076"
+      ]
+    },
+    "heslar_map": {
+      "obdobi": "Chronology",
+      "obdobi_kat": "Chronology",
+      "areal": "Activity Area",
+      "areal_kat": "Activity Area",
+      "lokalita_druh": "Activity Area",
+      "lokalita_druh_kat": "Activity Area",
+      "lokalita_typ": "Activity Area",
+      "aktivita": "Activity Area",
+      "objekt_druh": "Feature",
+      "objekt_druh_kat": "Feature",
+      "objekt_specifikace": "Material",
+      "objekt_specifikace_kat": "__exclude__",
+      "predmet_druh": "Artefact",
+      "predmet_druh_kat": "Artefact",
+      "predmet_specifikace": "Material",
+      "nalezove_okolnosti": "Finds Context",
+      "akce_typ": "Methods",
+      "akce_typ_kat": "Methods",
+      "adb_typ": "Methods",
+      "adb_podnet": "Methods",
+      "posudek_typ": "Methods",
+      "posudek_typ_kat": "Methods",
+      "dokument_typ": "__exclude__",
+      "dokument_material": "__exclude__",
+      "dokument_rada": "__exclude__",
+      "dokument_ulozeni": "__exclude__",
+      "dokument_zachovalost": "__exclude__",
+      "dokument_nahrada": "__exclude__",
+      "ext_zdroj_typ": "__exclude__",
+      "udalost_typ": "Location & Admin",
+      "organizace_typ": "Location & Admin",
+      "pamatkova_ochrana": "Location & Admin",
+      "stav_dochovani": "Location & Admin",
+      "zeme": "Cultural & Geographic Context",
+      "jazyk": "__exclude__",
+      "letiste": "__exclude__",
+      "dokument_licence": "__exclude__",
+      "dokument_format": "__exclude__",
+      "dohlednost": "__exclude__",
+      "pocasi": "__exclude__",
+      "nalez_typ": "__exclude__",
+      "dok_jednotka_typ": "__exclude__",
+      "projekt_typ": "__exclude__",
+      "datum_specifikace": "__exclude__",
+      "pian_typ": "__exclude__",
+      "pian_presnost": "__exclude__",
+      "vyskovy_bod_typ": "__exclude__",
+      "jistota_urceni": "__exclude__",
+      "pristupnost": "__exclude__",
+      "letfoto_tvar": "__exclude__"
+    },
+    "teater_branch_map": {
+      "1050": "Chronology",
+      "1267": "Activity Area",
+      "1481": "Feature",
+      "1788": "Artefact",
+      "2430": "Material",
+      "102": "Methods",
+      "140": "Methods",
+      "220": "Location & Admin",
+      "253": "Location & Admin",
+      "1": "Methods",
+      "288": "Related Disciplines & Society",
+      "3094": "Related Disciplines & Society",
+      "3549": "Related Disciplines & Society",
+      "2557": "Related Disciplines & Society",
+      "2558": "Related Disciplines & Society",
+      "2560": "Cultural & Geographic Context",
+      "2900": "Cultural & Geographic Context",
+      "3076": "Cultural & Geographic Context",
+      "3091": "Related Disciplines & Society"
+    },
+    "teater_branch_labels": {
+      "1": "1) Teorie a přístupy / Theory and approaches",
+      "102": "2) Terénní metody / Field methods",
+      "140": "3) Metody zpracování / Processing methods",
+      "288": "4) Hraniční obory / Cross-border and related disciplines",
+      "1050": "5) Chronologie / Chronology",
+      "1267": "6) Areál aktivity / Activity area",
+      "1481": "7) Objekt / Feature",
+      "1788": "8) Předmět / Object",
+      "2430": "9) Materiálové specifikace / Material specifications",
+      "2557": "10) Pomocně-historická hesla / Auxiliary-historical headings",
+      "2558": "10.1) bitvy / battles",
+      "2560": "10.2) etnika / ethnic groups",
+      "2900": "10.3) historické oblasti a státní útvary / historical regions",
+      "3076": "10.4) panovnické dynastie / ruling dynasties",
+      "3091": "10.5) války / wars",
+      "3094": "11) Povolání a pracovní činnosti / Professions and work activities",
+      "3549": "12) Společnost / Society",
+      "220": "3.x) muzeum / museums (sub-branch of 140, moved out of Methods)",
+      "253": "3.x) památková péče / heritage protection (sub-branch of 140, moved out of Methods)"
+    },
+    "_exclusions": {
+      "heslar:datum_specifikace": {
+        "status": "settled",
+        "reason": "3 date-precision qualifiers (přesné datum, někdy v letech) — qualifiers, not periods."
+      },
+      "heslar:dohlednost": {
+        "status": "settled",
+        "reason": "12 visibility bands — survey conditions, not a topic."
+      },
+      "heslar:dok_jednotka_typ": {
+        "status": "settled",
+        "reason": "4 documentation-unit names (katastrální území, lokalita) — spatial/admin units, not methods."
+      },
+      "heslar:dokument_format": {
+        "status": "settled",
+        "reason": "26 file-format strings (A0, *.stl, kinofilm 24x36)."
+      },
+      "heslar:dokument_licence": {
+        "status": "settled",
+        "reason": "6 CC licence titles."
+      },
+      "heslar:dokument_material": {
+        "status": "settled",
+        "reason": "25 physical-carrier types (papír milimetrový, pauzák, digitální soubor) — the medium a document is recorded on. motyc 5424905539."
+      },
+      "heslar:dokument_nahrada": {
+        "status": "settled",
+        "reason": "4 reproduction-quality labels (tisková kvalita, mikroštítek) — a copy's technical quality. motyc 5424905539."
+      },
+      "heslar:dokument_rada": {
+        "status": "settled",
+        "reason": "14 digital-deliverable series names (data, fotografie terénu (digitální), plány (digitální)) — archival deliverable categories, not content. motyc 5424905539."
+      },
+      "heslar:dokument_typ": {
+        "status": "settled",
+        "reason": "41 report/document-type labels (nálezová zpráva, hlášení, expertní posudek) — what kind of paperwork accompanies a record, not what the record describes. motyc 5424905539."
+      },
+      "heslar:dokument_ulozeni": {
+        "status": "settled",
+        "reason": "7 archive-custody locations (archiv arú, archiv autora) — where a document is stored. motyc 5424905539."
+      },
+      "heslar:dokument_zachovalost": {
+        "status": "settled",
+        "reason": "6 preservation-condition bands (zachováno 80–100 %, ztraceno/skartováno) — a document's physical condition. motyc 5424905539."
+      },
+      "heslar:ext_zdroj_typ": {
+        "status": "settled",
+        "reason": "5 bibliographic source types (kniha, článek v časopise) — citation format of an external reference, not a topic. motyc 5424905539."
+      },
+      "heslar:jazyk": {
+        "status": "settled",
+        "reason": "9 entries (čeština, němčina, latina) — the AMCR list of a document's language: metadata, not content; includes the non-term 'nerelevantní'. david-spacil 6057405985."
+      },
+      "heslar:jistota_urceni": {
+        "status": "settled",
+        "reason": "confidence percentages (jisté > 95 %) — an epistemic qualifier; confidence_score already carries this."
+      },
+      "heslar:letfoto_tvar": {
+        "status": "settled",
+        "reason": "16 aerial cropmark shapes (ohrazení kruhové malé) — a remote-sensing observation vocabulary, not a site or feature class."
+      },
+      "heslar:letiste": {
+        "status": "settled",
+        "reason": "29 airfield place names, used only as aerial-survey provenance."
+      },
+      "heslar:nalez_typ": {
+        "status": "settled",
+        "reason": "only 2 members, 'objekt' and 'předmět' — the top of the type hierarchy sitting as siblings of real find types, i.e. an always-correct escape hatch."
+      },
+      "heslar:objekt_specifikace_kat": {
+        "status": "settled",
+        "reason": "2 field names, not concepts: 'způsob provedení', 'těžený/zpracovávaný materiál'."
+      },
+      "heslar:pian_presnost": {
+        "status": "settled",
+        "reason": "coordinate-precision buckets."
+      },
+      "heslar:pian_typ": {
+        "status": "settled",
+        "reason": "GIS geometry types (bod, linie, polygon)."
+      },
+      "heslar:pocasi": {
+        "status": "settled",
+        "reason": "8 weather states — same."
+      },
+      "heslar:pristupnost": {
+        "status": "settled",
+        "reason": "access-control roles (anonym, archeolog, badatel)."
+      },
+      "heslar:projekt_typ": {
+        "status": "settled",
+        "reason": "3 bare adjectives (badatelský, průzkum, záchranný) — meaningless as standalone categories."
+      },
+      "heslar:vyskovy_bod_typ": {
+        "status": "settled",
+        "reason": "elevation reference points (dno sondy, podloží)."
+      }
+    },
+    "heslar_labels": {
+      "obdobi": "období",
+      "obdobi_kat": "období (kategorie)",
+      "areal": "areál aktivity",
+      "areal_kat": "areál aktivity (kategorie)",
+      "lokalita_druh": "druh lokality",
+      "lokalita_druh_kat": "druh lokality (kategorie)",
+      "lokalita_typ": "typ lokality",
+      "aktivita": "aktivita",
+      "objekt_druh": "druh objektu",
+      "objekt_druh_kat": "druh objektu (kategorie)",
+      "objekt_specifikace": "specifikace objektu",
+      "predmet_druh": "druh předmětu",
+      "predmet_druh_kat": "druh předmětu (kategorie)",
+      "predmet_specifikace": "specifikace předmětu",
+      "nalezove_okolnosti": "nálezové okolnosti",
+      "akce_typ": "typ akce",
+      "akce_typ_kat": "typ akce (kategorie)",
+      "adb_typ": "typ sondy",
+      "adb_podnet": "podnět",
+      "posudek_typ": "posudek",
+      "posudek_typ_kat": "posudek (kategorie)",
+      "dokument_typ": "typ dokumentu",
+      "dokument_material": "materiál dokumentu",
+      "dokument_rada": "řada dokumentu",
+      "dokument_ulozeni": "uložení dokumentu",
+      "dokument_zachovalost": "zachovalost dokumentu",
+      "dokument_nahrada": "náhrada dokumentu",
+      "ext_zdroj_typ": "typ externího zdroje",
+      "udalost_typ": "typ události",
+      "organizace_typ": "typ organizace",
+      "pamatkova_ochrana": "památková ochrana",
+      "stav_dochovani": "stav dochování lokality",
+      "zeme": "země"
+    }
+  },
+  "Chronology": {
+    "priority": 9,
+    "in_prompt": true,
+    "_comment": "Periods, archaeological cultures, chronozones.",
+    "keywords": {}
+  },
+  "Activity Area": {
+    "priority": 8,
+    "in_prompt": true,
+    "_comment": "Areas defined by the activity carried out there: settlement, burial, cult, production, mining, military.",
+    "keywords": {}
+  },
+  "Feature": {
+    "priority": 7,
+    "in_prompt": true,
+    "_comment": "Physical features and structures, and how they are built.",
+    "keywords": {}
+  },
+  "Artefact": {
+    "priority": 6,
+    "in_prompt": true,
+    "_comment": "Objects and finds.",
+    "keywords": {}
+  },
+  "Material": {
+    "priority": 5,
+    "in_prompt": true,
+    "_comment": "What an object or feature is made of.",
+    "keywords": {}
+  },
+  "Finds Context": {
+    "priority": 4,
+    "in_prompt": true,
+    "_comment": "The deposition circumstances a find was recovered from.",
+    "keywords": {}
+  },
+  "Methods": {
+    "priority": 3,
+    "in_prompt": true,
+    "_comment": "Fieldwork, processing and analytical methods.",
+    "keywords": {}
+  },
+  "Location & Admin": {
+    "priority": 1,
+    "in_prompt": true,
+    "_comment": "Organisation types, heritage-protection status, event types, museums and heritage-care bodies.",
+    "keywords": {}
+  },
+  "Cultural & Geographic Context": {
+    "priority": 0,
+    "in_prompt": true,
+    "keywords": {}
+  },
+  "Related Disciplines & Society": {
+    "priority": 0,
+    "in_prompt": true,
+    "keywords": {}
+  },
+  "Other": {
+    "priority": -1,
+    "in_prompt": false,
+    "_comment": "Terms no rule placed. Empty in every current build — with heslar_map and teater_branch_map in force nothing falls through. A non-empty Other means a source added a list the maps do not cover; treat it as a build failure to investigate, not a bucket to hide things in.",
+    "keywords": {}
+  }
+}

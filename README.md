@@ -79,12 +79,12 @@ Update with `git pull` in the installed clone.
 ```bash
 bash scripts/server.sh          # Docker Compose api profile, or the local fallback
 bash scripts/server.sh --gpu    # Docker with the GPU overlay (KeyBERT on the GPU)
-bash scripts/server.sh --local  # a local server in venv-kw (no Docker; statistical kind only)
+bash scripts/server.sh --local  # a local server in venv-kw (no Docker)
 ```
 
 The script exits at once if `/ready` already answers, and otherwise waits for it. With Docker it runs the
-released image of this branch's version (from `para_config.txt`), which carries the AMČR/TEATER vocabulary, and
-builds the image from the checkout when it cannot pull it (then only the statistical kind runs). The port defaults
+released image of this branch's version (from `para_config.txt`), and builds the image from the checkout when it
+cannot pull it. Both carry the AMČR/TEATER vocabulary (`data_samples/vocab/`). The port defaults
 to `8000` (`ATRIUM_KW_PORT`). For the controlled kind, set `LLM_BACKEND` and its key or server in `.env` (see
 `.env.example`). Every setting, limit and error is in [`service/README.md`](service/README.md).
 

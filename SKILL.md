@@ -21,9 +21,9 @@ the only thing the agent calls directly.
   or a Python venv with `requirements.txt` and `service/requirements.txt`.
 - **The two kinds need different things.** The statistical kind needs nothing beyond the server. The controlled
   kind needs an LLM backend (`LLM_BACKEND=openrouter` with `OPENROUTER_API_KEY` and `OPENROUTER_MODEL`, or
-  `LLM_BACKEND=ollama` with `OLLAMA_HOST` and `OLLAMA_MODEL`), and the AMČR/TEATER vocabulary, which the
-  **published image** carries and this branch does not. Without either, `--kind both` returns the statistical
-  keywords and reports the controlled kind as `skipped`; `--info` says why (`controlled.detail`).
+  `LLM_BACKEND=ollama` with `OLLAMA_HOST` and `OLLAMA_MODEL`), and the AMČR/TEATER vocabulary
+  (`data_samples/vocab/`, on this branch and in the image). Without a backend, `--kind both` returns the
+  statistical keywords and reports the controlled kind as `skipped`; `--info` says why (`controlled.detail`).
 - **First launch**: the KeyBERT model (`paraphrase-multilingual-MiniLM-L12-v2`, about 500 MB) is downloaded into
   the Hugging Face cache. Warmup takes minutes, not seconds; do **not** treat a slow first start as failure.
   YAKE needs no model.
@@ -56,7 +56,7 @@ Scores mean different things per method: compare them only within one method and
 ```bash
 bash scripts/server.sh          # Docker Compose api profile (or the local fallback)
 bash scripts/server.sh --gpu    # Docker with the GPU overlay
-bash scripts/server.sh --local  # force a local server in venv-kw (no Docker; statistical kind only)
+bash scripts/server.sh --local  # force a local server in venv-kw (no Docker)
 ```
 
 Idempotent: exits at once if `GET /ready` already answers 200; otherwise waits for the first-run download.
