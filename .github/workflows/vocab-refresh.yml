@@ -114,15 +114,14 @@ jobs:
             of being taken on trust.
           add-paths: data_samples/vocab
 
-      - name: Open Issue on Failure
+      # One open issue per failing lane, commented on by each later failure; scheduled runs only
+      # (atrium-project#81). It used to open a new issue on every failing run.
+      - name: Open or update the lane's issue on scheduled failure
         if: failure() && github.event_name == 'schedule'
-        uses: actions/github-script@v9
+        uses: ufal/atrium-project/.github/actions/lane-failure-issue@v1
         with:
-          script: |
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Scheduled Vocabulary Refresh Failed',
-              body: 'The vocabulary harvest failed. Please review the action logs: ' + context.serverUrl + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId,
-              labels: ['bug', 'automated issue']
-            })
+          lane: vocab-refresh
+          title: Scheduled vocabulary refresh failed
+          labels: bug,automated issue
+          body: >-
+            The vocabulary harvest failed. Please review the action logs.

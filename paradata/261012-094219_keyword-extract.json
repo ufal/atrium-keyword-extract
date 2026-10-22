@@ -1,0 +1,135 @@
+{
+  "schema_version": "2.0",
+  "program": "keyword-extract",
+  "tool_version": "v1.2.0-beta",
+  "repository": "https://github.com/ufal/atrium-keyword-extract",
+  "runner_ref": "",
+  "docker_image": "",
+  "python_version": "3.11.4 (main, Jul 26 2023, 14:53:35) [GCC 11.3.0]",
+  "run_id": "261012-094219",
+  "run_uuid": "urn:uuid:67ea5857-5c31-43b6-bd7c-a4dcc697174b",
+  "run_agent": "",
+  "license": "CC0",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "license_detail": {
+    "effective_license": "CC0",
+    "effective_license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "is_non_commercial": false,
+    "is_share_alike": false,
+    "determined_by": [
+      "amcr_vocab",
+      "teater_data"
+    ],
+    "components": [
+      {
+        "name": "amcr_vocab",
+        "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "rank": 0
+      },
+      {
+        "name": "teater_data",
+        "license": "CC0",
+        "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "rank": 0
+      }
+    ],
+    "unknown_licenses": [],
+    "notes": "Effective output license is CC0, the most restrictive among 2 component(s) used."
+  },
+  "start_time": "2026-10-12T09:42:19.931969+00:00",
+  "end_time": "2026-10-12T12:35:11.711069+00:00",
+  "duration_seconds": 10371.779,
+  "config": {
+    "MODEL_KEY": "qwen-3.6-27b-it",
+    "INPUT_DIR": "data_samples/DOC_LINE_CATEG",
+    "OUTPUT_DIR": "data_samples/KW_PER_DOC_LLM",
+    "VOCAB_PATH": "data_samples/vocab/union_nested.json",
+    "PARADATA_DIR": "paradata",
+    "EMIT_CATEGORY_IDS": "true",
+    "PROMPT_TEMPLATE": "prompts/system_prompt.txt",
+    "PROMPT_TASK_EXTRACT": "true",
+    "PROMPT_TASK_SELECT": "true",
+    "PROMPT_METATEXT_RULE": "true",
+    "PROMPT_OCR_NORMALISATION": "true",
+    "PROMPT_EXACT_TERM": "true",
+    "PROMPT_EXAMPLES": "true",
+    "PROMPT_GEO_GUARDRAIL": "preference",
+    "PROMPT_VOCAB_GROUPING": "facet_sub",
+    "INCLUDE_NON_TEXT": "true",
+    "MIN_CHAR_COUNT": "3",
+    "MIN_CHAR_NON_TEXT": "8",
+    "MIN_ALPHA_RATIO_NON_TEXT": "0.4",
+    "PREFILL_CHUNK_SIZE": "8192",
+    "REUSE_PROMPT_CACHE": "true",
+    "output_dir_resolved": "data_samples/KW_PER_DOC_LLM_qwen_36_27b_it",
+    "backend": "transformers",
+    "include_non_text": true,
+    "min_char_count": 3,
+    "min_char_non_text": 8,
+    "min_alpha_ratio_non_text": 0.4,
+    "vocabulary": {
+      "vocab": {
+        "path": "data_samples/vocab/union_nested.json",
+        "meta_path": "data_samples/vocab/union_nested.meta.json",
+        "tool_version": "v1.2.0-beta",
+        "terms": 4711
+      },
+      "taxonomy": {
+        "config_sha256": "19bc42f3854da8ac4107732bd8b15d0d0798df47621a8edea71ab75662c6d1ba",
+        "overrides_sha256": "889412a5363ab0454bbfbe829bdb2472375cfb5e1e33eb76143eab512fad3573"
+      },
+      "sources": {
+        "amcr": {
+          "records": 1460,
+          "license": "CC0",
+          "ref": "https://api.aiscr.cz/2.2/oai"
+        },
+        "teater": {
+          "records": 4134,
+          "license": "CC0",
+          "ref": "2106c59103556731c56dc116573c4b02e1199466"
+        }
+      },
+      "components": [
+        "amcr_vocab",
+        "teater_data"
+      ]
+    },
+    "prompt": {
+      "sha256": "52b2741cca704ab4c5a6f31407e391d9856d8275b09f89702469cfab6279eff3",
+      "terms_offered": 4711,
+      "context_window": 262144,
+      "cached_prefix_tokens": 58259
+    }
+  },
+  "statistics": {
+    "input_files_total": 19,
+    "successfully_processed": 16,
+    "skipped_files": 3,
+    "output_counts_by_type": {
+      "json": 16
+    },
+    "performance_per_minute": {
+      "json": 0.0926
+    }
+  },
+  "skipped_files_detail": [
+    {
+      "file": "CTX000000001.csv",
+      "reason": "already_exists",
+      "timestamp": "2026-10-12T09:45:35.925392+00:00"
+    },
+    {
+      "file": "CTX000000002.csv",
+      "reason": "already_exists",
+      "timestamp": "2026-10-12T09:45:35.972543+00:00"
+    },
+    {
+      "file": "CTX000000003.csv",
+      "reason": "already_exists",
+      "timestamp": "2026-10-12T09:45:36.018859+00:00"
+    }
+  ],
+  "limits_applied": []
+}

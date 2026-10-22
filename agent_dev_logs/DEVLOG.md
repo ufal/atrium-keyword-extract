@@ -828,6 +828,21 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
   nlp-enrich `477f68c`, `VENDORED` re-pinned, `ADOPTED` = `477f68c` / `v1.1.3-beta` (on `test` and `agent-skill`).
   A separate archive, to push after nlp-enrich's `v1.1.3-beta`. `tests/test_vendored_teitok_parity.py`: 6 passed.
 
+## 2026-10-22 (round 4) — The README on the skeleton (atrium-project#79); #2 for the pilot; the lane notifier (#81)
+* **atrium-project#79:** README 349 → 109 lines on the hub's template; the moved text, unchanged, in `docs/usage.md`
+  (setup, the service, the batch CLI, the controlled kind's command lines, Docker), `docs/how-it-works.md` (the two
+  kinds, the vocabulary), `docs/reference/outputs.md` (the CLI's files and scores) and `docs/reference/licences.md`.
+  The Quick start was run (`/extract_keywords_text`, YAKE). Headings plain in README and CONTRIBUTING; the
+  acknowledgements name ATRIUM, LINDAT/CLARIAH-CZ and AIS CR. Map: the hub's
+  `plans/79.keyword-extract_relocation_map.md`. `docs_check` OK. It lands with the next code release.
+* **#2:** motyc (10-22): the constrained vocabulary stays for the pilot; Option 3 after it, compared on the gold set
+  and only as an intermediate step; curated mappings keep both sources' labels and ids. Dev logs `{2}` updated
+  (ruling D2). No code change.
+* **atrium-project#81:** `scheduled-smoke.yml` and `vocab-refresh.yml` open or update one issue per failing lane
+  through the hub's `lane-failure-issue` action (needs the hub's new `v1`).
+* **atrium-project#51:** `atrium_vocab.py` and its two shared tests re-vendored.
+* **Checks:** 1,044 passed, 5 skipped; `ruff` clean; `workflow_lint.py` against the new hub.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

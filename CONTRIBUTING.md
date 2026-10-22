@@ -1,10 +1,10 @@
-# 🤝 Contributing to the Keyword Extraction of the ATRIUM project
+# Contributing to the Keyword Extraction of the ATRIUM project
 
 Thank you for your interest in contributing!
 This document describes the development workflow, conventions, and rules for contributors.
 The repository was assembled on 1 October 2026 from the keyword extraction of `atrium-nlp-enrich` and of `atrium-llm-enrich` (atrium-keyword-extract#1); their release histories stay in those repositories.
 
-## 📦 Release History
+## Release History
 
 | Version         | Highlights                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Status      |
 |:----------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------|
@@ -16,7 +16,7 @@ The repository was assembled on 1 October 2026 from the keyword extraction of `a
 
 ---
 
-## 🌿 Branches & Environments
+## Branches & Environments
 
 | Branch   | Environment          | Rule                                                                            |
 |----------|----------------------|---------------------------------------------------------------------------------|
@@ -30,7 +30,7 @@ master  ←  (humans only, after test stabilises)
 
 ```
 
-### 🏷️ Branch Naming
+### Branch Naming
 
 | Type             | Pattern          | Example              |
 |------------------|------------------|----------------------|
@@ -40,7 +40,7 @@ master  ←  (humans only, after test stabilises)
 
 ---
 
-## 🔁 Contributor Workflow
+## Contributor Workflow
 
 1. **Create an issue** (or find an existing one) describing the problem or feature.
 2. **Branch from `test`:**
@@ -55,7 +55,7 @@ git checkout -b feature-<name>
 
 ---
 
-## 📋 Pull Request Format
+## Pull Request Format
 
 Every PR must include:
 
@@ -75,7 +75,7 @@ maintainers' responsibility.
 
 ---
 
-## ✏️ Commit Messages
+## Commit Messages
 
 Format:
 
@@ -101,7 +101,7 @@ Allowed types:
 
 ---
 
-## 🧪 Code Conventions & Testing
+## Code Conventions & Testing
 
 ### Code Conventions
 
@@ -199,7 +199,7 @@ self-consistent. Eleven modules do this, and it is the point of each:
 
 ---
 
-## 📁 Repository Documentation Management
+## Repository Documentation Management
 
 Each documentation file has one target audience and one responsibility. Rules are not repeated — cross-references are used instead.
 
@@ -220,7 +220,7 @@ still point correctly.
 
 ---
 
-## ⚙️ Generated Artefacts
+## Generated Artefacts
 
 Some files are modified automatically by scripts or hooks:
 
@@ -266,7 +266,7 @@ and only then tag; a `workflow_dispatch` dry run of the release shows the same g
 
 ---
 
-## 📞 Contacts & Acknowledgements
+## Contacts & Acknowledgements
 
 For technical questions contact **lutsai.k@gmail.com**
 
