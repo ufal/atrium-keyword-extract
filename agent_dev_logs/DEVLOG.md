@@ -860,6 +860,19 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **#2:** pair refreshed; no new comment, nothing changes for the pilot.
 * **Checks:** 1,017 passed, 6 skipped; `workflow_lint` OK.
 
+
+## 2026-10-25 (evening) — CONTRIBUTING links the two checklists; the documentation check in CI (atrium-project#79, #81)
+* **CONTRIBUTING (atrium-project#79, #81):** the "Repository Documentation Management" section links the
+  hub's documentation style guide and `ci_policy.md#changing-ci`, the questions a new or changed CI check
+  answers, as the hub's CONTRIBUTING template does. Nothing else in the file changed.
+* **The documentation check in CI (atrium-project#79 E):** Workflow Policy Lint runs the hub's
+  `tools/docs_check.py` over this repository, advisory until the newcomer review, from the pin to the hub commit
+  that carries it (atrium-project#72 step B). It passes today.
+* **Quick start:** every endpoint, field, flag and sample file it shows exists at `v1.4.0-beta`, the release it
+  names (a static check; running it needs Docker and the Hugging Face Hub or LINDAT).
+* **atrium-project#81:** the release gate gets one clean dry run (`release.yml` dispatched on `test`)
+  before the next tag.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

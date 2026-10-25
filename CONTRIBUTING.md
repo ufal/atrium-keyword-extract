@@ -213,6 +213,11 @@ Each documentation file has one target audience and one responsibility. Rules ar
 | `data_samples/vocab/6.*.md`              | Domain reviewers        | One question each, with numbers from the sheets beside them; its ruling heads the file  |
 | `agent_dev_logs/DEVLOG.md`               | Maintainers             | Per-issue history: digests, plans, decisions                                            |
 
+Where each kind of information belongs, and the checklist for a documentation pull request:
+[`docs/documentation-style.md`](https://github.com/ufal/atrium-project/blob/main/docs/documentation-style.md); Workflow Policy Lint
+checks the links, anchors and headings on every push. What each CI check proves, and the checklist
+for a new one: [`docs/ci_policy.md`](https://github.com/ufal/atrium-project/blob/main/docs/ci_policy.md#changing-ci).
+
 * **Do not duplicate rules:** if a rule is defined in `CONTRIBUTING.md`, other files
 reference it rather than copying it.
 * **When changing a rule:** update the canonical source and verify that referencing files
