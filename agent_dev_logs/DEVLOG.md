@@ -843,6 +843,23 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **atrium-project#51:** `atrium_vocab.py` and its two shared tests re-vendored.
 * **Checks:** 1,044 passed, 5 skipped; `ruff` clean; `workflow_lint.py` against the new hub.
 
+## 2026-10-25 — The ORCID; the release gate; the live lane reports failures (atrium-project#13, #81)
+* **Shared modules (hub re-vendor, atrium-project#13, #6, #79):** `atrium_rocrate.py` writes David Novák's
+  correct ORCID (`0000-0001-6592-6291`) as a tool creator in every crate; `atrium_document.schema.json` describes
+  `provenance.license*` as calculated from the components, not the output's licence (descriptions only, no
+  `POST_FREEZE_CHANGES` entry); an `atrium_vocab.py` comment names page-classification's new categories page.
+  `service/openapi.json` regenerated: description-only, and the `x-atrium-record-schema` digest.
+* **`CITATION.cff`:** the ORCID corrected; each author's affiliation in its ROR name (Charles University;
+  Czech Academy of Sciences, Institute of Archaeology, Prague). Authors unchanged until they confirm (#13).
+* **atrium-project#81:** `release.yml` gains the `image` job (the hub's `docker-tool.reusable.yml` with this
+  repository's `docker.yml` inputs and `release-gate: true`), the `simulate-probe-failure` dispatch input, and
+  `images.json` in the release; `docker.yml` no longer runs on tags. It takes effect at the next tag, after
+  digital-convert's dispatched demonstration. No version bump.
+* **atrium-project#81:** `controlled-live.yml` opens or updates one issue when its weekly run fails (the hub's
+  `lane-failure-issue`); its header no longer claims a push trigger it does not have.
+* **#2:** pair refreshed; no new comment, nothing changes for the pilot.
+* **Checks:** 1,017 passed, 6 skipped; `workflow_lint` OK.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

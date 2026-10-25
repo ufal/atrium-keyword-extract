@@ -7,9 +7,9 @@
 # against OpenRouter with the repository's OPENROUTER_KEY secret: one record, two lines, two
 # calls of some 50k prompt tokens each.
 #
-# When: on demand (before a release), weekly (the default branch), and on a push to test that
-# changes what the model is sent or how its reply is read. Not on every push and not on pull
-# requests: every run is paid for, and a fork's pull request gets no secret anyway.
+# When: on demand (before a release) and weekly (the default branch). Not on every push and not
+# on pull requests: every run is paid for, and a fork's pull request gets no secret anyway. A
+# failing weekly run opens (or comments on) one issue for this lane (atrium-project#81).
 #
 # The model is the manual run's input, else the repository variable OPENROUTER_MODEL, else
 # openai/gpt-4o-mini (the service README's example and the hub E2E's default). A failure here is
@@ -52,6 +52,7 @@ concurrency:
 
 permissions:
   contents: read   # least privilege: reads the tree, calls OpenRouter
+  issues: write    # the lane's failure issue (lane-failure-issue), scheduled runs only
 
 jobs:
   live:
@@ -90,3 +91,16 @@ jobs:
           fi
           echo "model: $OPENROUTER_MODEL"
           pytest -s -rs tests/test_controlled_live.py
+
+      # One open issue per failing lane, commented on by each later failure; scheduled runs only
+      # (atrium-project#81), as in scheduled-smoke.yml.
+      - name: Open or update the lane's issue on scheduled failure
+        if: failure() && github.event_name == 'schedule'
+        uses: ufal/atrium-project/.github/actions/lane-failure-issue@v1
+        with:
+          lane: controlled-live
+          title: Controlled kind (live LLM) failed
+          labels: bug,automated issue
+          body: >-
+            The weekly run of the controlled kind against OpenRouter failed. A failure here is
+            first the provider's or the model's answer: read the log before touching the code.

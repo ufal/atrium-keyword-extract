@@ -1,9 +1,9 @@
 # .github/workflows/release.yml
 # Creates a GitHub Release with auto-generated notes when a v* tag is pushed.
 #
-# The Docker image published to GHCR via docker.yaml is the canonical release artefact for
-# keyword-extract.  service/ is not a standalone download, so no
-# service_bundle.zip is produced here. Since atrium-project#32 round 2 each release carries
+# The images this release certifies (below) are its canonical artefact; service/ is not a
+# standalone download, so no service_bundle.zip is produced here.
+# Since atrium-project#32 round 2 each release carries
 # the service's OpenAPI document instead: `openapi.json` (service/openapi.json, stamped with
 # the release version) and `openapi.json.sha256` — the spec the AMČR pipeline generates its
 # clients from, and the digest a running image reports as /info `openapi_sha256`. The
@@ -19,10 +19,17 @@
 #   git tag -a v1.0.0 -m "v1.0.0 — the first release of keyword-extract"
 #   git push origin v1.0.0
 #
-# After the tag push three workflows fire in sequence:
-#   1. docker.yaml        — builds and pushes ghcr.io/ufal/atrium-keyword-extract:v1.0.0
-#   2. release.yml        — creates the GitHub Release (this file)
-#   3. security.yml       — (scheduled/dispatch) Trivy-scans :latest after :v1.0.0 is live
+# The release certifies its images (atrium-project#81, decided 2026-10-22): the `image` job builds,
+# probes, scans and promotes them through the hub's docker-tool.reusable.yml with
+# `release-gate: true`, and the release job needs it. A failed test, build, container probe or
+# fixable-CRITICAL gate therefore means no release; the release attaches `images.json` (the digest
+# each promoted tag resolves to) and its notes open with the digests. docker.yml no longer runs on
+# a tag, so one tag run does both (hub docs/ci_policy.md, Releases). A dispatched dry run builds
+# and probes the images without pushing them; with `simulate-probe-failure` the probe fails on
+# purpose and nothing may be pushed or released.
+#
+# On the tag push this file alone runs: version-guard and image, then the release. The images
+# are ghcr.io/ufal/atrium-keyword-extract (batch), -api and -llm, tagged <version without the `v`>.
 
 name: Release
 
@@ -39,6 +46,11 @@ on:
       - 'v*'
   # The dry run (see the header): no release is created.
   workflow_dispatch:
+    inputs:
+      simulate-probe-failure:
+        description: "Make the container probe fail on purpose (atrium-project#81): nothing may be published."
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -83,9 +95,50 @@ jobs:
             python check_version.py --citation CITATION.cff --para-config para_config.txt
           fi
 
+  # ── The images this release certifies (atrium-project#81) ──────────────────────────────────
+  # The one cross-repo `uses:` of this file, by decision: only the hub's reusable builds, probes,
+  # scans and promotes the image a release certifies (hub docs/release_trust.md). The inputs are
+  # docker.yml's. With release-gate a failed probe leg pushes nothing for any target, and the
+  # `release` job below never runs.
+  image:
+    needs: version-guard
+    permissions:
+      # docker-tool.reusable.yml's build-and-push uploads the post-publish Trivy SARIF and pushes
+      # to GHCR; a reusable's permissions are capped by this block (see docker.yml).
+      contents: read
+      packages: write
+      security-events: write
+    uses: ufal/atrium-project/.github/workflows/docker-tool.reusable.yml@v1
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    with:
+      image-name: ufal/atrium-keyword-extract
+      apt-packages: ""
+      pre-install-torch: ""
+      requirements: "requirements.txt requirements-test.txt"
+      hf-model-cache: false
+      # base  -> ghcr.io/ufal/atrium-keyword-extract       (batch CLI, keywords.py)
+      # api   -> ghcr.io/ufal/atrium-keyword-extract-api   (python -m service.api, $PORT)
+      # llm   -> ghcr.io/ufal/atrium-keyword-extract-llm   (research: the LLM batch, GPU)
+      # Targets are passed through verbatim since the template fix — "base"
+      # now genuinely builds the `AS base` stage, not the last one.
+      build-targets: '["base", "api", "llm"]'
+      # issue #55: only `api` is a runnable HTTP server, so only `api` gets the
+      # container smoke (docker run -> wait for HEALTHCHECK healthy -> GET /health
+      # and /ready -> docker stop and assert a clean exit inside the grace period).
+      # `base` and `llm` are batch CLIs — probing either would fail an image that is
+      # behaving exactly as intended.
+      probe-targets: '["api"]'
+      # atrium-project#72: `api` is this stage's production image, the one AMČR pins; its
+      # first-party files are declared in .github/production-image.json and checked by
+      # workflow-lint. `base` (keywords.py) and `llm` are batch targets: published, never
+      # pinned; `llm` is replaced by the controlled kind of the service (atrium-keyword-extract#1).
+      release-gate: true
+      simulate-probe-failure: ${{ github.event_name == 'workflow_dispatch' && inputs.simulate-probe-failure }}
+
   release:
     name: Create GitHub Release
-    needs: version-guard
+    needs: [version-guard, image]
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -227,6 +280,30 @@ jobs:
           print(f"{name}: {len(files)} files, {total} terms, sha256 {digest}")
           PY
 
+      - name: Write images.json (atrium-project#81)
+        # The digests the image job promoted; on a tag the release is only reached when it passed,
+        # so an empty output there is a failure, not a release without its images.
+        if: github.ref_type == 'tag'
+        env:
+          IMAGES_JSON: ${{ needs.image.outputs.images-json }}
+        run: |
+          set -euo pipefail
+          if [ -z "$IMAGES_JSON" ]; then
+            echo "::error::the image job reported no promoted images; the release would not certify them"
+            exit 1
+          fi
+          mkdir -p dist
+          printf '%s\n' "$IMAGES_JSON" | python -m json.tool > dist/images.json
+          ( cd dist && sha256sum images.json > images.json.sha256 )
+          printf '%s\n\n' "**Images this release certifies** (\`images.json\`, atrium-project#81):" > "$RUNNER_TEMP/notes.md"
+          python - <<'PY' >> "$RUNNER_TEMP/notes.md"
+          import json
+          record = json.load(open("dist/images.json", encoding="utf-8"))
+          for entry in record["images"]:
+              print(f"- `{entry['image']}:{entry['tag']}` = `{entry['digest']}`")
+          PY
+          cat "$RUNNER_TEMP/notes.md" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Create GitHub Release
         if: github.ref_type == 'tag'
         # SHA-pinned: this action holds `contents: write`. A moving tag can be
@@ -238,6 +315,8 @@ jobs:
         # an immutable release (atrium-project#40) refuses assets added after it is published.
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3.0.3
         with:
+          # The certified images first, then the generated notes (atrium-project#81).
+          body_path: ${{ runner.temp }}/notes.md
           generate_release_notes: true
           make_latest: true
           files: |
@@ -245,3 +324,5 @@ jobs:
             dist/openapi.json.sha256
             dist/atrium-vocabulary-*.zip
             dist/atrium-vocabulary-*.zip.sha256
+            dist/images.json
+            dist/images.json.sha256
