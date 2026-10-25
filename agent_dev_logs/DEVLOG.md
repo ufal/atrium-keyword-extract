@@ -873,6 +873,15 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 * **atrium-project#81:** the release gate gets one clean dry run (`release.yml` dispatched on `test`)
   before the next tag.
 
+
+## 2026-10-25 (night) — The hub's reusables by commit (atrium-project#72)
+* **Hub by commit (atrium-project#72 E.4):** every hub reusable caller (8) and hub-action step (3) runs at
+  `@18f06680dfb6…  # v1`; `para-drift` and `workflow-lint` read the hub at the same `hub-ref`, and the lint has
+  `require-sha-pins: true`, so a caller or action left at `@v1` fails it. A hub change reaches this repository only
+  through a pin move (`scripts/pin_hub_reusables.py` in the hub).
+* **The documentation check (atrium-project#79 E)** comes with this hub commit: Workflow Policy Lint now runs
+  `docs_check.py` over this repository, advisory.
+
 ---
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);

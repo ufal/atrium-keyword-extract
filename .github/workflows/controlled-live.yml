@@ -96,7 +96,7 @@ jobs:
       # (atrium-project#81), as in scheduled-smoke.yml.
       - name: Open or update the lane's issue on scheduled failure
         if: failure() && github.event_name == 'schedule'
-        uses: ufal/atrium-project/.github/actions/lane-failure-issue@v1
+        uses: ufal/atrium-project/.github/actions/lane-failure-issue@18f06680dfb60142eeece2f46189f9a2fa79230a  # v1
         with:
           lane: controlled-live
           title: Controlled kind (live LLM) failed
