@@ -15,11 +15,10 @@
 
 name: Vocabulary Refresh
 
-# Ref-less group, mirroring the hub's issue-log-refresh.yml: this workflow reaches out
-# to api.aiscr.cz and writes artifacts, so exactly one harvest runs at a time across the
-# whole repository, not one per branch. `cancel-in-progress: false` — a killed harvest
-# leaves a partial OAI-PMH walk, and being polite to a public endpoint matters more than
-# a fast queue.
+# Ref-less group: this workflow reaches out to api.aiscr.cz and writes artifacts, so exactly
+# one harvest runs at a time across the whole repository, not one per branch.
+# `cancel-in-progress: false` — a killed harvest leaves a partial OAI-PMH walk, and being
+# polite to a public endpoint matters more than a fast queue.
 concurrency:
   group: vocab-refresh
   cancel-in-progress: false
@@ -100,8 +99,8 @@ jobs:
       - name: Open a pull request
         if: inputs.open_pr
         # SHA-pinned: this action runs with contents:write + pull-requests:write,
-        # so a force-pushed tag would run attacker code holding both. Same pin the
-        # hub uses in issue-log-refresh.yml; Dependabot keeps SHA and comment current.
+        # so a force-pushed tag would run attacker code holding both. Dependabot keeps
+        # SHA and comment current.
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1  # v8.1.1
         with:
           branch: chore/vocab-refresh-${{ github.run_id }}

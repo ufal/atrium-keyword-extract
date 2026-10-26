@@ -65,7 +65,9 @@ keyword-extract comes after nlp-enrich, which gives the record its lemmas and pa
 born-digital route after digital-convert. It writes the record's `keywords` and `enrichment` blocks, which
 nlp-enrich's `/project_record` can carry into the TEITOK header. The vocabulary build is also released as
 `atrium-vocabulary-<version>.zip`, which the translator and the end-to-end tests read. The whole chain: the
-[hub's workflow page](https://ufal.github.io/atrium-project/workflows/keyword-extract/).
+[hub's workflow page](https://ufal.github.io/atrium-project/workflows/keyword-extract/). Its SSH Open Marketplace
+record: [Keyword extraction from archival documents (statistical and vocabulary-controlled) -
+ATRIUM](https://marketplace.sshopencloud.eu/tool-or-service/j9fqxo).
 
 ## Limits and maturity
 

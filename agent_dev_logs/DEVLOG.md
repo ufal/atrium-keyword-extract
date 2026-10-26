@@ -886,3 +886,10 @@ released yet: v0.22.0 is suggested in `CONTRIBUTING.md`.
 _Timeline index refreshed 2026-09-26 (AMČR baseline entry and header); 2026-09-24 (round 4) against `test` HEAD `3654e73` and again after the push (round 5) against `8003051`, using the `CONTRIBUTING.md` changelog, commit
 subjects, the issue exports in `issues/`, GitHub Actions runs and tags, and the TEITOK/flexi* audit. Nothing removed from the issues themselves (per hub #29);
 this file is a derived reading aid in `agent_dev_logs/`._
+
+## 2026-10-26 — Triage (atrium-project): the README's SSHOMP record; the refresh workflow's comments
+* **README** ("Where it fits in ATRIUM"): links the SSH Open Marketplace record `j9fqxo`, re-pointed to this
+  repository on 10-24 (atrium-project#4); the hub's workflow page names it in its **Record** row too.
+* **`vocab-refresh.yml`:** two comments cited the hub's `issue-log-refresh.yml`, deleted on 2026-09-06; they now
+  stand on their own (comments only; the workflow lint passes with `--require-sha-pins`).
+* **#2:** unchanged and already stated on the thread; the plan names the two cluster steps left before David's review.
