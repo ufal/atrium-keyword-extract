@@ -3,6 +3,8 @@
 INPUT_DIR = data_samples/UDP
 OUTPUT_FILE = data_samples/keywords_summary_{method}.csv
 PER_DOC_OUT_DIR = data_samples/KW_PER_DOC_{METHOD}
+# --per-page writes each page's keywords here (atrium-project#72)
+PER_PAGE_OUT_DIR = data_samples/KW_PER_PAGE_{METHOD}
 
 # Extraction settings
 METHOD = keybert

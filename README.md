@@ -22,10 +22,13 @@ NameTag). The images of those two repositories that carried these stages stay pu
 | the ATRIUM document record after nlp-enrich: its `lines[].text`, `lemma`, `upos` | statistical keywords of the document and of each page; the record with its `keywords` block                                  |
 | the same record, with a language-model service configured                        | per line, an AMČR/TEATER term with its ids, the Czech and English keywords of the line, entity links; the `enrichment` block |
 | a plain text (`/extract_keywords_text`)                                          | its statistical keywords                                                                                                     |
-| for the batch command line: nlp-enrich's CoNLL-U or TEITOK files                 | a summary CSV and one CSV per document ([outputs](docs/reference/outputs.md))                                                |
+| nlp-enrich's CoNLL-U or TEITOK file, a line table (CSV), a `.txt`                | the same statistical keywords, from the service (`file`) or the command line                                                 |
+| for the batch command line: a folder of any of the above                         | a summary CSV, one CSV per document and per page, the records ([outputs](docs/reference/outputs.md))                         |
 
 The record follows the hub's [document contract](https://ufal.github.io/atrium-project/ecosystem/document-contract/);
-lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out.
+lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out. `keywords.py` and the service read every input
+with the same code (`kw_inputs.py`); what only one of them does, and why:
+[the command line and the service](docs/usage.md#the-command-line-and-the-service).
 
 ## Quick start
 

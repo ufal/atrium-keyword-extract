@@ -82,12 +82,12 @@ if str(_ROOT) not in sys.path:
 
 import atrium_rocrate  # noqa: E402
 import keywords as kw  # noqa: E402
+import kw_inputs  # noqa: E402
 import llm_client_shared as llm  # noqa: E402
 import prompt_template  # noqa: E402
 import tool_limits  # noqa: E402
 from atrium_limits import LimitNotes  # noqa: E402
 from atrium_paradata import ParadataLogger  # noqa: E402
-from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES  # noqa: E402
 from tool_limits import (  # noqa: E402
     LIMITS,
     LLM_MAX_CONSECUTIVE_ERRORS,
@@ -137,8 +137,8 @@ _METHOD_HELP = {
 #: text layer that does not decode. `Empty` has nothing to read. Until 2026-10-05 only `Trash` and
 #: `Empty` were left out here, so a born-digital record's mojibake was read as text. The controlled
 #: kind leaves out the same lines (`llm_client_shared.should_process_line`).
-_SKIPPED_CATEGORIES = frozenset(UNTRUSTWORTHY_LINE_CATEGORIES) | {"Empty"}
-_KER_POS = frozenset({"NOUN", "PROPN", "ADJ"})
+_SKIPPED_CATEGORIES = kw_inputs.SKIPPED_CATEGORIES
+_KER_POS = kw_inputs.KER_POS
 
 #: Retry-After of a `busy` refusal: one extraction takes seconds to a minute.
 _BUSY_RETRY_AFTER_S = 15
@@ -656,87 +656,39 @@ add_cors(app)
 # ── helpers ────────────────────────────────────────────────────────────────────────────────
 
 
-class _Doc:
-    """The text of one document as the extraction methods read it."""
-
-    def __init__(self) -> None:
-        self.text = ""
-        self.lemmas: List[str] = []
-        self.pages: List[Dict[str, Any]] = []  # {"page", "text", "lemmas"}
-        self.words = 0
-        #: The controlled kind's rows: every line, the skipped ones too (they are context).
-        self.rows: List[Dict[str, Any]] = []
-
-
-def _lemma(line: Dict[str, Any]) -> Optional[str]:
-    """The lemma KER counts for a line's token, or None (the line has no analysis for it)."""
-    lemma = line.get("lemma")
-    if (
-        line.get("upos") in _KER_POS
-        and isinstance(lemma, str)
-        and len(lemma) > 1
-        and lemma.isalpha()
-    ):
-        return lemma.lower()
-    return None
+#: The document an extraction reads: ``kw_inputs.Document``, the command line's too (atrium-project#72).
+_Doc = kw_inputs.Document
 
 
 def _doc_from_record(record: Dict[str, Any]) -> _Doc:
     """The document's text, and its pages', from the record's lines (or, failing those, its `content`)."""
-    doc = _Doc()
-    order: List[str] = []
-    per_page: Dict[str, Dict[str, Any]] = {}
-    for line in record.get("lines") or []:
-        if not isinstance(line, dict):
-            continue
-        text = str(line.get("text") or "").strip()
-        if not text or line.get("categ") in _SKIPPED_CATEGORIES:
-            continue
-        label = str(line.get("page")) if line.get("page") is not None else "1"
-        entry = per_page.get(label)
-        if entry is None:
-            entry = per_page[label] = {"page": label, "parts": [], "lemmas": []}
-            order.append(label)
-        entry["parts"].append(text)
-        lemma = _lemma(line)
-        if lemma:
-            entry["lemmas"].append(lemma)
-    if order:
-        doc.pages = [
-            {"page": p, "text": " ".join(per_page[p]["parts"]), "lemmas": per_page[p]["lemmas"]}
-            for p in order
-        ]
-        doc.text = " ".join(p["text"] for p in doc.pages)
-        doc.lemmas = [lemma for p in doc.pages for lemma in p["lemmas"]]
-        doc.rows = llm.record_rows(record)
-    else:
-        content = record.get("content")
-        text = str((content or {}).get("text") or "").strip() if isinstance(content, dict) else ""
-        if not text:
-            raise HTTPException(
-                422, "The record has no text: no `lines[].text` and no `content.text`."
-            )
-        doc.text = text
-        doc.rows = llm.text_rows(text)
-    doc.words = len(doc.text.split())
-    return doc
+    try:
+        return kw_inputs.from_record(record)
+    except kw_inputs.NoText as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
 def _doc_from_text(text: str) -> _Doc:
-    doc = _Doc()
-    doc.text = text.strip()
-    doc.words = len(doc.text.split())
-    if not doc.text:
-        raise HTTPException(422, "The text is empty.")
-    doc.rows = llm.text_rows(doc.text)
-    return doc
+    try:
+        return kw_inputs.from_text(text)
+    except kw_inputs.NoText as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
-def _keywords(method: str, pairs: Any) -> List[Dict[str, Any]]:
-    return [
-        {"keyword": phrase, "score": float(score), "method": method, "rank": rank}
-        for rank, (phrase, score) in enumerate(pairs, start=1)
-    ]
+def _doc_from_file(name: str, data: bytes) -> _Doc:
+    """An uploaded file, read as ``keywords.py`` reads the same file: 415 for a kind it does not
+    read, 422 for one without text or that cannot be read."""
+    try:
+        return kw_inputs.read_document(name, data)
+    except kw_inputs.UnsupportedInput as exc:
+        raise AtriumHTTPError(
+            415, str(exc), reason="unsupported_media_type", accepted=list(exc.accepted)
+        ) from exc
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+
+
+_keywords = kw_inputs.keyword_entries
 
 
 def _extract(doc: _Doc, method: str, num_keywords: int, lang: str, per_page: bool, counts: dict):
@@ -771,20 +723,7 @@ def _check_size(doc: _Doc) -> None:
     MAX_DOCUMENT_WORDS.check(doc.words)
 
 
-def _record_stem(record: Optional[Dict[str, Any]]) -> str:
-    """The file stem the sent record is written under while its block is added: its own `doc_id`
-    when that is a plain file name, else ``record`` (the record keeps its id either way)."""
-    doc_id = (record or {}).get("doc_id")
-    if (
-        isinstance(doc_id, str)
-        and doc_id not in ("", ".", "..")
-        and doc_id.isprintable()
-        and "/" not in doc_id
-        and "\\" not in doc_id
-        and len(doc_id.encode("utf-8")) <= 200
-    ):
-        return doc_id
-    return "record"
+_record_stem = kw_inputs.record_stem
 
 
 def _note_line_limits(stats: Dict[str, int], notes: LimitNotes) -> None:
@@ -932,8 +871,8 @@ async def _run(
     if statistical and method == "legacy" and not doc.lemmas:
         raise HTTPException(
             422,
-            "The legacy (KER) method counts lemmas, and the input has none: send a record that nlp-enrich "
-            "has annotated (`lines[].lemma`, `lines[].upos`), or another method.",
+            "The legacy (KER) method counts lemmas, and the input has none: send nlp-enrich's CoNLL-U or "
+            "TEITOK file as `file`, a record with `lines[].lemma` and `lines[].upos`, or another method.",
         )
     if not _semaphore.take():
         raise busy(
@@ -1120,8 +1059,15 @@ _RECORD_HELP = (
     "The ATRIUM document record, after nlp-enrich: its `lines[].text` are read per page (lines categorised "
     "`Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the legacy method its `lines[].lemma` and "
     "`lines[].upos`. The controlled kind reads the same lines one by one, each with its neighbours as context, and "
-    "returns the record with its `enrichment` block. A record that cannot be opened is refused (422 "
-    "`invalid_record`); one with no text, 422."
+    "returns the record with its `enrichment` block. With a `file`, the text comes from the file and the record "
+    "gets its blocks. A record that cannot be opened is refused (422 `invalid_record`); one with no text, 422. "
+    "Send `document_json`, `file`, or both."
+)
+_FILE_HELP = (
+    "Optional (atrium-project#72): the text as a file, read as `keywords.py` reads it -- nlp-enrich's CoNLL-U "
+    "(document level; the legacy method counts its nouns', proper nouns' and adjectives' lemmas), a TEITOK file "
+    "(`*.teitok.xml`, or an `.xml` with `<TEI`; pages by `<pb/>`, lemmas from its tokens), a line table (`.csv`: "
+    "`text`, `page_num`, `categ`), or plain text (`.txt`; a form feed starts a page). Another kind is 415."
 )
 _METHOD_PARAM_HELP = (
     "The statistical method: `keybert`, `yake` or `legacy`. Absent: the server's default (`/info` "
@@ -1143,8 +1089,9 @@ _KIND_HELP = (
 )
 async def extract_keywords(
     document_json: UploadFile = File(  # noqa: B008
-        ..., description=_RECORD_HELP, json_schema_extra={"contentMediaType": "application/json"}
+        None, description=_RECORD_HELP, json_schema_extra={"contentMediaType": "application/json"}
     ),
+    file: UploadFile = File(None, description=_FILE_HELP),  # noqa: B008
     kind: Kind = Form("both", description=_KIND_HELP),  # noqa: B008
     method: Optional[Method] = Form(None, description=_METHOD_PARAM_HELP),  # noqa: B008
     num_keywords: int = Form(
@@ -1155,22 +1102,41 @@ async def extract_keywords(
         True, description="Also extract per page, from the record's `lines[].page`."
     ),
 ):
-    data = await read_upload_bounded(document_json, MAX_UPLOAD.get(), "document_json")
-    record = parse_record_part(data, "document_json")
-    if record is None:
-        raise AtriumHTTPError(422, "The document_json part is empty.", reason="invalid_record")
+    data: Optional[bytes] = None
+    record: Optional[Dict[str, Any]] = None
+    if document_json is not None:
+        data = await read_upload_bounded(document_json, MAX_UPLOAD.get(), "document_json")
+        record = parse_record_part(data, "document_json")
+    file_data = (
+        await read_upload_bounded(file, MAX_UPLOAD.get(), "file") if file is not None else b""
+    )
+    if record is None and not file_data:
+        if document_json is not None:
+            raise AtriumHTTPError(422, "The document_json part is empty.", reason="invalid_record")
+        raise HTTPException(422, "Send the record as `document_json`, the text as `file`, or both.")
     chosen = method or DEFAULT_KW_METHOD
     _validate(kind, chosen, num_keywords)
-    doc = _doc_from_record(record)
-    _check_size(doc)
-    sent = [
-        atrium_rocrate.file_entity(
-            document_json.filename or "record.document.json", data, media_type="application/json"
+    sent = []
+    if file_data:
+        name = (file.filename if file is not None else None) or "upload.txt"
+        doc = _doc_from_file(name, file_data)
+        sent.append(
+            atrium_rocrate.file_entity(name, file_data, media_type=file.content_type or None)
         )
-    ]
+    else:
+        doc = _doc_from_record(record)
+    _check_size(doc)
+    if record is not None:
+        sent.append(
+            atrium_rocrate.file_entity(
+                document_json.filename or "record.document.json",
+                data,
+                media_type="application/json",
+            )
+        )
     return await _run(
         doc,
-        str(record.get("doc_id") or "document"),
+        str(record.get("doc_id") or "document") if record is not None else doc.doc_id,
         kind,
         chosen,
         num_keywords,
@@ -1178,7 +1144,7 @@ async def extract_keywords(
         per_page,
         sent,
         record=record,
-        record_bytes=data,
+        record_bytes=data if record is not None else None,
     )
 
 

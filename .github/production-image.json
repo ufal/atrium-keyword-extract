@@ -24,6 +24,7 @@
     "service/__init__.py",
     "service/api.py",
     "keywords.py",
+    "kw_inputs.py",
     "tool_limits.py",
     "llm_client_shared.py",
     "openrouter_client.py",

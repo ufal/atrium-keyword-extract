@@ -5,9 +5,15 @@ What `keywords.py` writes, and how to read each method's score. The service's re
 
 ## Inputs and outputs
 
-* **Input:** Directory of per-document CoNLL-U files (nlp-enrich's `UDP/`), or `*.teitok.xml` files.
+* **Input:** a directory of per-document files: CoNLL-U (nlp-enrich's `UDP/`), `*.teitok.xml`, ATRIUM records
+  (`*.document.json`), line tables (`.csv`) or plain text (`.txt`), read by `kw_inputs.py` as the service reads them.
 * **Output 1:** Master table with keywords per document (e.g., `keywords_summary.csv`).
 * **Output 2:** Per-document CSV files (e.g., `KW_PER_DOC/`).
+* **Output 3** (`--per-page`): per-document CSV files of the pages' keywords, `page`, `keyword`, `score`
+  (e.g., `KW_PER_PAGE_Y/`), for inputs with pages.
+* **Output 4** (`--document-json-out-dir`): each document's record with its `keywords` block (`document`, `pages`;
+  each keyword with its `score`, `method` and `rank`), as `POST /extract_keywords` returns it.
+* **Paradata:** `<run_id>_keyword-extract.json` in `--paradata-dir` (named `nlp-enrich` before v1.5.0-beta).
 
 ```
 KW_PER_DOC/

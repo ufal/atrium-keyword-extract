@@ -893,3 +893,22 @@ this file is a derived reading aid in `agent_dev_logs/`._
 * **`vocab-refresh.yml`:** two comments cited the hub's `issue-log-refresh.yml`, deleted on 2026-09-06; they now
   stand on their own (comments only; the workflow lint passes with `--require-sha-pins`).
 * **#2:** unchanged and already stated on the thread; the plan names the two cluster steps left before David's review.
+
+## 2026-10-26 — v1.5.0-beta: the command line and the service read the same inputs (atrium-project#72)
+* **One reader:** `kw_inputs.py` turns a record, CoNLL-U, TEITOK, a line CSV or a `.txt` into a `Document` (text,
+  pages, KER lemmas, the controlled kind's rows). The service's `_doc_from_record`/`_doc_from_text` and
+  `_record_stem` now call it (the old names stay as aliases); `keywords.py`'s CoNLL-U readers delegate to it.
+  `kw_inputs.py` joins `.github/production-image.json`.
+* **`keywords.py`:** reads every kind above from its folder; `--per-page` (+ `-p`, `PER_PAGE_OUT_DIR`) writes the
+  pages' keywords; `--document-json-out-dir` (+ `--document-json-dir` for baselines) writes the `keywords` block
+  through `llm_client_shared.write_document_record`; the worker extracts with `extract_from_texts`, so outputs for
+  CoNLL-U and TEITOK are unchanged. The paradata program id is `keyword-extract` (was `nlp-enrich`).
+* **`POST /extract_keywords`:** an optional `file` part (CoNLL-U, TEITOK, CSV, `.txt`; another kind 415);
+  `document_json` optional, one of the two required; with both, the file's keywords go into the record.
+* **Kept and documented** (`docs/usage.md` "The command line and the service"): KER without lemmas (CLI empty row,
+  service 422), the lemma source per input, CoNLL-U without pages, per page off on the CLI and on in the service,
+  the controlled kind through the batch clients, paradata file vs `CreateAction`.
+* **Release:** v1.5.0-beta in `CITATION.cff`, `para_config.txt`, the spec and the runbook's image example; the
+  `CITATION.cff` schema reference corrected to version 1.0 (2026-09-25) with the hub's authors (#13).
+* **Checks:** 1056 passed, 5 skipped (torch, a live LLM); the new parity test 12/12; ruff 0.15.18 clean;
+  `check_version.py`, `docs_check.py` and `image_closure.py` OK.

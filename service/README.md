@@ -22,7 +22,7 @@ The published image first: it is what a deployment runs, and it needs no checkou
 
 ```bash
 docker run --rm -p 8000:8000 -v hf-cache:/cache/huggingface \
-  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.4.0-beta
+  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.5.0-beta
 curl -s http://localhost:8000/ready                      # 200 once the KeyBERT model is loaded
 # from a checkout:
 docker compose --profile api up
@@ -75,14 +75,15 @@ that touch the controlled kind.
 
 ### `POST /extract_keywords` (multipart form)
 
-| Field           | Default    | Notes                                                                                                                                                                                                                      |
-|-----------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `document_json` | *required* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash`, `Garbage`, `Inverted` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record`  |
-| `kind`          | `both`     | `statistical`, `controlled` or `both`. `controlled` needs the LLM backend (`/info` `controlled.ready`); with `both`, a controlled kind that cannot run is reported in `kinds` and the statistical keywords still come back |
-| `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's `DEFAULT_KW_METHOD` (`keybert` unless set; `/info` `methods.default`). The spec's default is null                                                                   |
-| `num_keywords`  | `20`       | per statistical list; at most `MAX_KEYWORDS`                                                                                                                                                                               |
-| `lang`          | `cs`       | Czech-pinned in v1 (YAKE's stop words)                                                                                                                                                                                     |
-| `per_page`      | `true`     | also extract per page, from `lines[].page` (statistical)                                                                                                                                                                   |
+| Field           | Default    | Notes                                                                                                                                                                                                                                                                                                                    |
+|-----------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `document_json` | *optional* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash`, `Garbage`, `Inverted` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record`. Send it, `file`, or both                                                                      |
+| `file`          | *optional* | the text as a file, read as `keywords.py` reads it (`kw_inputs.py`): nlp-enrich's CoNLL-U (no pages), a TEITOK file (pages by `<pb/>`), a line table `.csv` (`text`, `page_num`, `categ`), or `.txt` (a form feed starts a page); another kind → 415. With `document_json`, the keywords of the file go into that record |
+| `kind`          | `both`     | `statistical`, `controlled` or `both`. `controlled` needs the LLM backend (`/info` `controlled.ready`); with `both`, a controlled kind that cannot run is reported in `kinds` and the statistical keywords still come back                                                                                               |
+| `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's `DEFAULT_KW_METHOD` (`keybert` unless set; `/info` `methods.default`). The spec's default is null                                                                                                                                                                 |
+| `num_keywords`  | `20`       | per statistical list; at most `MAX_KEYWORDS`                                                                                                                                                                                                                                                                             |
+| `lang`          | `cs`       | Czech-pinned in v1 (YAKE's stop words)                                                                                                                                                                                                                                                                                   |
+| `per_page`      | `true`     | also extract per page, from `lines[].page` or the file's pages (statistical); `keywords.py --per-page`                                                                                                                                                                                                                   |
 
 `POST /extract_keywords_text` takes the same options as a JSON body (`text`, `doc_id`, `kind`,
 `method`, `num_keywords`, `lang`); the controlled kind reads the text's non-empty lines as one page.

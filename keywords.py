@@ -1,4 +1,10 @@
-"""keywords.py — Keyword extraction from CoNLL-U files.
+"""keywords.py — Keyword extraction from CoNLL-U, TEITOK, records, line tables and plain text.
+
+The inputs are read by ``kw_inputs.py``, as ``POST /extract_keywords`` reads its ``file`` and
+``document_json`` parts (atrium-project#72): a folder may hold nlp-enrich's ``*.conllu`` and
+``*.teitok.xml``, ATRIUM records (``*.document.json``), line tables (``*.csv``) and ``*.txt``.
+``--per-page`` adds each page's keywords when the input has pages; ``--document-json-out-dir``
+writes them into the record's ``keywords`` block, through the service's record writer.
 
 Three extraction backends are supported, selected via ``--method``:
 
@@ -52,6 +58,7 @@ from collections import Counter  # noqa: E402
 from concurrent.futures import ProcessPoolExecutor, as_completed  # noqa: E402
 from typing import List, Optional, Tuple, Union  # noqa: E402
 
+import kw_inputs  # noqa: E402
 import tool_limits  # noqa: E402
 from api_util.teitok_read import (  # noqa: E402
     doc_id_from_path,
@@ -77,6 +84,7 @@ class KeywordBackendError(RuntimeError):
 DEFAULT_INPUT_DIR = "data_samples/UDP"
 DEFAULT_OUTPUT_FILE = "data_samples/keywords_summary_{method}.csv"
 DEFAULT_PER_DOC_OUT_DIR = "data_samples/KW_PER_DOC_{METHOD}"
+DEFAULT_PER_PAGE_OUT_DIR = "data_samples/KW_PER_PAGE_{METHOD}"
 DEFAULT_METHOD = "keybert"
 DEFAULT_NUM_KEYWORDS = 20
 DEFAULT_LANG = "cs"
@@ -98,6 +106,7 @@ if _config_file.exists():
         DEFAULT_INPUT_DIR = _sec.get("INPUT_DIR", DEFAULT_INPUT_DIR)
         DEFAULT_OUTPUT_FILE = _sec.get("OUTPUT_FILE", DEFAULT_OUTPUT_FILE)
         DEFAULT_PER_DOC_OUT_DIR = _sec.get("PER_DOC_OUT_DIR", DEFAULT_PER_DOC_OUT_DIR)
+        DEFAULT_PER_PAGE_OUT_DIR = _sec.get("PER_PAGE_OUT_DIR", DEFAULT_PER_PAGE_OUT_DIR)
         DEFAULT_METHOD = _sec.get("METHOD", DEFAULT_METHOD)
         DEFAULT_LANG = _sec.get("LANG", DEFAULT_LANG)
         DEFAULT_KEYBERT_MODEL = _sec.get("KEYBERT_MODEL", DEFAULT_KEYBERT_MODEL)
@@ -117,27 +126,13 @@ if _config_file.exists():
 
 
 def _extract_surface_text_conllu(file_path: str) -> str:
-    """Reconstruct a plain-text string from a CoNLL-U file."""
-    parts: list[str] = []
+    """Reconstruct a plain-text string from a CoNLL-U file (``kw_inputs.conllu_text``)."""
     try:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as fh:
-            for line in fh:
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
-                cols = line.split("\t")
-                if len(cols) < 10:
-                    continue
-                tok_id = cols[0]
-                if "-" in tok_id or "." in tok_id:
-                    continue
-                form = cols[1]
-                misc = cols[9]
-                space = "" if "SpaceAfter=No" in misc else " "
-                parts.append(form + space)
+            return kw_inputs.conllu_text(fh)
     except Exception as exc:
         print(f"[Warning] Could not read surface text from {file_path}: {exc}", file=sys.stderr)
-    return "".join(parts).strip()
+        return ""
 
 
 def _extract_surface_text(file_path: str) -> str:
@@ -148,29 +143,14 @@ def _extract_surface_text(file_path: str) -> str:
 
 
 def _extract_lemmas_conllu(file_path: str) -> list[str]:
-    """Extract content-word lemmas from a CoNLL-U file for frequency counting."""
-    valid_pos = {"NOUN", "PROPN", "ADJ"}
-    lemmas: list[str] = []
+    """Extract content-word lemmas from a CoNLL-U file for frequency counting
+    (``kw_inputs.conllu_lemmas``)."""
     try:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as fh:
-            for line in fh:
-                line = line.strip()
-                if not line or line.startswith("#"):
-                    continue
-                cols = line.split("\t")
-                if len(cols) < 10:
-                    continue
-                tok_id = cols[0]
-                if "-" in tok_id or "." in tok_id:
-                    continue
-                lemma = cols[2]
-                upos = cols[3]
-                if upos in valid_pos and lemma != "_":
-                    if len(lemma) > 1 and lemma.isalpha():
-                        lemmas.append(lemma.lower())
+            return kw_inputs.conllu_lemmas(fh)
     except Exception as exc:
         print(f"[Warning] Could not read CoNLL-U file {file_path}: {exc}", file=sys.stderr)
-    return lemmas
+        return []
 
 
 def _extract_lemmas(file_path: str) -> list[str]:
@@ -179,7 +159,7 @@ def _extract_lemmas(file_path: str) -> list[str]:
         return [
             t["lemma"].lower()
             for t in read_teitok_tokens(file_path)
-            if t.get("upos") in {"NOUN", "PROPN", "ADJ"} and (t.get("lemma") or "").isalpha()
+            if t.get("upos") in kw_inputs.KER_POS and (t.get("lemma") or "").isalpha()
         ]
     return _extract_lemmas_conllu(file_path)
 
@@ -657,9 +637,28 @@ def extract_from_texts(
 # ═══════════════════════════════════════════════════════════════════════════════
 
 
-def _process_document_task(task: tuple) -> Tuple[List[Tuple[str, Keywords]], dict]:
-    """One task in a worker process: its documents' keywords, and the limit counts
-    (``_extract_keybert``) the parent records in the paradata (atrium-project#53)."""
+def _read_input(path: str) -> "kw_inputs.Document":
+    """One input as a document; one without text is an empty document (an empty row), as before."""
+    try:
+        return kw_inputs.read_document(path)
+    except kw_inputs.NoText:
+        return kw_inputs.Document(doc_id=doc_id_from_path(Path(path).name))
+
+
+def _write_rows(out_csv: Path, header: List[str], rows: list) -> None:
+    try:
+        with open(out_csv, "w", encoding="utf-8", newline="") as fh:
+            writer = csv.writer(fh)
+            writer.writerow(header)
+            writer.writerows(rows)
+    except Exception as exc:
+        print(f"[Warning] Could not write {out_csv}: {exc}", file=sys.stderr)
+
+
+def _process_document_task(task: tuple) -> Tuple[List[dict], dict, List[Tuple[str, str]]]:
+    """One task in a worker process: its documents' keywords (and their pages' with a per-page
+    directory), the limit counts (``_extract_keybert``) the parent records in the paradata
+    (atrium-project#53), and the inputs that could not be read, with the reason."""
     (
         file_paths,
         method,
@@ -670,43 +669,113 @@ def _process_document_task(task: tuple) -> Tuple[List[Tuple[str, Keywords]], dic
         keybert_model,
         use_mmr,
         diversity,
+        per_page_dir,
     ) = task
 
-    is_batch = isinstance(file_paths, list)
-    paths = file_paths if is_batch else [file_paths]
+    paths = file_paths if isinstance(file_paths, list) else [file_paths]
+    docs: List[Tuple[str, kw_inputs.Document]] = []
+    failed: List[Tuple[str, str]] = []
+    for path in paths:
+        try:
+            docs.append((path, _read_input(path)))
+        except ValueError as exc:
+            failed.append((path, str(exc)))
+
+    # One batch over every text: each document's, then its pages' (keybert embeds them together).
+    texts: List[str] = []
+    lemmas: List[List[str]] = []
+    spans: List[Tuple[int, int]] = []
+    for _path, doc in docs:
+        start = len(texts)
+        texts.append(doc.text)
+        lemmas.append(doc.lemmas)
+        if per_page_dir:
+            texts.extend(page["text"] for page in doc.pages)
+            lemmas.extend(page["lemmas"] for page in doc.pages)
+        spans.append((start, len(texts)))
 
     limit_counts: dict = {}
-    results = extract_keywords(
-        file_paths,
-        method=method,
-        num_keywords=num_keywords,
-        lang=lang,
-        max_words=max_words,
-        keybert_model=keybert_model,
-        use_mmr=use_mmr,
-        diversity=diversity,
-        limit_counts=limit_counts,
+    results = (
+        extract_from_texts(
+            texts,
+            method,
+            num_keywords,
+            lemmas=lemmas if method == "legacy" else None,
+            lang=lang,
+            max_words=max_words,
+            keybert_model=keybert_model,
+            use_mmr=use_mmr,
+            diversity=diversity,
+            limit_counts=limit_counts,
+        )
+        if texts
+        else []
     )
 
-    keywords_list = results if is_batch else [results]
     output = []
-
-    for file_path, keywords in zip(paths, keywords_list, strict=True):
-        # doc_id = Path(file_path).stem
-        doc_id = doc_id_from_path(file_path)
+    for (path, doc), (start, end) in zip(docs, spans, strict=True):
+        keywords = results[start]
+        pages = [
+            (page["page"], found)
+            for page, found in zip(doc.pages, results[start + 1 : end], strict=False)
+        ]
         if keywords and indiv_out_dir:
-            out_csv = Path(indiv_out_dir) / f"{doc_id}_keywords.csv"
-            try:
-                with open(out_csv, "w", encoding="utf-8", newline="") as fh:
-                    writer = csv.writer(fh)
-                    writer.writerow(["keyword", "score"])
-                    writer.writerows(keywords)
-            except Exception as exc:
-                print(f"[Warning] Could not write {out_csv}: {exc}", file=sys.stderr)
+            _write_rows(
+                Path(indiv_out_dir) / f"{doc.doc_id}_keywords.csv", ["keyword", "score"], keywords
+            )
+        if pages and per_page_dir:
+            _write_rows(
+                Path(per_page_dir) / f"{doc.doc_id}_keywords.csv",
+                ["page", "keyword", "score"],
+                [(page, phrase, score) for page, found in pages for phrase, score in found],
+            )
+        output.append(
+            {"path": str(path), "doc_id": doc.doc_id, "keywords": keywords, "pages": pages}
+        )
 
-        output.append((doc_id, keywords))
+    return output, limit_counts, failed
 
-    return output, limit_counts
+
+def write_keywords_record(
+    result: dict, method: str, out_dir: Path, baseline_dir: Optional[str], logger: ParadataLogger
+) -> Optional[Path]:
+    """The document's record with its ``keywords`` block, written into ``out_dir`` through the
+    service's writer (``llm_client_shared.write_document_record``). The baseline is the input
+    itself when it is a record, else ``<baseline_dir>/<doc_id>.document.json`` when there is one;
+    without one the record holds this tool's part only (rule 3)."""
+    import json
+
+    import llm_client_shared as llm
+    from atrium_document import FILE_SUFFIX
+
+    source = Path(result["path"])
+    if kw_inputs.input_kind(source.name) == "record":
+        stem = kw_inputs.record_stem(json.loads(source.read_text(encoding="utf-8-sig")))
+        baseline: Optional[Path] = source
+    else:
+        stem = result["doc_id"]
+        baseline = Path(baseline_dir) / f"{stem}{FILE_SUFFIX}" if baseline_dir else None
+    out_dir.mkdir(parents=True, exist_ok=True)
+    target = out_dir / f"{stem}{FILE_SUFFIX}"
+    if baseline is not None and baseline.is_file() and baseline.resolve() != target.resolve():
+        shutil.copyfile(baseline, target)
+    block = {
+        "document": kw_inputs.keyword_entries(method, result["keywords"]),
+        "pages": [
+            {"page": page, "keywords": kw_inputs.keyword_entries(method, found)}
+            for page, found in result["pages"]
+        ],
+    }
+    return llm.write_document_record(
+        stem,
+        None,
+        out_dir,
+        run_id=logger.run_id,
+        run_uuid=logger.run_uuid,
+        paradata_ref=logger.paradata_ref,
+        license_detail=logger.get_license_block(),
+        keywords=block,
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -798,7 +867,8 @@ def _note_keybert_limits(logger: ParadataLogger, counts: dict) -> None:
 def main(argv: Optional[List[str]] = None) -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "Extract keywords from CoNLL-U files.\n"
+            "Extract keywords from CoNLL-U, TEITOK, ATRIUM records (*.document.json), line tables "
+            "(.csv) and plain text (.txt).\n"
             "Backends: 'yake', 'keybert' (supports CUDA batch chunking), 'legacy'.\n"
         ),
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -807,6 +877,23 @@ def main(argv: Optional[List[str]] = None) -> None:
     parser.add_argument("-i", "--input_dir", default=DEFAULT_INPUT_DIR)
     parser.add_argument("-o", "--output_file", default=DEFAULT_OUTPUT_FILE)
     parser.add_argument("-d", "--per_doc_out_dir", default=DEFAULT_PER_DOC_OUT_DIR)
+    parser.add_argument(
+        "--per-page",
+        action="store_true",
+        help="also extract each page's keywords, for inputs with pages (records, TEITOK, line "
+        "tables, text with form feeds), as the service's per_page does",
+    )
+    parser.add_argument("-p", "--per_page_out_dir", default=DEFAULT_PER_PAGE_OUT_DIR)
+    parser.add_argument(
+        "--document-json-dir",
+        default=None,
+        help="baselines (<doc_id>.document.json) for inputs that are not records themselves",
+    )
+    parser.add_argument(
+        "--document-json-out-dir",
+        default=None,
+        help="write each document's record with its keywords block here (atrium-project#73)",
+    )
     parser.add_argument(
         "--paradata-dir",
         default=None,
@@ -844,6 +931,10 @@ def main(argv: Optional[List[str]] = None) -> None:
         )
     if isinstance(args.per_doc_out_dir, str):
         args.per_doc_out_dir = args.per_doc_out_dir.replace("{method}", suffix_l).replace(
+            "{METHOD}", suffix_u
+        )
+    if isinstance(args.per_page_out_dir, str):
+        args.per_page_out_dir = args.per_page_out_dir.replace("{method}", suffix_l).replace(
             "{METHOD}", suffix_u
         )
 
@@ -886,11 +977,16 @@ def main(argv: Optional[List[str]] = None) -> None:
     with open(args.output_file, "w", encoding="utf-8", newline="") as fh:
         csv.writer(fh).writerow(header)
 
+    def _head(p: Path) -> bytes:
+        return p.read_bytes()[:4096] if p.suffix.lower() == ".xml" else b""
+
     all_files = sorted(
-        p
-        for p in input_path.iterdir()
-        if p.suffix.lower() == ".conllu" or p.name.lower().endswith(".teitok.xml")
+        p for p in input_path.iterdir() if p.is_file() and kw_inputs.input_kind(p.name, _head(p))
     )
+    per_page_dir = ""
+    if args.per_page:
+        Path(args.per_page_out_dir).mkdir(parents=True, exist_ok=True)
+        per_page_dir = str(args.per_page_out_dir)
     BATCH_SIZE = args.batch_size if args.method == "keybert" else 1
 
     tasks = []
@@ -911,11 +1007,13 @@ def main(argv: Optional[List[str]] = None) -> None:
                 args.keybert_model,
                 not args.no_mmr,
                 args.diversity,
+                per_page_dir,
             )
         )
 
+    # keyword-extract's own program id: these runs were logged as nlp-enrich's (atrium-project#72).
     _logger = ParadataLogger(
-        program="nlp-enrich",
+        program="keyword-extract",
         config={
             "script": "keywords",
             "method": args.method,
@@ -925,6 +1023,9 @@ def main(argv: Optional[List[str]] = None) -> None:
             "num_keywords": args.num_keywords,
             "per_doc_out_dir": str(args.per_doc_out_dir),
             "output_file": str(args.output_file),
+            "per_page_out_dir": per_page_dir or None,
+            "document_json_dir": args.document_json_dir,
+            "document_json_out_dir": args.document_json_out_dir,
             **(
                 {
                     "keybert_model": args.keybert_model,
@@ -937,7 +1038,7 @@ def main(argv: Optional[List[str]] = None) -> None:
             ),
         },
         paradata_dir=str(paradata_dir),
-        output_types=["csv_per_doc", "csv_summary_row"],
+        output_types=["csv_per_doc", "csv_summary_row", "csv_per_page", "document_json"],
     )
 
     _BACKEND_COMPONENTS = {
@@ -963,16 +1064,36 @@ def main(argv: Optional[List[str]] = None) -> None:
             for future in as_completed(futures):
                 batch_paths = futures[future]
                 try:
-                    batch_results, counts = future.result()
+                    batch_results, counts, failed = future.result()
                     for name in ("split", "trimmed"):
                         limit_counts[name] = limit_counts.get(name, 0) + counts.get(name, 0)
                     if "window" in counts:
                         limit_counts["window"] = counts["window"]
-                    for doc_id, keywords in batch_results:
-                        _write_csv_row(args.output_file, doc_id, keywords, args.num_keywords)
+                    for path, reason in failed:
+                        print(f"[Error] {path}: {reason}", file=sys.stderr)
+                        _logger.log_skip(str(path), reason)
+                    for result in batch_results:
+                        _write_csv_row(
+                            args.output_file,
+                            result["doc_id"],
+                            result["keywords"],
+                            args.num_keywords,
+                        )
                         processed_count += 1
                         _logger.log_success("csv_per_doc", count=1)
                         _logger.log_success("csv_summary_row", count=1)
+                        if result["pages"]:
+                            _logger.log_success("csv_per_page", count=1)
+                        if args.document_json_out_dir:
+                            written = write_keywords_record(
+                                result,
+                                args.method,
+                                Path(args.document_json_out_dir),
+                                args.document_json_dir,
+                                _logger,
+                            )
+                            if written:
+                                _logger.log_success("document_json", count=1)
 
                     print(f"  Processed {processed_count}/{len(all_files)} …")
                 except Exception as exc:
