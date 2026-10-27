@@ -912,3 +912,21 @@ this file is a derived reading aid in `agent_dev_logs/`._
   `CITATION.cff` schema reference corrected to version 1.0 (2026-09-25) with the hub's authors (#13).
 * **Checks:** 1056 passed, 5 skipped (torch, a live LLM); the new parity test 12/12; ruff 0.15.18 clean;
   `check_version.py`, `docs_check.py` and `image_closure.py` OK.
+
+## 2026-10-27 — v1.5.1-beta: the release v1.5.0-beta did not get; KER and YAKE described as they are (atrium-project#72, #81, #6)
+* **Why no release:** the v1.5.0-beta tag pushed its three images, but "Package the vocabulary (CC0)" refused the
+  sidecars, still stamped `v1.4.0-beta` (`vocab_build.py --from-flat --skos` had not been re-run after the bump).
+* **Fixed:** the sidecars rebuilt after the bump to v1.5.1-beta (only `tool_version` and `generated_utc` change;
+  `--check` is clean). New `tests/test_vocab_release_stamp.py` applies the release's comparison on every push; it fails
+  on `d2e76f2`. A local replay of the release step builds `atrium-vocabulary-v1.5.1-beta.zip` (12 files, 4,711 terms).
+* **Docs review:** `docs/reference/licences.md` said the output's licence is computed; it now says what the agreed
+  wording says (a calculated summary of the components, not the licence of the keywords; AMČR states the rights,
+  atrium-project#6, 22 October). The legacy method is a lemma-frequency count named after ÚFAL's KER, which weights by
+  tf-idf: README linked `ufal/ker` as "(MIT)" (that repository is LGPL-3.0 on GitHub, Apache-2.0 on LINDAT); it now
+  cites KER's LINDAT record and says the code here is this repository's. `ker_data/` holds KER's two IDF tables, read
+  by no shipped code and not in the images: recorded on the licences page. YAKE: the PyPI header says LGPLv3, the
+  shipped `LICENSE` is AGPL-3.0; the declaration stays AGPL-3.0 and the page says why.
+* **Release:** v1.5.1-beta in `CITATION.cff` (dated 2026-10-27), `para_config.txt` and the regenerated spec (version
+  only).
+* **Checks:** 1057 passed, 5 skipped (torch, a live LLM); ruff and format clean on the new test; compileall;
+  `check_version.py`, `docs_check.py` and `image_closure.py` OK.

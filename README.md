@@ -104,7 +104,7 @@ The documentation follows the ATRIUM
 
 The code is MIT ([LICENSE](LICENSE)). It uses [KeyBERT](https://github.com/MaartenGr/KeyBERT) with
 sentence-transformers (MIT, Apache-2.0), [YAKE](https://github.com/LIAAD/yake) (AGPL-3.0) and
-[KER](https://github.com/ufal/ker) (MIT), and the AMČR and TEATER vocabularies (CC0); the language model of the
+its own lemma-frequency method named after ÚFAL's [KER](http://hdl.handle.net/11234/1-1650) (MIT), and the AMČR and TEATER vocabularies (CC0); the language model of the
 controlled kind is the deployment's choice, and every run records its id. The inventory is
 [para_config.txt](para_config.txt); what a run records is in [docs/reference/licences.md](docs/reference/licences.md).
 Cite with [CITATION.cff](CITATION.cff).

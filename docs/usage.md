@@ -63,7 +63,7 @@ python3 keywords.py
 
 | Flag value            | Method                                                   | Dependencies                                | Score semantics                       | Best for                                  |
 |-----------------------|----------------------------------------------------------|---------------------------------------------|---------------------------------------|-------------------------------------------|
-| `legacy`              | Original KER — NOUN/PROPN/ADJ lemma frequency            | none (stdlib only)                          | raw occurrence count                  | reproducing original ATRIUM results       |
+| `legacy`              | NOUN/PROPN/ADJ lemma frequency, named after KER          | none (stdlib only)                          | raw occurrence count                  | reproducing original ATRIUM results       |
 | `yake`                | YAKE — unsupervised statistical, CPU-only (**AGPL-3.0**) | `pip install yake`                          | normalised inverse YAKE score, [0, 1] | fast CPU runs, no model download          |
 | `keybert` *(default)* | KeyBERT — embedding-based, GPU-accelerated               | `pip install keybert sentence-transformers` | cosine similarity, [0, 1]             | highest semantic quality, GPU recommended |
 
@@ -111,7 +111,8 @@ python3 keywords.py -i OUTPUT_DIR/UDP -m keybert -w 3 -n 20 \
         -o keywords_summary.csv -d KW_PER_DOC
 ```
 
-**Legacy KER** — (English/Czech) original ATRIUM lemma-frequency approach, no extra dependencies
+**Legacy (KER)** — (English/Czech) the original ATRIUM lemma-frequency approach, no extra dependencies. It is named
+after ÚFAL's KER but, unlike KER, does not weight lemmas by IDF ([licences](reference/licences.md#licences))
 
 ```bash
 python3 keywords.py -i OUTPUT_DIR/UDP -m legacy -n 20 \
