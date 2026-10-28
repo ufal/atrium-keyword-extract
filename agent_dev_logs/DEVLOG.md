@@ -930,3 +930,12 @@ this file is a derived reading aid in `agent_dev_logs/`._
   only).
 * **Checks:** 1057 passed, 5 skipped (torch, a live LLM); ruff and format clean on the new test; compileall;
   `check_version.py`, `docs_check.py` and `image_closure.py` OK.
+
+## 2026-10-28 — Documentation review: no decorative emoji, the image example (atrium-project#79)
+
+* CONTRIBUTING's v1.5.1-beta row: "didn'ts get" → "did not get"; the footer ©.
+* `service/README.md`: the image example names `1.5.1-beta`; the `HOST` warning takes the runbook template's
+  `> **Note:**` form, without the emoji.
+* `data_samples/vocab/RUNBOOK.md`: two emoji callouts become GitHub alerts, and a heading loses its emoji (nothing
+  links to its anchor).
+* No release (documentation only); it rides the next tag. `docs_check.py` and `runbook_check.py` OK.

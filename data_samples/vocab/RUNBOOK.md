@@ -147,7 +147,8 @@ you mean to hand the bare word to the next record in the group. The column is co
 the same rule the build uses, and three tests hold it to what the built vocabulary actually
 says.
 
-> ✅ **`malta` — split on 2026-10-08.** M11's country names brought `amcr:HES-001366`
+> [!NOTE]
+> **`malta` — split on 2026-10-08.** M11's country names brought `amcr:HES-001366`
 > (*Malta*, the country) into a label group held by three mortar records, and the bare
 > label went to `HES-000910` (mortar, `Material`), so the country was not selectable.
 > @david-spacil ruled it a split (comment 6057405985): `HES-001366` carries
@@ -175,7 +176,7 @@ spent the budget, not when its own size crosses it — and `top_rules` names the
 `heslar_map` / `teater_branch_map` values a re-layout would flip. This is the sheet for
 **A1-facets**.
 
-## 3. `corpus_review.py` — evidence from the documents ⚠️
+## 3. `corpus_review.py` — evidence from the documents
 
 **This is the one with a footgun.** It reports what the vocabulary actually matches in
 real report text — the evidence standard @motyc set for excluding a branch (M3).
@@ -209,7 +210,8 @@ the tool **refuses to overwrite sheets built from a larger corpus** (exit 1) rat
 than silently replacing real evidence with placeholder numbers. Restore the corpus, or
 pass `--force` if shrinking really is intended.
 
-> ⚠️ **The committed corpus sheets are stale, and the guard is why.**
+> [!WARNING]
+> **The committed corpus sheets are stale, and the guard is why.**
 > `corpus_review.meta.json` records `vocabulary_single_word_terms: 1017` — computed
 > against the **2 074**-term vocabulary, before M11 reinstated 2 638 terms. Against
 > today's 4 711 those denominators are wrong. They cannot be refreshed on a machine

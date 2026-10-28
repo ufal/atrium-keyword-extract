@@ -22,7 +22,7 @@ The published image first: it is what a deployment runs, and it needs no checkou
 
 ```bash
 docker run --rm -p 8000:8000 -v hf-cache:/cache/huggingface \
-  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.5.0-beta
+  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.5.1-beta
 curl -s http://localhost:8000/ready                      # 200 once the KeyBERT model is loaded
 # from a checkout:
 docker compose --profile api up
@@ -202,7 +202,7 @@ has lines. The image carries no model: the weights stay in the inference service
 | Variable              | Default                                | Meaning                                                                                                                                                                                                    |
 |-----------------------|----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `PORT`                | `8000`                                 | port the service **binds**, and the one `service/healthcheck.py` probes (issues #55, #58)                                                                                                                  |
-| `HOST`                | `0.0.0.0`                              | bind address (issue #58). ⚠️ see the warning below                                                                                                                                                         |
+| `HOST`                | `0.0.0.0`                              | bind address (issue #58); see the warning below                                                                                                                                                            |
 | `GRACEFUL_SHUTDOWN_S` | `20`                                   | seconds uvicorn waits for in-flight requests (issue #55)                                                                                                                                                   |
 | `RELOAD`              | `false`                                | filesystem auto-reload — development only                                                                                                                                                                  |
 | `LOG_LEVEL`           | `INFO`                                 | root logger level for the `python -m service.api` start path (issue #61)                                                                                                                                   |
@@ -223,7 +223,7 @@ KeyBERT chunk settings and the LLM settings — is listed under [Limits](#limits
 `PORT` and `HOST` are read by `service/api.py`'s `__main__` block, which is what the `api` image's
 `ENTRYPOINT` (`python -m service.api`) runs.
 
-> ⚠️ `HOST=127.0.0.1` yields a container that reports **healthy** and serves nobody:
+> **Note:** `HOST=127.0.0.1` yields a container that reports **healthy** and serves nobody:
 > `service/healthcheck.py` always probes loopback by design and never reads `HOST`, so a loopback bind
 > passes every probe while being unreachable from outside the container.
 
