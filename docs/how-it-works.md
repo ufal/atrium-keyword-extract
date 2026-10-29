@@ -4,16 +4,18 @@ Two kinds of keyword, kept apart: every keyword names the method that produced i
 
 ## The statistical kind
 
-The record is read: its `lines[].text` per page (lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the
-legacy method its `lines[].lemma` and `lines[].upos`, which [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich)
-writes. In the pipeline it comes after nlp-enrich (and after digital-convert on the born-digital route), and its
-keywords can be projected into the TEITOK header by nlp-enrich's `/project_record`.
+The record is read: its `lines[].text` per page (lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left
+out). The same reader (`kw_inputs.py`) also takes [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich)'s CoNLL-U and
+TEITOK files, a line table and plain text. The legacy method counts lemmas: those of the nouns, proper nouns and
+adjectives of a CoNLL-U or TEITOK file, or a record's `lines[].lemma` and `lines[].upos`, which no ATRIUM tool
+writes today. In the pipeline it comes after nlp-enrich (and after digital-convert on the born-digital route), and
+its keywords can be projected into the TEITOK header by nlp-enrich's `/project_record`.
 
 | Method    | Needs                                   | Score                                     |
 |-----------|-----------------------------------------|-------------------------------------------|
 | `keybert` | the embedding model, a GPU if available | cosine similarity, [0, 1]                 |
 | `yake`    | nothing (CPU)                           | inverted YAKE score, normalised to [0, 1] |
-| `legacy`  | `lines[].lemma` / `lines[].upos`        | an occurrence count                       |
+| `legacy`  | lemmas (CoNLL-U, TEITOK, or a record's) | an occurrence count                       |
 
 Scores are compared only within one method.
 

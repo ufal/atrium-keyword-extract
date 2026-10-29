@@ -3,8 +3,9 @@
 keyword-extract gives an archival document two kinds of keyword, kept apart. Statistical keywords (KeyBERT by
 default, YAKE, or the legacy KER) describe the document and each of its pages. Controlled keywords assign each line
 a term of the AMČR keyword lists and the TEATER thesaurus, chosen by a language model, with the records behind the
-term. Every keyword names the method that produced it, with its score and rank. Use it on the ATRIUM document record
-after nlp-enrich; the controlled kind needs a language-model service and is research output.
+term. Every keyword names the method that produced it, with its score and rank. Use it on the ATRIUM document record,
+or on nlp-enrich's CoNLL-U and TEITOK files; the controlled kind needs a language-model service and is research
+output.
 
 [Releases](https://github.com/ufal/atrium-keyword-extract/releases) · [MIT licence](LICENSE) ·
 [ATRIUM documentation](https://ufal.github.io/atrium-project/workflows/keyword-extract/)
@@ -17,13 +18,13 @@ NameTag). The images of those two repositories that carried these stages stay pu
 
 ## Inputs and outputs
 
-| Input                                                                            | Output                                                                                                                       |
-|----------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| the ATRIUM document record after nlp-enrich: its `lines[].text`, `lemma`, `upos` | statistical keywords of the document and of each page; the record with its `keywords` block                                  |
-| the same record, with a language-model service configured                        | per line, an AMČR/TEATER term with its ids, the Czech and English keywords of the line, entity links; the `enrichment` block |
-| a plain text (`/extract_keywords_text`)                                          | its statistical keywords                                                                                                     |
-| nlp-enrich's CoNLL-U or TEITOK file, a line table (CSV), a `.txt`                | the same statistical keywords, from the service (`file`) or the command line                                                 |
-| for the batch command line: a folder of any of the above                         | a summary CSV, one CSV per document and per page, the records ([outputs](docs/reference/outputs.md))                         |
+| Input                                                                              | Output                                                                                                                       |
+|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| the ATRIUM document record: its `lines[].text` (and `lemma`, `upos` where present) | statistical keywords of the document and of each page; the record with its `keywords` block                                  |
+| the same record, with a language-model service configured                          | per line, an AMČR/TEATER term with its ids, the Czech and English keywords of the line, entity links; the `enrichment` block |
+| a plain text (`/extract_keywords_text`)                                            | its statistical keywords                                                                                                     |
+| nlp-enrich's CoNLL-U or TEITOK file, a line table (CSV), a `.txt`                  | the same statistical keywords, from the service (`file`) or the command line                                                 |
+| for the batch command line: a folder of any of the above                           | a summary CSV, one CSV per document and per page, the records ([outputs](docs/reference/outputs.md))                         |
 
 The record follows the hub's [document contract](https://ufal.github.io/atrium-project/ecosystem/document-contract/);
 lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out. `keywords.py` and the service read every input
@@ -64,8 +65,10 @@ writes the chosen term with its AMČR and TEATER ids. The details, and the batch
 
 ## Where it fits in ATRIUM
 
-keyword-extract comes after nlp-enrich, which gives the record its lemmas and parts of speech, and on the
-born-digital route after digital-convert. It writes the record's `keywords` and `enrichment` blocks, which
+keyword-extract comes after nlp-enrich in the scanned-document pipeline, and after digital-convert on the
+born-digital route; it reads the record's lines. The legacy method (KER) counts lemmas, which nlp-enrich's CoNLL-U
+and TEITOK files carry; no ATRIUM tool writes them into the record today. It writes the record's `keywords` and
+`enrichment` blocks, which
 nlp-enrich's `/project_record` can carry into the TEITOK header. The vocabulary build is also released as
 `atrium-vocabulary-<version>.zip`, which the translator and the end-to-end tests read. The whole chain: the
 [hub's workflow page](https://ufal.github.io/atrium-project/workflows/keyword-extract/). Its SSH Open Marketplace

@@ -306,6 +306,7 @@ def main(argv: Optional[List[str]] = None) -> None:
             **({"vocabulary": provenance} if provenance else {}),
         },
         paradata_dir=paradata_dir,
+        config_dir=str(Path(__file__).resolve().parent),
         output_types=["json"],
     )
     print(prompt_template.describe(config))

@@ -1,13 +1,13 @@
 # Keyword extraction API service
 
 One service for the stage "keywords" of the ATRIUM pipeline (atrium-keyword-extract#1): the
-document record after [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich), or a plain text,
-goes in, and two kinds of keywords come out, chosen by `kind` and always kept apart, plus the
-run's **paradata** (a Process Run Crate `CreateAction`):
+document record after [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich), a file (nlp-enrich's CoNLL-U or
+TEITOK, a line table, a `.txt`) or a plain text goes in, and two kinds of keywords come out, chosen by `kind` and
+always kept apart, plus the run's **paradata** (a Process Run Crate `CreateAction`):
 
 | Kind          | What it is                                                                                                                                                                                                  | Needs                                                                                          |
 |---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| `statistical` | the keywords of the document and of each page, every one with its method, score and rank: KeyBERT (the default), YAKE, or the legacy KER method — the methods of nlp-enrich's `keywords.py`                 | nothing                                                                                        |
+| `statistical` | the keywords of the document and of each page, every one with its method, score and rank: KeyBERT (the default), YAKE, or the legacy KER method — the methods of this repository's `keywords.py`            | nothing                                                                                        |
 | `controlled`  | per line, the AMČR/TEATER vocabulary term that describes it and the keywords found in it, chosen by an LLM (atrium-keyword-extract#2), with entity links to AMČR and AAT — llm-enrich's `/extract_keywords` | an LLM backend (`LLM_BACKEND`); without one, asked for alone → 501, with `kind=both` `skipped` |
 
 The record: the response's `document_json` is the record sent, with keyword-extract's blocks written and
@@ -22,7 +22,7 @@ The published image first: it is what a deployment runs, and it needs no checkou
 
 ```bash
 docker run --rm -p 8000:8000 -v hf-cache:/cache/huggingface \
-  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.5.1-beta
+  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.6.0-beta
 curl -s http://localhost:8000/ready                      # 200 once the KeyBERT model is loaded
 # from a checkout:
 docker compose --profile api up
@@ -70,7 +70,7 @@ that touch the controlled kind.
 | GET    | `/info`                  | service id, endpoints, the methods (default, descriptions, the KeyBERT model), the kinds available, `controlled` (ready or why not, backend, model, vocabulary, prompt), `limits` and `limits_meta`, `openapi_sha256`      |
 | GET    | `/health`                | liveness — 200 always, even mid-shutdown                                                                                                                                                                                   |
 | GET    | `/ready`                 | readiness — 503 until the startup warm-up (the KeyBERT model when it is the default; the controlled kind's vocabulary and prompt when it is configured) has finished, 200 while serving, 503 the instant `SIGTERM` arrives |
-| POST   | `/extract_keywords`      | **the entry point** — the record as an upload (`document_json`): statistical keywords per document and per page, controlled keywords per line, and the record with its `keywords` and `enrichment` blocks                  |
+| POST   | `/extract_keywords`      | **the entry point** — the record (`document_json`), a file (`file`), or both: statistical keywords per document and per page, controlled keywords per line, and the record with its `keywords` and `enrichment` blocks     |
 | POST   | `/extract_keywords_text` | the same on a plain text in a JSON body (no pages, no record)                                                                                                                                                              |
 
 ### `POST /extract_keywords` (multipart form)
@@ -80,8 +80,8 @@ that touch the controlled kind.
 | `document_json` | *optional* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash`, `Garbage`, `Inverted` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record`. Send it, `file`, or both                                                                      |
 | `file`          | *optional* | the text as a file, read as `keywords.py` reads it (`kw_inputs.py`): nlp-enrich's CoNLL-U (no pages), a TEITOK file (pages by `<pb/>`), a line table `.csv` (`text`, `page_num`, `categ`), or `.txt` (a form feed starts a page); another kind → 415. With `document_json`, the keywords of the file go into that record |
 | `kind`          | `both`     | `statistical`, `controlled` or `both`. `controlled` needs the LLM backend (`/info` `controlled.ready`); with `both`, a controlled kind that cannot run is reported in `kinds` and the statistical keywords still come back                                                                                               |
-| `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's `DEFAULT_KW_METHOD` (`keybert` unless set; `/info` `methods.default`). The spec's default is null                                                                                                                                                                 |
-| `num_keywords`  | `20`       | per statistical list; at most `MAX_KEYWORDS`                                                                                                                                                                                                                                                                             |
+| `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's default: `kw_config.txt` `METHOD` (`keybert`), or `DEFAULT_KW_METHOD` when set (`/info` `methods.default`). The spec's default is null                                                                                                                            |
+| `num_keywords`  | `20`       | per statistical list (the default is `kw_config.txt` `NUM_KEYWORDS`, as on the command line); at most `MAX_KEYWORDS`                                                                                                                                                                                                     |
 | `lang`          | `cs`       | Czech-pinned in v1 (YAKE's stop words)                                                                                                                                                                                                                                                                                   |
 | `per_page`      | `true`     | also extract per page, from `lines[].page` or the file's pages (statistical); `keywords.py --per-page`                                                                                                                                                                                                                   |
 
@@ -90,11 +90,11 @@ that touch the controlled kind.
 
 ### The methods
 
-| `method`  | What it is                                                                           | Score                                     | Needs                                                                          |
-|-----------|--------------------------------------------------------------------------------------|-------------------------------------------|--------------------------------------------------------------------------------|
-| `keybert` | embedding-based; best quality, uses a GPU when there is one                          | cosine similarity, [0, 1]                 | the embedding model (first use)                                                |
-| `yake`    | unsupervised statistical, CPU only (**AGPL-3.0**: a run that uses it is declared so) | inverted YAKE score, normalised to [0, 1] | —                                                                              |
-| `legacy`  | KER: counts the lemmas of nouns, proper nouns and adjectives                         | an occurrence count                       | `lines[].lemma` and `lines[].upos` (written by nlp-enrich); without them → 422 |
+| `method`  | What it is                                                                           | Score                                     | Needs                                                                                                                     |
+|-----------|--------------------------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `keybert` | embedding-based; best quality, uses a GPU when there is one                          | cosine similarity, [0, 1]                 | the embedding model (first use)                                                                                           |
+| `yake`    | unsupervised statistical, CPU only (**AGPL-3.0**: a run that uses it is declared so) | inverted YAKE score, normalised to [0, 1] | —                                                                                                                         |
+| `legacy`  | KER: counts the lemmas of nouns, proper nouns and adjectives                         | an occurrence count                       | lemmas: a CoNLL-U or TEITOK `file`, or a record's `lines[].lemma`/`upos` (no ATRIUM tool writes them); without them → 422 |
 
 Scores mean different things per method, so compare them only within one method and one list; every
 keyword carries `method` and `rank`.
@@ -185,8 +185,8 @@ the prompt (`vocab_prompt_budget_tokens`, `trimmed`), lines whose reply was cut 
 The record's lines are joined per page and per document (`Trash`, `Garbage`, `Inverted` and `Empty` lines
 left out). One call runs the chosen method over the document and, with `per_page`, over each page —
 KeyBERT in one batch — in a worker thread, inside one of `MAX_CONCURRENT_REQUESTS` slots. The batch CLI
-(`keywords.py`) shares the three method implementations: it reads CoNLL-U or TEITOK files instead of a
-record. The KeyBERT model is loaded at startup when it is the default, so the first request does not pay
+(`keywords.py`) reads the same inputs with the same code (`kw_inputs.py`) and runs the same methods; what only one
+of them does: [the command line and the service](../docs/usage.md#the-command-line-and-the-service). The KeyBERT model is loaded at startup when it is the default, so the first request does not pay
 for it; a model that does not load does not stop the service, and the first request that needs it answers
 500 with the cause.
 
@@ -239,8 +239,8 @@ the service at startup, naming the variable. An input over a limit is refused wi
 
 | Key (`/info`)                | Variable                                                            | Default | Unit     | Over the limit                                                                                                                                                                                                                                |
 |------------------------------|---------------------------------------------------------------------|---------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `max_upload_mb`              | `MAX_UPLOAD_MB`                                                     | 10      | MB       | 413 `limit_exceeded` — the uploaded record, and the whole `/extract_keywords_text` body                                                                                                                                                       |
-| `max_document_words`         | `MAX_DOCUMENT_WORDS`                                                | 200000  | words    | 413 `limit_exceeded` — the record's lines or the text                                                                                                                                                                                         |
+| `max_upload_mb`              | `MAX_UPLOAD_MB`                                                     | 10      | MB       | 413 `limit_exceeded` — each uploaded part (`document_json`, `file`), and the whole `/extract_keywords_text` body                                                                                                                              |
+| `max_document_words`         | `MAX_DOCUMENT_WORDS`                                                | 200000  | words    | 413 `limit_exceeded` — the words read from the record, the file or the text                                                                                                                                                                   |
 | `max_keywords`               | `MAX_KEYWORDS`                                                      | 100     | keywords | 422 `limit_exceeded` — `num_keywords` over it                                                                                                                                                                                                 |
 | `max_concurrent_requests`    | `MAX_CONCURRENT_REQUESTS`                                           | 2       | requests | 429 `busy` with `Retry-After: 15`                                                                                                                                                                                                             |
 | `keybert_chunk_words`        | `KEYBERT_CHUNK_WORDS`                                               | 400     | words    | a longer document is embedded in overlapping chunks and its keywords merged — `split` note                                                                                                                                                    |

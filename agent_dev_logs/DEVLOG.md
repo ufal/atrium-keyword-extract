@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12 (its pair removed 2026-10-21). `test` = `f781d6c` (2026-10-21) · **v1.3.0-beta** (2026-10-16, with `atrium-vocabulary-v1.3.0-beta.zip`)._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 1 open issue: #2 (research, deferred past the pilot, atrium-project#67); #1 closed 2026-10-12 (its pair removed 2026-10-21). `test` = `70e3bc4` (2026-10-28) · **v1.5.1-beta** (2026-10-27); v1.6.0-beta prepared on 2026-10-28._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -939,3 +939,29 @@ this file is a derived reading aid in `agent_dev_logs/`._
 * `data_samples/vocab/RUNBOOK.md`: two emoji callouts become GitHub alerts, and a heading loses its emoji (nothing
   links to its anchor).
 * No release (documentation only); it rides the next tag. `docs_check.py` and `runbook_check.py` OK.
+
+## 2026-10-28 — v1.6.0-beta: the command line and the service, case by case (atrium-project#72, the pilot candidate)
+
+* **Checked:** a differential run (research tooling in the session's scratchpad, not a repo test) of `keywords.py`
+  against `POST /extract_keywords` on the same inputs: a record, CoNLL-U, TEITOK, a line table and a `.txt`; YAKE and
+  KER for real, KeyBERT with a deterministic stub model; 5, 20 and 100 keywords; per page on and off. 90 cases, the
+  same keywords, pages and record blocks; the only difference is KER without lemmas (an empty row against a 422), as
+  documented. The licence components of the paradata now agree too (they did not for KeyBERT).
+* **Fixed:** `BACKEND_COMPONENTS` in `keywords.py`, read by both entry points (the command line left out
+  `keybert_model`); one document's failing record write no longer drops the rest of its batch or logs its written
+  neighbours as skipped; the service's default method and `num_keywords` come from `kw_config.txt`, as the command
+  line's (`DEFAULT_KW_METHOD` still overrides the method; the spec keeps `num_keywords=20`).
+* **Docs:** the parity table of `docs/usage.md` gains a document with no text, the language, the KeyBERT settings and
+  the limits; KER's lemma sources are stated where its needs are (no ATRIUM tool writes `lines[].lemma`); the flag
+  table's `-i`, `-o`, `-d` defaults, `--paradata-dir` and `--batch_size`; the service README's endpoint, `method`,
+  `num_keywords`, limits and intro rows; the `legacy` and `per_page` descriptions (the spec is regenerated).
+* **Release:** `v1.6.0-beta` in `CITATION.cff`, `para_config.txt`, the spec and the vocabulary sidecars
+  (`vocab_build.py --from-flat --skos`).
+
+## 2026-10-28 — v1.6.0-beta, before the tag: paradata reads `para_config.txt` beside the code
+
+* Found by the translator's harness: `ParadataLogger` looks for `para_config.txt` in the working directory unless it
+  is told where. `keywords.py`, `llm_run.py`, `ollama_client.py`, `openrouter_client.py` and the service now pass
+  the repository root; a CLI run started outside the checkout recorded `tool_version` "unknown" and every component
+  licence as UNKNOWN. The images run from `/app` and were not affected.
+* **Checks:** 1059 passed, 5 skipped; ruff clean.

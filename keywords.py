@@ -9,7 +9,7 @@ writes them into the record's ``keywords`` block, through the service's record w
 Three extraction backends are supported, selected via ``--method``:
 
     legacy   Original KER lemma-frequency approach (no extra dependencies).
-             Counts NOUN/PROPN/ADJ lemmas extracted from UDPipe CoNLL-U output;
+             Counts NOUN/PROPN/ADJ lemmas (from CoNLL-U, TEITOK, or a record's lemmas);
              score = raw occurrence count.  This is the approach used in the
              original ATRIUM pipeline and requires no external packages beyond
              the standard library.
@@ -574,6 +574,15 @@ _BACKENDS: dict = {
     "keybert": _extract_keybert,
 }
 
+#: The licensed components each method runs (`para_config.txt`), logged into the run's paradata by
+#: the command line and by the service alike (atrium-project#72): KeyBERT's embedding model weights
+#: are a component of their own.
+BACKEND_COMPONENTS: dict = {
+    "legacy": ("ker",),
+    "yake": ("yake",),
+    "keybert": ("keybert", "sentence_transformers", "keybert_model"),
+}
+
 
 def extract_keywords(
     file_path: Union[str, List[str]],
@@ -657,7 +666,7 @@ def _write_rows(out_csv: Path, header: List[str], rows: list) -> None:
 
 def _process_document_task(task: tuple) -> Tuple[List[dict], dict, List[Tuple[str, str]]]:
     """One task in a worker process: its documents' keywords (and their pages' with a per-page
-    directory), the limit counts (``_extract_keybert``) the parent records in the paradata
+    directory), the limit counts (``extract_from_texts``) the parent records in the paradata
     (atrium-project#53), and the inputs that could not be read, with the reason."""
     (
         file_paths,
@@ -1039,14 +1048,12 @@ def main(argv: Optional[List[str]] = None) -> None:
         },
         paradata_dir=str(paradata_dir),
         output_types=["csv_per_doc", "csv_summary_row", "csv_per_page", "document_json"],
+        # para_config.txt beside this file, as the service finds it: read from the working directory,
+        # a run started elsewhere recorded version "unknown" and UNKNOWN licences.
+        config_dir=str(Path(__file__).resolve().parent),
     )
 
-    _BACKEND_COMPONENTS = {
-        "legacy": ["ker"],
-        "yake": ["yake"],
-        "keybert": ["keybert", "sentence_transformers"],
-    }
-    for _comp in _BACKEND_COMPONENTS.get(args.method, []):
+    for _comp in BACKEND_COMPONENTS.get(args.method, ()):
         _logger.log_component(_comp)
 
     print(
@@ -1073,27 +1080,33 @@ def main(argv: Optional[List[str]] = None) -> None:
                         print(f"[Error] {path}: {reason}", file=sys.stderr)
                         _logger.log_skip(str(path), reason)
                     for result in batch_results:
-                        _write_csv_row(
-                            args.output_file,
-                            result["doc_id"],
-                            result["keywords"],
-                            args.num_keywords,
-                        )
-                        processed_count += 1
-                        _logger.log_success("csv_per_doc", count=1)
-                        _logger.log_success("csv_summary_row", count=1)
-                        if result["pages"]:
-                            _logger.log_success("csv_per_page", count=1)
-                        if args.document_json_out_dir:
-                            written = write_keywords_record(
-                                result,
-                                args.method,
-                                Path(args.document_json_out_dir),
-                                args.document_json_dir,
-                                _logger,
+                        # One document's outputs at a time: a record that fails costs that document
+                        # only, never the rest of its batch (atrium-project#72).
+                        try:
+                            _write_csv_row(
+                                args.output_file,
+                                result["doc_id"],
+                                result["keywords"],
+                                args.num_keywords,
                             )
-                            if written:
-                                _logger.log_success("document_json", count=1)
+                            processed_count += 1
+                            _logger.log_success("csv_per_doc", count=1)
+                            _logger.log_success("csv_summary_row", count=1)
+                            if result["pages"]:
+                                _logger.log_success("csv_per_page", count=1)
+                            if args.document_json_out_dir:
+                                written = write_keywords_record(
+                                    result,
+                                    args.method,
+                                    Path(args.document_json_out_dir),
+                                    args.document_json_dir,
+                                    _logger,
+                                )
+                                if written:
+                                    _logger.log_success("document_json", count=1)
+                        except Exception as exc:
+                            print(f"[Error] {result['path']}: {exc}", file=sys.stderr)
+                            _logger.log_skip(result["path"], str(exc))
 
                     print(f"  Processed {processed_count}/{len(all_files)} …")
                 except Exception as exc:

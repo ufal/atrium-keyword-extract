@@ -112,10 +112,11 @@ PREVIOUS_SERVICE = "atrium-nlp-enrich"
 #: `llm-enrich` in the record contract (`atrium_document.PROGRAM_SUCCESSORS`).
 PROGRAM = "keyword-extract"
 
-#: The server's default method. It is applied per request when a client sends none, and reported in
-#: /info `methods.default`; it is NOT the spec's default for the `method` parameter, so the spec does
-#: not change with this setting.
-DEFAULT_KW_METHOD = os.environ.get("DEFAULT_KW_METHOD", "keybert")
+#: The server's default method: `kw_config.txt`'s `METHOD`, as the command line's, unless the
+#: `DEFAULT_KW_METHOD` setting names another (atrium-project#72). It is applied per request when a
+#: client sends none, and reported in /info `methods.default`; it is NOT the spec's default for the
+#: `method` parameter, so the spec does not change with this setting.
+DEFAULT_KW_METHOD = os.environ.get("DEFAULT_KW_METHOD") or kw.DEFAULT_METHOD
 
 Method = Literal["keybert", "yake", "legacy"]
 Kind = Literal["statistical", "controlled", "both"]
@@ -128,7 +129,10 @@ _METHODS = ("keybert", "yake", "legacy")
 _METHOD_HELP = {
     "keybert": "embedding-based; best quality, uses a GPU when there is one; score is a cosine in [0, 1]",
     "yake": "unsupervised statistical, CPU only; score is the inverted YAKE score normalised per document to [0, 1]",
-    "legacy": "KER: counts the lemmas of nouns, proper nouns and adjectives; needs `lines[].lemma`; score is a count",
+    "legacy": (
+        "KER: counts the lemmas of nouns, proper nouns and adjectives; needs lemmas (a CoNLL-U or TEITOK `file`, "
+        "or a record's `lines[].lemma`); score is a count"
+    ),
 }
 
 #: Lines the quality stage labelled so are left out of the text: nothing is read from them (report §5).
@@ -410,7 +414,9 @@ class ExtractTextRequest(BaseModel):
         None, description="The statistical method; the server default when absent."
     )
     num_keywords: int = Field(
-        20, ge=1, description="How many keywords to return; at most `max_keywords`."
+        kw.DEFAULT_NUM_KEYWORDS,
+        ge=1,
+        description="How many keywords to return; at most `max_keywords`.",
     )
     lang: Lang = "cs"
 
@@ -884,7 +890,7 @@ async def _run(
     config: Dict[str, Any] = {"kind": kind, "method": method, "num_keywords": num_keywords}
     if engine is not None:
         config.update({"backend": engine["backend"], "model": engine["model"]})
-    pd = ParadataLogger(PROGRAM, config, paradata_dir=None)
+    pd = ParadataLogger(PROGRAM, config, paradata_dir=None, config_dir=str(_ROOT))
     counts: Dict[str, Any] = {}
     document_keywords: List[Any] = []
     page_keywords: List[Any] = []
@@ -909,11 +915,8 @@ async def _run(
     found: Optional[Dict[str, Any]] = None
     response: Dict[str, Any] = {}
     if statistical:
-        component = {"keybert": "keybert", "yake": "yake", "legacy": "ker"}[method]
-        pd.log_component(component)
-        if method == "keybert":
-            pd.log_component("sentence_transformers")
-            pd.log_component("keybert_model")
+        for component in kw.BACKEND_COMPONENTS[method]:
+            pd.log_component(component)
         pd.log_success("keywords", len(document_keywords))
         kw._note_keybert_limits(pd, counts)
         pages = [
@@ -1095,11 +1098,14 @@ async def extract_keywords(
     kind: Kind = Form("both", description=_KIND_HELP),  # noqa: B008
     method: Optional[Method] = Form(None, description=_METHOD_PARAM_HELP),  # noqa: B008
     num_keywords: int = Form(
-        20, ge=1, description="How many keywords per list; at most `max_keywords`."
+        kw.DEFAULT_NUM_KEYWORDS,
+        ge=1,
+        description="How many keywords per list; at most `max_keywords`.",
     ),
     lang: Lang = Form("cs"),  # noqa: B008
     per_page: bool = Form(
-        True, description="Also extract per page, from the record's `lines[].page`."
+        True,
+        description="Also extract per page, from the record's `lines[].page` or the file's pages.",
     ),
 ):
     data: Optional[bytes] = None

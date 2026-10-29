@@ -347,6 +347,7 @@ def main(argv: Optional[List[str]] = None) -> None:
         },
         paradata_dir=paradata_dir,
         output_types=["json"],
+        config_dir=str(Path(__file__).resolve().parent),
     )
     print(prompt_template.describe(config))
     for component in provenance.get("components", []):

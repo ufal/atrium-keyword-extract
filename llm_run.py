@@ -414,6 +414,7 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
         },
         paradata_dir=PARADATA_DIR,
         output_types=["json"],
+        config_dir=str(Path(__file__).resolve().parent),
     )
 
     # Both vocabulary sources are CC0 (atrium-project#6) and declared *conditional*

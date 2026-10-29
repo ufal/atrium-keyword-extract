@@ -76,23 +76,25 @@ python3 keywords.py -i <input_dir> -m <method> -l <lang> -w <integer> \
 
 All available flags:
 
-| Flag | Long form                 | Default in `kw_config.txt`              | Description                                                                               |
-|------|---------------------------|-----------------------------------------|-------------------------------------------------------------------------------------------|
-| `-i` | `--input_dir`             | `data_samples/UDP`                      | CoNLL-U directory to process                                                              |
-| `-m` | `--method`                | `keybert`                               | Backend: `legacy`, `yake`, or `keybert`                                                   |
-| `-l` | `--lang`                  | `cs`                                    | Language code for YAKE stopwords (`cs`, `en`, `de`, …). Ignored by `legacy` and `keybert` |
-| `-w` | `--max_words`             | `3`                                     | Maximum words per keyword phrase (n-gram upper bound)                                     |
-| `-n` | `--num_keywords`          | `20`                                    | Number of keywords to extract per document                                                |
-| `-d` | `--per_doc_out_dir`       | `data_samples/KW_PER_DOC`               | Output directory for per-document CSV files                                               |
-| `-o` | `--output_file`           | `keywords_summary.csv`                  | Master keywords CSV                                                                       |
-|      | `--per-page`              | *(off)*                                 | Also extract each page's keywords, for inputs with pages (the service's `per_page`)       |
-| `-p` | `--per_page_out_dir`      | `data_samples/KW_PER_PAGE_{METHOD}`     | Output directory for the per-page CSV files (`page`, `keyword`, `score`)                  |
-|      | `--document-json-out-dir` | *(none)*                                | Write each document's record with its `keywords` block here, as the service writes it     |
-|      | `--document-json-dir`     | *(none)*                                | Baselines `<doc_id>.document.json` for inputs that are not records themselves             |
-|      | `--keybert-model`         | `paraphrase-multilingual-MiniLM-L12-v2` | Sentence-Transformer model name (KeyBERT only)                                            |
-|      | `--no-mmr`                | *(False)*                               | Disable Maximal Marginal Relevance diversification (KeyBERT only)                         |
-|      | `--diversity`             | `0.5`                                   | MMR diversity parameter, 0 = max relevance → 1 = max diversity (KeyBERT only)             |
-|      | `--workers`               | `0` *(Auto / CPU count)*                | Parallel worker processes. Auto-forced to 1 for KeyBERT + GPU                             |
+| Flag | Long form                 | Default in `kw_config.txt`                     | Description                                                                               |
+|------|---------------------------|------------------------------------------------|-------------------------------------------------------------------------------------------|
+| `-i` | `--input_dir`             | `data_samples/UDP`                             | The folder to read: CoNLL-U, TEITOK, records, line tables, `.txt`                         |
+| `-m` | `--method`                | `keybert`                                      | Backend: `legacy`, `yake`, or `keybert`                                                   |
+| `-l` | `--lang`                  | `cs`                                           | Language code for YAKE stopwords (`cs`, `en`, `de`, …). Ignored by `legacy` and `keybert` |
+| `-w` | `--max_words`             | `3`                                            | Maximum words per keyword phrase (n-gram upper bound)                                     |
+| `-n` | `--num_keywords`          | `20`                                           | Number of keywords to extract per document                                                |
+| `-d` | `--per_doc_out_dir`       | `data_samples/KW_PER_DOC_{METHOD}`             | Output directory for per-document CSV files (`{METHOD}`: `L`, `Y` or `KB`)                |
+| `-o` | `--output_file`           | `data_samples/keywords_summary_{method}.csv`   | Master keywords CSV (`{method}`: `l`, `y` or `kb`)                                        |
+|      | `--per-page`              | *(off)*                                        | Also extract each page's keywords, for inputs with pages (the service's `per_page`)       |
+| `-p` | `--per_page_out_dir`      | `data_samples/KW_PER_PAGE_{METHOD}`            | Output directory for the per-page CSV files (`page`, `keyword`, `score`)                  |
+|      | `--document-json-out-dir` | *(none)*                                       | Write each document's record with its `keywords` block here, as the service writes it     |
+|      | `--document-json-dir`     | *(none)*                                       | Baselines `<doc_id>.document.json` for inputs that are not records themselves             |
+|      | `--paradata-dir`          | `PARADATA_DIR`, else `<input_dir>/../paradata` | Where the run's paradata file goes                                                        |
+|      | `--keybert-model`         | `paraphrase-multilingual-MiniLM-L12-v2`        | Sentence-Transformer model name (KeyBERT only)                                            |
+|      | `--no-mmr`                | *(False)*                                      | Disable Maximal Marginal Relevance diversification (KeyBERT only)                         |
+|      | `--diversity`             | `0.5`                                          | MMR diversity parameter, 0 = max relevance → 1 = max diversity (KeyBERT only)             |
+|      | `--batch_size`            | `16`                                           | Documents per KeyBERT batch (KeyBERT only)                                                |
+|      | `--workers`               | `0` *(Auto / CPU count)*                       | Parallel worker processes. Auto-forced to 1 for KeyBERT + GPU                             |
 
 Examples:
 
@@ -174,21 +176,28 @@ and `PARADATA_DIR` under `/data` in the `llm_config.txt` the compose file mounts
 
 `keywords.py` and `POST /extract_keywords` read every input through [kw_inputs.py](../kw_inputs.py), run the same
 methods (`keywords.extract_from_texts`) and write the record's `keywords` block through the same writer
-(`llm_client_shared.write_document_record`), so the same input gives the same keywords, per document and per page
-(atrium-project#72; [tests/test_cli_service_parity.py](../tests/test_cli_service_parity.py)). Where they differ:
+(`llm_client_shared.write_document_record`), so the same input gives the same keywords, per document and per page,
+and the same licence components in the paradata (atrium-project#72;
+[tests/test_cli_service_parity.py](../tests/test_cli_service_parity.py)). Both take their defaults from
+`kw_config.txt`: `METHOD` and `NUM_KEYWORDS` (the service's `DEFAULT_KW_METHOD` setting overrides its method), and the
+KeyBERT model, `MAX_WORDS`, MMR and diversity. Where they differ:
 
-| What                         | Command line                                                      | Service                                                           | Why they differ                                              |
-|------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------|--------------------------------------------------------------|
-| How much per run             | a folder                                                          | one document per request                                          | the service is stateless                                     |
-| The record                   | `*.document.json` in the folder; `--document-json-out-dir`        | `document_json`                                                   |                                                              |
-| CoNLL-U, TEITOK, CSV, `.txt` | files in the folder                                               | the `file` part (with `document_json`, the record gets the block) |                                                              |
-| Lines as JSON                | none; write them to a `.txt`                                      | `POST /extract_keywords_text`                                     | an HTTP convenience                                          |
-| Per page                     | `--per-page` (off by default)                                     | `per_page` (on by default)                                        | the CSV outputs of a batch run stay as they were             |
-| Pages of a CoNLL-U file      | none                                                              | none                                                              | CoNLL-U carries no pages: send the record or the TEITOK file |
-| KER without lemmas           | an empty row                                                      | 422                                                               | a batch run goes on; a call is told why it got nothing       |
-| The controlled kind          | `openrouter_client.py`, `ollama_client.py`; `llm_run.py` on a GPU | `kind=controlled\|both`                                           | the LLM backend is configured per deployment in the service  |
-| Outputs                      | CSV tables, the records                                           | JSON, with the record                                             |                                                              |
-| Paradata                     | a file in `--paradata-dir` (program `keyword-extract`)            | the response's `paradata`, a `CreateAction`                       | atrium-project#71                                            |
+| What                         | Command line                                                       | Service                                                           | Why they differ                                              |
+|------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|--------------------------------------------------------------|
+| How much per run             | a folder                                                           | one document per request                                          | the service is stateless                                     |
+| The record                   | `*.document.json` in the folder; `--document-json-out-dir`         | `document_json`                                                   |                                                              |
+| CoNLL-U, TEITOK, CSV, `.txt` | files in the folder                                                | the `file` part (with `document_json`, the record gets the block) |                                                              |
+| Lines as JSON                | none; write them to a `.txt`                                       | `POST /extract_keywords_text`                                     | an HTTP convenience                                          |
+| Per page                     | `--per-page` (off by default)                                      | `per_page` (on by default)                                        | the CSV outputs of a batch run stay as they were             |
+| Pages of a CoNLL-U file      | none                                                               | none                                                              | CoNLL-U carries no pages: send the record or the TEITOK file |
+| KER without lemmas           | an empty row                                                       | 422                                                               | a batch run goes on; a call is told why it got nothing       |
+| A document with no text      | an empty row                                                       | 422                                                               | the same                                                     |
+| Language                     | `-l`: any language YAKE has stop words for                         | `lang`: `cs` only                                                 | the service is Czech-pinned in v1                            |
+| KeyBERT and YAKE settings    | `-w`, `--keybert-model`, `--no-mmr`, `--diversity`, `--batch_size` | `kw_config.txt` in the image                                      | deployment settings, not request fields                      |
+| Limits                       | none                                                               | `MAX_DOCUMENT_WORDS` (413), `MAX_KEYWORDS` (422), `MAX_UPLOAD_MB` | the service bounds what one request may cost                 |
+| The controlled kind          | `openrouter_client.py`, `ollama_client.py`; `llm_run.py` on a GPU  | `kind=controlled\|both`                                           | the LLM backend is configured per deployment in the service  |
+| Outputs                      | CSV tables, the records                                            | JSON, with the record                                             |                                                              |
+| Paradata                     | a file in `--paradata-dir` (program `keyword-extract`)             | the response's `paradata`, a `CreateAction`                       | atrium-project#71                                            |
 
 KER (`legacy`) counts lemmas, and where they come from depends on the input: CoNLL-U and TEITOK give every noun's,
 proper noun's and adjective's lemma; a record gives `lines[].lemma`, which no ATRIUM tool writes today; a CSV or a
