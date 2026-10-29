@@ -33,10 +33,12 @@ with the same code (`kw_inputs.py`); what only one of them does, and why:
 
 ## Quick start
 
-The service from the published image, on a sentence, with YAKE (no model to download):
+The service from the published image, on a sentence, with YAKE, which needs no model.
+`DEFAULT_KW_METHOD=yake` keeps the service from downloading KeyBERT's embedding model when it starts:
 
 ```bash
-docker run --rm -p 8000:8000 ghcr.io/ufal/atrium-keyword-extract-api:<version>   # the release without its v
+docker run --rm -p 8000:8000 -e DEFAULT_KW_METHOD=yake \
+  ghcr.io/ufal/atrium-keyword-extract-api:<version>   # the release without its v
 curl --fail-with-body -sS -X POST localhost:8000/extract_keywords_text -H 'Content-Type: application/json' \
   -d '{"text": "Archeologický výzkum odkryl zahloubený objekt se sídlištní keramikou.", "method": "yake", "kind": "statistical", "num_keywords": 5}'
 ```
@@ -83,7 +85,8 @@ ATRIUM](https://marketplace.sshopencloud.eu/tool-or-service/j9fqxo).
   shares the start of the word it began ([Known limits](service/README.md#known-limits)).
 - **The prompt is about 58k tokens.** A model served with a smaller window sees only part of the vocabulary; the
   paradata records how many terms were cut.
-- **YAKE is AGPL-3.0:** a run that uses it is declared AGPL-3.0 ([licences](docs/reference/licences.md)).
+- **YAKE is AGPL-3.0:** a run that uses it lists YAKE among its components, so the run's calculated licence
+  summary becomes AGPL-3.0; that summary is not the licence of the keywords ([licences](docs/reference/licences.md)).
 - **The research path (`llm_run.py`) needs a GPU** and local weights; the service needs neither.
 
 ## Documentation

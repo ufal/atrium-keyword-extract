@@ -965,3 +965,22 @@ this file is a derived reading aid in `agent_dev_logs/`._
   the repository root; a CLI run started outside the checkout recorded `tool_version` "unknown" and every component
   licence as UNKNOWN. The images run from `/app` and were not affected.
 * **Checks:** 1059 passed, 5 skipped; ruff clean.
+
+## 2026-10-29 (evening) — v1.6.1-beta: a record that cannot be added to is refused (atrium-project#72)
+
+* **Shared modules** (re-vendored from the hub with `scripts/revendor_shared.sh`): `atrium_document.py` raises
+  `InvalidRecordError` when a list block the merge adds rows to is not a list of objects, before anything is written,
+  and `service/atrium_service.py` answers it with 422 `invalid_record`. Here that is `entities`, where the controlled
+  kind adds its `pid`s. The spec's registry text names the case, and the `invalid_record` row of `service/README.md`
+  names `entities`.
+* **README:** the quick start runs the image with `DEFAULT_KW_METHOD=yake`, so the service loads no KeyBERT model at
+  start and "needs no model" holds (`service/api.py`'s warm-up loads KeyBERT when it is the default). The YAKE line
+  says what `docs/reference/licences.md` says: a run that uses YAKE lists it, and the calculated licence summary
+  becomes AGPL-3.0 (atrium-project#6).
+* **Vocabulary sidecars** restamped `v1.6.1-beta` (`python vocab_build.py --from-flat --skos`; only `tool_version` and
+  `generated_utc` change), so `tests/test_vocab_release_stamp.py` and the release's packaging step pass.
+* **CI:** the hub's workflows are pinned to the commit that carries the modules (the maintainer's pin move; the Trivy
+  database retry of `b07090f` is already in).
+* **Release:** v1.6.1-beta in `CITATION.cff`, `para_config.txt`, the spec's version; CONTRIBUTING row; the service
+  README's version example.
+* **Checks:** 1058 passed, 5 skipped; pre-commit clean.
