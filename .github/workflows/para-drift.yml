@@ -14,9 +14,9 @@ permissions:
 
 jobs:
   check-drift:
-    uses: ufal/atrium-project/.github/workflows/para-drift.reusable.yml@b07090fea83896c1ce25be5233c6f6d0c41b5e2b  # v1
+    uses: ufal/atrium-project/.github/workflows/para-drift.reusable.yml@439488bb285d48eec099195528f9d1772f3b1119  # v1
     with:
-      hub-ref: b07090fea83896c1ce25be5233c6f6d0c41b5e2b
+      hub-ref: 439488bb285d48eec099195528f9d1772f3b1119
       # atrium-project#72 B: api_util/teitok_read.py and bbox_scale.py are nlp-enrich's, pinned by
       # tests/test_vendored_teitok_parity.py; the reusable compares them with nlp-enrich's `test`
       # head, so a copy that falls behind turns red here.
