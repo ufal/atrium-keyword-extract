@@ -168,7 +168,10 @@ the category may take an accepted half, and the record carries the composite lab
 composites (`mladší`, `objekt`, `souvrství`) or begins other labels (`předmět`), `fragment`
 for a lone adjective or a broken parenthesis, else `accept`. A reviewer's `verdict`
 (`accept`, `ambiguous`, `fragment`) overrides it; `verdict`, `reviewer` and `note` survive
-regeneration, row by row.
+regeneration, row by row. A shared half can be accepted for one composite only: the
+pipeline drops a half accepted for two, since it cannot tell which label is meant. The
+review of 2026-11-09 (#2, PR #4) ruled all 13 `ambiguous` halves, accepting `plastika`,
+`souvrství` and `pozdní eneolit` for one composite each; 80 halves are offered.
 
 Reading `facet_census.csv`: one row per facet, in render order. `cumulative_tokens` is
 the column that explains truncation — a facet is cut when everything *ahead* of it has

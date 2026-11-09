@@ -1362,21 +1362,23 @@ def test_extra_is_order_independent():
 
 
 def test_shipped_same_as_baseline_is_unchanged():
-    """169 terms carrying 102 links, and the number has moved twice for stated reasons:
-    the reviewed baseline was 162/98; M13's `pastvina/louka (nálezové okolnosti)` split
-    added one (the qualified label still contains "/", so it is still a composite of the
-    same components); M11's reinstatement added three more, since composites and their
-    components can now both be offered across the two new context facets. The
-    configurable extra/suppress path must not move it further while no override uses
-    it."""
+    """237 terms carrying 137 links, and the number has moved three times for stated
+    reasons: the reviewed baseline was 162/98; M13's `pastvina/louka (nálezové okolnosti)`
+    split added one (the qualified label still contains "/", so it is still a composite of
+    the same components); M11's reinstatement added three more, since composites and their
+    components can now both be offered across the two new context facets (169/102).
+    @david-spacil's review of 2026-11-09 (PR #4) declared 35 `same_as` pairs in
+    taxonomy_overrides.json: 29 duplicate Chronology periods, `kříž/boží muka` ≡
+    `boží muka a křížky` and five more duplicate spellings. Detection still yields the
+    102; test_vocab_review.py checks that the 35 are exactly the declared ones."""
     import json as _json
 
     nested = _json.loads(
         (_repo_root() / "data_samples" / "vocab" / "union_nested.json").read_text(encoding="utf-8")
     )
     linked = [e for terms in nested.values() for e in terms.values() if e.get("same_as")]
-    assert len(linked) == 169
-    assert sum(len(e["same_as"]) for e in linked) == 2 * 102
+    assert len(linked) == 237
+    assert sum(len(e["same_as"]) for e in linked) == 2 * 137
 
 
 def test_shipped_vocabulary_same_as_links_are_symmetric():

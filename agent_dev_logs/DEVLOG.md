@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Pilot release: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `51aad6c` (`v1`). Latest entry: 2026-11-06 (evening)._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Pilot release: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `51aad6c` (`v1`). Latest entry: 2026-11-09._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -1205,4 +1205,28 @@ Documentation only; no code, test or configuration change.
 * **Yours:** push with the hub re-pin. No wait for digital-convert's release: para-drift compares the copy with
   the owner at `427b690`, which is already on GitHub. `plans/3.plan.md` and `digests/3.digest.md` still cite v1
   and `2bb3f3c` (history, left as written).
+* Committed locally, not pushed.
+
+## 2026-11-09 — #2: David Spáčil's review adopted (PR #4); the four pinned tests moved
+
+* **Asked (K4TEL):** adapt the repository to @david-spacil's PR #4 (the 13 ambiguous composite halves, the 10-16
+  duplicate spellings) and make its four failing tests pass.
+* **Adopted:** PR #4's five commits, fast-forwarded onto `test`'s head `5817ec0` (author kept):
+  * `composite_halves.csv`: all 13 `ambiguous` halves ruled; `plastika`, `souvrství` and `pozdní eneolit`
+    accepted for one composite each, `výplň`, `vrstva` and `boží muka` accepted; five auto-accepted halves ruled
+    fragments. The loader offers 80 halves (79 before).
+  * `taxonomy_overrides.json`: 35 `same_as` pairs, declared from one side (29 Chronology periods,
+    `kříž/boží muka` ≡ `boží muka a křížky`, five more). Scoring-time only; both labels and ids stay offered.
+  * the rebuilt vocabulary and review sheets: `same_as` links 102 → 137 (237 terms carry one).
+* **Written (not pushed):**
+  * `tests/test_vocab_manager.py`: the `same_as` snapshot pins 237/137, the third stated move.
+  * `tests/test_vocab_review.py`: the sheet's `manual` rows must be exactly the declared pairs; the fabricated
+    `kostel`/`kaple` row is found by its ids, not as the only `manual` row; a shared half is accepted for one
+    composite at most, with the review's three picks pinned (test renamed to say so).
+  * `data_samples/vocab/RUNBOOK.md`: the one-composite rule for shared halves, and the review.
+  * `digests/2.digest.md`, `plans/2.plan.md`; `issues/` export with David's 11-09 comment.
+* **Checked:** before the test edits, exactly PR #4's four failures (377 passed); after, the six vocabulary test
+  files (381 passed) and the suite without `slow` (1,187 passed, 1 skipped: the live LLM test); `atrium_vocab.py --selftest`,
+  `vocab_build.py --from-flat --skos --check`, `prompt_template.py --check`; ruff 0.15.18.
+* **Yours:** merge PR #4, then push these files on top.
 * Committed locally, not pushed.

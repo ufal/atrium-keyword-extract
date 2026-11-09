@@ -257,6 +257,17 @@ def test_the_malta_trap_is_visible_in_the_sheet():
 # ── composite_pair_rows (O1/F / Track 3) ─────────────────────────────────────────
 
 
+def _pair_key(row):
+    """A composite_pairs.csv row as the unordered pair of its two `(source, id)` sides,
+    the shape of `VocabularyManager.same_as_overrides()`."""
+    return frozenset(
+        {
+            (row["composite_source"], row["composite_id"]),
+            (row["component_source"], row["component_id"]),
+        }
+    )
+
+
 def _built_union():
     manager = _shipped_manager()
     per_source = vb._load_flat(VOCAB_DIR)
@@ -297,14 +308,21 @@ def test_composite_pairs_never_matches_a_label_against_itself():
 def test_composite_sheet_reports_the_reviewers_own_verdicts():
     """A reviewer rules on a pair by editing taxonomy_overrides.json; the sheet they
     review must then show that ruling, or they cannot tell a pair they have already
-    handled from one they have not."""
+    handled from one they have not. The shipped overrides declare pairs (the 2026-11-09
+    review, PR #4) and suppress none: every declared pair is on the sheet as `manual`,
+    and nothing else is."""
     _require_flat()
     manager = _shipped_manager()
     nested = _built_union()
 
     plain = vr.composite_pair_rows(nested, manager)
-    assert {r["link_status"] for r in plain} == {"auto"}
+    assert {r["link_status"] for r in plain} <= {"auto", "manual"}
+    declared, _suppressed = manager.same_as_overrides()
+    assert {_pair_key(r) for r in plain if r["link_status"] == "manual"} == {
+        frozenset(map(tuple, pair)) for pair in declared
+    }
     most_brod = next(r for r in plain if r["composite_cs"] == "most/brod")
+    assert most_brod["link_status"] == "auto"
 
     manager.overrides[(most_brod["composite_source"], most_brod["composite_id"])] = {
         "same_as_suppress": [
@@ -324,11 +342,14 @@ def test_composite_sheet_reports_the_reviewers_own_verdicts():
 
 def test_composite_sheet_lists_a_hand_declared_pair_no_label_implies():
     """A `same_as` link the detector cannot see has no row of its own from detection,
-    so it would be invisible on the sheet — the one place a reviewer looks."""
+    so it would be invisible on the sheet — the one place a reviewer looks. The shipped
+    overrides already declare pairs of their own, so the added row is told apart by its
+    ids, not by being the only `manual` one."""
     _require_flat()
     manager = _shipped_manager()
     nested = _built_union()
-    before = len(vr.composite_pair_rows(nested, manager))
+    before = vr.composite_pair_rows(nested, manager)
+    manual_before = {_pair_key(r) for r in before if r["link_status"] == "manual"}
 
     kostel = nested["Feature"]["kostel"]
     kaple = nested["Feature"]["kaple"]
@@ -337,9 +358,10 @@ def test_composite_sheet_lists_a_hand_declared_pair_no_label_implies():
         "reason": "fabricated for this test",
     }
     rows = vr.composite_pair_rows(nested, manager)
-    assert len(rows) == before + 1
-    added = next(r for r in rows if r["link_status"] == "manual")
-    assert {added["composite_cs"], added["component_cs"]} == {"kostel", "kaple"}
+    assert len(rows) == len(before) + 1
+    added = [r for r in rows if r["link_status"] == "manual" and _pair_key(r) not in manual_before]
+    assert len(added) == 1
+    assert {added[0]["composite_cs"], added[0]["component_cs"]} == {"kostel", "kaple"}
 
 
 # ── composite_half_rows (issue #2, Option 2) ─────────────────────────────────────
@@ -406,9 +428,12 @@ def test_composite_halves_keep_the_reviewers_columns(tmp_path):
     assert next(r for r in again if r["half"] == "jímka")["verdict"] == ""
 
 
-def test_the_shipped_halves_sheet_offers_jimka_and_not_the_shared_halves():
-    """The 10-16 case (`jímka` finished as `jámová kultura`) is accepted; the halves shared
-    by several composites never are. Read as the sheet, not through llm_client_shared:
+def test_the_shipped_halves_sheet_offers_jimka_and_each_shared_half_for_one_composite_at_most():
+    """The 10-16 case (`jímka` finished as `jámová kultura`) is accepted. A half shared by
+    several composites is accepted for one of them at most: the loader drops a half
+    accepted for two, as it cannot map it back to one label. The rule leaves the shared
+    halves `ambiguous`; @david-spacil's review of 2026-11-09 (PR #4) ruled each of them,
+    accepting three for one composite. Read as the sheet, not through llm_client_shared:
     vocab-drift.yml runs this file without pydantic (test_llm_client_shared.py checks the
     loader on the same sheet)."""
     with open(VOCAB_DIR / "composite_halves.csv", encoding="utf-8", newline="") as fh:
@@ -419,17 +444,19 @@ def test_the_shipped_halves_sheet_offers_jimka_and_not_the_shared_halves():
             (row["composite"], row["verdict"].strip() or row["auto_verdict"])
         )
     assert verdict["jímka"] == {("jáma odpadní/jímka", "accept")}
-    for shared in (
-        "mladší",
-        "objekt",
-        "plastika",
-        "pozdní eneolit",
-        "sloupová",
-        "souvrství",
-        "střední",
-    ):
+    accepted_for = {
+        "mladší": set(),
+        "objekt": set(),
+        "plastika": {"plastika/soška"},
+        "pozdní eneolit": {"mladší / pozdní eneolit"},
+        "sloupová": set(),
+        "souvrství": {"vrstva/souvrství"},
+        "střední": set(),
+    }
+    for shared, expected in accepted_for.items():
         assert len(verdict[shared]) > 1
-        assert {v for _composite, v in verdict[shared]} == {"ambiguous"}
+        assert "ambiguous" not in {v for _composite, v in verdict[shared]}
+        assert {c for c, v in verdict[shared] if v == "accept"} == expected
 
 
 # ── specificity_pair_rows (D1 / O2) ──────────────────────────────────────────────
