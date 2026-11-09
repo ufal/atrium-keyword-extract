@@ -581,6 +581,71 @@
         }
       ],
       "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000077"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1412"
+        }
+      ],
+      "reason": "Same term offered under two spellings outside Chronology (diacritics, one-letter variant or singular/plural); AMCR and TEATER, or two TEATER records, mean the same thing. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000684"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1965"
+        }
+      ],
+      "reason": "Same term offered under two spellings outside Chronology (diacritics, one-letter variant or singular/plural); AMCR and TEATER, or two TEATER records, mean the same thing. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000691"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "2055"
+        }
+      ],
+      "reason": "Same term offered under two spellings outside Chronology (diacritics, one-letter variant or singular/plural); AMCR and TEATER, or two TEATER records, mean the same thing. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "teater",
+        "id": "658"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "3286"
+        }
+      ],
+      "reason": "Same term offered under two spellings outside Chronology (diacritics, one-letter variant or singular/plural); AMCR and TEATER, or two TEATER records, mean the same thing. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000476"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1688"
+        }
+      ],
+      "reason": "Same term offered under two spellings outside Chronology (diacritics, one-letter variant or singular/plural); AMCR and TEATER, or two TEATER records, mean the same thing. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
     }
   ]
 }

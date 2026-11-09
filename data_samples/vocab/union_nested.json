@@ -5358,7 +5358,13 @@
       "sub": "pohřební areál",
       "source": "teater",
       "source_id": "1412",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000077"
+        }
+      ]
     },
     "pohřebiště v sakrální stavbě": {
       "cs": "pohřebiště v sakrální stavbě",
@@ -5366,7 +5372,13 @@
       "sub": "areál aktivity",
       "source": "amcr",
       "source_id": "HES-000077",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1412"
+        }
+      ]
     },
     "pohřebiště/hřbitov": {
       "cs": "pohřebiště/hřbitov",
@@ -9320,7 +9332,13 @@
       "sub": "pyrotechnické zařízení",
       "source": "teater",
       "source_id": "1688",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000476"
+        }
+      ]
     },
     "pyrotechnologické zařízení": {
       "cs": "pyrotechnologické zařízení",
@@ -9335,6 +9353,12 @@
           "scheme": "objekt_druh_kat",
           "cs": "pyrotechnologické zařízení",
           "en": "pyrotechnological device"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1688"
         }
       ]
     },
@@ -12071,7 +12095,13 @@
       "sub": "herní předmět",
       "source": "teater",
       "source_id": "1965",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000684"
+        }
+      ]
     },
     "hrací kostka": {
       "cs": "hrací kostka",
@@ -12087,7 +12117,13 @@
       "sub": "druh předmětu",
       "source": "amcr",
       "source_id": "HES-000684",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1965"
+        }
+      ]
     },
     "hračka": {
       "cs": "hračka",
@@ -13363,7 +13399,13 @@
       "sub": "druh předmětu",
       "source": "amcr",
       "source_id": "HES-000691",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "2055"
+        }
+      ]
     },
     "lamelová zbroj": {
       "cs": "lamelová zbroj",
@@ -13567,7 +13609,13 @@
       "sub": "nádoba",
       "source": "teater",
       "source_id": "2055",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000691"
+        }
+      ]
     },
     "lékařský nástroj": {
       "cs": "lékařský nástroj",
@@ -35282,7 +35330,13 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "658",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "3286"
+        }
+      ]
     },
     "iluminace rukopisů": {
       "cs": "iluminace rukopisů",
@@ -35290,7 +35344,13 @@
       "sub": "řemeslná práce",
       "source": "teater",
       "source_id": "3286",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "658"
+        }
+      ]
     },
     "iluminátor": {
       "cs": "iluminátor",
