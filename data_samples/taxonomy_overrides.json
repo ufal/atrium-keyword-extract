@@ -191,6 +191,19 @@
       },
       "facet": "Artefact",
       "reason": "úřední písemnost: same shape again. Record 602 ('official document', branch 288) sorts below 2250 ('official document', branch 1788). Identical glosses; Artefact is the reviewed placement."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000022"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1323"
+        }
+      ],
+      "reason": "kříž/boží muka (AMCR, 'cross/calvary') and boží muka a křížky (TEATER 1323, 'wayside shrines and crosses') are two spellings of one term, no label connects them. Equivalence ruled by @david-spacil during the composite-halves review (issue #2); both labels and ids stay selectable, the link is scoring-time only, as @motyc asked."
     }
   ]
 }

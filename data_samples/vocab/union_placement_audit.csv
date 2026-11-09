@@ -27,7 +27,7 @@ krajina,landscape,amcr,HES-000117,lokalita_druh,druh lokality,Activity Area,hesl
 kult,ritual activity,amcr,HES-000005,aktivita,aktivita,Activity Area,heslar:aktivita,0
 kultovní areál,ritual site,amcr,HES-000019,areal,areál aktivity,Activity Area,heslar:areal,0
 kultovní místo,ritual place,amcr,HES-000023,areal,areál aktivity,Activity Area,heslar:areal,0
-kříž/boží muka,cross/calvary,amcr,HES-000022,areal,areál aktivity,Activity Area,heslar:areal,1
+kříž/boží muka,cross/calvary,amcr,HES-000022,areal,areál aktivity,Activity Area,heslar:areal,2
 lom,quarry,amcr,HES-000034,areal,areál aktivity,Activity Area,heslar:areal,0
 milířiště,charcoal kiln,amcr,HES-000029,areal,areál aktivity,Activity Area,heslar:areal,0
 most/brod,bridge/ford,amcr,HES-000049,areal,areál aktivity,Activity Area,heslar:areal,1
@@ -1046,7 +1046,7 @@ augustiniánský klášter,Augustinian monastery,teater,1360,1267,nadkomunitní 
 bazilika,basilica,teater,1334,1267,kultovní areál,Activity Area,teater:1267,0
 baziliánský klášter,Basilian monastery,teater,1384,1267,nadkomunitní areál,Activity Area,teater:1267,0
 benediktinský klášter,Benedictine monastery,teater,1361,1267,nadkomunitní areál,Activity Area,teater:1267,0
-boží muka a křížky,wayside shrines and crosses,teater,1323,1267,kultovní areál,Activity Area,teater:1267,0
+boží muka a křížky,wayside shrines and crosses,teater,1323,1267,kultovní areál,Activity Area,teater:1267,1
 castellum,castellum,teater,1292,1267,areál vojenských aktivit,Activity Area,teater:1267,0
 chronologie (města),chronology (cities),teater,1394,1267,nadkomunitní areál,Activity Area,teater:1267,0
 chrám,temple,teater,3865,1267,kultovní areál,Activity Area,teater:1267,0

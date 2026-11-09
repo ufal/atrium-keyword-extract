@@ -3559,7 +3559,13 @@
       "sub": "kultovní areál",
       "source": "teater",
       "source_id": "1323",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000022"
+        }
+      ]
     },
     "castellum": {
       "cs": "castellum",
@@ -4432,6 +4438,10 @@
         {
           "source": "teater",
           "id": "3815"
+        },
+        {
+          "source": "teater",
+          "id": "1323"
         }
       ]
     },
