@@ -24120,7 +24120,13 @@
       "sub": "příbuzné obory",
       "source": "teater",
       "source_id": "658",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "3286"
+        }
+      ]
     },
     "iluminace rukopisů": {
       "cs": "iluminace rukopisů",
@@ -24128,7 +24134,13 @@
       "sub": "řemeslná práce",
       "source": "teater",
       "source_id": "3286",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "658"
+        }
+      ]
     },
     "iluminátor": {
       "cs": "iluminátor",

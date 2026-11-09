@@ -27,7 +27,7 @@ krajina,landscape,amcr,HES-000117,lokalita_druh,druh lokality,Activity Area,hesl
 kult,ritual activity,amcr,HES-000005,aktivita,aktivita,Activity Area,heslar:aktivita,0
 kultovní areál,ritual site,amcr,HES-000019,areal,areál aktivity,Activity Area,heslar:areal,0
 kultovní místo,ritual place,amcr,HES-000023,areal,areál aktivity,Activity Area,heslar:areal,0
-kříž/boží muka,cross/calvary,amcr,HES-000022,areal,areál aktivity,Activity Area,heslar:areal,1
+kříž/boží muka,cross/calvary,amcr,HES-000022,areal,areál aktivity,Activity Area,heslar:areal,2
 lom,quarry,amcr,HES-000034,areal,areál aktivity,Activity Area,heslar:areal,0
 milířiště,charcoal kiln,amcr,HES-000029,areal,areál aktivity,Activity Area,heslar:areal,0
 most/brod,bridge/ford,amcr,HES-000049,areal,areál aktivity,Activity Area,heslar:areal,1
@@ -48,7 +48,7 @@ pastvina/louka,pasture/meadow,amcr,HES-000038,areal,areál aktivity,Activity Are
 pevnost,fortress,amcr,HES-000043,areal,areál aktivity,Activity Area,heslar:areal,0
 pivovar,brewery,amcr,HES-000080,areal,areál aktivity,Activity Area,heslar:areal,0
 pohřbívání,burial activity,amcr,HES-000002,aktivita,aktivita,Activity Area,heslar:aktivita,0
-pohřebiště v sakrální stavbě,burials in sacral building,amcr,HES-000077,areal,areál aktivity,Activity Area,heslar:areal,0
+pohřebiště v sakrální stavbě,burials in sacral building,amcr,HES-000077,areal,areál aktivity,Activity Area,heslar:areal,1
 pohřebiště/hřbitov,cemetery/graveyard,amcr,HES-000027,areal,areál aktivity,Activity Area,heslar:areal,2
 pohřební areál,burial site,amcr,HES-000025,areal,areál aktivity,Activity Area,heslar:areal,0
 pole,cropland,amcr,HES-000039,areal,areál aktivity,Activity Area,heslar:areal,0
@@ -129,7 +129,7 @@ gombík,spherical button,amcr,HES-000693,predmet_druh,druh předmětu,Artefact,h
 herní předmět,game equipment,amcr,HES-000681,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
 hladítko,smoother,amcr,HES-000825,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
 hrací kostka,dice,amcr,HES-000696,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
-hrací kámen,game piece,amcr,HES-000684,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
+hrací kámen,game piece,amcr,HES-000684,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,1
 hrnec,pot,amcr,HES-000768,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
 hrot/hák,spike/hook,amcr,HES-000783,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,2
 hudební nástroj,musical instrument,amcr,HES-000749,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
@@ -165,7 +165,7 @@ kuše,crossbow,amcr,HES-000822,predmet_druh,druh předmětu,Artefact,heslar:pred
 křesadlo/ocílka,firesteel,amcr,HES-000729,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,2
 křížek,cross,amcr,HES-000664,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
 kůl,pole,amcr,HES-000737,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,1
-lahev,bottle,amcr,HES-000691,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
+lahev,bottle,amcr,HES-000691,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,1
 lampa/kahan,lamp/burner,amcr,HES-000695,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,1
 listina,deed,amcr,HES-000670,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,0
 lopata/rýč,shovel/spade,amcr,HES-000655,predmet_druh,druh předmětu,Artefact,heslar:predmet_druh,2
@@ -309,8 +309,8 @@ závaží tkalcovské,loom weight,amcr,HES-000723,predmet_druh,druh předmětu,A
 HaD–LtA,HaD–LtA,amcr,HES-000309,obdobi,období,Chronology,heslar:obdobi,0
 aurignacien,Aurignacian,amcr,HES-000262,obdobi,období,Chronology,heslar:obdobi,0
 badenská kultura,Baden Culture,amcr,HES-000317,obdobi,období,Chronology,heslar:obdobi,0
-billendorfská kultura,Billendorf Culture,amcr,HES-000330,obdobi,období,Chronology,heslar:obdobi,0
-billendorfská kultura (HaC),Billendorf Culture (HaC),amcr,HES-000377,obdobi,období,Chronology,heslar:obdobi,0
+billendorfská kultura,Billendorf Culture,amcr,HES-000330,obdobi,období,Chronology,heslar:obdobi,1
+billendorfská kultura (HaC),Billendorf Culture (HaC),amcr,HES-000377,obdobi,období,Chronology,heslar:obdobi,1
 bohunicien,Bohunician,amcr,HES-000261,obdobi,období,Chronology,heslar:obdobi,0
 bošácká skupina,Bošáca Group,amcr,HES-000357,obdobi,období,Chronology,heslar:obdobi,0
 bylanská kultura,Bylany Culture,amcr,HES-000331,obdobi,období,Chronology,heslar:obdobi,0
@@ -318,18 +318,18 @@ chamská kultura,Cham Culture,amcr,HES-000371,obdobi,období,Chronology,heslar:o
 chebská kultura,Cheb Culture,amcr,HES-000294,obdobi,období,Chronology,heslar:obdobi,0
 datace neurčena,unspecified dating,amcr,HES-000316,obdobi,období,Chronology,heslar:obdobi,0
 doba bronzová,Bronze Age,amcr,HES-000390,obdobi,období,Chronology,heslar:obdobi,0
-doba bronzová–halštatská,Bronze Age–Hallstatt Period,amcr,HES-000384,obdobi,období,Chronology,heslar:obdobi,0
+doba bronzová–halštatská,Bronze Age–Hallstatt Period,amcr,HES-000384,obdobi,období,Chronology,heslar:obdobi,1
 doba halštatská,Hallstatt Period,amcr,HES-000354,obdobi,období,Chronology,heslar:obdobi,0
 doba halštatská–laténská,Hallstatt–La Tène Period,amcr,HES-000334,obdobi,období,Chronology,heslar:obdobi,0
-doba laténská,La Tène Period,amcr,HES-000254,obdobi,období,Chronology,heslar:obdobi,0
-doba laténská–římská,La Tène–Roman Period,amcr,HES-000288,obdobi,období,Chronology,heslar:obdobi,0
-doba stěhování národů,Migration Period,amcr,HES-000342,obdobi,období,Chronology,heslar:obdobi,0
+doba laténská,La Tène Period,amcr,HES-000254,obdobi,období,Chronology,heslar:obdobi,1
+doba laténská–římská,La Tène–Roman Period,amcr,HES-000288,obdobi,období,Chronology,heslar:obdobi,1
+doba stěhování národů,Migration Period,amcr,HES-000342,obdobi,období,Chronology,heslar:obdobi,1
 doba římská,Roman Period,amcr,HES-000335,obdobi,období,Chronology,heslar:obdobi,0
-doba římská–stěhování národů,Roman–Migration Period,amcr,HES-000346,obdobi,období,Chronology,heslar:obdobi,0
+doba římská–stěhování národů,Roman–Migration Period,amcr,HES-000346,obdobi,období,Chronology,heslar:obdobi,1
 dobrodzieńská skupina,Dobrodzień Group,amcr,HES-000344,obdobi,období,Chronology,heslar:obdobi,0
 eneolit,Eneolithic,amcr,HES-000285,obdobi,období,Chronology,heslar:obdobi,0
 epigravettien,Epigravettian,amcr,HES-000263,obdobi,období,Chronology,heslar:obdobi,0
-epimagdalénien,Epimagdalenian,amcr,HES-000265,obdobi,období,Chronology,heslar:obdobi,0
+epimagdalénien,Epimagdalenian,amcr,HES-000265,obdobi,období,Chronology,heslar:obdobi,1
 gravettien,Gravettian,amcr,HES-000311,obdobi,období,Chronology,heslar:obdobi,0
 halštatská mohylová kultura,Hallstatt Tumulus Culture,amcr,HES-000332,obdobi,období,Chronology,heslar:obdobi,0
 hatvanská kultura,Hatvan Culture,amcr,HES-000320,obdobi,období,Chronology,heslar:obdobi,0
@@ -342,14 +342,14 @@ jordanovská kultura,Jordanów Culture,amcr,HES-000287,obdobi,období,Chronology
 knovízská kultura,Knovíz Culture,amcr,HES-000293,obdobi,období,Chronology,heslar:obdobi,0
 kobylská skupina,Kobyly Group,amcr,HES-000259,obdobi,období,Chronology,heslar:obdobi,0
 krumlovien,Krumlovian,amcr,HES-000314,obdobi,období,Chronology,heslar:obdobi,0
-kultura Chlopice-Veselé,Chlopice-Veselé Culture,amcr,HES-000352,obdobi,období,Chronology,heslar:obdobi,0
+kultura Chlopice-Veselé,Chlopice-Veselé Culture,amcr,HES-000352,obdobi,období,Chronology,heslar:obdobi,1
 kultura Kosihy-Čaka,Kosihy-Čaka Culture,amcr,HES-000351,obdobi,období,Chronology,heslar:obdobi,0
 kultura Retz-Bajč-Křepice,Retz-Bajč-Křepice (Furchenstich) Culture,amcr,HES-000367,obdobi,období,Chronology,heslar:obdobi,0
 kultura kulovitých amfor,Globular Amphora Culture,amcr,HES-000279,obdobi,období,Chronology,heslar:obdobi,0
 kultura münchshöfenská,Münchshofen Culture,amcr,HES-000389,obdobi,období,Chronology,heslar:obdobi,0
 kultura nálevkovitých pohárů,Funnel Beaker Culture,amcr,HES-000368,obdobi,období,Chronology,heslar:obdobi,0
-kultura przeworská,Przeworsk Culture,amcr,HES-000257,obdobi,období,Chronology,heslar:obdobi,0
-kultura púchovská,Púchov Culture,amcr,HES-000256,obdobi,období,Chronology,heslar:obdobi,0
+kultura przeworská,Przeworsk Culture,amcr,HES-000257,obdobi,období,Chronology,heslar:obdobi,1
+kultura púchovská,Púchov Culture,amcr,HES-000256,obdobi,období,Chronology,heslar:obdobi,1
 kultura s lineární keramikou,Linear Pottery Culture,amcr,HES-000269,obdobi,období,Chronology,heslar:obdobi,0
 kultura s moravskou malovanou keramikou 1,Moravian Painted Ware Culture 1,amcr,HES-000362,obdobi,období,Chronology,heslar:obdobi,0
 kultura s moravskou malovanou keramikou 2,Moravian Painted Ware Culture 2,amcr,HES-000363,obdobi,období,Chronology,heslar:obdobi,0
@@ -365,29 +365,29 @@ micoquien,Micoquien,amcr,HES-000292,obdobi,období,Chronology,heslar:obdobi,0
 milavečská kultura,Milavče Culture,amcr,HES-000339,obdobi,období,Chronology,heslar:obdobi,0
 miškovický typ,Míškovice Type,amcr,HES-000282,obdobi,období,Chronology,heslar:obdobi,0
 mladší doba bronzová,Late Bronze Age,amcr,HES-000290,obdobi,období,Chronology,heslar:obdobi,0
-mladší doba halštatská (HaD2–3),Late Hallstatt Period (HaD2–3),amcr,HES-000310,obdobi,období,Chronology,heslar:obdobi,0
+mladší doba halštatská (HaD2–3),Late Hallstatt Period (HaD2–3),amcr,HES-000310,obdobi,období,Chronology,heslar:obdobi,1
 mladší doba stěhování národů,Late Migration Period,amcr,HES-000345,obdobi,období,Chronology,heslar:obdobi,0
 mladší doba římská,Late Roman Period,amcr,HES-000341,obdobi,období,Chronology,heslar:obdobi,0
 mladší eneolit,Late Eneolithic,amcr,HES-000280,obdobi,období,Chronology,heslar:obdobi,0
-mladší paleolit,Upper Palaeolithic,amcr,HES-000315,obdobi,období,Chronology,heslar:obdobi,0
-mladší/pozdní eneolit,Late/Final Eneolithic,amcr,HES-000374,obdobi,období,Chronology,heslar:obdobi,0
-mladší–pozdní doba laténská (LtC2–D),Late–Final La Tène Period (LtC2–D),amcr,HES-000255,obdobi,období,Chronology,heslar:obdobi,0
-mladší–pozdní eneolit,Late–Final Eneolithic,amcr,HES-001479,obdobi_kat,období (kategorie),Chronology,heslar:obdobi_kat,0
+mladší paleolit,Upper Palaeolithic,amcr,HES-000315,obdobi,období,Chronology,heslar:obdobi,1
+mladší/pozdní eneolit,Late/Final Eneolithic,amcr,HES-000374,obdobi,období,Chronology,heslar:obdobi,1
+mladší–pozdní doba laténská (LtC2–D),Late–Final La Tène Period (LtC2–D),amcr,HES-000255,obdobi,období,Chronology,heslar:obdobi,1
+mladší–pozdní eneolit,Late–Final Eneolithic,amcr,HES-001479,obdobi_kat,období (kategorie),Chronology,heslar:obdobi_kat,1
 moustérien,Mousterian,amcr,HES-000312,obdobi,období,Chronology,heslar:obdobi,0
 neolit,Neolithic,amcr,HES-000267,obdobi,období,Chronology,heslar:obdobi,0
-neolit–eneolit,Neolithic–Eneolithic,amcr,HES-000387,obdobi,období,Chronology,heslar:obdobi,0
-nitranská kultura,Nitra Culture,amcr,HES-000359,obdobi,období,Chronology,heslar:obdobi,0
+neolit–eneolit,Neolithic–Eneolithic,amcr,HES-000387,obdobi,období,Chronology,heslar:obdobi,1
+nitranská kultura,Nitra Culture,amcr,HES-000359,obdobi,období,Chronology,heslar:obdobi,1
 novověk,Modern Period,amcr,HES-000252,obdobi,období,Chronology,heslar:obdobi,1
 novověk 1,Modern Period 1,amcr,HES-000381,obdobi,období,Chronology,heslar:obdobi,0
 novověk 2,Modern Period 2,amcr,HES-000382,obdobi,období,Chronology,heslar:obdobi,0
-novověk–industriální období,Modern–Industrial Period,amcr,HES-000350,obdobi,období,Chronology,heslar:obdobi,0
+novověk–industriální období,Modern–Industrial Period,amcr,HES-000350,obdobi,období,Chronology,heslar:obdobi,1
 nynická kultura,Nynice Culture,amcr,HES-000299,obdobi,období,Chronology,heslar:obdobi,0
 období popelnicových polí,Urnfield Period,amcr,HES-000281,obdobi,období,Chronology,heslar:obdobi,0
 oberlauterbašská skupina,Oberlauterbach Group,amcr,HES-000305,obdobi,období,Chronology,heslar:obdobi,0
 ohrozimský typ,Ohrozim Type,amcr,HES-000369,obdobi,období,Chronology,heslar:obdobi,0
 ostroměřská skupina,Ostroměř Group,amcr,HES-000266,obdobi,období,Chronology,heslar:obdobi,0
 paleolit,Palaeolithic,amcr,HES-000253,obdobi,období,Chronology,heslar:obdobi,0
-paleolit–mezolit,Palaeolithic–Mesolithic,amcr,HES-000284,obdobi,období,Chronology,heslar:obdobi,0
+paleolit–mezolit,Palaeolithic–Mesolithic,amcr,HES-000284,obdobi,období,Chronology,heslar:obdobi,1
 platěnická kultura,Platěnice Culture,amcr,HES-000300,obdobi,období,Chronology,heslar:obdobi,0
 plaňanský typ,Plaňany Type,amcr,HES-000393,obdobi,období,Chronology,heslar:obdobi,0
 podmokelská skupina,Podmokly Group,amcr,HES-000329,obdobi,období,Chronology,heslar:obdobi,0
@@ -414,37 +414,37 @@ saská lužická kultura,Saxonian-Lusatian Culture,amcr,HES-000388,obdobi,obdob�
 schusseriedská kultura,Schussenried Culture,amcr,HES-000364,obdobi,období,Chronology,heslar:obdobi,0
 slezskoplatěnická kultura,Silesian-Platěnice Culture,amcr,HES-000295,obdobi,období,Chronology,heslar:obdobi,0
 slezskoplatěnická kultura (HaB),Silesian-Platěnice Culture (HaB),amcr,HES-000296,obdobi,období,Chronology,heslar:obdobi,0
-slezskoplatěnická kultura (HaC–D),Silesian–Platěnice Culture (HaC–D),amcr,HES-000378,obdobi,období,Chronology,heslar:obdobi,0
+slezskoplatěnická kultura (HaC–D),Silesian–Platěnice Culture (HaC–D),amcr,HES-000378,obdobi,období,Chronology,heslar:obdobi,1
 slezská kultura,Silesian Culture,amcr,HES-000298,obdobi,období,Chronology,heslar:obdobi,0
 starší doba bronzová,Early Bronze Age,amcr,HES-000319,obdobi,období,Chronology,heslar:obdobi,0
-starší doba halštatská (HaC–D1),Early Hallstatt Period (HaC–D1),amcr,HES-000376,obdobi,období,Chronology,heslar:obdobi,0
+starší doba halštatská (HaC–D1),Early Hallstatt Period (HaC–D1),amcr,HES-000376,obdobi,období,Chronology,heslar:obdobi,1
 starší doba stěhování národů,Early Migration Period,amcr,HES-000343,obdobi,období,Chronology,heslar:obdobi,0
 starší doba římská,Early Roman Period,amcr,HES-000336,obdobi,období,Chronology,heslar:obdobi,0
 starší eneolit,Early Eneolithic,amcr,HES-000366,obdobi,období,Chronology,heslar:obdobi,0
 starší neolit,Early Neolithic,amcr,HES-000268,obdobi,období,Chronology,heslar:obdobi,0
 starší paleolit,Lower Palaeolithic,amcr,HES-000291,obdobi,období,Chronology,heslar:obdobi,0
 střední doba bronzová,Middle Bronze Age,amcr,HES-000322,obdobi,období,Chronology,heslar:obdobi,0
-střední doba laténská (LtB–C1),Middle La Tène Period (LtB–C1),amcr,HES-000333,obdobi,období,Chronology,heslar:obdobi,0
+střední doba laténská (LtB–C1),Middle La Tène Period (LtB–C1),amcr,HES-000333,obdobi,období,Chronology,heslar:obdobi,1
 střední eneolit,Middle Eneolithic,amcr,HES-000370,obdobi,období,Chronology,heslar:obdobi,0
 střední paleolit,Middle Palaeolithic,amcr,HES-000274,obdobi,období,Chronology,heslar:obdobi,0
 střední/mladší doba laténská (LtC1–2),Middle/Late La Tène Period (LtC1–2),amcr,HES-001447,obdobi,období,Chronology,heslar:obdobi,0
-střední–mladší neolit,Middle–Late Neolithic,amcr,HES-000360,obdobi,období,Chronology,heslar:obdobi,0
+střední–mladší neolit,Middle–Late Neolithic,amcr,HES-000360,obdobi,období,Chronology,heslar:obdobi,1
 středodunajská mohylová kultura,Middle-Danubian Tumulus Culture,amcr,HES-000323,obdobi,období,Chronology,heslar:obdobi,0
 středověk,Middle Ages,amcr,HES-000380,obdobi,období,Chronology,heslar:obdobi,0
-středověk–novověk,Middle Ages–Modern Period,amcr,HES-000392,obdobi,období,Chronology,heslar:obdobi,0
+středověk–novověk,Middle Ages–Modern Period,amcr,HES-000392,obdobi,období,Chronology,heslar:obdobi,1
 szeletien,Szeletian,amcr,HES-000260,obdobi,období,Chronology,heslar:obdobi,0
 taubachien,Taubachian,amcr,HES-000313,obdobi,období,Chronology,heslar:obdobi,0
 turnovský typ,Turnov type,amcr,HES-000308,obdobi,období,Chronology,heslar:obdobi,0
 velatická kultura,Velatice Culture,amcr,HES-000338,obdobi,období,Chronology,heslar:obdobi,0
 vrcholný středověk,High Middle Ages,amcr,HES-000328,obdobi,období,Chronology,heslar:obdobi,1
 vrcholný středověk–novověk,High Middle Ages–Modern Period,amcr,HES-000273,obdobi,období,Chronology,heslar:obdobi,0
-vrcholný–pozdní středověk,High–Late Middle Ages,amcr,HES-000327,obdobi,období,Chronology,heslar:obdobi,0
+vrcholný–pozdní středověk,High–Late Middle Ages,amcr,HES-000327,obdobi,období,Chronology,heslar:obdobi,1
 vyspělé mladohradištní období,Advanced Late Hillfort Period,amcr,HES-000303,obdobi,období,Chronology,heslar:obdobi,0
 vyspělé středohradištní období,Advanced Middle Hillfort Period,amcr,HES-000302,obdobi,období,Chronology,heslar:obdobi,0
-věteřovská kultura,Věteřov Culture,amcr,HES-000321,obdobi,období,Chronology,heslar:obdobi,0
-zemědělský pravěk,farming prehistory,amcr,HES-000304,obdobi,období,Chronology,heslar:obdobi,0
+věteřovská kultura,Věteřov Culture,amcr,HES-000321,obdobi,období,Chronology,heslar:obdobi,1
+zemědělský pravěk,farming prehistory,amcr,HES-000304,obdobi,období,Chronology,heslar:obdobi,1
 únětická kultura,Únětice Culture,amcr,HES-000358,obdobi,období,Chronology,heslar:obdobi,0
-časná doba laténská (LtA),Early La Tène Period (LtA),amcr,HES-000355,obdobi,období,Chronology,heslar:obdobi,0
+časná doba laténská (LtA),Early La Tène Period (LtA),amcr,HES-000355,obdobi,období,Chronology,heslar:obdobi,1
 časný eneolit,Proto-Eneolithic,amcr,HES-000286,obdobi,období,Chronology,heslar:obdobi,0
 českofalcká mohylová kultura,Bohemian-Palatinate Tumulus Culture,amcr,HES-000324,obdobi,období,Chronology,heslar:obdobi,0
 řivnáčská kultura,Řivnáč Culture,amcr,HES-000372,obdobi,období,Chronology,heslar:obdobi,0
@@ -803,7 +803,7 @@ pohřeb zvířete,animal burial,amcr,HES-000436,objekt_druh,druh objektu,Feature
 pohřeb žárový,cremation burial,amcr,HES-000435,objekt_druh,druh objektu,Feature,heslar:objekt_druh,0
 pohřební objekt,funerary structure,amcr,HES-000426,objekt_druh,druh objektu,Feature,heslar:objekt_druh,0
 pramen,spring,amcr,HES-000473,objekt_druh,druh objektu,Feature,heslar:objekt_druh,0
-pyrotechnologické zařízení,pyrotechnological device,amcr,HES-000476,objekt_druh,druh objektu,Feature,heslar:objekt_druh,0
+pyrotechnologické zařízení,pyrotechnological device,amcr,HES-000476,objekt_druh,druh objektu,Feature,heslar:objekt_druh,1
 převýšená plocha,mound,amcr,HES-000536,objekt_druh,druh objektu,Feature,heslar:objekt_druh,0
 příkop,moat,amcr,HES-000508,objekt_druh,druh objektu,Feature,heslar:objekt_druh,0
 rybník/nádrž,pond/water tank,amcr,HES-000505,objekt_druh,druh objektu,Feature,heslar:objekt_druh,2
@@ -1046,7 +1046,7 @@ augustiniánský klášter,Augustinian monastery,teater,1360,1267,nadkomunitní 
 bazilika,basilica,teater,1334,1267,kultovní areál,Activity Area,teater:1267,0
 baziliánský klášter,Basilian monastery,teater,1384,1267,nadkomunitní areál,Activity Area,teater:1267,0
 benediktinský klášter,Benedictine monastery,teater,1361,1267,nadkomunitní areál,Activity Area,teater:1267,0
-boží muka a křížky,wayside shrines and crosses,teater,1323,1267,kultovní areál,Activity Area,teater:1267,0
+boží muka a křížky,wayside shrines and crosses,teater,1323,1267,kultovní areál,Activity Area,teater:1267,1
 castellum,castellum,teater,1292,1267,areál vojenských aktivit,Activity Area,teater:1267,0
 chronologie (města),chronology (cities),teater,1394,1267,nadkomunitní areál,Activity Area,teater:1267,0
 chrám,temple,teater,3865,1267,kultovní areál,Activity Area,teater:1267,0
@@ -1140,7 +1140,7 @@ pobřežní opevnění,coastal fortification,teater,1288,1267,areál vojenských
 poddanské město,tributary town,teater,1400,1267,nadkomunitní areál,Activity Area,teater:1267,0
 podhradí,extramural settlement,teater,1446,1267,sídliště,Activity Area,teater:1267,0
 pohřebiště,burrial ground,teater,1411,1267,pohřební areál,Activity Area,teater:1267,1
-pohřebiště v sakralní stavbě,burials in sacral building,teater,1412,1267,pohřební areál,Activity Area,teater:1267,0
+pohřebiště v sakralní stavbě,burials in sacral building,teater,1412,1267,pohřební areál,Activity Area,teater:1267,1
 poklad,treasure,teater,1301,1267,depot,Activity Area,teater:1267,0
 poplužní dvůr,Meierhof,teater,1427,1267,sídlo elity,Activity Area,teater:1267,0
 posvátný háj,sacred grove,teater,3861,1267,kultovní areál,Activity Area,teater:1267,0
@@ -1330,7 +1330,7 @@ hlušina,gangue,teater,1938,1788,ekofakt,Artefact,teater:1788,0
 hodina,hour,teater,2099,1788,nástroj,Artefact,teater:1788,0
 hodiny,clock,teater,2098,1788,nástroj,Artefact,teater:1788,0
 hodometr,hodometron,teater,2100,1788,nástroj,Artefact,teater:1788,0
-hrací kamen,gaming piece,teater,1965,1788,herní předmět,Artefact,teater:1788,0
+hrací kamen,gaming piece,teater,1965,1788,herní předmět,Artefact,teater:1788,1
 hračka,toy,teater,1966,1788,herní předmět,Artefact,teater:1788,0
 hrnčířský kruh,potters wheel,teater,2101,1788,nástroj,Artefact,teater:1788,0
 hrot,point,teater,1958,1788,funkčně nespecifikovaný předmět,Artefact,teater:1788,1
@@ -1422,7 +1422,7 @@ lituus,lituus,teater,1837,1788,doklady umění,Artefact,teater:1788,0
 lopata,shovel,teater,2117,1788,nástroj,Artefact,teater:1788,1
 loď,ship,teater,1905,1788,doprava,Artefact,teater:1788,0
 lyra,lyre,teater,1838,1788,doklady umění,Artefact,teater:1788,0
-láhev,bottle,teater,2055,1788,nádoba,Artefact,teater:1788,0
+láhev,bottle,teater,2055,1788,nádoba,Artefact,teater:1788,1
 lékařský nástroj,medical device,teater,2116,1788,nástroj,Artefact,teater:1788,0
 léky,medicine,teater,2416,1788,zboží,Artefact,teater:1788,0
 lékythos,lekythos,teater,2058,1788,nádoba,Artefact,teater:1788,0
@@ -1723,25 +1723,25 @@ andronovská kultura,Andronovo culture,teater,1150,1050,periodizace dějin,Chron
 antika,classical antiquity,teater,1259,1050,periodizace dějin,Chronology,teater:1050,0
 archeologická periodizace,archaeological periodization,teater,1071,1050,periodizace dějin,Chronology,teater:1050,0
 atlantik (paleoklimatologie),Atlantic (paleoclimatology),teater,1066,1050,geologická doba,Chronology,teater:1050,0
-billendorfská kultúra,Billendorf culture,teater,1189,1050,periodizace dějin,Chronology,teater:1050,0
+billendorfská kultúra,Billendorf culture,teater,1189,1050,periodizace dějin,Chronology,teater:1050,1
 boreál (paleoklimatologie),Boreal (paleoclimatology),teater,1065,1050,geologická doba,Chronology,teater:1050,0
 bukovohorská kultura,Bükk culture,teater,1112,1050,periodizace dějin,Chronology,teater:1050,0
 butmirská kultura,Butmir culture,teater,1113,1050,periodizace dějin,Chronology,teater:1050,0
 d. halštatská - laténska nesp.,Hallstatt-La Tène period,teater,1198,1050,periodizace dějin,Chronology,teater:1050,0
-doba bronzová - halštatská,bronze age-hallstatt,teater,1147,1050,periodizace dějin,Chronology,teater:1050,0
+doba bronzová - halštatská,bronze age-hallstatt,teater,1147,1050,periodizace dějin,Chronology,teater:1050,1
 doba hradištní,hillfort period,teater,1239,1050,periodizace dějin,Chronology,teater:1050,0
 doba kamenná,stone age,teater,1075,1050,periodizace dějin,Chronology,teater:1050,0
-doba laténska,La Tène period,teater,1215,1050,periodizace dějin,Chronology,teater:1050,0
-doba laténska - římska,La Tène - Roman period,teater,1214,1050,periodizace dějin,Chronology,teater:1050,0
+doba laténska,La Tène period,teater,1215,1050,periodizace dějin,Chronology,teater:1050,1
+doba laténska - římska,La Tène - Roman period,teater,1214,1050,periodizace dějin,Chronology,teater:1050,1
 doba ledová,glacial epoch,teater,1061,1050,geologická doba,Chronology,teater:1050,0
 doba meziledová,interglacial period,teater,1062,1050,geologická doba,Chronology,teater:1050,0
 doba měděná,Chalcolithic,teater,1119,1050,periodizace dějin,Chronology,teater:1050,0
-doba římská - stěhování národů,roman - migration period,teater,1226,1050,periodizace dějin,Chronology,teater:1050,0
+doba římská - stěhování národů,roman - migration period,teater,1226,1050,periodizace dějin,Chronology,teater:1050,1
 doba železná,Iron age,teater,1199,1050,periodizace dějin,Chronology,teater:1050,0
 druhohory,mesozoic,teater,1054,1050,geologická doba,Chronology,teater:1050,0
 egejská kultura,Aegean culture,teater,1151,1050,periodizace dějin,Chronology,teater:1050,0
 epiatlantik (paleoklimatologie),Epi-atlantic (paleoclimatology),teater,1067,1050,geologická doba,Chronology,teater:1050,0
-epimagdalenien,epimagdalenian,teater,1096,1050,periodizace dějin,Chronology,teater:1050,0
+epimagdalenien,epimagdalenian,teater,1096,1050,periodizace dějin,Chronology,teater:1050,1
 geologická doba,geological era,teater,1051,1050,geologická doba,Chronology,teater:1050,0
 gávská kultura,Gáva culture,teater,1181,1050,periodizace dějin,Chronology,teater:1050,0
 halštatská kultura,Hallstatt culture,teater,1209,1050,periodizace dějin,Chronology,teater:1050,0
@@ -1758,12 +1758,12 @@ karpatská popelnicová pole,Carpathian Urnfield culture,teater,1179,1050,period
 katakombní kultura,Catacomb culture,teater,1135,1050,periodizace dějin,Chronology,teater:1050,0
 kenozoikum,cenozoic,teater,1055,1050,geologická doba,Chronology,teater:1050,0
 kobanská kultura,Koban culture,teater,1158,1050,periodizace dějin,Chronology,teater:1050,0
-kultura Chłopice-Veselé,Chlopice-Veselé culture,teater,1143,1050,periodizace dějin,Chronology,teater:1050,0
+kultura Chłopice-Veselé,Chlopice-Veselé culture,teater,1143,1050,periodizace dějin,Chronology,teater:1050,1
 kultura Nuova,Noua culture,teater,1190,1050,periodizace dějin,Chronology,teater:1050,0
 kultura Praha-Korčak,Prague-Korchak culture,teater,1245,1050,periodizace dějin,Chronology,teater:1050,0
 kultura Sabatynivka,Sabatinovka culture,teater,1167,1050,periodizace dějin,Chronology,teater:1050,0
 kultura Starčevo-Kriš,Starčevo–Körös–Criș culture,teater,1106,1050,periodizace dějin,Chronology,teater:1050,0
-kultura billendorfská HaC,Billendorf Culture (HaC),teater,1205,1050,periodizace dějin,Chronology,teater:1050,0
+kultura billendorfská HaC,Billendorf Culture (HaC),teater,1205,1050,periodizace dějin,Chronology,teater:1050,1
 kultura dřevených srubů,Srubnaya culture,teater,1187,1050,periodizace dějin,Chronology,teater:1050,0
 kultura oberlauterbašská,Oberlauterbach culture,teater,1103,1050,periodizace dějin,Chronology,teater:1050,0
 kultura pomořanská,Pomeranian culture,teater,1212,1050,periodizace dějin,Chronology,teater:1050,0
@@ -1779,23 +1779,23 @@ laténska kultura,La Tène culture,teater,1225,1050,periodizace dějin,Chronolog
 majkopská kultura,Maikop culture,teater,1124,1050,periodizace dějin,Chronology,teater:1050,0
 maďarovská kultura,Maďarovce culture,teater,1159,1050,periodizace dějin,Chronology,teater:1050,0
 minojská kultura,Minoan culture,teater,1155,1050,periodizace dějin,Chronology,teater:1050,0
-mladý paleolit,Upper Palaeolithic,teater,1085,1050,periodizace dějin,Chronology,teater:1050,0
-mladší / pozdní eneolit,late / final eneolithic,teater,1142,1050,periodizace dějin,Chronology,teater:1050,0
-mladší doba halštatská (HaD2-3),late Hallstatt period (HaD2-3),teater,1208,1050,periodizace dějin,Chronology,teater:1050,0
+mladý paleolit,Upper Palaeolithic,teater,1085,1050,periodizace dějin,Chronology,teater:1050,1
+mladší / pozdní eneolit,late / final eneolithic,teater,1142,1050,periodizace dějin,Chronology,teater:1050,2
+mladší doba halštatská (HaD2-3),late Hallstatt period (HaD2-3),teater,1208,1050,periodizace dějin,Chronology,teater:1050,1
 mladší doba hradištní,late hillfort period,teater,1242,1050,periodizace dějin,Chronology,teater:1050,0
-mladší/pozdní doba laténská (LtC2-D),late/final La Tène period (LtC2-D),teater,1220,1050,periodizace dějin,Chronology,teater:1050,0
+mladší/pozdní doba laténská (LtC2-D),late/final La Tène period (LtC2-D),teater,1220,1050,periodizace dějin,Chronology,teater:1050,1
 moderní dějiny,late modern period,teater,1265,1050,periodizace dějin,Chronology,teater:1050,0
 mohylové kultury,Tumulus culture,teater,1168,1050,periodizace dějin,Chronology,teater:1050,0
 mykénská kultura,Mycenaean civilization,teater,1153,1050,periodizace dějin,Chronology,teater:1050,0
 neogén,neogene,teater,1058,1050,geologická doba,Chronology,teater:1050,0
-neolit-eneolit,neolithic-eneolithic,teater,1100,1050,periodizace dějin,Chronology,teater:1050,0
-nitrianska kultura,Nitra culture,teater,1160,1050,periodizace dějin,Chronology,teater:1050,0
-novověk - industriální období,Modern - industrial period,teater,1250,1050,periodizace dějin,Chronology,teater:1050,0
+neolit-eneolit,neolithic-eneolithic,teater,1100,1050,periodizace dějin,Chronology,teater:1050,1
+nitrianska kultura,Nitra culture,teater,1160,1050,periodizace dějin,Chronology,teater:1050,1
+novověk - industriální období,Modern - industrial period,teater,1250,1050,periodizace dějin,Chronology,teater:1050,1
 nuragská kultura,Nuragic civilization,teater,1161,1050,periodizace dějin,Chronology,teater:1050,0
 oldovan,Oldowan,teater,1079,1050,periodizace dějin,Chronology,teater:1050,0
 otomanská kultura,Ottomany culture,teater,1162,1050,periodizace dějin,Chronology,teater:1050,0
 paleogén,palaeogene,teater,1057,1050,geologická doba,Chronology,teater:1050,0
-paleolit-mezolit,Palaeolithic-Mesolithic,teater,1073,1050,periodizace dějin,Chronology,teater:1050,0
+paleolit-mezolit,Palaeolithic-Mesolithic,teater,1073,1050,periodizace dějin,Chronology,teater:1050,1
 pavlovien,pavlovian,teater,1091,1050,periodizace dějin,Chronology,teater:1050,0
 periodizace dějin,periodization in history,teater,1070,1050,periodizace dějin,Chronology,teater:1050,0
 piliňská kultura,Piliny culture,teater,1172,1050,periodizace dějin,Chronology,teater:1050,0
@@ -1805,25 +1805,25 @@ pozdní středověk (historiografie),Late Middle Ages (historiography),teater,12
 prahory,Archean,teater,1052,1050,geologická doba,Chronology,teater:1050,0
 preboreál (paleoklimatologie),Preboreal (paleoclimatology),teater,1064,1050,geologická doba,Chronology,teater:1050,0
 prvohory,palaeozoic,teater,1053,1050,geologická doba,Chronology,teater:1050,0
-przeworská kultura,Przeworsk culture,teater,1221,1050,periodizace dějin,Chronology,teater:1050,0
-púchovská kultura,Púchov culture,teater,1222,1050,periodizace dějin,Chronology,teater:1050,0
+przeworská kultura,Przeworsk culture,teater,1221,1050,periodizace dějin,Chronology,teater:1050,1
+púchovská kultura,Púchov culture,teater,1222,1050,periodizace dějin,Chronology,teater:1050,1
 raný novověk,early modern period,teater,1264,1050,periodizace dějin,Chronology,teater:1050,0
 raný středověk (historiografie),Early Middle Ages (historiography),teater,1261,1050,periodizace dějin,Chronology,teater:1050,0
 sejmský kulturní okruh,Seima-Turbino phenomenon,teater,1173,1050,periodizace dějin,Chronology,teater:1050,0
 skupina Federmesser,Federmesser group,teater,1098,1050,periodizace dějin,Chronology,teater:1050,0
-slezskoplatěnická kultura HaC-D,Silesian-Platěnice culture (HaC-D),teater,1206,1050,periodizace dějin,Chronology,teater:1050,0
+slezskoplatěnická kultura HaC-D,Silesian-Platěnice culture (HaC-D),teater,1206,1050,periodizace dějin,Chronology,teater:1050,1
 solutréen,solutrean,teater,1092,1050,periodizace dějin,Chronology,teater:1050,0
 soudobé dějiny,contemporary history,teater,1266,1050,periodizace dějin,Chronology,teater:1050,0
 starověk,ancient history,teater,1258,1050,periodizace dějin,Chronology,teater:1050,0
-starší doba halštatská (HaC-D1),early Hallstatt period (HaC-D1),teater,1201,1050,periodizace dějin,Chronology,teater:1050,0
+starší doba halštatská (HaC-D1),early Hallstatt period (HaC-D1),teater,1201,1050,periodizace dějin,Chronology,teater:1050,1
 starší doba hradištní,early hillfort period,teater,1240,1050,periodizace dějin,Chronology,teater:1050,0
-stěhování národů,Migration period,teater,1231,1050,periodizace dějin,Chronology,teater:1050,0
-střední / mladší neolit,middle / late neolithic,teater,1111,1050,periodizace dějin,Chronology,teater:1050,0
+stěhování národů,Migration period,teater,1231,1050,periodizace dějin,Chronology,teater:1050,1
+střední / mladší neolit,middle / late neolithic,teater,1111,1050,periodizace dějin,Chronology,teater:1050,1
 střední doba hradištní,middle hillfort period,teater,1241,1050,periodizace dějin,Chronology,teater:1050,0
-střední doba laténská (LtB-C1),middle La Tène period (LtB-C1),teater,1219,1050,periodizace dějin,Chronology,teater:1050,0
+střední doba laténská (LtB-C1),middle La Tène period (LtB-C1),teater,1219,1050,periodizace dějin,Chronology,teater:1050,1
 středodunajská popelnicová pole,Middle Danube Urnfield culture,teater,1184,1050,periodizace dějin,Chronology,teater:1050,0
 středověk (historiografie),Middle Ages (historiography),teater,1260,1050,periodizace dějin,Chronology,teater:1050,0
-středověk - novověk,Middle ages - modern period,teater,1236,1050,periodizace dějin,Chronology,teater:1050,0
+středověk - novověk,Middle ages - modern period,teater,1236,1050,periodizace dějin,Chronology,teater:1050,1
 subatlantik (paleoklimatologie),Subatlantic (paleoclimatology),teater,1069,1050,geologická doba,Chronology,teater:1050,0
 suborál (paleoklimatologie),Subboreal (paleoclimatology),teater,1068,1050,geologická doba,Chronology,teater:1050,0
 tagarská kultura,Tagar culture,teater,1197,1050,periodizace dějin,Chronology,teater:1050,0
@@ -1834,14 +1834,14 @@ třetihory,tertiary,teater,1056,1050,geologická doba,Chronology,teater:1050,0
 villanovská kultura,Villanovan culture,teater,1213,1050,periodizace dějin,Chronology,teater:1050,0
 vinařická skupina,Vinařice group,teater,1234,1050,periodizace dějin,Chronology,teater:1050,0
 vinčanská kultura,Vinca culture,teater,1109,1050,periodizace dějin,Chronology,teater:1050,0
-vrcholný - pozdní středověk,High - late middle ages,teater,1247,1050,periodizace dějin,Chronology,teater:1050,0
+vrcholný - pozdní středověk,High - late middle ages,teater,1247,1050,periodizace dějin,Chronology,teater:1050,1
 vrcholný středověk (historiografie),High - late middle ages (historiography),teater,1262,1050,periodizace dějin,Chronology,teater:1050,0
 vučedolská kultura,Vučedol culture,teater,1141,1050,periodizace dějin,Chronology,teater:1050,0
-věterovská kultura,Věteřov culture,teater,1165,1050,periodizace dějin,Chronology,teater:1050,0
+věterovská kultura,Věteřov culture,teater,1165,1050,periodizace dějin,Chronology,teater:1050,1
 zarubiněcká kultura,Zarubintsy culture,teater,1246,1050,periodizace dějin,Chronology,teater:1050,0
-zemědelský pravěk,farming prehistory,teater,1074,1050,periodizace dějin,Chronology,teater:1050,0
+zemědelský pravěk,farming prehistory,teater,1074,1050,periodizace dějin,Chronology,teater:1050,1
 čakanská kultura,Čakan culture,teater,1180,1050,periodizace dějin,Chronology,teater:1050,0
-časná doba laténska (LtA),early La Tène period,teater,1216,1050,periodizace dějin,Chronology,teater:1050,0
+časná doba laténska (LtA),early La Tène period,teater,1216,1050,periodizace dějin,Chronology,teater:1050,1
 čerňjachovská kultura,Chernyakhov culture,teater,1244,1050,periodizace dějin,Chronology,teater:1050,0
 čtvrtohory,Quaternary,teater,1059,1050,geologická doba,Chronology,teater:1050,0
 želiezovský typ,Želizovce group,teater,1110,1050,periodizace dějin,Chronology,teater:1050,0
@@ -2725,7 +2725,7 @@ prytaneion,prytaneion,teater,1555,1481,budova,Feature,teater:1481,0
 puteál,puteal,teater,1733,1481,sakrální architektura,Feature,teater:1481,0
 pylón,pylon,teater,1734,1481,sakrální architektura,Feature,teater:1481,0
 pyramida,pyramid,teater,1670,1481,pohřební objekt,Feature,teater:1481,0
-pyrotechnické zařízení,pyrotechnic device,teater,1688,1481,pyrotechnické zařízení,Feature,teater:1481,0
+pyrotechnické zařízení,pyrotechnic device,teater,1688,1481,pyrotechnické zařízení,Feature,teater:1481,1
 předhradí,bailey,teater,1636,1481,opevnění,Feature,teater:1481,0
 radnice,town hall,teater,1552,1481,budova,Feature,teater:1481,0
 regia,regia,teater,1556,1481,budova,Feature,teater:1481,0
@@ -3622,8 +3622,8 @@ ikonografie,iconography,teater,454,288,příbuzné obory,Related Disciplines & S
 ikonoklasmus,iconoclasm,teater,707,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 ikonologie,iconology,teater,455,288,příbuzné obory,Related Disciplines & Society,teater:288,0
 iluminace prvotisků,illumination of incunabula,teater,3285,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
-iluminace rukopisu,illumination of manuscript,teater,658,288,příbuzné obory,Related Disciplines & Society,teater:288,0
-iluminace rukopisů,illumination of manuscripts,teater,3286,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
+iluminace rukopisu,illumination of manuscript,teater,658,288,příbuzné obory,Related Disciplines & Society,teater:288,1
+iluminace rukopisů,illumination of manuscripts,teater,3286,3094,řemeslná práce,Related Disciplines & Society,teater:3094,1
 iluminátor,illuminator,teater,3287,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 iluminátorka,woman illuminator,teater,3288,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0
 ilustrace,illustration,teater,3284,3094,řemeslná práce,Related Disciplines & Society,teater:3094,0

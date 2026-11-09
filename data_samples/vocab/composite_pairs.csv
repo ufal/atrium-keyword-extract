@@ -1,16 +1,26 @@
 composite_cs,composite_facet,composite_source,composite_id,component_cs,component_facet,component_source,component_id,same_facet,link_status
 bastion/reduta,Feature,amcr,HES-000468,bastion,Feature,teater,1620,True,auto
+billendorfská kultura,Chronology,amcr,HES-000330,billendorfská kultúra,Chronology,teater,1189,True,manual
+billendorfská kultura (HaC),Chronology,amcr,HES-000377,kultura billendorfská HaC,Chronology,teater,1205,True,manual
 budova/stavba,Feature,amcr,HES-000438,budova,Finds Context,amcr,HES-000250,False,auto
 budova/stavba,Feature,amcr,HES-000438,stavba,Methods,amcr,HES-000603,False,auto
+doba bronzová–halštatská,Chronology,amcr,HES-000384,doba bronzová - halštatská,Chronology,teater,1147,True,manual
+doba laténská,Chronology,amcr,HES-000254,doba laténska,Chronology,teater,1215,True,manual
+doba laténská–římská,Chronology,amcr,HES-000288,doba laténska - římska,Chronology,teater,1214,True,manual
+doba stěhování národů,Chronology,amcr,HES-000342,stěhování národů,Chronology,teater,1231,True,manual
+doba římská–stěhování národů,Chronology,amcr,HES-000346,doba římská - stěhování národů,Chronology,teater,1226,True,manual
 drtidlo/zrnotěrka,Artefact,amcr,HES-000795,drtidlo,Artefact,teater,2094,True,auto
 drtidlo/zrnotěrka,Artefact,amcr,HES-000795,zrnotěrka,Artefact,teater,2163,True,auto
 dvorec/dvůr,Activity Area,amcr,HES-000014,dvorec,Activity Area,teater,1425,True,auto
 dvorec/dvůr,Activity Area,amcr,HES-000014,dvůr,Activity Area,teater,1426,True,auto
+epimagdalénien,Chronology,amcr,HES-000265,epimagdalenien,Chronology,teater,1096,True,manual
+hrací kámen,Artefact,amcr,HES-000684,hrací kamen,Artefact,teater,1965,True,manual
 hrot/hák,Artefact,amcr,HES-000783,hrot,Artefact,teater,1958,True,auto
 hrot/hák,Artefact,amcr,HES-000783,hák,Artefact,teater,1957,True,auto
 hřeb/hřebík/nýt,Artefact,amcr,HES-000679,hřeb,Artefact,teater,2342,True,auto
 hřeb/hřebík/nýt,Artefact,amcr,HES-000679,hřebík,Artefact,teater,2341,True,auto
 hřeb/hřebík/nýt,Artefact,amcr,HES-000679,nýt,Artefact,teater,2343,True,auto
+iluminace rukopisů,Related Disciplines & Society,teater,3286,iluminace rukopisu,Related Disciplines & Society,teater,658,True,manual
 jehla/špendlík,Artefact,amcr,HES-000804,jehla,Artefact,teater,2104,True,auto
 jehla/špendlík,Artefact,amcr,HES-000804,špendlík,Artefact,teater,2142,True,auto
 jeskyně/skalní prostor,Feature,amcr,HES-000472,jeskyně,Feature,teater,1682,True,auto
@@ -24,13 +34,18 @@ kotel/kotlík,Artefact,amcr,HES-000770,kotel,Artefact,teater,2048,True,auto
 kotel/kotlík,Artefact,amcr,HES-000770,kotlík,Artefact,teater,2049,True,auto
 kroužek/kruh,Artefact,amcr,HES-000764,kroužek,Artefact,teater,1960,True,auto
 kulička/koule,Artefact,amcr,HES-000760,kulička,Artefact,teater,1961,True,auto
+kultura Chlopice-Veselé,Chronology,amcr,HES-000352,kultura Chłopice-Veselé,Chronology,teater,1143,True,manual
+kultura przeworská,Chronology,amcr,HES-000257,przeworská kultura,Chronology,teater,1221,True,manual
+kultura púchovská,Chronology,amcr,HES-000256,púchovská kultura,Chronology,teater,1222,True,manual
 kulturní vrstva/objekt,Finds Context,amcr,HES-000247,kulturní vrstva,Feature,teater,1752,False,auto
 kámen drtidlo/žernov,Material,amcr,HES-000930,žernov,Artefact,teater,2164,False,auto
 křesadlo/ocílka,Artefact,amcr,HES-000729,křesadlo,Artefact,teater,2115,True,auto
 křesadlo/ocílka,Artefact,amcr,HES-000729,ocílka,Artefact,teater,2125,True,auto
+kříž/boží muka,Activity Area,amcr,HES-000022,boží muka a křížky,Activity Area,teater,1323,True,manual
 kříž/boží muka,Activity Area,amcr,HES-000022,kříž,Related Disciplines & Society,teater,3815,False,auto
 kůl/sloup,Feature,amcr,HES-000447,kůl,Artefact,amcr,HES-000737,False,auto
 kůl/sloup,Feature,amcr,HES-000447,sloup,Feature,teater,1602,True,auto
+lahev,Artefact,amcr,HES-000691,láhev,Artefact,teater,2055,True,manual
 lampa/kahan,Artefact,amcr,HES-000695,lampa,Artefact,teater,2056,True,auto
 lopata/rýč,Artefact,amcr,HES-000655,lopata,Artefact,teater,2117,True,auto
 lopata/rýč,Artefact,amcr,HES-000655,rýč,Artefact,teater,2135,True,auto
@@ -38,18 +53,27 @@ malba/freska,Feature,amcr,HES-000540,freska,Artefact,teater,1824,False,auto
 malba/freska,Feature,amcr,HES-000540,malba,Artefact,teater,1850,False,auto
 mezník/patník,Feature,amcr,HES-000522,mezník,Feature,teater,1675,True,auto
 mikrosondáž/vzorkovací sondáž,Methods,amcr,HES-001051,mikrosondáž,Methods,teater,113,True,auto
+mladší doba halštatská (HaD2–3),Chronology,amcr,HES-000310,mladší doba halštatská (HaD2-3),Chronology,teater,1208,True,manual
+mladší paleolit,Chronology,amcr,HES-000315,mladý paleolit,Chronology,teater,1085,True,manual
+mladší/pozdní eneolit,Chronology,amcr,HES-000374,mladší / pozdní eneolit,Chronology,teater,1142,True,manual
+mladší–pozdní doba laténská (LtC2–D),Chronology,amcr,HES-000255,mladší/pozdní doba laténská (LtC2-D),Chronology,teater,1220,True,manual
+mladší–pozdní eneolit,Chronology,amcr,HES-001479,mladší / pozdní eneolit,Chronology,teater,1142,True,manual
 most/brod,Activity Area,amcr,HES-000049,most,Feature,amcr,HES-000523,False,auto
 motyka/krumpáč,Artefact,amcr,HES-000799,krumpáč,Artefact,teater,2114,True,auto
 motyka/krumpáč,Artefact,amcr,HES-000799,motyka,Artefact,teater,2157,True,auto
 muzeum/skanzen,Activity Area,amcr,HES-000129,muzeum,Location & Admin,amcr,HES-001127,False,auto
 muzeum/skanzen,Activity Area,amcr,HES-000129,skanzen,Location & Admin,teater,248,False,auto
 nehotový výrobek/polotovar,Artefact,amcr,HES-000828,polotovar,Artefact,teater,2302,True,auto
+neolit–eneolit,Chronology,amcr,HES-000387,neolit-eneolit,Chronology,teater,1100,True,manual
+nitranská kultura,Chronology,amcr,HES-000359,nitrianska kultura,Chronology,teater,1160,True,manual
+novověk–industriální období,Chronology,amcr,HES-000350,novověk - industriální období,Chronology,teater,1250,True,manual
 náhodný/povrchový nález,Methods,amcr,HES-001139,povrchový nález,Methods,amcr,HES-001049,True,auto
 náhrobek/náhrobní kámen,Feature,amcr,HES-000433,náhrobek,Feature,teater,1667,True,auto
 odpadní vrstva/souvrství,Feature,amcr,HES-000458,odpadní vrstva,Feature,teater,1755,True,auto
 ohradní zeď/plot,Feature,amcr,HES-000532,plot,Feature,teater,1635,True,auto
 oštěp/hrot oštěpu,Artefact,amcr,HES-000788,hrot oštěpu,Artefact,teater,1990,True,auto
 oštěp/hrot oštěpu,Artefact,amcr,HES-000788,oštěp,Artefact,teater,2001,True,auto
+paleolit–mezolit,Chronology,amcr,HES-000284,paleolit-mezolit,Chronology,teater,1073,True,manual
 pastvina/louka,Activity Area,amcr,HES-000038,pastvina,Activity Area,teater,1295,True,auto
 pastvina/louka (nálezové okolnosti),Finds Context,amcr,HES-000244,pastvina,Activity Area,teater,1295,False,auto
 petrografie/mineralogie,Methods,amcr,HES-000628,mineralogie,Related Disciplines & Society,teater,969,False,auto
@@ -57,12 +81,14 @@ pochva/pouzdro,Artefact,amcr,HES-000677,pochva,Artefact,teater,1972,True,auto
 pochva/pouzdro,Artefact,amcr,HES-000677,pouzdro,Artefact,teater,2327,True,auto
 podorničí/podloží,Finds Context,amcr,HES-000248,podloží,Related Disciplines & Society,teater,987,False,auto
 pohár/číše,Artefact,amcr,HES-000722,pohár,Artefact,teater,2066,True,auto
+pohřebiště v sakrální stavbě,Activity Area,amcr,HES-000077,pohřebiště v sakralní stavbě,Activity Area,teater,1412,True,manual
 pohřebiště/hřbitov,Activity Area,amcr,HES-000027,hřbitov,Activity Area,teater,1408,True,auto
 pohřebiště/hřbitov,Activity Area,amcr,HES-000027,pohřebiště,Activity Area,teater,1411,True,auto
 pomník/památník,Activity Area,amcr,HES-000128,památník,Artefact,teater,3735,False,auto
 postroj/doprava,Artefact,amcr,HES-000742,doprava,Artefact,teater,1895,True,auto
 prkno/fošna,Artefact,amcr,HES-000687,prkno,Artefact,teater,2351,True,auto
 projektil/kule/munice,Artefact,amcr,HES-000755,projektil,Artefact,teater,2005,True,auto
+pyrotechnologické zařízení,Feature,amcr,HES-000476,pyrotechnické zařízení,Feature,teater,1688,True,manual
 přechod pozdní středověk/novověk,Chronology,amcr,HES-000272,novověk,Chronology,amcr,HES-000252,True,auto
 přechod raný/vrcholný středověk,Chronology,amcr,HES-000270,vrcholný středověk,Chronology,amcr,HES-000328,True,auto
 přívěsek/závěsek,Artefact,amcr,HES-000837,přívěsek,Artefact,teater,2398,True,auto
@@ -73,13 +99,18 @@ růženec/medailon,Artefact,amcr,HES-000702,medailon,Artefact,teater,2389,True,a
 růženec/medailon,Artefact,amcr,HES-000702,růženec,Artefact,teater,2400,True,auto
 sejp/halda,Feature,amcr,HES-000563,sejp,Feature,teater,1744,True,auto
 sekeromlat/mlat,Artefact,amcr,HES-000789,sekeromlat,Artefact,teater,2006,True,auto
+slezskoplatěnická kultura (HaC–D),Chronology,amcr,HES-000378,slezskoplatěnická kultura HaC-D,Chronology,teater,1206,True,manual
 slonovina/mamutovina,Material,amcr,HES-000948,mamutovina,Material,teater,2500,True,auto
 slonovina/mamutovina,Material,amcr,HES-000948,slonovina,Material,teater,2540,True,auto
 splach/naplavenina,Feature,amcr,HES-000461,splach,Feature,teater,1757,True,auto
 stanice/tábořiště,Activity Area,amcr,HES-000066,stanice,Activity Area,teater,1451,True,auto
 stanice/tábořiště,Activity Area,amcr,HES-000066,tábořiště,Activity Area,teater,1452,True,auto
+starší doba halštatská (HaC–D1),Chronology,amcr,HES-000376,starší doba halštatská (HaC-D1),Chronology,teater,1201,True,manual
 stáj/chlév,Feature,amcr,HES-000482,chlév,Feature,teater,1520,True,auto
 stáj/chlév,Feature,amcr,HES-000482,stáj,Feature,teater,1559,True,auto
+střední doba laténská (LtB–C1),Chronology,amcr,HES-000333,střední doba laténská (LtB-C1),Chronology,teater,1219,True,manual
+střední–mladší neolit,Chronology,amcr,HES-000360,střední / mladší neolit,Chronology,teater,1111,True,manual
+středověk–novověk,Chronology,amcr,HES-000392,středověk - novověk,Chronology,teater,1236,True,manual
 sýpka/špýchar,Feature,amcr,HES-000484,sýpka,Feature,teater,1561,True,auto
 sýpka/špýchar,Feature,amcr,HES-000484,špýchar,Feature,teater,1563,True,auto
 tvrz/hrádek,Activity Area,amcr,HES-000017,hrádek,Activity Area,teater,1428,True,auto
@@ -89,12 +120,16 @@ uhlíky/popel,Artefact,amcr,HES-000781,popel,Artefact,teater,1943,True,auto
 vesnice/městečko,Activity Area,amcr,HES-000068,městečko,Activity Area,teater,1445,True,auto
 vesnice/městečko,Activity Area,amcr,HES-000068,vesnice,Activity Area,teater,1455,True,auto
 vizuální/geodetický průzkum,Methods,amcr,HES-001044,geodetický průzkum,Methods,amcr,HES-001141,True,auto
+vrcholný–pozdní středověk,Chronology,amcr,HES-000327,vrcholný - pozdní středověk,Chronology,teater,1247,True,manual
 vědro/situla,Artefact,amcr,HES-000819,situla,Artefact,teater,2075,True,auto
 vědro/situla,Artefact,amcr,HES-000819,vědro,Artefact,teater,2083,True,auto
+věteřovská kultura,Chronology,amcr,HES-000321,věterovská kultura,Chronology,teater,1165,True,manual
 zahrada/sad,Activity Area,amcr,HES-000040,sad,Activity Area,teater,1297,True,auto
 zahrada/sad,Activity Area,amcr,HES-000040,zahrada,Activity Area,amcr,HES-000526,True,auto
+zemědělský pravěk,Chronology,amcr,HES-000304,zemědelský pravěk,Chronology,teater,1074,True,manual
 zámek/zámeček/vila,Activity Area,amcr,HES-000018,vila,Activity Area,teater,1438,True,auto
 zámek/zámeček/vila,Activity Area,amcr,HES-000018,zámek,Artefact,amcr,HES-000817,False,auto
+časná doba laténská (LtA),Chronology,amcr,HES-000355,časná doba laténska (LtA),Chronology,teater,1216,True,manual
 čepel/čepelka,Artefact,amcr,HES-000662,čepel,Artefact,teater,2090,True,auto
 čepel/čepelka,Artefact,amcr,HES-000662,čepelka,Artefact,teater,2091,True,auto
 šíp/šipka/hrot šípu/šipky,Artefact,amcr,HES-000792,hrot šípu,Artefact,teater,1992,True,auto
