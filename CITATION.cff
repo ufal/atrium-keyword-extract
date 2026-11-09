@@ -1,6 +1,18 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "ATRIUM's keyword extractor: statistical (KeyBERT, YAKE, KER) and vocabulary-controlled keywords from text-containing documents"
+title: "ATRIUM keyword-extract: statistical (KER, YAKE, KeyBERT) and vocabulary-controlled keyword extraction from archival documents"
+abstract: >-
+  keyword-extract suggests keywords for an archival document and each of its pages, in two kinds kept
+  apart. Statistical keywords are the words and phrases that best describe the text. Controlled
+  keywords are terms from the keyword lists of the Czech archaeological database AMČR and from the
+  TEATER thesaurus, chosen for each line by a language model. Use it on documents whose text is
+  already recognised. The controlled kind needs a language-model service and is research output.
+keywords:
+  - "keyword extraction"
+  - "controlled vocabulary"
+  - "KeyBERT"
+  - "YAKE"
+  - "archaeology"
 version: "1.6.5-beta"
 date-released: "2026-11-06"
 authors:
