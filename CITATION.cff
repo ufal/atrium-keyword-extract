@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "ATRIUM keyword-extract: statistical (KER, YAKE, KeyBERT) and vocabulary-controlled keyword extraction from archival documents"
+title: "ATRIUM keyword-extract"
 abstract: >-
   keyword-extract suggests keywords for an archival document and each of its pages, in two kinds kept
   apart. Statistical keywords are the words and phrases that best describe the text. Controlled
