@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Pilot release: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `51aad6c` (`v1`). Latest entry: 2026-11-09._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Pilot release: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `51aad6c` (`v1`). Latest entry: 2026-11-09 (afternoon)._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -1230,3 +1230,22 @@ Documentation only; no code, test or configuration change.
   `vocab_build.py --from-flat --skos --check`, `prompt_template.py --check`; ruff 0.15.18.
 * **Yours:** merge PR #4, then push these files on top.
 * Committed locally, not pushed.
+
+## 2026-11-09 (afternoon) — #2: the gold set's format and annotator, requested
+
+* **Asked (K4TEL):** carry the annotated-dataset request of
+  [nlp-enrich#7](https://github.com/ufal/atrium-nlp-enrich/issues/7#issuecomment-6741768360) (11-09 13:54) into the
+  comment for @david-spacil and into #2's digest and plan.
+* **The request:**
+  * annotation by a Czech-speaking archaeologist;
+  * the same sample documents (the 1,029 lines the runs answer in the 19 documents of `gold_workbook.csv`), or an
+    equal-sized set;
+  * per line: `line_text`, `is_vocab_term_present`, and `term_extracted_1` to `_3` (the first is empty only when the
+    flag is `False`).
+* **Written (not pushed):**
+  * `digests/2.digest.md`: the 11-09 section and the status;
+  * `plans/2.plan.md`: step 5 rewritten; step 6's scorer counts a pick that matches any gold term; the status and the
+    table row. The ~500-line fallback is gone: the request asks for an equal-sized set.
+  * The comment for David on #2: thanks for the review, plus the request. Drafted, not posted.
+* **Left (a):** `gold_workbook.csv` (`corpus_review.gold_workbook_rows`) and `score_categories.gold_labels` move to
+  the new columns before the sheet goes to the annotator. No code changed in this entry.
