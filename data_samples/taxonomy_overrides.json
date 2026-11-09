@@ -204,6 +204,383 @@
         }
       ],
       "reason": "kříž/boží muka (AMCR, 'cross/calvary') and boží muka a křížky (TEATER 1323, 'wayside shrines and crosses') are two spellings of one term, no label connects them. Equivalence ruled by @david-spacil during the composite-halves review (issue #2); both labels and ids stay selectable, the link is scoring-time only, as @motyc asked."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000384"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1147"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000254"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1215"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000288"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1214"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000346"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1226"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000265"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1096"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000352"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1143"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000257"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1221"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000256"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1222"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000310"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1208"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000376"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1201"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000333"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1219"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000355"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1216"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000255"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1220"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000387"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1100"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000284"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1073"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000350"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1250"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000392"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1236"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000327"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1247"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000360"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1111"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000359"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1160"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000321"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1165"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000304"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1074"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000374"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1142"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-001479"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1142"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000342"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1231"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000315"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1085"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000378"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1206"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000330"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1189"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
+    },
+    {
+      "match": {
+        "source": "amcr",
+        "id": "HES-000377"
+      },
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1205"
+        }
+      ],
+      "reason": "Chronology period offered under both an AMCR (období) and a TEATER (periodizace dějin) spelling; same period, differing in punctuation, diacritics or word order. Equivalence ruled by @david-spacil (issue #2, list of 16 Oct). Both labels and ids stay selectable; the link is scoring-time only."
     }
   ]
 }

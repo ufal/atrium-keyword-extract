@@ -94,7 +94,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000330",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1189"
+        }
+      ]
     },
     "billendorfská kultura (HaC)": {
       "cs": "billendorfská kultura (HaC)",
@@ -102,7 +108,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000377",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1205"
+        }
+      ]
     },
     "billendorfská kultúra": {
       "cs": "billendorfská kultúra",
@@ -110,7 +122,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1189",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000330"
+        }
+      ]
     },
     "bohunicien": {
       "cs": "bohunicien",
@@ -261,7 +279,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1147",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000384"
+        }
+      ]
     },
     "doba bronzová–halštatská": {
       "cs": "doba bronzová–halštatská",
@@ -276,6 +300,12 @@
           "scheme": "obdobi_kat",
           "cs": "doba bronzová–halštatská",
           "en": "Bronze Age–Hallstatt Period"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1147"
         }
       ]
     },
@@ -340,7 +370,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1215",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000254"
+        }
+      ]
     },
     "doba laténska - římska": {
       "cs": "doba laténska - římska",
@@ -348,7 +384,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1214",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000288"
+        }
+      ]
     },
     "doba laténská": {
       "cs": "doba laténská",
@@ -363,6 +405,12 @@
           "scheme": "obdobi_kat",
           "cs": "doba laténská",
           "en": "La Tène Period"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1215"
         }
       ]
     },
@@ -379,6 +427,12 @@
           "scheme": "obdobi_kat",
           "cs": "doba laténská–římská",
           "en": "La Tène–Roman Period"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1214"
         }
       ]
     },
@@ -420,6 +474,12 @@
           "cs": "doba stěhování národů",
           "en": "Migration Period"
         }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1231"
+        }
       ]
     },
     "doba římská": {
@@ -451,7 +511,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1226",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000346"
+        }
+      ]
     },
     "doba římská–stěhování národů": {
       "cs": "doba římská–stěhování národů",
@@ -466,6 +532,12 @@
           "scheme": "obdobi_kat",
           "cs": "doba římská–stěhování národů",
           "en": "Roman–Migration Period"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1226"
         }
       ]
     },
@@ -562,7 +634,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1096",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000265"
+        }
+      ]
     },
     "epimagdalénien": {
       "cs": "epimagdalénien",
@@ -570,7 +648,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000265",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1096"
+        }
+      ]
     },
     "geologická doba": {
       "cs": "geologická doba",
@@ -905,7 +989,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000352",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1143"
+        }
+      ]
     },
     "kultura Chłopice-Veselé": {
       "cs": "kultura Chłopice-Veselé",
@@ -913,7 +1003,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1143",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000352"
+        }
+      ]
     },
     "kultura Kosihy-Čaka": {
       "cs": "kultura Kosihy-Čaka",
@@ -985,7 +1081,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1205",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000377"
+        }
+      ]
     },
     "kultura dřevených srubů": {
       "cs": "kultura dřevených srubů",
@@ -1081,7 +1183,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000257",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1221"
+        }
+      ]
     },
     "kultura púchovská": {
       "cs": "kultura púchovská",
@@ -1089,7 +1197,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000256",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1222"
+        }
+      ]
     },
     "kultura s kanelovanou keramikou": {
       "cs": "kultura s kanelovanou keramikou",
@@ -1384,7 +1498,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1085",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000315"
+        }
+      ]
     },
     "mladší / pozdní eneolit": {
       "cs": "mladší / pozdní eneolit",
@@ -1392,7 +1512,17 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1142",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000374"
+        },
+        {
+          "source": "amcr",
+          "id": "HES-001479"
+        }
+      ]
     },
     "mladší doba bronzová": {
       "cs": "mladší doba bronzová",
@@ -1423,7 +1553,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1208",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000310"
+        }
+      ]
     },
     "mladší doba halštatská (HaD2–3)": {
       "cs": "mladší doba halštatská (HaD2–3)",
@@ -1438,6 +1574,12 @@
           "scheme": "obdobi_kat",
           "cs": "mladší doba halštatská (HaD2–3)",
           "en": "Late Hallstatt Period (HaD2–3)"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1208"
         }
       ]
     },
@@ -1532,6 +1674,12 @@
           "cs": "mladší paleolit",
           "en": "Upper Palaeolithic"
         }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1085"
+        }
       ]
     },
     "mladší/pozdní doba laténská (LtC2-D)": {
@@ -1540,7 +1688,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1220",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000255"
+        }
+      ]
     },
     "mladší/pozdní eneolit": {
       "cs": "mladší/pozdní eneolit",
@@ -1548,7 +1702,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000374",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1142"
+        }
+      ]
     },
     "mladší–pozdní doba laténská (LtC2–D)": {
       "cs": "mladší–pozdní doba laténská (LtC2–D)",
@@ -1564,6 +1724,12 @@
           "cs": "mladší–pozdní doba laténská (LtC2–D)",
           "en": "Late–Final La Tène Period (LtC2–D)"
         }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1220"
+        }
       ]
     },
     "mladší–pozdní eneolit": {
@@ -1572,7 +1738,13 @@
       "sub": "období (kategorie)",
       "source": "amcr",
       "source_id": "HES-001479",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1142"
+        }
+      ]
     },
     "moderní dějiny": {
       "cs": "moderní dějiny",
@@ -1651,7 +1823,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1100",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000387"
+        }
+      ]
     },
     "neolit–eneolit": {
       "cs": "neolit–eneolit",
@@ -1667,6 +1845,12 @@
           "cs": "neolit–eneolit",
           "en": "Neolithic–Eneolithic"
         }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1100"
+        }
       ]
     },
     "nitranská kultura": {
@@ -1675,7 +1859,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000359",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1160"
+        }
+      ]
     },
     "nitrianska kultura": {
       "cs": "nitrianska kultura",
@@ -1683,7 +1873,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1160",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000359"
+        }
+      ]
     },
     "novověk": {
       "cs": "novověk",
@@ -1720,7 +1916,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1250",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000350"
+        }
+      ]
     },
     "novověk 1": {
       "cs": "novověk 1",
@@ -1767,6 +1969,12 @@
           "scheme": "obdobi_kat",
           "cs": "novověk–industriální období",
           "en": "Modern–Industrial Period"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1250"
         }
       ]
     },
@@ -1903,7 +2111,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1073",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000284"
+        }
+      ]
     },
     "paleolit–mezolit": {
       "cs": "paleolit–mezolit",
@@ -1918,6 +2132,12 @@
           "scheme": "obdobi_kat",
           "cs": "paleolit–mezolit",
           "en": "Palaeolithic–Mesolithic"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1073"
         }
       ]
     },
@@ -2195,7 +2415,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1221",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000257"
+        }
+      ]
     },
     "púchovská kultura": {
       "cs": "púchovská kultura",
@@ -2203,7 +2429,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1222",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000256"
+        }
+      ]
     },
     "přechod pozdní středověk/novověk": {
       "cs": "přechod pozdní středověk/novověk",
@@ -2422,7 +2654,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000378",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1206"
+        }
+      ]
     },
     "slezskoplatěnická kultura HaC-D": {
       "cs": "slezskoplatěnická kultura HaC-D",
@@ -2430,7 +2668,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1206",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000378"
+        }
+      ]
     },
     "slezská kultura": {
       "cs": "slezská kultura",
@@ -2493,7 +2737,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1201",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000376"
+        }
+      ]
     },
     "starší doba halštatská (HaC–D1)": {
       "cs": "starší doba halštatská (HaC–D1)",
@@ -2508,6 +2758,12 @@
           "scheme": "obdobi_kat",
           "cs": "starší doba halštatská (HaC–D1)",
           "en": "Early Hallstatt Period (HaC–D1)"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1201"
         }
       ]
     },
@@ -2640,7 +2896,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1231",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000342"
+        }
+      ]
     },
     "střední / mladší neolit": {
       "cs": "střední / mladší neolit",
@@ -2648,7 +2910,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1111",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000360"
+        }
+      ]
     },
     "střední doba bronzová": {
       "cs": "střední doba bronzová",
@@ -2687,7 +2955,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1219",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000333"
+        }
+      ]
     },
     "střední doba laténská (LtB–C1)": {
       "cs": "střední doba laténská (LtB–C1)",
@@ -2702,6 +2976,12 @@
           "scheme": "obdobi_kat",
           "cs": "střední doba laténská (LtB–C1)",
           "en": "Middle La Tène Period (LtB–C1)"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1219"
         }
       ]
     },
@@ -2781,6 +3061,12 @@
           "cs": "střední–mladší neolit",
           "en": "Middle–Late Neolithic"
         }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1111"
+        }
       ]
     },
     "středodunajská mohylová kultura": {
@@ -2844,7 +3130,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1236",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000392"
+        }
+      ]
     },
     "středověk–novověk": {
       "cs": "středověk–novověk",
@@ -2859,6 +3151,12 @@
           "scheme": "obdobi_kat",
           "cs": "středověk–novověk",
           "en": "Middle Ages–Modern Period"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1236"
         }
       ]
     },
@@ -3012,7 +3310,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1247",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000327"
+        }
+      ]
     },
     "vrcholný středověk": {
       "cs": "vrcholný středověk",
@@ -3066,6 +3370,12 @@
           "cs": "vrcholný–pozdní středověk",
           "en": "High–Late Middle Ages"
         }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1247"
+        }
       ]
     },
     "vučedolská kultura": {
@@ -3098,7 +3408,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1165",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000321"
+        }
+      ]
     },
     "věteřovská kultura": {
       "cs": "věteřovská kultura",
@@ -3106,7 +3422,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000321",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1165"
+        }
+      ]
     },
     "zarubiněcká kultura": {
       "cs": "zarubiněcká kultura",
@@ -3122,7 +3444,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1074",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000304"
+        }
+      ]
     },
     "zemědělský pravěk": {
       "cs": "zemědělský pravěk",
@@ -3130,7 +3458,13 @@
       "sub": "období",
       "source": "amcr",
       "source_id": "HES-000304",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1074"
+        }
+      ]
     },
     "únětická kultura": {
       "cs": "únětická kultura",
@@ -3162,7 +3496,13 @@
       "sub": "periodizace dějin",
       "source": "teater",
       "source_id": "1216",
-      "discarded_ids": []
+      "discarded_ids": [],
+      "same_as": [
+        {
+          "source": "amcr",
+          "id": "HES-000355"
+        }
+      ]
     },
     "časná doba laténská (LtA)": {
       "cs": "časná doba laténská (LtA)",
@@ -3177,6 +3517,12 @@
           "scheme": "obdobi_kat",
           "cs": "časná doba laténská (LtA)",
           "en": "Early La Tène Period (LtA)"
+        }
+      ],
+      "same_as": [
+        {
+          "source": "teater",
+          "id": "1216"
         }
       ]
     },
