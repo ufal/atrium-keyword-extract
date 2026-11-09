@@ -62,8 +62,8 @@ compare only within a method. The controlled kind sends each line to a language 
 whole vocabulary (about 58k tokens). The model's answer is constrained to the vocabulary's 4,711 terms. The chosen
 term is written with its AMČR and TEATER ids. The details, and the batch and research paths:
 [docs/how-it-works.md](docs/how-it-works.md).
-`dm_run.py`, an offline research tool outside the service, tries decision models on the vocabulary and on each
-document's AMČR type ([usage](docs/usage.md#decision-models-offline)).
+`dm_run.py`, an offline research tool outside the service, prepares decision models over the content vocabulary
+([usage](docs/usage.md#decision-models-offline)).
 
 ## Where it fits in ATRIUM
 

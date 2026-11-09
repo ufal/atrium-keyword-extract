@@ -19,10 +19,9 @@ jobs:
       hub-ref: 4435ffbe75188a5d0a11c96180ca10efa616991d
       # atrium-project#72 B: api_util/teitok_read.py and bbox_scale.py are nlp-enrich's, pinned by
       # tests/test_vendored_teitok_parity.py. atrium-project#83: decision_client.py is
-      # page-classification's (tests/test_vendored_decision_parity.py) and decisions/document_type.v2.json
-      # digital-convert's (tests/test_vendored_doctype_parity.py), for dm_run.py --doc-type. The
+      # page-classification's (tests/test_vendored_decision_parity.py), for dm_run.py's line mode. The
       # reusable checks each owner out at the commit its pin file adopted (ADOPTED["commit"]) and
       # compares the copies with it byte for byte, so a push to the owner never turns this
       # repository red; how far the owner has moved on since (its `test` head) is a summary, not a
       # failure (atrium-project#82 B).
-      vendored-from: atrium-nlp-enrich atrium-page-classification atrium-digital-convert
+      vendored-from: atrium-nlp-enrich atrium-page-classification

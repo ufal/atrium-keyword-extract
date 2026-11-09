@@ -2,10 +2,11 @@
 
 ufal/atrium-project#83 runs decision models (Clef, Clef-Flash, Strands Decider 2B, served at
 ``POST /v1/systemone``) in four tools through one client, ``decision_client.py``, owned by
-atrium-page-classification (its #58). This repository uses it offline only, in
-``dm_run.py --doc-type`` (#3); the service and the batch CLIs never import it, so it is not in
-``.github/production-image.json``. The document-type list the tool asks is pinned beside it, in
-``tests/test_vendored_doctype_parity.py`` (one owner per pin file: the hub's ``vendored_pins.py``).
+atrium-page-classification (its #58). This repository is to use it offline only, in ``dm_run.py``'s
+line mode (#3, the vocabulary descent, not written yet); the service and the batch CLIs never import
+it, so it is not in ``.github/production-image.json``. The document type it once asked
+(``--doc-type``) is gone: a type is form, read from images by atrium-digital-convert, and this
+repository reads text, so it decides content only (ufal/atrium-project#83).
 
 The copy is pinned by the SHA-256 of the page-classification file it was taken from (line endings
 normalised to ``\\n``). A mismatch means a local edit to a vendored file -- make the change in

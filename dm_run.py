@@ -11,20 +11,16 @@ This file builds that tree. ``--dump-tree OUT`` writes it as JSON with its diges
 into every run's paradata, so a vocabulary change shows in the runs. Line mode (the descent's
 requests) is not written yet.
 
-**The document type** (``--doc-type``). Each document of a ``DOC_LINE_CATEG`` folder gets an AMČR
-``dokument_typ``, chosen by a decision model from its text alone, never an image: the document's
-``Clear`` and ``Noisy`` lines, in order, whole lines up to ``--max-chars``. The list is the one
-atrium-digital-convert builds from this repository's ``amcr_flat.json`` and asks about PDF page
-images (its #8), vendored as ``decisions/document_type.v2.json`` and pinned in
-``tests/test_vendored_doctype_parity.py``; the client, ``decision_client.py``, is pinned from
-atrium-page-classification in ``tests/test_vendored_decision_parity.py``. This tool asks the list's
-**text-only view** (``document_text``): one ``document_type`` choice over the 6 written-document
-types and ``neurčený dokument`` (the abstain option), with no ``group`` question. Photographs,
-aerial photographs, plans, maps and drawings cannot be told from OCR text, so they are not offered.
-``dokument_typ`` is withheld from the keyword vocabulary (``taxonomy_config.json``), so a type is
-never a keyword: it is a document-level answer of its own. The table, ``DM_DOC_TYPE.csv``, and a
-``.summary.json`` sit beside each other; with ``--gold`` (``file,document_type``) the summary scores
-the types, also over the documents whose catalogue type the view offers. Nothing reaches the record.
+**Content only.** This repository reads text and never an image, so its decision models decide what
+a document is *about*: a term of the content vocabulary, or meta-text. What a document *is* (its
+form: a report, a photograph, a plan, a map) is decided from page images, by atrium-digital-convert
+and atrium-page-classification (ufal/atrium-project#83, "Form and content"). AMČR's form lists
+(``dokument_typ``, ``dokument_material``, ``dokument_format`` …) are already withheld from the
+vocabulary (``taxonomy_config.json``). A few TEATER terms inside content facets still name a kind
+of record (photographs, drawings, maps, the documentation, the site report), and a line naming one
+is mostly a caption or a reference to the archive's own documentation: those terms and their
+subtrees are withheld from the tree (``FORM_TERMS``), never from the vocabulary or the generative
+prompt. The tree records them under ``withheld_form``.
 
 How the tree is made, from files the vocabulary build already writes:
 
@@ -38,6 +34,8 @@ How the tree is made, from files the vocabulary build already writes:
   the union offers in that facet, which links a ``*_druh`` term to its ``*_kat`` category. A term
   with no offered ancestor hangs from its group. An ancestor in another group of the facet pulls the
   term into that group's subtree. A group left with no terms of its own is dropped.
+* **Form terms** (``FORM_TERMS``, TEATER ids) are withheld with everything below them, after the
+  parents are found. A group left with none of its terms is not offered.
 * **The geographic gate** marks the branches ``taxonomy_config.json`` ``_settings.geo_guardrail.covers``
   names (``heslar:<scheme>`` — the groups built from that AMČR heslář; ``teater:<id>`` — that term).
 * **Chunks:** a node with more options than a ``choice`` takes is split, in Czech alphabetical order,
@@ -47,8 +45,6 @@ How the tree is made, from files the vocabulary build already writes:
 Run it from the repository root::
 
     python3 dm_run.py --dump-tree /tmp/dm_tree.json
-    python3 dm_run.py --doc-type --input data_samples/DOC_LINE_CATEG --out /tmp/dm/DM_DOC_TYPE.csv \\
-        --model clef-oQ8e --served-on ufal-endpoint        # URL from $DECISION_MODEL_URL
 """
 
 from __future__ import annotations
@@ -57,7 +53,6 @@ import argparse
 import csv
 import hashlib
 import json
-import os
 import sys
 import unicodedata
 from collections import Counter, defaultdict
@@ -82,6 +77,30 @@ MAX_OPTIONS = 255  # a Jev/SystemOne choice
 THIS_TERM = "<this term>"
 NONE_OF_THESE = "none_of_these"
 RESERVED = (THIS_TERM, NONE_OF_THESE)
+
+#: TEATER terms that name a kind of record rather than what a document is about: withheld, with
+#: their subtrees, from the tree a text-only model descends (ufal/atrium-project#83). Form is read
+#: from images; the document types themselves are AMČR's ``dokument_typ``, asked by
+#: atrium-digital-convert. Kept as content on purpose: 3567 ``písmo`` (scripts studied as finds),
+#: 2181 ``písemnost`` (written artefacts and historical sources), 229 ``muzejní dokumentace``,
+#: 462 ``grafická technika``, 4158 ``mentální mapa``, and the methods 122 ``letecká fotogrammetrie``
+#: and 126 ``letecké snímkování`` (activities, not records).
+FORM_TERMS: Dict[str, str] = {
+    "195": "dokumentace",  # fieldwork documentation and its 8 kinds (photo, drawn, map, video …)
+    "252": "nálezová správa",  # the site report, AMČR's nálezová zpráva
+    "461": "fotografie",
+    "465": "kresba",
+    "917": "geologická mapa",
+    "1011": "hydrologická mapa",
+    "1030": "dějepisná mapa",
+    "1031": "stará mapa",
+    "1033": "katastrální mapa",
+    "1042": "vlastivědná mapa",
+    "3564": "distribuční mapa",
+    "124": "digitální model terénu",  # remote-sensing products, beside AMČR's data types
+    "125": "ortofotomapa",
+    "131": "satelitní snímek",
+}
 
 #: Czech alphabetical order (ČSN 97 6030, primary level): č, ř, š, ž and "ch" are letters of their
 #: own; the acute, the ring and ď/ť/ň's caron only break ties.
@@ -210,7 +229,7 @@ def build_tree(paths: Optional[Mapping[str, Path]] = None) -> Dict[str, Any]:
     }
 
     parent: Dict[int, int] = {}
-    edges = Counter()
+    found_by: Dict[int, Tuple[Optional[int], Optional[int]]] = {}
     for index, t in enumerate(terms):
         teater_parent = amcr_parent = None
         for ident in t.get("ids", []):
@@ -231,23 +250,20 @@ def build_tree(paths: Optional[Mapping[str, Path]] = None) -> Dict[str, Any]:
                     if found:
                         amcr_parent = min(found)
                         break
-        if teater_parent is not None and amcr_parent is not None and teater_parent != amcr_parent:
-            edges["teater_amcr_conflicts"] += 1
         chosen = teater_parent if teater_parent is not None else amcr_parent
         if chosen is None:
             continue
         parent[index] = chosen
-        edges["from_teater" if teater_parent is not None else "from_amcr"] += 1
-        if terms[chosen]["sub"] != t["sub"]:
-            edges["cross_group"] += 1
+        found_by[index] = (teater_parent, amcr_parent)
 
     # A cycle would make the descent endless; break it at the edge that closes it (none today).
+    cycles_broken = 0
     for start in list(parent):
         path, node = [], start
         while node in parent:
             if node in path:
                 del parent[node]
-                edges["cycles_broken"] += 1
+                cycles_broken += 1
                 break
             path.append(node)
             node = parent[node]
@@ -258,10 +274,43 @@ def build_tree(paths: Optional[Mapping[str, Path]] = None) -> Dict[str, Any]:
             node = parent[node]
         return terms[node]["sub"]
 
+    # Form terms and everything below them leave the tree (FORM_TERMS); the rest keep their parents.
+    form_roots = {
+        index
+        for index, t in enumerate(terms)
+        if any(i["source"] == "teater" and str(i["id"]) in FORM_TERMS for i in t.get("ids", []))
+    }
+    withheld = set()
+    for index in range(len(terms)):
+        node = index
+        while True:
+            if node in form_roots:
+                withheld.add(index)
+                break
+            if node not in parent:
+                break
+            node = parent[node]
+    kept = [index for index in range(len(terms)) if index not in withheld]
+
+    edges = Counter()
+    for index in kept:
+        if index not in parent:
+            continue
+        teater_parent, amcr_parent = found_by[index]
+        if teater_parent is not None and amcr_parent is not None and teater_parent != amcr_parent:
+            edges["teater_amcr_conflicts"] += 1
+        edges["from_teater" if teater_parent is not None else "from_amcr"] += 1
+        if terms[parent[index]]["sub"] != terms[index]["sub"]:
+            edges["cross_group"] += 1
+    edges["cycles_broken"] += cycles_broken
+    if not edges["cycles_broken"]:
+        del edges["cycles_broken"]
+
     nodes: Dict[str, Dict[str, Any]] = {}
     facets: List[str] = []
     groups_of: Dict[str, List[str]] = defaultdict(list)
-    for t in terms:
+    for index in kept:
+        t = terms[index]
         if t["theme"] not in facets:
             facets.append(t["theme"])
         if t["sub"] not in groups_of[t["theme"]]:
@@ -269,7 +318,8 @@ def build_tree(paths: Optional[Mapping[str, Path]] = None) -> Dict[str, Any]:
 
     children: Dict[int, List[int]] = defaultdict(list)
     roots: Dict[Tuple[str, str], List[int]] = defaultdict(list)
-    for index, t in enumerate(terms):
+    for index in kept:
+        t = terms[index]
         if index in parent:
             children[parent[index]].append(index)
         else:
@@ -302,7 +352,8 @@ def build_tree(paths: Optional[Mapping[str, Path]] = None) -> Dict[str, Any]:
             "label": facet,
             "children": sorted(group_nodes, key=lambda g: czech_key(nodes[g]["label"])),
         }
-    for index, t in enumerate(terms):
+    for index in kept:
+        t = terms[index]
         node = {
             "kind": "term",
             "cs": t["cs"],
@@ -345,6 +396,24 @@ def build_tree(paths: Optional[Mapping[str, Path]] = None) -> Dict[str, Any]:
         | {"total": (data["meta"].get("counts") or {}).get("total")},
         "excluded_themes": data["excluded"],
         "geo_guardrail": {"mode": data["geo_mode"], "covers": data["geo_covers"]},
+        "withheld_form": {
+            "reason": (
+                "TEATER terms naming a kind of record (form), withheld with their subtrees: a text-only "
+                "model decides content; form is read from images (ufal/atrium-project#83)"
+            ),
+            "teater_ids": dict(FORM_TERMS),
+            "absent": sorted(
+                set(FORM_TERMS)
+                - {
+                    str(i["id"])
+                    for index in form_roots
+                    for i in terms[index].get("ids", [])
+                    if i["source"] == "teater"
+                },
+                key=int,
+            ),
+            "terms": sorted(term_ids[index] for index in withheld),
+        },
         "questions": _question_wording(data["blocks"], sentinel),
         "sentinel": {"cs": sentinel["cs"], "en": sentinel["en"]},
         "reserved_options": list(RESERVED),
@@ -507,6 +576,7 @@ def tree_stats(
     choices = every_choice(tree)
     return {
         "terms": len(term_nodes),
+        "withheld_form_terms": len((tree.get("withheld_form") or {}).get("terms", [])),
         "facets": sum(1 for n in nodes.values() if n["kind"] == "facet"),
         "groups": sum(1 for n in nodes.values() if n["kind"] == "group"),
         "groups_dropped": list(dropped_groups),
@@ -533,402 +603,12 @@ def tree_stats(
     }
 
 
-# ── document type (#3; the list is shared with digital-convert#8) ────────────────────────────
-
-DOC_TYPE_LIST = REPO_ROOT / "decisions" / "document_type.v2.json"
-TEXT_VIEW = "document_text"  # the list's view for an item read as OCR text, never an image
-TEXT_GROUPS = ("text",)  # the types OCR text can tell: the written documents
-TEXT_INPUTS = {
-    "image": "none",
-    "text": "the document's OCR text (its first lines, in order), always",
-}
-TEXT_CATEGORIES = ("Clear", "Noisy")  # the lines whose text goes to the model, in document order
-SERVED_ON = ("cluster-job", "ufal-endpoint", "local", "other")
-
-
-def load_doc_types(path: Path = DOC_TYPE_LIST) -> Dict[str, Any]:
-    """The text-only view of the vendored list, its questions checked and their digest recomputed.
-
-    Photographs, aerial photographs, plans, maps and drawings cannot be told from OCR text, so the
-    view offers the written-document types (group ``text``) and the abstain option, and no ``group``
-    question. From a v2 list it is the list's own ``document_text`` view; from v1 it is derived the
-    same way digital-convert's ``tools/build_document_types.py`` derives it (the same criteria text),
-    so the digest is the same either way."""
-    import decision_client as dc  # noqa: PLC0415 — vendored from atrium-page-classification
-
-    content = json.loads(path.read_text(encoding="utf-8"))
-    abstain = content["abstain"]
-    offered = [t["id"] for t in content["types"] if t["group"] in TEXT_GROUPS or t["id"] == abstain]
-    if "views" in content:
-        if TEXT_VIEW not in content["views"]:
-            raise SystemExit(
-                f"{path}: no {TEXT_VIEW!r} view; this list is not shared with keyword-extract"
-            )
-        entry = content["views"][TEXT_VIEW]
-        questions, item, inputs = entry["questions"], entry["item"], entry["inputs"]
-        declared = entry["schema_digest"]
-    else:
-        if TEXT_VIEW not in content.get("states", {}):
-            raise SystemExit(
-                f"{path}: no {TEXT_VIEW!r} state; this list is not shared with keyword-extract"
-            )
-        page = content["questions"]["document_type"]
-        questions = {
-            "document_type": {
-                "type": "choice",
-                "instructions": page["instructions"],
-                "criteria": {tid: page["criteria"][tid] for tid in offered},
-            }
-        }
-        item, inputs = content["states"][TEXT_VIEW]["item"], TEXT_INPUTS
-        declared = None
-    questions = dc.questions(questions)
-    digest = dc.schema_digest(questions)
-    if declared is not None and declared != digest:
-        raise SystemExit(
-            f"{path}: the {TEXT_VIEW} questions do not match their digest; re-vendor the list"
-        )
-    if (
-        list(questions) != ["document_type"]
-        or list(questions["document_type"]["criteria"]) != offered
-    ):
-        raise SystemExit(
-            f"{path}: the {TEXT_VIEW} view does not offer the written-document types only"
-        )
-    if inputs.get("image") != "none":
-        raise SystemExit(
-            f"{path}: the {TEXT_VIEW} view takes an image; keyword-extract reads text only"
-        )
-    by_id = {t["id"]: t for t in content["types"]}
-    return {
-        "version": content["version"],
-        "view": TEXT_VIEW,
-        "questions": questions,
-        "item": item,
-        "inputs": inputs,
-        "schema_digest": digest,
-        "types": [by_id[tid] for tid in offered],
-        "all_types": content["types"],
-        "abstain": abstain,
-    }
-
-
-def document_text(
-    rows: Sequence[Mapping[str, Any]],
-    max_chars: int = 6000,
-    categories: Sequence[str] = TEXT_CATEGORIES,
-) -> Tuple[str, int, int]:
-    """The document's text for the state: its lines of *categories*, in order, whole lines only, up to
-    *max_chars*. Returns (text, lines used, lines available). Counted here, never asked."""
-    lines = [str(r.get("text") or "").strip() for r in rows if str(r.get("categ")) in categories]
-    lines = [line for line in lines if line]
-    used: List[str] = []
-    size = 0
-    for line in lines:
-        extra = len(line) + (1 if used else 0)
-        if size + extra > max_chars:
-            break
-        used.append(line)
-        size += extra
-    return "\n".join(used), len(used), len(lines)
-
-
-def _gold_types(path: Path, doc_types: Mapping[str, Any]) -> Dict[str, str]:
-    """``file -> type id`` from a CSV with ``file`` and ``document_type`` (an id, a HES number or a
-    Czech label of the whole list: a catalogue type the text view does not offer still counts)."""
-    by_any: Dict[str, str] = {}
-    for t in doc_types["all_types"]:
-        for key in (t["id"], t["hes"], t["cs"]):
-            by_any[str(key).casefold()] = t["id"]
-    out: Dict[str, str] = {}
-    with path.open(newline="", encoding="utf-8") as handle:
-        for row in csv.DictReader(handle):
-            value = str(row.get("document_type", "")).strip()
-            if value:
-                if value.casefold() not in by_any:
-                    raise SystemExit(f"{path}: {value!r} is not a type of the list")
-                out[str(row["file"])] = by_any[value.casefold()]
-    return out
-
-
-def doc_type_columns(doc_types: Mapping[str, Any]) -> List[str]:
-    """The header of ``DM_DOC_TYPE.csv``: the document and its text, the answer, the gold, one
-    ``P_type_*`` column per type the view offers, then the request's status and operations."""
-    types = [f"P_type_{t['id']}" for t in doc_types["types"]]
-    return (
-        ["file", "lines_used", "lines_available", "chars"]
-        + ["document_type", "type_group", "confidence", "top3", "lane"]
-        + ["gold_type", "gold_group", "gold_offered"]
-        + types
-        + ["status", "error", "latency_ms", "input_tokens", "attempts", "schema_digest"]
-    )
-
-
-def decide_doc_type(
-    client: Any,
-    path: Path,
-    doc_types: Mapping[str, Any],
-    max_chars: int = 6000,
-    gold: Optional[Mapping[str, str]] = None,
-    accept_at: Optional[float] = None,
-    review_below: Optional[float] = None,
-) -> Dict[str, Any]:
-    """One row of ``DM_DOC_TYPE.csv`` for one ``DOC_LINE_CATEG`` CSV. Never raises for a server problem.
-
-    The request carries the document's text and no image."""
-    import decision_client as dc  # noqa: PLC0415
-
-    with path.open(newline="", encoding="utf-8") as handle:
-        rows = list(csv.DictReader(handle))
-    text, used, available = document_text(rows, max_chars)
-    group_of = {t["id"]: t["group"] for t in doc_types["all_types"]}
-    offered = {t["id"] for t in doc_types["types"]}
-    gold_type = (gold or {}).get(path.stem, "")
-    row: Dict[str, Any] = {
-        "file": path.stem,
-        "lines_used": used,
-        "lines_available": available,
-        "chars": len(text),
-        "gold_type": gold_type,
-        "gold_group": group_of.get(gold_type, ""),
-        "gold_offered": int(gold_type in offered) if gold_type else "",
-    }
-    if not text:
-        d = dc.Decision(
-            "rejected", doc_types["schema_digest"], error="no Clear or Noisy line to read"
-        )
-    else:
-        state = {"item": doc_types["item"], "text": text, "lines": used}
-        d = client.decide(state, doc_types["questions"])
-    kind = d.answers.get("document_type")
-    row["document_type"] = kind.choice if kind else ""
-    row["type_group"] = group_of.get(row["document_type"], "")
-    row["confidence"] = kind.confidence if kind else ""
-    if kind:
-        best = sorted(kind.probabilities.items(), key=lambda item: -item[1])[:3]
-        row["top3"] = "|".join(f"{k}:{p:.4f}" for k, p in best)
-    else:
-        row["top3"] = ""
-    for t in doc_types["types"]:
-        row[f"P_type_{t['id']}"] = kind.probabilities.get(t["id"], "") if kind else ""
-    row["lane"] = (
-        dc.lane(kind.confidence, accept_at, review_below)
-        if kind and accept_at is not None and review_below is not None
-        else ""
-    )
-    row.update(
-        {
-            "status": d.status,
-            "error": d.error or "",
-            "latency_ms": d.latency_ms if d.latency_ms is not None else "",
-            "input_tokens": d.input_tokens if d.input_tokens is not None else "",
-            "attempts": d.attempts,
-            "schema_digest": d.schema_digest,
-        }
-    )
-    return row
-
-
-def summarise_doc_types(rows: Sequence[Mapping[str, Any]], abstain: str) -> Dict[str, Any]:
-    """Counts and, where gold is given, accuracy over all graded documents and over those whose
-    catalogue type the text view offers (a photograph's type cannot be chosen from text)."""
-    ok = [r for r in rows if r.get("status") == "ok"]
-    latencies = sorted(float(r["latency_ms"]) for r in ok if str(r.get("latency_ms", "")) != "")
-    out: Dict[str, Any] = {
-        "documents": len(rows),
-        "statuses": dict(Counter(str(r.get("status")) for r in rows)),
-        "latency_ms_p50": latencies[len(latencies) // 2] if latencies else None,
-        "types": dict(Counter(r["document_type"] for r in ok)),
-        "abstained": round(sum(r["document_type"] == abstain for r in ok) / len(ok), 4)
-        if ok
-        else None,
-    }
-    graded = [r for r in ok if r.get("gold_type")]
-    if graded:
-        offered = [r for r in graded if str(r.get("gold_offered")) == "1"]
-        out["gold"] = {
-            "documents": len(graded),
-            "gold_not_offered": len(graded) - len(offered),
-            "type_accuracy": round(
-                sum(r["document_type"] == r["gold_type"] for r in graded) / len(graded), 4
-            ),
-            "type_accuracy_offered": round(
-                sum(r["document_type"] == r["gold_type"] for r in offered) / len(offered), 4
-            )
-            if offered
-            else None,
-            "type_group_accuracy": round(
-                sum(r["type_group"] == r["gold_group"] for r in graded) / len(graded), 4
-            ),
-        }
-    return out
-
-
-def served_on(url: Optional[str], given: Optional[str] = None) -> str:
-    """Where the documents went, for the paradata, never the URL: the internal endpoint is not published."""
-    if given:
-        return given
-    from urllib.parse import urlsplit  # noqa: PLC0415
-
-    host = urlsplit(url or "").hostname or ""
-    return "local" if host in ("127.0.0.1", "localhost", "::1") else "other"
-
-
-def run_doc_types(
-    client: Any,
-    inputs: Sequence[Path],
-    out: Path,
-    doc_types: Mapping[str, Any],
-    max_chars: int = 6000,
-    gold: Optional[Mapping[str, str]] = None,
-    accept_at: Optional[float] = None,
-    review_below: Optional[float] = None,
-    resume: bool = False,
-    progress: bool = False,
-) -> List[Dict[str, Any]]:
-    """Decide every document; rows are appended to *out* as they come. Returns the new rows."""
-    if out.exists() and not resume:
-        raise SystemExit(f"{out} exists; pass --resume to continue it or choose another --out")
-    done = set()
-    if resume and out.is_file():
-        with out.open(newline="", encoding="utf-8") as handle:
-            done = {r["file"] for r in csv.DictReader(handle)}
-    out.parent.mkdir(parents=True, exist_ok=True)
-    new_file = not out.exists()
-    rows: List[Dict[str, Any]] = []
-    with out.open("a", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(
-            handle, fieldnames=doc_type_columns(doc_types), extrasaction="ignore"
-        )
-        if new_file:
-            writer.writeheader()
-        for index, path in enumerate(inputs, start=1):
-            if path.stem in done:
-                continue
-            row = decide_doc_type(client, path, doc_types, max_chars, gold, accept_at, review_below)
-            writer.writerow(row)
-            handle.flush()
-            rows.append(row)
-            if progress:
-                print(
-                    f"[{index}/{len(inputs)}] {path.stem}: {row['status']} {row['document_type']}",
-                    file=sys.stderr,
-                )
-    return rows
-
-
-def main_doc_type(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
-    """``--doc-type``: check the options, decide every document of ``--input`` into ``--out``, then
-    write its summary beside it and the run's paradata under ``paradata/`` there."""
-    import decision_client as dc  # noqa: PLC0415
-
-    if not args.input:
-        parser.error("--doc-type needs --input (a DOC_LINE_CATEG directory or one CSV)")
-    # Refused here, before any request: decision_client.lane() raises on a bad pair only at the
-    # first answer, after a model call has been paid for.
-    if (args.accept_at is None) != (args.review_below is None):
-        parser.error("--accept-at and --review-below go together")
-    if args.accept_at is not None:
-        for flag, value in (("--accept-at", args.accept_at), ("--review-below", args.review_below)):
-            if not 0.0 <= value <= 1.0:
-                parser.error(f"{flag} is a probability, between 0 and 1 (got {value})")
-        if args.review_below > args.accept_at:
-            parser.error(
-                f"--review-below ({args.review_below}) must not exceed --accept-at ({args.accept_at})"
-            )
-    inputs = [args.input] if args.input.is_file() else sorted(args.input.glob("*.csv"))
-    if not inputs:
-        parser.error(f"no CSV under {args.input}")
-    client = dc.DecisionClient(
-        args.url,
-        args.model,
-        timeout_s=args.timeout,
-        retries=args.retries,
-        use_env_proxy=not args.no_proxy,
-    )
-    if not client.endpoint or not client.model:
-        parser.error("set --url/--model (or DECISION_MODEL_URL/DECISION_MODEL_NAME)")
-    doc_types = load_doc_types()
-    gold = _gold_types(args.gold, doc_types) if args.gold else None
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M")
-    out = args.out or REPO_ROOT / "result" / "dm" / f"{stamp}_DM_DOC_TYPE.csv"
-    where = served_on(args.url, args.served_on)
-
-    from atrium_paradata import ParadataLogger  # noqa: PLC0415
-
-    paradata = ParadataLogger(
-        program="keyword-extract",
-        config={
-            "script": "dm_run",
-            "mode": "doc_type",
-            "decision_model": args.model,
-            "decision_revision": args.model_revision,
-            "served_on": where,
-            "decision_schema_digest": doc_types["schema_digest"],
-            "list": f"{DOC_TYPE_LIST.relative_to(REPO_ROOT)} v{doc_types['version']} ({TEXT_VIEW})",
-            "max_chars": args.max_chars,
-            "gold": str(args.gold) if args.gold else None,
-            "accept_at": args.accept_at,
-            "review_below": args.review_below,
-        },
-        paradata_dir=str(out.parent / "paradata"),
-        output_types=["csv"],
-        config_dir=str(REPO_ROOT),
-    )
-    paradata.log_component("decision_model")
-    paradata.log_component("amcr_vocab")
-    rows = run_doc_types(
-        client,
-        inputs,
-        out,
-        doc_types,
-        args.max_chars,
-        gold,
-        args.accept_at,
-        args.review_below,
-        args.resume,
-        progress=True,
-    )
-    paradata.log_success("csv", len(rows))
-    with out.open(newline="", encoding="utf-8") as handle:
-        all_rows = list(csv.DictReader(handle))
-    summary = summarise_doc_types(all_rows, doc_types["abstain"])
-    summary.update(
-        {
-            "model": args.model,
-            "model_revision": args.model_revision,
-            "served_on": where,
-            "schema_digest": doc_types["schema_digest"],
-            "table": str(out),
-        }
-    )
-    out.with_suffix(".summary.json").write_text(
-        json.dumps(summary, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-    )
-    paradata.finalize(input_total=len(inputs), processed_total=summary["statuses"].get("ok", 0))
-    print(
-        json.dumps(
-            {k: summary[k] for k in ("documents", "statuses", "types")},
-            indent=2,
-            ensure_ascii=False,
-        )
-    )
-    return 0
-
-
 # ── CLI ───────────────────────────────────────────────────────────────────────────────────────
-
-
-def _env_float(name: str, default: float) -> float:
-    try:
-        return float(os.environ.get(name) or default)
-    except ValueError:
-        return default
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Decision models over the controlled vocabulary and the document type (#3)."
+        description="Decision models over the controlled vocabulary (#3): the descent tree."
     )
     parser.add_argument(
         "--dump-tree", type=Path, metavar="OUT", help="write the descent tree (JSON) and exit"
@@ -936,41 +616,6 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     parser.add_argument(
         "--lines", action="store_true", help="line mode, the vocabulary descent (not yet)"
     )
-    doc = parser.add_argument_group("the document type (--doc-type)")
-    doc.add_argument(
-        "--doc-type",
-        action="store_true",
-        help="ask each document's AMČR type from its text (document_type.v2.json, its text view)",
-    )
-    doc.add_argument("--input", type=Path, help="a DOC_LINE_CATEG directory or one CSV")
-    doc.add_argument("--max-chars", type=int, default=6000, help="the text budget per document")
-    doc.add_argument(
-        "--gold", type=Path, help="a CSV of file,document_type (id, HES or Czech label)"
-    )
-    doc.add_argument(
-        "--accept-at", type=float, help="lane threshold, 0 to 1 (set on dev; with --review-below)"
-    )
-    doc.add_argument(
-        "--review-below", type=float, help="lane threshold, 0 to --accept-at (set on dev)"
-    )
-    doc.add_argument(
-        "--out", type=Path, help="the table (default result/dm/<stamp>_DM_DOC_TYPE.csv)"
-    )
-    doc.add_argument(
-        "--resume", action="store_true", help="continue --out, skipping documents in it"
-    )
-    server = parser.add_argument_group("server")
-    server.add_argument(
-        "--url", default=os.environ.get("DECISION_MODEL_URL"), help="($DECISION_MODEL_URL)"
-    )
-    server.add_argument(
-        "--model", default=os.environ.get("DECISION_MODEL_NAME"), help="($DECISION_MODEL_NAME)"
-    )
-    server.add_argument("--model-revision", default="", help="the served build or HF revision")
-    server.add_argument("--served-on", choices=SERVED_ON, help="where the documents go")
-    server.add_argument("--timeout", type=float, default=_env_float("DECISION_TIMEOUT_S", 120.0))
-    server.add_argument("--retries", type=int, default=2)
-    server.add_argument("--no-proxy", action="store_true")
     args = parser.parse_args(argv)
     if args.lines:
         print(
@@ -978,10 +623,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             file=sys.stderr,
         )
         return 2
-    if args.doc_type:
-        return main_doc_type(args, parser)
     if not args.dump_tree:
-        parser.error("nothing to do: pass --dump-tree OUT or --doc-type")
+        parser.error("nothing to do: pass --dump-tree OUT")
     tree = build_tree()
     args.dump_tree.parent.mkdir(parents=True, exist_ok=True)
     args.dump_tree.write_text(

@@ -1249,3 +1249,34 @@ Documentation only; no code, test or configuration change.
   * The comment for David on #2: thanks for the review, plus the request. Drafted, not posted.
 * **Left (a):** `gold_workbook.csv` (`corpus_review.gold_workbook_rows`) and `score_categories.gold_labels` move to
   the new columns before the sheet goes to the annotator. No code changed in this entry.
+
+## 2026-11-09 — #3: content only; the document type removed, form terms withheld from the tree (atrium-project#83)
+
+* **Asked (K4TEL):** terms about a document's form and terms about its content are two groups, never mixed.
+  digital-convert gets images and no text; this repository gets text and no image, so it decides content only. The
+  schemes are to suit a historical documentary archive.
+* **Decided in session:** the form-like TEATER terms are withheld from the decision model's tree, not from the
+  vocabulary; the written genres move to digital-convert, asked from a document's first page images.
+* **Written (not pushed):**
+  * **`dm_run.py`:** `--doc-type` and everything under it removed (the list's loader, the run, the table, the
+    summary, the server options); `FORM_TERMS` (14 TEATER ids) and their subtrees withheld in `build_tree()` after
+    the parents are found, recorded as `withheld_form`; the parent-edge counts now cover the offered terms only;
+    the docstring.
+  * **Deleted:** `decisions/document_type.v2.json`, `tests/test_dm_doc_type.py`,
+    `tests/test_vendored_doctype_parity.py`.
+  * **`.github/workflows/para-drift.yml`:** digital-convert out of `vendored-from`, and the comment.
+  * **Tests:** `tests/test_dm_tree.py` (the term count net of the withheld ones; a new test of the list against
+    `teater_flat.json` and the tree); `tests/env_contract_data.py` and `tests/test_vendored_decision_parity.py`
+    (their text).
+  * **Docs:** `docs/usage.md` ("Decision models, offline": content, never form; the withheld terms),
+    `docs/development.md`, `README.md`.
+* **Measured:** 22 terms withheld (Methods: `dokumentace` with its 8 kinds, `nálezová správa`, three
+  remote-sensing products; Related Disciplines & Society: `fotografie`, `kresba`, 7 kinds of map). The tree: 4,689
+  terms, 120 groups, 746 inner term nodes, 879 choices, digest `a306f653…`; before, 4,711 terms and `4167a9a2…`.
+  Compared node by node with the head's tree: only the 22 terms, their 2 groups and their parents' child lists
+  differ.
+* **Kept as content:** `písmo`, `písemnost`, `muzejní dokumentace`, `grafická technika`, `mentální mapa`, the aerial
+  methods; for review with the annotators.
+* **Checked:** the full suite, 1,062 passed, 7 skipped; ruff check and format.
+* **Records:** `plans/3.plan.md`, `digests/3.digest.md`.
+* Committed locally, not pushed; files delivered as per-repo archives.

@@ -12,8 +12,8 @@ from __future__ import annotations
 # from the api image's HTTP entrypoint, and the prompt flags are keys of the config file, not
 # environment variables.
 NOT_PUBLISHED: dict[str, str] = {
-    "DECISION_*": "defaults of the offline decision-model CLI (decision_client.py, vendored from page-classification; "
-    "dm_run.py --doc-type; #3): DECISION_MODEL_URL, DECISION_MODEL_NAME, DECISION_TIMEOUT_S. Not a service "
+    "DECISION_*": "defaults of the offline decision-model client (decision_client.py, vendored from page-classification "
+    "for dm_run.py's line mode; #3): DECISION_MODEL_URL, DECISION_MODEL_NAME, DECISION_TIMEOUT_S. Not a service "
     "setting; the server's address stays out of the repository",
     "HF_TOKEN": "read only by llm_run.py, the research LLM batch CLI (llm_run.py); service/api.py never imports it",
     "PARADATA_DIR": "read only by keywords.py, the batch CLI; not reachable from the service entrypoint",

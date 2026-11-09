@@ -2,7 +2,8 @@
 
 Built from the vocabulary files the repository ships, so it checks the real tree: every term
 reachable exactly once, every question within the interface's 255 options, the chunking, the
-geographic gate, and a stable digest.
+geographic gate, the form terms withheld (atrium-project#83: a text-only model decides content, never
+form), and a stable digest.
 """
 
 import json
@@ -41,7 +42,9 @@ def test_every_offered_term_is_reachable_exactly_once(tree):
     assert sorted(reached) == sorted(term_nodes)
     vocab = json.loads(dm_run.DEFAULT_INPUTS["vocabulary"].read_text(encoding="utf-8"))
     offered = prompt_template.vocabulary_terms(vocab, tree["excluded_themes"])
-    assert len(term_nodes) == len(offered) - 1  # all but the meta-text sentinel, which L0 answers
+    withheld = tree["withheld_form"]["terms"]
+    # all but the meta-text sentinel, which L0 answers, and the form terms
+    assert len(term_nodes) == len(offered) - 1 - len(withheld)
     assert tree["sentinel"]["cs"] == prompt_template.META_TEXT_TERM["cs"]
 
 
@@ -97,6 +100,33 @@ def test_the_geographic_gate_covers_what_the_config_names(tree):
         ]
         assert all(n in gated for n in holders)
     assert tree["geo_guardrail"]["mode"] in prompt_template.GEO_GUARDRAIL_BLOCKS
+
+
+def test_the_form_terms_and_their_subtrees_are_withheld(tree):
+    withheld = tree["withheld_form"]
+    assert withheld["teater_ids"] == dm_run.FORM_TERMS and withheld["absent"] == []
+    teater = json.loads(
+        (REPO_ROOT / "data_samples" / "vocab" / "teater_flat.json").read_text(encoding="utf-8")
+    )["terms"]
+    teater = list(teater.values()) if isinstance(teater, dict) else teater
+    label = {str(t["source_id"]): t["cs"] for t in teater}
+    broader = {str(t["source_id"]): [str(b) for b in t.get("broader") or []] for t in teater}
+    for teater_id, cs in dm_run.FORM_TERMS.items():
+        assert label[teater_id] == cs, teater_id  # the id still names the term it was chosen for
+    nodes = tree["nodes"]
+    for node in nodes.values():
+        for ident in node.get("ids", []):
+            if ident["source"] == "teater":
+                lineage = {str(ident["id"]), *broader.get(str(ident["id"]), [])}
+                assert not lineage & set(dm_run.FORM_TERMS), node["cs"]
+    assert all(term not in nodes for term in withheld["terms"])
+    assert {"t:Methods/fotografická dokumentace", "t:Methods/nálezová správa"} <= set(
+        withheld["terms"]
+    )
+    # scripts studied as finds, written artefacts and aerial methods stay content
+    assert "g:Related Disciplines & Society/písmo" in nodes and "g:Artefact/písemnost" in nodes
+    assert "t:Methods/letecké snímkování" in nodes
+    assert tree["stats"]["withheld_form_terms"] == len(withheld["terms"]) == 22
 
 
 def test_question_wording_comes_from_the_prompt_blocks(tree):

@@ -36,8 +36,8 @@ The vocabulary and the prompt have their own runbooks:
 | `prompt_template.py`, `prompts/`                                                  | the controlled kind's prompt, built from blocks, and its renders                                                      |
 | `vocab_sources.py`, `vocab_build.py`, `vocab_review.py`, `vocab_manager.py`       | the AMČR and TEATER vocabulary: harvest, build, review, look-up                                                       |
 | `corpus_review.py`, `score_categories.py`                                         | the vocabulary-gap review, and the report on a run's category picks                                                   |
-| `dm_run.py`                                                                       | decision models, offline (#3): the descent tree over the vocabulary, and each document's AMČR type                    |
-| `decision_client.py`, `decisions/`                                                | the decision-model client, copied from page-classification; the document-type list, from digital-convert              |
+| `dm_run.py`                                                                       | decision models, offline (#3): the descent tree over the content vocabulary, form terms withheld                      |
+| `decision_client.py`                                                              | the decision-model client, copied from page-classification, for `dm_run.py`'s line mode                               |
 | `data_samples/`                                                                   | sample inputs, sample outputs, and the built vocabulary in `data_samples/vocab/`                                      |
 | `atrium_*.py`, `para_licenses.py`, `tool_limits.py`, `check_version.py`           | the modules shared across ATRIUM tools (the record, paradata, limits), and this tool's limits declaration             |
 | `api_util/`                                                                       | the TEITOK reader and the coordinate scaling, copied from nlp-enrich                                                  |
