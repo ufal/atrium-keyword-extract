@@ -12,7 +12,9 @@ The legacy method counts lemmas. It takes those of the nouns, proper nouns and a
 or a record's `lines[].lemma` and `lines[].upos`, which no ATRIUM tool writes today.
 
 In the pipeline, keyword-extract comes after nlp-enrich (and after digital-convert on the born-digital route).
-nlp-enrich's `/project_record` can project the statistical keywords into the TEITOK header.
+nlp-enrich's `/project_record` can project the statistical and controlled keywords into the TEITOK header: each
+page's lists get an id that its `<pb>` points to, so a TEITOK project can search them as page attributes
+(ufal/flexiconv#1).
 
 | Method    | Needs                                   | Score                                     |
 |-----------|-----------------------------------------|-------------------------------------------|
