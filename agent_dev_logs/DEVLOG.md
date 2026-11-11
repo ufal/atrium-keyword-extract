@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Pilot release: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `4435ffb` (`v1`). Latest entry: 2026-11-10._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Starting set of the pilot phase: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `4435ffb` (`v1`). Latest entry: 2026-11-11._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -1291,3 +1291,35 @@ Documentation only; no code, test or configuration change.
 * **No code change.** The vendored `teitok_read.py` and `bbox_scale.py` are unchanged, so `ADOPTED` stays.
 * **Header:** the hub pin is `4435ffb`, as the workflows have it.
 * Files delivered as per-repo archives.
+
+## 2026-11-11 — The output contract: this repository's part of doc-schema-v2 (atrium-project, issue to be opened)
+
+* **Asked (K4TEL):** carry the meeting of 11 November (ARÚP's output contract) into this repository's logs: its
+  slice of the consolidated record and paradata change, and the statements the meeting supersedes in #2 and #3.
+  Anchor: [meeting digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1111.md) ·
+  [hub plan](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md).
+* **Decided in session:** plans only this round; the schema issue is not opened yet (placeholder name
+  `doc-schema-v2`); `categ` is ocr-postprocess's only, and digital-convert's verdicts become `decode` markers.
+* **Found:**
+  * the record path also re-bands lines from `quality_score` (`llm_client_shared.py:216-222`: below 0.40 `Trash`,
+    below 0.70 `Noisy`), a second banding rule beside ocr-postprocess's;
+  * three limits fail a job under D13: replies cut at `LLM_MAX_NEW_TOKENS` (`skipped`), the consecutive-error stop
+    (`stopped`), KeyBERT chunks beyond the encoder's window (`trimmed`); the vocabulary fit (`trimmed`,
+    `service/api.py:524-531`) is Q6;
+  * the paradata's result names two files nobody stores (`<doc_id>.keywords.json`, `<doc_id>.enrichment.json`,
+    `service/api.py:829-842`); the hub's `docs/rocrate_export.md` calls them `results.json`;
+  * the controlled kind's LLM has no row in `para_config.txt`;
+  * scheduled workflows: `controlled-live.yml` (weekly, and on `test` pushes), `vocab-refresh.yml` (monthly),
+    `scheduled-smoke.yml` (weekly), and `codeql.yml`, `security.yml` (security, kept); `gpu-inference.yml`'s
+    schedule is commented out.
+* **Written here (not pushed):**
+  * **`plans/doc-schema-v2.plan.md`** (new): this repository's slice: its fields, seven tasks with code locations,
+    its paradata, what it depends on (hub tasks, Q1, Q6), the superseded statements, including closed #1's (listed,
+    not edited);
+  * **`digests/2.digest.md`, `plans/2.plan.md`:** the 11-11 status and section; superseded marks on the weekly live
+    lane (atrium-project#81), the vocabulary fit (Q6) and the vocabulary's hashes in the paradata;
+  * **`digests/3.digest.md`, `plans/3.plan.md`:** parked during the pilot phase (atrium-project#83); the existing
+    content kept as the record; "possible now" and the tree's SHA-256 in the paradata marked;
+  * **`DEVLOG.md`:** the header names the starting set of the pilot phase.
+* **Not posted:** nothing on GitHub; Q6 is on the hub plan's question list for the next meeting.
+* Plans only; no code changed. Files delivered as full files.
