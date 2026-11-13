@@ -55,9 +55,6 @@ def _record():
             },
             {"page": "2", "line": 2, "text": "garbage ~~ ##", "categ": "Trash"},
             {"page": "2", "line": 3, "text": "", "categ": "Empty"},
-            # digital-convert's decode verdict on a born-digital text layer that does not decode
-            {"page": "2", "line": 4, "text": "garbage sondì høeby", "categ": "Garbage"},
-            {"page": "2", "line": 5, "text": "garbage ǝʇɐɹǝdo", "categ": "Inverted"},
         ],
     }
 
@@ -98,9 +95,10 @@ def test_the_response_carries_the_runs_create_action():
     assert atrium_rocrate.action_problems(action) == []
     assert action["instrument"]["name"] == "atrium-keyword-extract"
     assert action["actionStatus"].endswith("CompletedActionStatus")
-    assert any(
-        c["name"] == "yake" for c in action["paradataRecord"]["license_detail"]["components"]
-    )
+    record = action["paradataRecord"]
+    assert any(c["name"] == "yake" for c in record["components"])
+    assert not {"license", "license_url", "license_detail"} & set(record)
+    assert [e["name"] for e in action["object"]] == ["original"]
 
 
 def test_record_endpoint_gives_document_and_page_keywords(fake_keybert):
@@ -110,7 +108,7 @@ def test_record_endpoint_gives_document_and_page_keywords(fake_keybert):
     assert body["doc_id"] == "AMCR-F-1" and body["kind"] == "statistical"
     assert [p["page"] for p in body["pages"]] == ["1", "2"]
     assert all(k["method"] == "keybert" for p in body["pages"] for k in p["keywords"])
-    # one batch: the document, then each page; Trash, Garbage, Inverted and Empty lines are not read
+    # one batch: the document, then each page; Trash and Empty lines are not read
     assert len(fake_keybert) == 1 and len(fake_keybert[0]) == 3
     assert "garbage" not in " ".join(fake_keybert[0])
 
@@ -125,14 +123,17 @@ def test_the_statistical_kind_writes_the_records_keywords_block(fake_keybert):
     assert out["keywords"] == {"document": body["keywords"], "pages": body["pages"]}
     assert [p["page"] for p in out["keywords"]["pages"]] == ["1", "2"]
     assert all(k["method"] == "keybert" for k in out["keywords"]["document"])
-    stamp = out["assembled"]["blocks"]["keywords"]
-    assert stamp["program"] == "keyword-extract" and stamp["run_uuid"] == body["paradata"]["@id"]
+    # Record schema 2.0 holds no run data: the paradata name what was read and written.
+    assert "assembled" not in out and "provenance" not in out
     # Nothing of the controlled kind is written, and the other blocks pass through.
-    assert "enrichment" not in out and "enrichment" not in out["assembled"]["blocks"]
+    assert "enrichment" not in out
     assert out["entities"] == record["entities"] and out["lines"] == record["lines"]
     assert out["doc_id"] == "AMCR-F-1"
-    names = [entity.get("name") for entity in body["paradata"]["result"]]
-    assert "keywords" in names
+    action = body["paradata"]
+    assert [e["name"] for e in action["object"]] == ["atrium/document-json"]
+    (written,) = action["result"]
+    assert written["name"] == "atrium/document-json"
+    assert written["recordFields"] == {"keywords": ["document", "pages"]}
 
 
 def test_document_keywords_only_make_an_empty_page_list(fake_keybert):

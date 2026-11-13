@@ -179,7 +179,9 @@ What the research run does:
 - It writes a paradata record that names the vocabulary build and the sha256 of the prompt it used.
 
 The whole prompt is about 58k tokens. A model served with a smaller window sees only a prefix of the vocabulary, and
-the paradata records how many terms were cut. The large vLLM models do this at their default `MAX_MODEL_LEN` of 16384.
+the paradata record it as `sampled`, with how many terms were left out. A line whose prompt is still over the window
+is sent with fewer neighbouring lines as context (`llm_context_window`, `split`); a line that does not fit even alone
+stops the run (D13). The large vLLM models do this at their default `MAX_MODEL_LEN` of 16384.
 
 To keep the run fast and within memory:
 
@@ -219,7 +221,7 @@ docker compose -f docker-compose.yaml -f docker-compose.gpu.yaml --profile llm r
 `keywords.py` and `POST /extract_keywords` read every input through [kw_inputs.py](../kw_inputs.py). They run the same
 methods (`keywords.extract_from_texts`) and write the record's `keywords` block through the same writer
 (`llm_client_shared.write_document_record`). So the same input gives the same keywords, per document and per page,
-and the same licence components in the paradata; [tests/test_cli_service_parity.py](../tests/test_cli_service_parity.py)
+and the same components in the paradata; [tests/test_cli_service_parity.py](../tests/test_cli_service_parity.py)
 checks this. Both take their defaults from `kw_config.txt`: `METHOD` and `NUM_KEYWORDS` (the service's
 `DEFAULT_KW_METHOD` setting overrides its method), and the KeyBERT model, `MAX_WORDS`, MMR and diversity. Where they
 differ:

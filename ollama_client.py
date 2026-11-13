@@ -206,8 +206,8 @@ def build_arg_parser() -> argparse.ArgumentParser:
         choices=["full", "standard", "minimal"],
         default="full",
         help=(
-            "Cue profile of a .md input (atrium-project#70), named by the record's "
-            "regenerable.markdown recipe after a document-mode run. full keeps every layout cue."
+            "Kept for compatibility, with no effect: record schema 2.0 holds no regenerable.markdown "
+            "recipe (atrium-project#84), which this profile used to be recorded in."
         ),
     )
     parser.add_argument(
@@ -524,18 +524,11 @@ def main(argv: Optional[List[str]] = None) -> None:
                         doc_id,
                         results,
                         args.document_json_dir,
-                        run_id=logger.run_id,
-                        run_uuid=logger.run_uuid,
-                        paradata_ref=logger.paradata_ref,
-                        # Nothing enriched means no `*_enriched.json` on disk to link to.
-                        enriched_path=out_file if results else None,
-                        used_markdown_input=document_mode,
-                        detail=args.detail,
-                        license_detail=logger.get_license_block(),
                         # Same directory the prompt vocabulary was loaded from, so
                         # entities[].pid resolves against the artifacts this run actually
                         # used rather than resolve_pid's built-in default path.
                         vocab_dir=os.path.dirname(vocab_path) or ".",
+                        logger=logger,
                     )
                     if record_path is not None:
                         document_records[doc_id] = Path(record_path)

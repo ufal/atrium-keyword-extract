@@ -80,7 +80,7 @@ curl -s -X POST localhost:8000/extract_keywords \
 
 | Field           | Default    | Notes                                                                                                                                                                                                                                                                                                                    |
 |-----------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `document_json` | *optional* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash`, `Garbage`, `Inverted` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record`. Send it, `file`, or both                                                                      |
+| `document_json` | *optional* | the ATRIUM document record. Its `lines[].text` are read per page (lines with `categ` `Trash` or `Empty` are left out); `content.text` when there are no lines. Not openable → 422 `invalid_record`. Send it, `file`, or both                                                                                             |
 | `file`          | *optional* | the text as a file, read as `keywords.py` reads it (`kw_inputs.py`): nlp-enrich's CoNLL-U (no pages), a TEITOK file (pages by `<pb/>`), a line table `.csv` (`text`, `page_num`, `categ`), or `.txt` (a form feed starts a page); another kind → 415. With `document_json`, the keywords of the file go into that record |
 | `kind`          | `both`     | `statistical`, `controlled` or `both`. `controlled` needs the LLM backend (`/info` `controlled.ready`); with `both`, a controlled kind that cannot run is reported in `kinds` and the statistical keywords still come back                                                                                               |
 | `method`        | server's   | `keybert` \| `yake` \| `legacy`; absent → the server's default: `kw_config.txt` `METHOD` (`keybert`), or `DEFAULT_KW_METHOD` when set (`/info` `methods.default`). The spec's default is null                                                                                                                            |
@@ -104,7 +104,7 @@ keyword carries `method` and `rank`.
 
 ### The controlled kind
 
-Each line the quality filter keeps (not `Trash`, `Garbage`, `Inverted` or `Empty`, and long enough to read) is sent
+Each line the quality filter keeps (not `Trash` or `Empty`, and long enough to read) is sent
 to the model on its own. It is marked inside its neighbours on the same page, with the document's first lines and the
 current heading as context. The model answers in a JSON schema whose `teater_category` is an enum of the
 vocabulary's terms, so it cannot invent one. It can, however, land on an unrelated term (see
@@ -171,50 +171,56 @@ term get a `pid` with the term's AMČR URI and its AAT exact match (`vocab_manag
 
 - `ok`: it ran.
 - `skipped`: it was asked for with the other kind and is not available here.
-- `failed`: the LLM backend failed every call. The statistical keywords still come back, and so does the record with
-  its `keywords` block.
+
+A kind that ran and failed fails the whole call (D13): no keywords and no record come back
+([Errors](#errors)).
 
 `controlled.outcome` separates a model that was asked and found nothing from one that was never asked. With `empty`,
 an `enrichment` block with no items is still written. With `not-asked`, no line passed the filter and no `enrichment`
 is written. `document_json` is absent only when neither kind wrote a block. `document_json_schema_error` appears when
 the returned record does not validate, and only ever because the record sent did not.
 
-`paradata` is the run's Process Run Crate `CreateAction`. Its `@id` is the run's `run_uuid`, `object` is what the
-call was sent, and `result` is the keywords it answered with and the record blocks it wrote. `paradataRecord` is the
-paradata itself, including the methods and vocabularies the run used, each with its licence.
+`paradata` is the run's Process Run Crate `CreateAction` (paradata schema 3.0, atrium-project#84). Its `@id` is the
+run's `run_uuid`. `object` names what the call read by AMČR distribution name and SHA-512: the record version
+(`atrium/document-json`), and a `file` or a text as `original`. `result` is the record written, with the blocks and
+fields the run wrote (`recordFields`); a call that returns no record has an empty `result`. The returned keywords
+and `enrichment` are not stored outputs and are not named. `paradataRecord` is the paradata itself: the method,
+model and vocabulary versions in `parameters`, and the methods and vocabularies as `components`, each with its own
+terms. No licence of the output is computed. The record itself carries no run data.
 
-`limits_applied` lists every limit that shaped the result without refusing it:
+`limits_applied` lists the limits that sampled or split the input (the same notes as the paradata's `limits`):
 
-- a KeyBERT document chunked, or a chunk over the encoder's window;
-- vocabulary terms left out of the prompt (`vocab_prompt_budget_tokens`, `trimmed`);
-- lines whose reply was cut (`llm_max_new_tokens`, `skipped`);
-- a document given up after too many failed lines (`llm_max_consecutive_errors`, `stopped`).
+- a KeyBERT document chunked (`keybert_chunk_words`, `split`), or a chunk over the encoder's window embedded in
+  further pieces (`keybert_max_seq_tokens`, `split`);
+- vocabulary terms left out of the prompt (`vocab_prompt_budget_tokens`, `sampled`).
+
+A limit that would trim, skip or stop content fails the call instead ([Errors](#errors)).
 
 ## Errors
 
 Every error has one JSON body (hub `docs/agent_skill_strategy.md` §4.4):
 `{"status": <int>, "reason": <code or null>, "detail": "<text>"}`. `detail` is always a string. A limit
-refusal adds `limit` (`{key, env, value, observed, unit}`); a request validation error adds FastAPI's list
+refusal adds `limit` (`{key, env, value, observed, unit}`, and `effect` when content was cut); a request validation error adds FastAPI's list
 of problems as `errors`.
 
-| Code | `reason`         | Meaning                                                                                                                                                                                        | What to do                                                                                                                                  |
-|------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| 413  | `limit_exceeded` | over `MAX_UPLOAD_MB` or `MAX_DOCUMENT_WORDS`                                                                                                                                                   | split the input, or raise the setting `limit.env` names                                                                                     |
-| 422  | `invalid_record` | the `document_json` sent cannot be opened (not UTF-8 JSON, not an object, a newer `schema_version` major), or its `entities` is not a list of objects (the controlled kind adds `pid` to them) | send the record the previous stage wrote; update this service if the record is newer                                                        |
-| 422  | `limit_exceeded` | `num_keywords` over `MAX_KEYWORDS`                                                                                                                                                             | ask for fewer keywords, or raise `MAX_KEYWORDS`                                                                                             |
-| 422  | `null`           | a record or text with nothing to read, the legacy method without lemmas, a value outside the spec's enums or bounds                                                                            | fix the field `errors` or `detail` names; the legacy method needs lemmas                                                                    |
-| 429  | `busy`           | every extraction slot taken; retry after `Retry-After` seconds                                                                                                                                 | retry after `Retry-After`; add replicas if it persists                                                                                      |
-| 500  | `null`           | a method's package is missing or the KeyBERT model could not be loaded, or the record this service built does not validate — the detail names the cause                                        | install the package `detail` names, or fill `HF_HOME` (see [Models and caches](#models-and-caches)); report a record that does not validate |
-| 501  | `null`           | `kind=controlled` alone in a deployment without a working LLM backend — the detail says what is missing (`/info` `controlled.detail`)                                                          | configure the LLM backend `/info` `controlled.detail` names, or ask for `kind=statistical`                                                  |
-| 502  | `null`           | `kind=controlled` alone, and every call to the LLM backend failed — the detail carries the first failure                                                                                       | check the LLM backend (key, model, server); retry later                                                                                     |
+| Code | `reason`         | Meaning                                                                                                                                                                                                        | What to do                                                                                                                                  |
+|------|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 413  | `limit_exceeded` | over `MAX_UPLOAD_MB` or `MAX_DOCUMENT_WORDS`                                                                                                                                                                   | split the input, or raise the setting `limit.env` names                                                                                     |
+| 422  | `invalid_record` | the `document_json` sent cannot be opened (not UTF-8 JSON, not an object, a newer `schema_version` major), or its `entities` is not a list of objects (the controlled kind adds `pid` to them)                 | send the record the previous stage wrote; update this service if the record is newer                                                        |
+| 422  | `limit_exceeded` | `num_keywords` over `MAX_KEYWORDS`; a reply cut at `LLM_MAX_NEW_TOKENS`; a document given up after `LLM_MAX_CONSECUTIVE_ERRORS` failed lines in a row once some lines were answered (`limit.effect` `stopped`) | ask for fewer keywords, or raise the setting `limit.key` names                                                                              |
+| 422  | `null`           | a record or text with nothing to read, the legacy method without lemmas, a value outside the spec's enums or bounds                                                                                            | fix the field `errors` or `detail` names; the legacy method needs lemmas                                                                    |
+| 429  | `busy`           | every extraction slot taken; retry after `Retry-After` seconds                                                                                                                                                 | retry after `Retry-After`; add replicas if it persists                                                                                      |
+| 500  | `null`           | a method's package is missing or the KeyBERT model could not be loaded, or the record this service built does not validate — the detail names the cause                                                        | install the package `detail` names, or fill `HF_HOME` (see [Models and caches](#models-and-caches)); report a record that does not validate |
+| 501  | `null`           | `kind=controlled` alone in a deployment without a working LLM backend — the detail says what is missing (`/info` `controlled.detail`)                                                                          | configure the LLM backend `/info` `controlled.detail` names, or ask for `kind=statistical`                                                  |
+| 502  | `null`           | the controlled kind ran (alone or with `kind=both`) and a call to the LLM backend failed — the detail carries the first failure; no partial result comes back                                                  | check the LLM backend (key, model, server); retry later                                                                                     |
 
 ## Limits
 
 Every limit is an environment setting, declared in `tool_limits.py`. `GET /info` reports each current value
 (`limits`), and `limits_meta` says which variable sets it and whether the value came from the environment,
 `llm_config.txt` or the default. A malformed value stops the service at startup, naming the variable. An input over
-a limit is refused with the [JSON error body](#errors). A limit that shapes a result without refusing it is named in
-`limits_applied`. `tests/test_limits_contract.py` checks this table against `tool_limits.py` and `.env.example`.
+a limit is refused with the [JSON error body](#errors). A limit that samples or splits the input is named in
+`limits_applied`; one that would trim, skip or stop content fails the call (D13). `tests/test_limits_contract.py` checks this table against `tool_limits.py` and `.env.example`.
 
 | Key (`/info`)                | Variable                                                            | Default | Unit     | Over the limit                                                                                                                                                                                                                                |
 |------------------------------|---------------------------------------------------------------------|---------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -224,32 +230,31 @@ a limit is refused with the [JSON error body](#errors). A limit that shapes a re
 | `max_concurrent_requests`    | `MAX_CONCURRENT_REQUESTS`                                           | 2       | requests | 429 `busy` with `Retry-After: 15`                                                                                                                                                                                                             |
 | `keybert_chunk_words`        | `KEYBERT_CHUNK_WORDS`                                               | 400     | words    | a longer document is embedded in overlapping chunks and its keywords merged — `split` note                                                                                                                                                    |
 | `keybert_chunk_overlap`      | `KEYBERT_CHUNK_OVERLAP`                                             | 50      | words    | the words two consecutive KeyBERT chunks share                                                                                                                                                                                                |
-| `keybert_max_seq_tokens`     | — (derived from the KeyBERT model, `kw_config.txt` `KEYBERT_MODEL`) | —       | tokens   | a longer chunk is embedded from its start — `trimmed` note; 128 for the default model, `null` until it is loaded                                                                                                                              |
-| `llm_context_window`         | `LLM_CONTEXT_WINDOW`                                                | 128000  | tokens   | sizes the vocabulary prompt: terms that do not fit are left out — standing `trimmed` note. The default depends on the backend — 128000 `openrouter`, 32000 `ollama` — after `CONTEXT_WINDOW` in `llm_config.txt`; sent to Ollama as `num_ctx` |
-| `llm_max_new_tokens`         | `LLM_MAX_NEW_TOKENS`                                                | 2048    | tokens   | a reply cut at it is never used: the line gets no result — `skipped` note. OpenRouter `max_tokens`, Ollama `num_predict`                                                                                                                      |
+| `keybert_max_seq_tokens`     | — (derived from the KeyBERT model, `kw_config.txt` `KEYBERT_MODEL`) | —       | tokens   | a longer chunk is halved until each piece fits, and the pieces' keywords merged — `split` note; 128 for the default model, `null` until it is loaded                                                                                          |
+| `llm_context_window`         | `LLM_CONTEXT_WINDOW`                                                | 128000  | tokens   | sizes the vocabulary prompt: terms that do not fit are left out — standing `sampled` note. The default depends on the backend — 128000 `openrouter`, 32000 `ollama` — after `CONTEXT_WINDOW` in `llm_config.txt`; sent to Ollama as `num_ctx` |
+| `llm_max_new_tokens`         | `LLM_MAX_NEW_TOKENS`                                                | 2048    | tokens   | a reply cut at it fails the call: 422 `limit_exceeded`. OpenRouter `max_tokens`, Ollama `num_predict`                                                                                                                                         |
 | `llm_timeout`                | `LLM_TIMEOUT`                                                       | 300     | s        | the call is retried (`LLM_MAX_RETRIES`)                                                                                                                                                                                                       |
 | `llm_max_retries`            | `LLM_MAX_RETRIES`                                                   | 3       | attempts | only a timeout, a connection error, HTTP 429 or 5xx is retried; once they run out the line is an error                                                                                                                                        |
-| `llm_max_consecutive_errors` | `LLM_MAX_CONSECUTIVE_ERRORS`                                        | 10      | errors   | the document is given up — `stopped` note (the lines before keep their results); every line failing is 502 for `kind=controlled`, `failed` in `kinds` for `kind=both`                                                                         |
-| `vocab_prompt_budget_tokens` | — (derived: `LLM_CONTEXT_WINDOW` − `LLM_MAX_NEW_TOKENS` − 512)      | —       | tokens   | vocabulary terms past it are left out of the prompt — standing `trimmed` note, and a warning at startup                                                                                                                                       |
+| `llm_max_consecutive_errors` | `LLM_MAX_CONSECUTIVE_ERRORS`                                        | 10      | errors   | the document is given up: 422 `limit_exceeded` (`stopped`) once some lines were answered, else 502; no partial result                                                                                                                         |
+| `vocab_prompt_budget_tokens` | — (derived: `LLM_CONTEXT_WINDOW` − `LLM_MAX_NEW_TOKENS` − 512)      | —       | tokens   | vocabulary terms past it are left out of the prompt — standing `sampled` note, and a warning at startup                                                                                                                                       |
 
 `KEYBERT_CHUNK_WORDS` stays 400 until an evaluation says otherwise: with the default encoder's 128-token
-window, most 400-word chunks are embedded from their start, and `limits_applied` says how many. Token
+window, most 400-word chunks are embedded in further pieces, and `limits_applied` says how many. Token
 counts of the controlled kind are estimates at 4 characters per token
 (`llm_client_shared.approx_token_count`): the whole vocabulary prompt is about 40000, so it fits the
 OpenRouter default whole and is cut at Ollama's. There is no per-request time limit: the work runs in a
 thread that cannot be stopped, and each LLM call has its own (`LLM_TIMEOUT`).
 
-## Partial results
+## No partial results
 
-A 200 can carry less than was asked for. Read these before using the result:
+Since ARÚP's output contract of 12 November 2026 (D13) a 200 carries everything that was asked for, or the call
+fails. Read these before using the result:
 
-- `kinds` says per kind `ok`, `skipped` (asked for with the other, not available here) or `failed` (the LLM
-  backend failed every call; the statistical keywords still come back).
-- `limits_applied` lists each limit that shaped the result without refusing it, for example lines whose
-  reply was cut (`skipped`), or a document given up after too many failed lines (`stopped`).
-- A line the controlled kind could not answer has no `enrichment` item; `controlled.stats` counts such
-  lines (`skipped_error`, `truncated`, `aborted`), and `controlled.outcome` tells `empty` (asked, nothing
-  found) from `not-asked`.
+- `kinds` says per kind `ok` or `skipped` (asked for with the other, not available here: no `enrichment` is
+  written).
+- `limits_applied` lists the sampling and splitting the result rests on.
+- Every line the quality filter kept has its `enrichment` item. `controlled.outcome` tells `empty` (asked,
+  nothing found) from `not-asked`.
 
 ## Known limits
 
@@ -299,8 +304,7 @@ KeyBERT chunk settings and the LLM settings — is listed under [Limits](#limits
 
 ## How it works
 
-The record's lines are joined per page and per document (`Trash`, `Garbage`, `Inverted` and `Empty` lines
-left out). One call runs the chosen method over the document and, with `per_page`, over each page —
+The record's lines are joined per page and per document (`Trash` and `Empty` lines left out). One call runs the chosen method over the document and, with `per_page`, over each page —
 KeyBERT in one batch — in a worker thread, inside one of `MAX_CONCURRENT_REQUESTS` slots. The batch CLI
 (`keywords.py`) reads the same inputs with the same code (`kw_inputs.py`) and runs the same methods. What only one of
 them does: [the command line and the service](../docs/usage.md#the-command-line-and-the-service).

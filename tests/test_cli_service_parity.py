@@ -220,7 +220,8 @@ def test_a_file_and_a_record_together_write_the_files_keywords_into_the_record()
     body = response.json()
     assert body["doc_id"] == "CTX7"
     assert _pairs(body["document_json"]["keywords"]["document"]) == _pairs(body["keywords"])
-    assert [e["name"] for e in body["paradata"]["object"]] == ["CTX7.teitok.xml", "r.document.json"]
+    # inputs by AMČR distribution name (paradata 3.0): the upload and the record version read
+    assert [e["name"] for e in body["paradata"]["object"]] == ["original", "atrium/document-json"]
 
 
 def test_ker_reads_the_same_lemmas_on_both_sides(tmp_path):

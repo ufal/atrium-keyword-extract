@@ -40,9 +40,10 @@ from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES
 KER_POS = frozenset({"NOUN", "PROPN", "ADJ"})
 
 #: Lines left out of the text: nothing is read from them (report §5). The untrustworthy ones are
-#: the hub registry's (ocr-postprocess's ``Trash``, digital-convert's ``Garbage`` and
-#: ``Inverted``); ``Empty`` has nothing to read. The controlled kind leaves out the same lines
-#: (``llm_client_shared.should_process_line``).
+#: the hub registry's (``Trash``, of the record builder's line-quality model); ``Empty`` has
+#: nothing to read. Since record schema 2.0 (atrium-project#84) digital-convert's ``Garbage`` and
+#: ``Inverted`` are docproc line flags, never a record line's ``categ``. The controlled kind
+#: leaves out the same lines (``llm_client_shared.should_process_line``).
 SKIPPED_CATEGORIES = frozenset(UNTRUSTWORTHY_LINE_CATEGORIES) | {"Empty"}
 
 RECORD_SUFFIX = ".document.json"

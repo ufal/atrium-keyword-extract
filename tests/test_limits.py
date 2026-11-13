@@ -112,8 +112,8 @@ def test_keybert_chunking_is_a_setting_and_is_counted(monkeypatch):
     result = kw._extract_keybert(["long", "short"], 5, limit_counts=counts)
     assert len(result) == 2 and result[1] == [("a", 0.5)]
     # 25 words, chunks of 10 starting every 8 words: w0-w9, w8-w17, w16-w24 (over the 8-token
-    # window) and w24 (not over it) -- the chunking the literal 400/50 always did.
-    assert counts == {"split": 1, "trimmed": 3, "window": 8}
+    # window, so each is split again until it fits: atrium-project#84, nothing is cut) and w24.
+    assert counts == {"split": 1, "window_split": 3, "window": 8}
     assert [c.split()[0] for c in kw._chunk_words([f"w{i}" for i in range(25)], 10, 2)] == [
         "w0",
         "w8",
@@ -130,24 +130,27 @@ def test_the_text_entry_point_chunks_the_same_way(monkeypatch):
     result = kw.extract_from_texts(
         [" ".join(f"w{i}" for i in range(25)), "a b", ""], "keybert", 5, limit_counts=counts
     )
-    assert [len(r) for r in result] == [4, 1, 0]
-    assert counts["split"] == 1
+    # w0-w9, w8-w17 and w16-w24 are over the 8-token window and halved again: seven pieces, so
+    # five distinct first words (the cap), where cutting each chunk at the window gave four.
+    assert [len(r) for r in result] == [5, 1, 0]
+    assert counts["split"] == 1 and counts["window_split"] == 3
 
 
 def test_keybert_notes_reach_the_paradata(tmp_path):
     from atrium_paradata import ParadataLogger
 
     logger = ParadataLogger(program="keyword-extract", config={}, paradata_dir=str(tmp_path))
-    kw._note_keybert_limits(logger, {"split": 2, "trimmed": 5, "window": 128})
+    kw._note_keybert_limits(logger, {"split": 2, "window_split": 5, "window": 128})
     notes = {n["limit"]: n for n in logger.limits_applied}
     assert (notes["keybert_chunk_words"]["effect"], notes["keybert_chunk_words"]["count"]) == (
         "split",
         2,
     )
-    assert (notes["keybert_max_seq_tokens"]["value"], notes["keybert_max_seq_tokens"]["count"]) == (
-        128,
-        5,
-    )
+    assert (
+        notes["keybert_max_seq_tokens"]["effect"],
+        notes["keybert_max_seq_tokens"]["value"],
+        notes["keybert_max_seq_tokens"]["count"],
+    ) == ("split", 128, 5)
 
 
 # ── the controlled kind: the context window, per backend, then the config file, then the env ──
@@ -344,7 +347,7 @@ def client():
     return TestClient(api.app)
 
 
-def test_line_mode_notes_cut_replies_and_the_stop(client, controlled, monkeypatch):
+def _yake_and_first_reply_then(monkeypatch, controlled, error):
     import keywords
 
     def yake(text, num_keywords, lang="cs", max_words=3, source="text"):
@@ -354,23 +357,39 @@ def test_line_mode_notes_cut_replies_and_the_stop(client, controlled, monkeypatc
     monkeypatch.setenv("LLM_MAX_CONSECUTIVE_ERRORS", "2")
     replies = iter([_LINE_REPLY])
 
-    def first_then_cut(_messages):
+    def first_then(_messages):
         try:
             return next(replies)
         except StopIteration:
-            raise ReplyTruncated("cut", 2048) from None
+            raise error from None
 
-    controlled.chat.reply = first_then_cut
+    controlled.chat.reply = first_then
+
+
+def test_cut_replies_after_an_answered_line_fail_the_call(client, controlled, monkeypatch):
+    """D13 (atrium-project#84): a line skipped for a cut reply is content the limit trimmed,
+    so the call fails and the line before does not come back as a partial enrichment, nor the
+    statistical keywords as a record without it. Until #84: 200 with `skipped`/`stopped` notes."""
+    _yake_and_first_reply_then(monkeypatch, controlled, ReplyTruncated("cut", 2048))
     response = _post(client, kind="both")
-    assert response.status_code == 200
-    notes = {n["limit"]: n for n in response.json()["limits_applied"]}
-    assert (notes["llm_max_new_tokens"]["effect"], notes["llm_max_new_tokens"]["count"]) == (
-        "skipped",
-        2,
+    assert response.status_code == 422
+    body = response.json()
+    assert body["reason"] == "limit_exceeded" and body["limit"]["key"] == "llm_max_new_tokens"
+    assert "enrichment" not in body and "document_json" not in body
+
+
+def test_giving_up_after_an_answered_line_is_a_stopped_limit(client, controlled, monkeypatch):
+    """Failed calls in a row after an answered line: LLM_MAX_CONSECUTIVE_ERRORS stopped the
+    document, and the call fails naming it (422 `limit_exceeded`, effect `stopped`)."""
+    _yake_and_first_reply_then(monkeypatch, controlled, RuntimeError("HTTP 503"))
+    response = _post(client, kind="both")
+    assert response.status_code == 422
+    body = response.json()
+    assert body["reason"] == "limit_exceeded"
+    assert (body["limit"]["key"], body["limit"]["effect"]) == (
+        "llm_max_consecutive_errors",
+        "stopped",
     )
-    assert notes["llm_max_consecutive_errors"]["effect"] == "stopped"
-    assert "0 line(s) after them" in notes["llm_max_consecutive_errors"]["detail"]
-    assert len(response.json()["enrichment"]["items"]) == 1  # the line before keeps its result
 
 
 def test_every_reply_cut_is_422_limit_exceeded_not_a_backend_error(client, controlled):

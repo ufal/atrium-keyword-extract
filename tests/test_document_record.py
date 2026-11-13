@@ -11,8 +11,8 @@ the JSON, if it is given one, and returns it with only its own block updated. Th
 tests pin the two properties that make that safe for this stage specifically:
 
   * keyword-extract — llm-enrich's successor as the owner of `enrichment` — writes
-    `enrichment` (and its own `derived_from`/`regenerable` keys) and **nothing else**:
-    an upstream tool's blocks survive verbatim;
+    `enrichment` (and `keywords`, `entities[].pid`) and **nothing else**: an upstream tool's
+    blocks survive verbatim, and since record schema 2.0 no run data is written at all;
   * with no baseline the client still produces a valid standalone record.
 
 Plus the projection from this repo's `*_enriched.json` shapes onto `enrichment.items[]`,
@@ -24,7 +24,7 @@ import sys
 
 import pytest
 
-import llm_client_shared
+import llm_client_shared  # noqa: F401  (monkeypatched below)
 from llm_client_shared import enrichment_block, write_document_record
 
 atrium_document = pytest.importorskip("atrium_document")
@@ -111,145 +111,114 @@ def test_enrichment_block_tolerates_missing_enrichment_key():
 
 
 def test_writes_standalone_record_without_baseline(tmp_path):
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1")
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
 
     assert path == tmp_path / f"{DOC}{FILE_SUFFIX}"
     record = load_document(str(path))
     assert record["doc_id"] == DOC
     assert record["enrichment"]["items"][0]["teater_category"] == "kostel"
-    # rule 3: no baseline → this tool's own part only
-    assert record["assembled"]["had_baseline"] is False
+    # rule 3: no baseline → this tool's own part only; record schema 2.0: no run data
     assert "entities" not in record and "pages" not in record
+    assert not {"assembled", "provenance", "derived_from", "regenerable"} & set(record)
 
 
-def test_stamps_its_own_block_with_program_and_run_id(tmp_path):
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1", paradata_ref="p.json")
+def _paradata(tmp_path):
+    from atrium_paradata import ParadataLogger
 
-    stamp = load_document(str(path))["assembled"]["blocks"]["enrichment"]
-    assert stamp["program"] == "keyword-extract"
-    assert stamp["run_id"] == "R1"
-    assert stamp["paradata_ref"] == "p.json"
+    return ParadataLogger("keyword-extract", {}, paradata_dir=None, config_dir=str(tmp_path))
+
+
+def test_the_paradata_name_the_record_read_and_the_fields_written(tmp_path):
+    """Paradata 3.0 (atrium-project#84): the record version read is an input and the record
+    written an output, each by SHA-512, the output naming the blocks and fields written."""
+    import hashlib
+
+    _seed_lines(tmp_path)
+    before = (tmp_path / f"{DOC}{FILE_SUFFIX}").read_bytes()
+    logger = _paradata(tmp_path)
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path, logger=logger)
+    logger.finalize()
+
+    (read,) = logger.record["inputs"]
+    (written,) = logger.record["outputs"]
+    assert (read["name"], read["sha512"]) == (
+        "atrium/document-json",
+        hashlib.sha512(before).hexdigest(),
+    )
+    assert written["name"] == "atrium/document-json"
+    assert written["sha512"] == hashlib.sha512(path.read_bytes()).hexdigest()
+    assert written["record_fields"] == {"enrichment": ["items"]}
 
 
 def test_preserves_upstream_blocks_verbatim(tmp_path):
     """The core accretion guarantee: this stage must not disturb anyone else's block."""
     baseline = tmp_path / f"{DOC}{FILE_SUFFIX}"
-    with DocumentRecord(DOC, "nlp-enrich", run_id="R0", out_dir=str(tmp_path)) as up:
-        up.set_source(sha256="a" * 64, filename=f"{DOC}.alto.xml", origin="ABBYY-ALTO")
-        up.set_block("entities", [{"surface": "gotického kostela", "type_onto": "FAC"}])
+    with DocumentRecord(DOC, "nlp-enrich", out_dir=str(tmp_path)) as up:
+        up.set_source(sha512="a" * 128, filename=f"{DOC}.pdf", media_type="application/pdf")
+        up.set_block(
+            "entities",
+            [{"page": "1", "line": 14, "surface": "gotického kostela", "type_onto": "FAC"}],
+        )
         up.merge_block("lines", [{"page": "1", "line": 14, "lemma": "výzkum"}])
     before = json.loads(baseline.read_text(encoding="utf-8"))
 
-    write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1")
+    write_document_record(DOC, DOC_LEVEL, tmp_path)
     after = load_document(str(baseline))
 
     for block in ("source", "entities", "lines"):
         assert after[block] == before[block], f"{block} was modified by keyword-extract"
-    assert after["assembled"]["blocks"]["entities"]["program"] == "nlp-enrich"
-    assert after["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
     assert after["enrichment"]["items"][0]["locator"] == "gotického kostela"
-    assert after["assembled"]["had_baseline"] is True
 
 
-def test_records_derived_from_and_no_stored_markdown_path(tmp_path):
-    path = write_document_record(
-        DOC,
-        DOC_LEVEL,
-        tmp_path,
-        run_id="R1",
-        enriched_path=tmp_path / f"{DOC}_enriched.json",
-    )
+def test_no_derived_from_and_no_markdown_recipe(tmp_path):
+    """Record schema 2.0 holds no run data: no `derived_from` link to `*_enriched.json` and no
+    `regenerable.markdown` recipe, whatever the run fed the model (atrium-project#84, D1)."""
+    _seed_lines(tmp_path)
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
     record = load_document(str(path))
-
-    assert record["derived_from"]["enriched"].endswith(f"{DOC}_enriched.json")
-    # a recipe at most, never a stored path to the disposable Markdown itself
+    assert "derived_from" not in record and "regenerable" not in record
     assert not json.dumps(record).count(f"{DOC}.md")
 
 
-def test_no_markdown_recipe_when_no_markdown_was_fed(tmp_path):
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1")
-    assert "regenerable" not in load_document(str(path))
-
-
 def _seed_lines(tmp_path, doc_id=DOC):
-    """A baseline with text in it, as alto-postprocess leaves one: what json_to_md renders."""
-    with DocumentRecord(doc_id, "alto-postprocess", run_id="R0", out_dir=str(tmp_path)) as up:
-        up.set_source(sha256="a" * 64, filename=f"{doc_id}.alto.xml", origin="ABBYY-ALTO")
-        up.set_block("lines", [{"page": "1", "line": 1, "text": "Výzkum odhalil základy."}])
+    """A baseline with text in it, as the record builder (ocr-postprocess) leaves one."""
+    with DocumentRecord(doc_id, "ocr-postprocess", out_dir=str(tmp_path)) as up:
+        up.set_source(
+            sha512="a" * 128, filename=f"{doc_id}.pdf", media_type="application/pdf", origin="atr"
+        )
+        up.set_block(
+            "lines",
+            [{"page": "1", "line": 1, "text": "Výzkum odhalil základy.", "text_source": "atr"}],
+        )
 
 
-def test_used_markdown_input_writes_self_referential_json_to_md_recipe(tmp_path):
-    """A document-level run (real Markdown fed to the LLM, whether from a pre-converted
-    PDF/DOCX or an upstream xml_to_md.py TEITOK pass) gets a recipe pointing at THIS
-    SAME document JSON via json_to_md — self-sufficient, no external file required."""
-    _seed_lines(tmp_path)
-    path = write_document_record(
-        DOC, DOC_LEVEL, tmp_path, run_id="R1", used_markdown_input=True, detail="minimal"
-    )
-    recipe = load_document(str(path))["regenerable"]["markdown"]
-
-    assert recipe["from"] == f"{DOC}{FILE_SUFFIX}"
-    assert recipe["converter"] == llm_client_shared.JSON_TO_MD_CONVERTER == "json_to_md@1.1"
-    assert recipe["detail"] == "minimal"
-
-
-def test_no_json_to_md_recipe_for_a_record_it_cannot_render(tmp_path):
-    """A plain-text upload with no baseline leaves a record with no lines and no text:
-    json_to_md refuses that record, so no recipe may promise it (the service wrote one for
-    every .txt/.md upload until 2026-09-30)."""
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1", used_markdown_input=True)
-    assert "regenerable" not in load_document(str(path))
-
-
-def test_json_to_md_recipe_names_the_record_file_when_the_seed_id_differs(tmp_path):
-    """#68: the record keeps the seed's doc_id and is written under it, so the recipe's
-    `from` must name that file, not one derived from the upload's name."""
+def test_the_record_keeps_the_seed_id_and_is_written_under_it(tmp_path):
+    """#68: the record keeps the seed's doc_id and is written back to the file it was read from."""
     _seed_lines(tmp_path, doc_id="C-202400123A")
     seed = tmp_path / f"C-202400123A{FILE_SUFFIX}"
     seed.rename(tmp_path / f"{DOC}{FILE_SUFFIX}")
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1", used_markdown_input=True)
-    record = load_document(str(path))
-    assert record["doc_id"] == "C-202400123A"
-    assert record["regenerable"]["markdown"]["from"] == f"C-202400123A{FILE_SUFFIX}"
-
-
-def test_no_markdown_recipe_for_line_level_run(tmp_path):
-    """A line-level run (a record's lines, CSV, TEITOK) never fed Markdown to the LLM, so no
-    recipe may claim one can be regenerated — not even over a record json_to_md could render.
-    (llm-enrich also wrote a `doc_to_visual_md` recipe for a PDF/DOCX it converted itself; the
-    conversion stayed in atrium-digital-convert, and so did that recipe.)"""
-    _seed_lines(tmp_path)
-    path = write_document_record(DOC, LINE_LEVEL, tmp_path, run_id="R1", used_markdown_input=False)
-    assert "regenerable" not in load_document(str(path))
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
+    assert path == tmp_path / f"{DOC}{FILE_SUFFIX}"
+    assert load_document(str(path))["doc_id"] == "C-202400123A"
 
 
 def test_rerun_replaces_only_its_own_block(tmp_path):
     """Granularity: a second run rewrites `enrichment`, not the neighbours."""
-    write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1")
+    _seed_lines(tmp_path)
+    write_document_record(DOC, DOC_LEVEL, tmp_path)
     path = tmp_path / f"{DOC}{FILE_SUFFIX}"
-    with DocumentRecord.open(DOC, "translator", baseline=str(path), out_dir=str(tmp_path)) as tr:
-        tr.set_block("translations", {"source_lang": "cs", "target_lang": "en"})
 
-    write_document_record(DOC, LINE_LEVEL, tmp_path, run_id="R2")
+    write_document_record(DOC, LINE_LEVEL, tmp_path)
     record = load_document(str(path))
 
-    assert record["translations"]["target_lang"] == "en"  # survived
+    assert record["lines"][0]["text"] == "Výzkum odhalil základy."  # survived
     assert record["enrichment"]["items"][0]["line"] == 14  # replaced
-    assert record["assembled"]["blocks"]["enrichment"]["run_id"] == "R2"
 
 
-def test_license_detail_accretes_into_provenance(tmp_path):
-    path = write_document_record(
-        DOC,
-        DOC_LEVEL,
-        tmp_path,
-        run_id="R1",
-        license_detail={"components": [{"name": "nametag3", "license": "CC BY-NC-SA 4.0"}]},
-    )
-    provenance = load_document(str(path))["provenance"]
-
-    assert provenance["license"] == "CC BY-NC-SA 4.0"
-    assert provenance["contributors"][0]["program"] == "keyword-extract"
+def test_no_licence_is_written_into_the_record(tmp_path):
+    """D2: the run's components are paradata facts; the record carries no licence."""
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
+    assert "provenance" not in load_document(str(path))
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -280,7 +249,7 @@ INVALID_RESULTS = [
 
 #: A baseline no tool in this repo could have produced — `pages` must be an array.
 INVALID_BASELINE = {
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "record_type": "atrium-document",
     "doc_id": DOC,
     "pages": "not-an-array",
@@ -296,7 +265,7 @@ def _write_invalid_baseline(tmp_path):
 def test_refuses_to_emit_its_own_invalid_record(tmp_path):
     """Layer D's actual promise: "no doc.json is emitted if validation fails"."""
     with pytest.raises(RuntimeError, match="refusing to emit"):
-        write_document_record(DOC, INVALID_RESULTS, tmp_path, run_id="R1")
+        write_document_record(DOC, INVALID_RESULTS, tmp_path)
 
     assert not (tmp_path / f"{DOC}{FILE_SUFFIX}").exists()
     # finalize() writes `<path>.tmp` then renames, so a gate that fired too late would
@@ -308,7 +277,7 @@ def test_invalid_inherited_baseline_warns_and_still_writes(tmp_path, capsys):
     """An upstream tool's bad record must not stall this stage (rule 6)."""
     _write_invalid_baseline(tmp_path)
 
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1")
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
 
     assert "inherited baseline" in capsys.readouterr().err
     record = load_document(str(path))
@@ -319,28 +288,26 @@ def test_invalid_inherited_baseline_warns_and_still_writes(tmp_path, capsys):
 def test_an_amcr_seed_is_a_valid_baseline_and_keeps_its_identity(tmp_path, capsys):
     """atrium-project#71: a seed (a foreign doc_id and the archive's view of the original) is
     checked against the seed profile, so it is no "invalid baseline", and the gate on this
-    tool's own output keeps raising. Its identity survives, and the run's run_uuid is stamped."""
-    run_uuid = "urn:uuid:5d1c7f0e-3b9a-4c2e-8f61-0a7d2b4e9c13"
+    tool's own output keeps raising. Its identity survives; the record carries no run data."""
     seed = {
         "doc_id": "AMCR-F-0001",
         "source": {"sha512": "c" * 128, "filename": "zprava.pdf", "media_type": "application/pdf"},
     }
     (tmp_path / f"{DOC}{FILE_SUFFIX}").write_text(json.dumps(seed), encoding="utf-8")
 
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1", run_uuid=run_uuid)
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
 
     assert "inherited baseline" not in capsys.readouterr().err
     record = load_document(str(path))
     assert record["doc_id"] == seed["doc_id"] and record["source"] == seed["source"]
-    assert record["assembled"]["blocks"]["enrichment"]["run_uuid"] == run_uuid
-    assert record["provenance"]["contributors"][-1]["run_uuid"] == run_uuid
+    assert "assembled" not in record and "provenance" not in record
     atrium_document.validate_document(record)
     # The own-output gate was not demoted: a bad contribution onto a seed is still refused.
     again = tmp_path / "again"
     again.mkdir()
     (again / f"{DOC}{FILE_SUFFIX}").write_text(json.dumps(seed), encoding="utf-8")
     with pytest.raises(RuntimeError, match="refusing to emit"):
-        write_document_record(DOC, INVALID_RESULTS, again, run_id="R2")
+        write_document_record(DOC, INVALID_RESULTS, again)
 
 
 def test_inherited_invalidity_demotes_our_own_check_to_a_warning(tmp_path, capsys):
@@ -348,7 +315,7 @@ def test_inherited_invalidity_demotes_our_own_check_to_a_warning(tmp_path, capsy
     somebody else's output — and lose our block as well as theirs."""
     _write_invalid_baseline(tmp_path)
 
-    path = write_document_record(DOC, INVALID_RESULTS, tmp_path, run_id="R1")
+    path = write_document_record(DOC, INVALID_RESULTS, tmp_path)
 
     assert "emitting it anyway" in capsys.readouterr().err
     assert path.exists()
@@ -361,12 +328,12 @@ def test_missing_jsonschema_degrades_loudly_and_once(tmp_path, capsys, monkeypat
     monkeypatch.setitem(sys.modules, "jsonschema", None)  # `import jsonschema` -> ImportError
     monkeypatch.setattr(llm_client_shared, "_schema_gate_disabled_warned", False)
 
-    first = write_document_record(DOC, INVALID_RESULTS, tmp_path, run_id="R1")
+    first = write_document_record(DOC, INVALID_RESULTS, tmp_path)
     err = capsys.readouterr().err
     assert "DISABLED" in err and "jsonschema" in err
     assert first.exists()
 
-    write_document_record(DOC, INVALID_RESULTS, tmp_path, run_id="R2")
+    write_document_record(DOC, INVALID_RESULTS, tmp_path)
     assert "DISABLED" not in capsys.readouterr().err
 
 
@@ -381,5 +348,5 @@ def test_record_validates_against_the_shared_schema(tmp_path):
     """
     from atrium_document import validate_document
 
-    path = write_document_record(DOC, DOC_LEVEL, tmp_path, run_id="R1")
+    path = write_document_record(DOC, DOC_LEVEL, tmp_path)
     validate_document(load_document(str(path)))

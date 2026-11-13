@@ -177,14 +177,13 @@ def test_teitok_run_preserves_every_upstream_block(remote_client_env, seeded_bas
 
     record = load_document(str(env.baseline))
     assert record["doc_id"] == env.doc_id
-    assert record["assembled"]["had_baseline"] is True
     for block in ("pages", "lines", "entities"):
         assert block in record, f"upstream {block!r} block was discarded"
     assert record["lines"][0]["text"].startswith("Výzkum odhalil")
     assert record["entities"][0]["surface"] == "gotického kostela"
-    assert record["source"]["origin"] == "ABBYY-ALTO"
+    assert record["source"]["origin"] == "legacy"
     assert record["enrichment"]["items"][0]["extracted_keywords_en"] == ["church"]
-    assert record["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
+    assert "assembled" not in record  # record schema 2.0: who wrote what is in the paradata
 
 
 def test_document_json_single_file_pair_round_trips_the_baseline(

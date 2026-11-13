@@ -17,7 +17,8 @@ The LLM limits came with llm-enrich's engine (atrium-digital-convert 31534d5,
 atrium-keyword-extract#1).
 
 What happens over each limit — refused (with the HTTP status), or processed in full with a
-``limits_applied`` note (with the effect) — is said beside it.
+``limits_applied`` note (``sampled`` or ``split``) — is said beside it. A limit that would trim,
+skip or stop content fails the run instead (D13, atrium-project#84).
 
 Standard library only (``atrium_limits`` is the hub's canonical module at the repo root):
 the batch CLIs import this too.
@@ -76,7 +77,7 @@ def llm_backend() -> str:
 
 
 #: The model's context window, in tokens. It sizes the vocabulary prompt: terms that do not
-#: fit are left out → standing ``trimmed`` note. Sent to Ollama as ``num_ctx``.
+#: fit are left out → standing ``sampled`` note. Sent to Ollama as ``num_ctx``.
 LLM_CONTEXT_WINDOW = limit(
     "LLM_CONTEXT_WINDOW",
     BACKEND_CONTEXT_WINDOW.get(llm_backend(), 32000),
@@ -84,22 +85,21 @@ LLM_CONTEXT_WINDOW = limit(
     minimum=1024,
 )
 #: Most tokens one reply may have (OpenRouter ``max_tokens``, Ollama ``num_predict``). A
-#: reply cut at it is never used: the line gets no result → ``skipped`` note (a batch run's
-#: document mode refuses the document).
+#: reply cut at it fails the call (422 ``limit_exceeded``): no partial result (D13).
 LLM_MAX_NEW_TOKENS = limit("LLM_MAX_NEW_TOKENS", 2048, unit="tokens", minimum=16, status=422)
 #: Per-request timeout of one LLM call, in seconds; a timeout is retried.
 LLM_TIMEOUT = limit("LLM_TIMEOUT", 300, unit="s", minimum=1)
 #: Attempts of one LLM call; only a timeout, a connection error, HTTP 429 or 5xx is
 #: retried. Once they run out the line is an error.
 LLM_MAX_RETRIES = limit("LLM_MAX_RETRIES", 3, unit="attempts", minimum=1)
-#: Consecutive failed lines after which the document is given up → ``stopped`` note (the
-#: lines before it keep their results).
+#: Consecutive failed lines after which the document is given up: the call fails (D13), 422
+#: ``limit_exceeded`` (``stopped``) once some lines were answered.
 LLM_MAX_CONSECUTIVE_ERRORS = limit("LLM_MAX_CONSECUTIVE_ERRORS", 10, unit="errors", minimum=1)
 
 
 def keybert_max_seq_tokens() -> Optional[int]:
     """Tokens of one chunk the KeyBERT encoder reads (its ``max_seq_length``); a longer
-    chunk is embedded from its start → ``trimmed`` note. ``None`` until the model is loaded
+    chunk is halved until each piece fits → ``split`` note. ``None`` until the model is loaded
     in this process (the service loads it at startup when ``DEFAULT_KW_METHOD=keybert``)."""
     keywords = sys.modules.get("keywords")
     if keywords is None:
