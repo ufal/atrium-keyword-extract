@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Starting set of the pilot phase: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `4435ffb` (`v1`). Latest entry: 2026-11-12 (this repository's part of atrium-project#84: `plans/84.plan.md`)._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-10-21). **Starting set of the pilot phase: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released. Hub workflows pinned to `4435ffb` (`v1`). Latest entry: 2026-11-13 (this repository's part of atrium-project#84: `plans/doc-schema-v2.plan.md`)._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -1297,7 +1297,7 @@ Documentation only; no code, test or configuration change.
 * **Asked (K4TEL):** carry the meeting of 11 November (ARÚP's output contract) into this repository's logs: its
   slice of the consolidated record and paradata change, and the statements the meeting supersedes in #2 and #3.
   Anchor: [meeting digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1111.md) ·
-  [hub plan](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md).
+  [hub plan](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md).
 * **Decided in session:** plans only this round; the schema issue is not opened yet (placeholder name
   `doc-schema-v2`); `categ` is ocr-postprocess's only, and digital-convert's verdicts become `decode` markers.
 * **Found:**
@@ -1329,7 +1329,7 @@ Documentation only; no code, test or configuration change.
 * **Asked (K4TEL):** align the logs with ARÚP's output contract of 12 November (the .docx of that day, replacing the
   meeting document of 10 November) and with David Novák's comments of 11-12 (atrium-project#84 opened, #13, #16,
   #78); `test` fetched first (all seven working branches = `test`).
-  Anchor: [contract digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1211.md) · [hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md).
+  Anchor: [contract digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1211.md) · [hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md).
 * **Decided in session:** the tool slices are named `plans/84.plan.md`; the translator keeps `amcr-fields.txt` as a
   documented example that nothing loads (no default list, D34); the hub's #84 plan carries a reply draft agreeing on
   points 1 and 2.
@@ -1344,3 +1344,21 @@ Documentation only; no code, test or configuration change.
   * **`DEVLOG.md`:** the header and this entry.
 * **Not posted:** nothing on GitHub; questions stay on the hub's list for the next meeting.
 * Plans only; no code changed. Files delivered as full files.
+
+## 2026-11-13 — atrium-project#84 round 2: record 2.0 and D13
+
+* **Asked (K4TEL):** adapt the tool repositories to the hub side of doc-schema-v2, on the re-vendored shared
+  modules; every new or edited file delivered, the vendored ones excepted. Decided: adapt plus the tasks that need
+  no docproc answer from ARÚP; windows as `split`, prompt budgets as `sampled`, every other cut fails (D13).
+* **Done (local branch, delivered as an archive):** no run data or licence in the record; lines by `categ`; paradata 3.0; truncations fail the job, windows recorded as `split`, the vocabulary budget as `sampled`.
+* **Checked:** the full test suite; ruff; the regenerated spec; the local chain check (YAKE on the built record).
+* **Detail and what is deferred:** `plans/doc-schema-v2.plan.md`, "Status — round 2". Hub: [plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md).
+* **Not posted; not pushed.**
+
+## 2026-11-13 — atrium-project#84 round 4: the push checked; #2's gold annotations
+
+* **Asked (K4TEL):** fetch the pushed branches and the comments since 12 November, and bring the logs up to them.
+* **Found:** the push of 11-13 on `doc-schema-v2` lacks the addendum's re-vendored shared files; with them the suite passes (1014). #2: David Spáčil's gold annotations (11-13).
+* **Written here (not pushed):** `plans/doc-schema-v2.plan.md` (the round-1 text in place of the 11-11 one, the round-2 status, the push); `digests/2.digest.md`, `plans/2.plan.md` (the gold annotations and the next setup). This file: the round-2 entry of 11-13 and this one.
+* **Detail:** `plans/doc-schema-v2.plan.md`, "Status — round 2"; hub: [plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md).
+* **Not posted; not pushed.**
