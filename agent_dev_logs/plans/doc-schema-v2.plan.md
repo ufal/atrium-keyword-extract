@@ -1,5 +1,6 @@
 # Strategy — [atrium-project#84](https://github.com/ufal/atrium-project/issues/84) (doc-schema-v2): atrium-keyword-extract's part
 
+> _**Refreshed 2026-11-14**: "Status — PR (11-14)": the PR's checks and round 5's fixes._
 > _**Refreshed 2026-11-13**: "Status — round 2" (the code, pushed 11-13 to `doc-schema-v2`) and round 4's notes. The file keeps
 > the name `doc-schema-v2.plan.md` (it was `84.plan.md` on 11-12 and 11-13)._
 > _**Refreshed 2026-11-12** on ARÚP's output contract of 12 November and atrium-project#84 (motyc, 11-12); code read
@@ -11,7 +12,11 @@
 > issue existed. The section "2026-11-12" is the current reading; where the 11-11 text below differs, it is
 > superseded._
 
-**Status (2026-11-13)**: 🟡 **Implemented, pushed 11-13 to `doc-schema-v2`; see "Status — round 2". Deferred items are listed there.**
+**Status (2026-11-14)**: 🟡 **[atrium-keyword-extract#5](https://github.com/ufal/atrium-keyword-extract/pull/5) is open
+(`doc-schema-v2` into `test`); see "Status — PR". Drift clears once the hub's PR merges and the pins move; the
+record-major check clears at this tool's next release, which raises its major version.**
+
+**Status (2026-11-13)**: 🟡 **Implemented, pushed 11-13 to `doc-schema-v2`; see "Status — round 2". Deferred items are listed there.** _(superseded 11-14: the PR is open)_
 
 **Status (2026-11-12)**: 📋 **Planned, not started. Little changes for keyword-extract: no run data at all in the
 record (not even a per-block `run_uuid`), the paradata `result` names the blocks and fields it writes, and its
@@ -105,6 +110,26 @@ Local branch from `test`, on the re-vendored shared modules (record 2.0, paradat
 - **Tests:** 1014 passed.
 - **Pushed** to `doc-schema-v2` (11-13). Round 4 re-vendors the addendum's shared files; the suite then passes
   (1014).
+
+## Status — PR (11-14)
+
+[atrium-keyword-extract#5](https://github.com/ufal/atrium-keyword-extract/pull/5), head `9218faf`. Failing checks:
+check-drift (canonical), because the callers read the hub at `v1` (`4435ffb`) while the copies are v2; api-contract,
+because the record schema went from 1.0 to 2.0 without a major version. The causes across all seven PRs:
+[hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md),
+"Status — PRs".
+
+Round 5 (not pushed):
+
+- `atrium_rocrate.py` and `tests/test_atrium_rocrate.py` re-vendored: a crate root that asserts no licence names
+  `#no-licence-asserted` again (RO-Crate 1.2 requires a root licence; atrium-project#6, motyc 11-12). The hub's PR
+  failed its RO-Crate check without it.
+
+The suite passes: 1016. After the hub's PR merges, `v1` moves to its merge commit and
+`scripts/pin_hub_reusables.py --sha` pins this repository's callers to it: drift clears. The record-major check stays
+red until the release, which raises the major version in `para_config.txt` (`v1.6.5-beta` now), `CITATION.cff` and
+`service/openapi.json`'s `info.version`, and the vocabulary sidecars (`python vocab_build.py --from-flat --skos`:
+release.yml checks their `tool_version`).
 
 ## Depends on
 

@@ -1362,3 +1362,12 @@ Documentation only; no code, test or configuration change.
 * **Written here (not pushed):** `plans/doc-schema-v2.plan.md` (the round-1 text in place of the 11-11 one, the round-2 status, the push); `digests/2.digest.md`, `plans/2.plan.md` (the gold annotations and the next setup). This file: the round-2 entry of 11-13 and this one.
 * **Detail:** `plans/doc-schema-v2.plan.md`, "Status — round 2"; hub: [plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md).
 * **Not posted; not pushed.**
+
+## 2026-11-14 — atrium-project#84 round 5: the PR's checks
+
+* **Asked (K4TEL):** check the doc-schema-v2 PRs and fix their problems.
+* **Found:** [atrium-keyword-extract#5](https://github.com/ufal/atrium-keyword-extract/pull/5) fails drift (the hub pin at `v1`) and api-contract (record major 1.0 → 2.0, no major version yet).
+* **Written here (not pushed):** the re-vendored `atrium_rocrate.py` and `tests/test_atrium_rocrate.py` (`#no-licence-asserted` on the crate root again); `plans/doc-schema-v2.plan.md`, "Status — PR".
+* **Checked:** the full suite, 1016 passed.
+* **Next:** the pin commit after the hub's PR merges; the major version at the release. Hub: [plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md), "Status — PRs".
+* **Not posted; not pushed.**
