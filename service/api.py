@@ -37,7 +37,6 @@ never merged into one list. Regenerate the spec after an API change::
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 import os
 import tempfile
@@ -86,7 +85,7 @@ import kw_inputs  # noqa: E402
 import llm_client_shared as llm  # noqa: E402
 import prompt_template  # noqa: E402
 import tool_limits  # noqa: E402
-from atrium_limits import LimitNotes  # noqa: E402
+from atrium_limits import ContentLimitError, LimitNotes  # noqa: E402
 from atrium_paradata import ParadataLogger  # noqa: E402
 from tool_limits import (  # noqa: E402
     LIMITS,
@@ -137,10 +136,10 @@ _METHOD_HELP = {
 
 #: Lines the quality stage labelled so are left out of the text: nothing is read from them (report §5).
 #: The untrustworthy ones are the hub registry's (`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES`):
-#: ocr-postprocess's `Trash`, and digital-convert's `Garbage` and `Inverted`, the lines of a born-digital
-#: text layer that does not decode. `Empty` has nothing to read. Until 2026-10-05 only `Trash` and
-#: `Empty` were left out here, so a born-digital record's mojibake was read as text. The controlled
-#: kind leaves out the same lines (`llm_client_shared.should_process_line`).
+#: `Trash`, of the record builder's line-quality model. `Empty` has nothing to read. Since record
+#: schema 2.0 (atrium-project#84) every record line is scored by that one model, whatever its
+#: source; digital-convert's `Garbage` and `Inverted` are docproc line flags. The controlled kind
+#: leaves out the same lines (`llm_client_shared.should_process_line`).
 _SKIPPED_CATEGORIES = kw_inputs.SKIPPED_CATEGORIES
 _KER_POS = kw_inputs.KER_POS
 
@@ -190,7 +189,10 @@ class KindOutcome(BaseModel):
 
     kind: str = Field(description="`statistical` or `controlled`.")
     status: str = Field(
-        description="`ok` (it ran), `skipped` (it was asked for with others and is not available) or `failed`."
+        description=(
+            "`ok` (it ran) or `skipped` (it was asked for with others and is not available). A kind that ran and "
+            "failed fails the call (D13)."
+        )
     )
     detail: Optional[str] = Field(description="Why it did not run, or null.")
 
@@ -259,8 +261,8 @@ class ControlledRun(BaseModel):
     model: str = Field(description="The model id (`<model>@<host>` for Ollama).")
     outcome: str = Field(
         description=(
-            "`contributed` (items found), `empty` (the model was asked and found nothing), `not-asked` (no line "
-            "passed the quality filter) or `failed` (every call failed)."
+            "`contributed` (items found), `empty` (the model was asked and found nothing) or `not-asked` (no line "
+            "passed the quality filter). A failed line fails the call (D13): no partial enrichment is returned."
         )
     )
     stats: Dict[str, int] = Field(
@@ -506,8 +508,8 @@ def _load_controlled() -> Dict[str, Any]:
     model_cls = llm.build_schema(labels, halves)
     id_lookup, strip_map = llm.category_maps(vocab_data, labels, excluded)
 
-    # The vocabulary cut (atrium-project#53): terms that do not fit the prompt budget are out of
-    # the model's reach. A warning, /info `controlled.vocabulary`, and a standing note per call.
+    # The vocabulary budget (atrium-project#53): terms that do not fit the prompt are out of the
+    # model's reach. A warning, /info `controlled.vocabulary`, and a standing `sampled` note per call.
     total = llm.count_vocab_terms(vocab_data, excluded)
     notes = LimitNotes()
     cut = total - len(labels)
@@ -521,11 +523,13 @@ def _load_controlled() -> Dict[str, Any]:
             tool_limits.context_window(),
             tool_limits.PROMPT_OVERHEAD_TOKENS,
         )
+        # A prompt budget picks the vocabulary the model sees; the document's text is complete,
+        # so it is recorded as `sampled` (atrium-project#84), not a trimmed result.
         notes.note(
             "vocab_prompt_budget_tokens",
-            "trimmed",
+            "sampled",
             cut,
-            f"{cut} of {total} vocabulary terms were left out of the prompt: they do not fit its "
+            f"{total - cut} of {total} vocabulary terms went into the prompt: the rest do not fit its "
             f"{budget}-token budget; raise LLM_CONTEXT_WINDOW to include them",
             value=budget,
         )
@@ -732,23 +736,32 @@ def _check_size(doc: _Doc) -> None:
 _record_stem = kw_inputs.record_stem
 
 
-def _note_line_limits(stats: Dict[str, int], notes: LimitNotes) -> None:
-    """The limits that shaped a controlled result, from ``enrich_rows``' counts."""
-    if stats.get("truncated"):
-        notes.note(
-            LLM_MAX_NEW_TOKENS,
-            "skipped",
-            stats["truncated"],
-            "line(s) whose reply was cut at LLM_MAX_NEW_TOKENS got no result",
+def _fail_controlled(stats: Dict[str, int], errors: List[str]) -> None:
+    """Refuse an incomplete controlled pass (D13, atrium-project#84), from ``enrich_rows``' counts.
+
+    Replies cut at the token cap are a limit's doing: 422 `limit_exceeded` naming
+    LLM_MAX_NEW_TOKENS. A document given up after LLM_MAX_CONSECUTIVE_ERRORS failed lines in a
+    row, with some lines answered, is a limit that stopped content: ContentLimitError, 422. Any
+    other failed line is the backend's: 502. Until #84 a partial enrichment came back with a
+    `skipped` or `stopped` note."""
+    failed = stats.get("skipped_error", 0)
+    if failed and stats.get("truncated", 0) == failed:
+        raise LLM_MAX_NEW_TOKENS.exceeded(
+            None,
+            detail=(
+                f"The model's reply to {failed} line(s) was cut at {LLM_MAX_NEW_TOKENS.get()} tokens "
+                "(LLM_MAX_NEW_TOKENS); a partial enrichment is not returned. Raise LLM_MAX_NEW_TOKENS."
+            ),
         )
-    if stats.get("aborted"):
-        notes.note(
-            LLM_MAX_CONSECUTIVE_ERRORS,
+    if stats.get("aborted") and stats.get("processed"):
+        raise ContentLimitError(
+            LLM_MAX_CONSECUTIVE_ERRORS.key,
             "stopped",
-            1,
-            "the document was given up after LLM_MAX_CONSECUTIVE_ERRORS failed lines in a row; "
-            f"{stats.get('unprocessed', 0)} line(s) after them were not sent",
+            int(stats.get("unprocessed", 0)) or 1,
+            "the document was given up after LLM_MAX_CONSECUTIVE_ERRORS failed lines in a row",
         )
+    detail = f"{failed} line(s) failed" + (f": {errors[0]}" if errors else "")
+    raise HTTPException(502, f"LLM backend error: {detail}; a partial enrichment is not returned.")
 
 
 def _run_controlled(doc: _Doc, doc_id: str, engine: Dict[str, Any]):
@@ -794,12 +807,10 @@ def _write_record(
                 stem,
                 results,
                 Path(tmp),
-                run_id=pd.run_id,
-                run_uuid=pd.run_uuid,
-                paradata_ref=pd.paradata_ref,  # the run_uuid: the service writes no file
-                license_detail=pd.get_license_block(),
                 vocab_dir=(engine or {}).get("vocab_dir"),
                 keywords=keywords,
+                logger=pd,
+                log_input=False,  # the record read is named when the run opens (_run)
             )
         except RuntimeError as exc:
             # A record this service built wrong is a defect on this side: 500, never a 502.
@@ -812,39 +823,18 @@ def _write_record(
     return out
 
 
-def _paradata(
-    logger_: ParadataLogger,
-    sent: List[Dict[str, Any]],
-    doc_id: str,
-    found: Optional[Dict[str, Any]],
-    enrichment: Optional[Dict[str, Any]],
-    record: Optional[Dict[str, Any]],
-) -> Dict[str, Any]:
-    """The call's CreateAction: what it was sent, and what it answered with as its result — the
-    statistical keywords, the controlled ones, and the record blocks it wrote."""
+#: The distribution name a file or text this service is sent is recorded under: the document's
+#: original. AMČR has not named that distribution yet (atrium-project#84, Q11).
+ORIGINAL_DISTRIBUTION = "original"
+
+
+def _paradata(logger_: ParadataLogger) -> Dict[str, Any]:
+    """The call's CreateAction (paradata 3.0, atrium-project#84): what it read — the record version,
+    or the text as the original — and what it wrote: the record, with the blocks and fields
+    written, each by SHA-512. The keywords themselves are the answer, not a stored output, so they
+    are not in the result."""
     logger_.finalize()
-    result: List[Dict[str, Any]] = []
-    if found is not None:
-        result.append(
-            atrium_rocrate.file_entity(
-                f"{doc_id}.keywords.json",
-                json.dumps(found, ensure_ascii=False, sort_keys=True).encode("utf-8"),
-                media_type="application/json",
-            )
-        )
-    if enrichment is not None:
-        result.append(
-            atrium_rocrate.file_entity(
-                f"{doc_id}.enrichment.json",
-                json.dumps(enrichment, ensure_ascii=False, sort_keys=True).encode("utf-8"),
-                media_type="application/json",
-            )
-        )
-    if record is not None:
-        result.extend(
-            atrium_rocrate.block_entities(atrium_rocrate.blocks_written(record, logger_.run_uuid))
-        )
-    return atrium_rocrate.create_action(logger_.record, inputs=sent, outputs=result)
+    return atrium_rocrate.action_from_paradata(logger_.record)
 
 
 async def _run(
@@ -855,7 +845,7 @@ async def _run(
     num_keywords: int,
     lang: str,
     per_page: bool,
-    sent: List[Dict[str, Any]],
+    sent: List[tuple],
     record: Optional[Dict[str, Any]] = None,
     record_bytes: Optional[bytes] = None,
 ) -> Dict[str, Any]:
@@ -891,6 +881,11 @@ async def _run(
     if engine is not None:
         config.update({"backend": engine["backend"], "model": engine["model"]})
     pd = ParadataLogger(PROGRAM, config, paradata_dir=None, config_dir=str(_ROOT))
+    for name, content, media_type in sent:
+        pd.add_input(name, content, media_type=media_type)
+    # What shaped the keywords (paradata 3.0 `parameters`): the kind, the method and the model.
+    for key, value in config.items():
+        pd.set_parameter(key, value)
     counts: Dict[str, Any] = {}
     document_keywords: List[Any] = []
     page_keywords: List[Any] = []
@@ -941,42 +936,22 @@ async def _run(
     elif controlled_out is not None:
         results, stats, errors = controlled_out
         outcome = llm.classify_outcome(results, stats)
-        notes = LimitNotes(engine["vocab_notes"].as_list())
-        _note_line_limits(stats, notes)
-        pd.note_limits(notes)
         if outcome == llm.OUTCOME_FAILED:
-            failed = stats.get("skipped_error", 0)
-            # A reply cut at the cap is a limit's doing, not the backend's: when every failure
-            # was one, the controlled kind alone is refused as llm-enrich refused a cut document.
-            cut = stats.get("truncated", 0) == failed
-            if cut:
-                detail = (
-                    f"every reply ({failed} line(s)) was cut at {LLM_MAX_NEW_TOKENS.get()} tokens "
-                    "(LLM_MAX_NEW_TOKENS) and none is used"
-                )
-            else:
-                detail = f"every call to the LLM backend failed ({failed} line(s)): " + (
-                    errors[0] if errors else "no reply"
-                )
-            if kind == "controlled":
-                if cut:
-                    raise LLM_MAX_NEW_TOKENS.exceeded(
-                        None, detail=f"The model's {detail}; raise LLM_MAX_NEW_TOKENS."
-                    )
-                raise HTTPException(502, f"LLM backend error: {detail}")
-            kinds.append({"kind": "controlled", "status": "failed", "detail": detail})
-        else:
-            if llm.contributes_document_record(results, stats):
-                # The vocabularies are components of a run whose answers came from them.
-                for component in engine["vocab_components"]:
-                    pd.log_component(component)
-                enrichment = llm.enrichment_block(doc_id, results)
-                pd.log_success("enrichment", len(enrichment["items"]))
-                contributed = results
-            detail = None
-            if outcome == llm.OUTCOME_NOT_ASKED:
-                detail = "no line passed the quality filter; the model was not asked"
-            kinds.append({"kind": "controlled", "status": "ok", "detail": detail})
+            # An incomplete controlled pass fails the call, whatever the kind asked for: a
+            # partial `enrichment` is never returned or written (D13, atrium-project#84).
+            _fail_controlled(stats, errors)
+        pd.note_limits(LimitNotes(engine["vocab_notes"].as_list()))
+        if llm.contributes_document_record(results, stats):
+            # The vocabularies are components of a run whose answers came from them.
+            for component in engine["vocab_components"]:
+                pd.log_component(component)
+            enrichment = llm.enrichment_block(doc_id, results)
+            pd.log_success("enrichment", len(enrichment["items"]))
+            contributed = results
+        detail = None
+        if outcome == llm.OUTCOME_NOT_ASKED:
+            detail = "no line passed the quality filter; the model was not asked"
+        kinds.append({"kind": "controlled", "status": "ok", "detail": detail})
         response["controlled"] = {
             "backend": engine["backend"],
             "model": engine["model"],
@@ -1002,7 +977,6 @@ async def _run(
         response["enrichment"] = enrichment
     if written is not None:
         response.update(written)
-    record_out = (written or {}).get("document_json")
     return {
         "doc_id": doc_id,
         "kind": kind,
@@ -1013,7 +987,7 @@ async def _run(
         "kinds": kinds,
         "words": doc.words,
         **response,
-        "paradata": _paradata(pd, sent, doc_id, found, enrichment, record_out),
+        "paradata": _paradata(pd),
         "limits_applied": pd.limits_applied,
     }
 
@@ -1055,7 +1029,7 @@ async def info() -> Dict[str, Any]:
 attach_health(app, state=_state)
 
 #: The statuses a call refuses or fails with (§4.4), beyond the app-wide 422/500. 501: the controlled
-#: kind alone, in a deployment without an LLM backend; 502: that backend failed every call.
+#: kind alone, in a deployment without an LLM backend; 502: a call to that backend failed (D13).
 _EXTRACT_ERRORS = (413, 429, 501, 502)
 
 _RECORD_HELP = (
@@ -1122,24 +1096,18 @@ async def extract_keywords(
         raise HTTPException(422, "Send the record as `document_json`, the text as `file`, or both.")
     chosen = method or DEFAULT_KW_METHOD
     _validate(kind, chosen, num_keywords)
-    sent = []
+    # What the call read, by AMČR distribution name (paradata 3.0, atrium-project#84): the record
+    # version, and a file as the document's original (AMČR has not named that one yet, #84 Q11).
+    sent: List[tuple] = []
     if file_data:
         name = (file.filename if file is not None else None) or "upload.txt"
         doc = _doc_from_file(name, file_data)
-        sent.append(
-            atrium_rocrate.file_entity(name, file_data, media_type=file.content_type or None)
-        )
+        sent.append((ORIGINAL_DISTRIBUTION, file_data, file.content_type or None))
     else:
         doc = _doc_from_record(record)
     _check_size(doc)
     if record is not None:
-        sent.append(
-            atrium_rocrate.file_entity(
-                document_json.filename or "record.document.json",
-                data,
-                media_type="application/json",
-            )
-        )
+        sent.append((llm.RECORD_DISTRIBUTION, data, "application/json"))
     return await _run(
         doc,
         str(record.get("doc_id") or "document") if record is not None else doc.doc_id,
@@ -1173,11 +1141,7 @@ async def extract_keywords_text(payload: ExtractTextRequest, request: Request):
     _validate(payload.kind, chosen, payload.num_keywords)
     doc = _doc_from_text(payload.text)
     _check_size(doc)
-    sent = [
-        atrium_rocrate.file_entity(
-            "text.txt", payload.text.encode("utf-8"), media_type="text/plain"
-        )
-    ]
+    sent = [(ORIGINAL_DISTRIBUTION, payload.text.encode("utf-8"), "text/plain")]
     return await _run(
         doc, payload.doc_id, payload.kind, chosen, payload.num_keywords, payload.lang, False, sent
     )

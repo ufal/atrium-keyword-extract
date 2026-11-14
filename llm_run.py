@@ -526,19 +526,20 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             f"terms offered, served window {context_window} tokens"
         )
 
-        # The vocabulary cut, recorded as the service records it (atrium-project#53): a term
+        # The vocabulary budget, recorded as the service records it (atrium-project#53): a term
         # past the budget is out of the model's reach, so a run scored against the whole
-        # vocabulary has to say how much of it the model was offered.
+        # vocabulary has to say how much of it the model was offered. A selection of the
+        # vocabulary, not a cut of the document: `sampled` (atrium-project#84).
         offered = len(prompt_template.vocabulary_terms(vocab_data, excluded_themes))
         vocab_cut = offered - len(surviving_terms)
         if vocab_cut > 0:
             logger.note_limit(
                 "vocab_prompt_budget_tokens",
                 max_input_tokens,
-                "trimmed",
+                "sampled",
                 vocab_cut,
-                f"{vocab_cut} of {offered - 1} vocabulary terms were left out of the prompt: they "
-                f"do not fit its {max_input_tokens}-token budget (context window {context_window} "
+                f"{offered - 1 - vocab_cut} of {offered - 1} vocabulary terms went into the prompt: the "
+                f"rest do not fit its {max_input_tokens}-token budget (context window {context_window} "
                 "- CONTEXT_RESERVED); raise MAX_MODEL_LEN or use a model with a larger window",
             )
 
@@ -656,16 +657,26 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
                 total_input_tokens += doc_stats.get("total_input_tokens", 0)
                 total_output_tokens += doc_stats.get("total_output_tokens", 0)
                 total_inference_seconds += doc_stats.get("total_inference_seconds", 0.0)
+                if doc_stats.get("narrowed_context"):
+                    # (atrium-project#84) llm_utils.process_document rebuilt these prompts with
+                    # fewer neighbouring lines to fit the model's input budget: `split`.
+                    logger.note_limit(
+                        "llm_context_window",
+                        context_window,
+                        "split",
+                        doc_stats["narrowed_context"],
+                        "prompt(s) over the model's input budget (context window - MAX_NEW_TOKENS) "
+                        "were rebuilt with fewer neighbouring lines; every target line was sent whole",
+                    )
                 if doc_stats.get("truncated_inputs"):
-                    # (atrium-project#53) llm_utils.process_document cut these prompts to the
-                    # model's input budget; the paradata says so.
+                    # A target line over the budget even with no context: the note raises
+                    # ContentLimitError and the document fails (D13); nothing of it is written.
                     logger.note_limit(
                         "llm_context_window",
                         context_window,
                         "trimmed",
                         doc_stats["truncated_inputs"],
-                        "prompt(s) longer than the model's input budget (context window - "
-                        "MAX_NEW_TOKENS) were cut at the end before inference",
+                        "target line(s) longer than the model's input budget with no context",
                     )
 
                 print(

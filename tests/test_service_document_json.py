@@ -29,10 +29,13 @@ DOC = "CTX000000001"
 #: The record the AMČR pipeline sends: an OCR'd page with a quality-filtered line, a heading,
 #: nlp-enrich's entities, and a page this stage must not touch.
 RECORD = {
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "record_type": "atrium-document",
     "doc_id": DOC,
-    "pages": [{"page": "1", "page_index": 1}, {"page": "iv", "page_index": 2}],
+    "pages": [
+        {"page": "1", "page_index": 1, "content_status": "text"},
+        {"page": "iv", "page_index": 2, "content_status": "text"},
+    ],
     "lines": [
         {
             "page": "1",
@@ -97,10 +100,10 @@ def test_the_record_comes_back_with_its_enrichment_block_and_every_other_block_u
     body = response.json()
     record = body["document_json"]
     assert record["doc_id"] == DOC
-    assert record["assembled"]["had_baseline"] is True
     assert record["pages"] == RECORD["pages"]
     assert [line["text"] for line in record["lines"]] == [line["text"] for line in RECORD["lines"]]
-    assert record["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
+    # Record schema 2.0 holds no run data (atrium-project#84): the paradata say who wrote what.
+    assert "assembled" not in record and "provenance" not in record
     assert record["enrichment"] == body["enrichment"]
     assert "document_json_schema_error" not in body
     # The statistical kind did not run: no keywords, and the record has no `keywords` block.
@@ -149,7 +152,6 @@ def test_the_entities_the_vocabulary_knows_get_a_pid_and_no_other_field_changes(
     assert church["pid"]["aat"] == "http://vocab.getty.edu/aat/300007466"
     assert {k: v for k, v in church.items() if k != "pid"} == RECORD["entities"][0]
     assert "pid" not in place  # Praha is not an archaeological term: no row of nulls
-    assert record["assembled"]["blocks"]["entities"]["program"] == "keyword-extract"
 
 
 def test_the_model_is_sent_the_configured_prompt_and_one_marked_line_in_its_context(controlled):
@@ -185,13 +187,9 @@ def test_kind_both_returns_both_kinds_apart(controlled, monkeypatch):
     assert not any(
         {"method", "rank", "score"} & set(item) for item in record["enrichment"]["items"]
     )
-    stamps = record["assembled"]["blocks"]
-    assert stamps["keywords"]["program"] == stamps["enrichment"]["program"] == "keyword-extract"
-    assert (
-        stamps["keywords"]["run_uuid"]
-        == stamps["enrichment"]["run_uuid"]
-        == body["paradata"]["@id"]
-    )
+    # One run, one action: its one record output names both blocks.
+    (written,) = body["paradata"]["result"]
+    assert {"keywords", "enrichment"} <= set(written["recordFields"])
 
 
 def test_every_call_failing_is_a_502_for_the_controlled_kind_alone(controlled, monkeypatch):
@@ -207,9 +205,9 @@ def test_every_call_failing_is_a_502_for_the_controlled_kind_alone(controlled, m
     assert len(controlled.chat.calls) == 2  # given up after LLM_MAX_CONSECUTIVE_ERRORS
 
 
-def test_with_kind_both_a_failed_controlled_kind_does_not_cost_the_statistical_keywords(
-    controlled, monkeypatch
-):
+def test_with_kind_both_a_failed_controlled_kind_fails_the_call(controlled, monkeypatch):
+    """D13 (atrium-project#84): a failed step fails the job, so no record with the statistical
+    keywords and without the controlled verdict asked for comes back. Until #84 it did."""
     import keywords
 
     def yake(text, num_keywords, lang="cs", max_words=3, source="text"):
@@ -221,13 +219,9 @@ def test_with_kind_both_a_failed_controlled_kind_does_not_cost_the_statistical_k
         raise RuntimeError("OpenRouter refused the request: HTTP 401")
 
     controlled.chat.reply = refused
-    body = _post(kind="both", method="yake").json()
-    statistical, controlled_kind = body["kinds"]
-    assert statistical["status"] == "ok" and body["keywords"]
-    assert controlled_kind["status"] == "failed" and "HTTP 401" in controlled_kind["detail"]
-    # The record still gets the statistical keywords, and no controlled verdict (atrium-project#73).
-    assert "enrichment" not in body and "enrichment" not in body["document_json"]
-    assert body["document_json"]["keywords"]["document"] == body["keywords"]
+    response = _post(kind="both", method="yake")
+    assert response.status_code == 502
+    assert "HTTP 401" in response.json()["detail"] and "document_json" not in response.json()
 
 
 def test_no_record_is_written_when_no_line_reached_the_model(controlled):
@@ -306,12 +300,23 @@ def test_the_text_endpoint_reads_the_texts_lines_as_one_page(controlled):
 
 
 def test_the_paradata_names_the_blocks_written_and_the_vocabularies_used(controlled):
+    """Paradata 3.0: the record read and written by distribution name and SHA-512, the fields
+    written, and the vocabularies as components (facts, no licence computed)."""
+    import hashlib
+
     body = _post(kind="controlled").json()
     action = body["paradata"]
-    names = [entity.get("name") for entity in action["result"]]
-    assert f"{DOC}.enrichment.json" in names and "enrichment" in names
-    components = {c["name"] for c in action["paradataRecord"]["license_detail"]["components"]}
-    assert {"amcr_vocab", "teater_data"} <= components
+    (read,) = action["object"]
+    assert read["name"] == "atrium/document-json"
+    sent = json.dumps(RECORD, ensure_ascii=False).encode("utf-8")
+    assert read["sha512"] == hashlib.sha512(sent).hexdigest()
+    (written,) = action["result"]
+    assert written["name"] == "atrium/document-json"
+    assert written["recordFields"]["enrichment"] == ["items"]
+    assert "pid" in written["recordFields"]["entities"]
+    record = action["paradataRecord"]
+    assert {"amcr_vocab", "teater_data"} <= {c["name"] for c in record["components"]}
+    assert not {"license", "license_url", "license_detail"} & set(record)
     assert action["paradataRecord"]["config"]["model"] == "test/model"
 
 

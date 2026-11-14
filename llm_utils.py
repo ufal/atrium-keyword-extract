@@ -2859,21 +2859,33 @@ def process_document(
 
             else:
                 prompt = _format_chat_prompt(messages, tokenizer, model_key)
-                # (atrium-project#53) Tokenised whole, then cut to the input budget HERE,
-                # where it is counted: `truncation=True, max_length=` used to cut the end of
-                # the prompt -- the target line and the task -- without a word. The cut is
-                # the same (right side); what is new is the warning and the count, which
-                # llm_run.py records in the paradata as a `trimmed` note. The limit is
-                # input_limit, not max_input_tokens: a system prompt truncated to fill
-                # max_input_tokens would otherwise push every line's target past the cut.
+                # (atrium-project#53) Tokenised whole and measured against the input budget
+                # HERE: `truncation=True, max_length=` used to cut the end of the prompt -- the
+                # target line and the task -- without a word. The limit is input_limit, not
+                # max_input_tokens: a system prompt truncated to fill max_input_tokens would
+                # otherwise push every line's target past the cut.
                 ids = _prompt_token_ids(prompt, tokenizer)
+                # (atrium-project#84) Nothing is cut silently any more: a prompt over the input
+                # budget is rebuilt with fewer neighbouring lines (the target line is never
+                # dropped), and recorded as `split` by llm_run.py. Only a target that does not fit
+                # with no context at all is still cut, and that note fails the document (D13).
+                narrower = 1
+                while len(ids) > input_limit and narrower >= 0:
+                    messages[1]["content"] = (
+                        f"DOCUMENT CONTEXT:\n{get_context_window(rows, i, window=narrower)}\n\n"
+                        "Task: Extract keywords and determine the TEATER category "
+                        "ONLY for the line marked inside <target_line>."
+                    )
+                    prompt = _format_chat_prompt(messages, tokenizer, model_key)
+                    ids = _prompt_token_ids(prompt, tokenizer)
+                    stats["narrowed_context"] = stats.get("narrowed_context", 0) + (narrower == 1)
+                    narrower -= 1
                 if len(ids) > input_limit:
                     stats["truncated_inputs"] = stats.get("truncated_inputs", 0) + 1
                     print(
                         f"  [WARN] {file_id} P{page_num} L{line_num}: prompt of "
-                        f"{len(ids)} tokens cut to {input_limit} "
-                        "(context window - MAX_NEW_TOKENS); its end, with the target "
-                        "line, is lost."
+                        f"{len(ids)} tokens over the input budget of {input_limit} even with no "
+                        "context; the document fails (D13)."
                     )
                     ids = ids[:input_limit]
                 inputs = torch.tensor([ids], device=model.device)

@@ -406,8 +406,8 @@ def _get_keybert_model(model_name: str):
 
 def keybert_window(kw_model) -> Tuple[object, Optional[int]]:
     """``(tokenizer, max_seq_length)`` of a loaded KeyBERT model's sentence encoder, or
-    ``(None, None)`` when it cannot say. A chunk longer than ``max_seq_length`` tokens is
-    embedded from its start only (atrium-project#53: tool_limits.keybert_max_seq_tokens)."""
+    ``(None, None)`` when it cannot say. A chunk longer than ``max_seq_length`` tokens is split
+    again until it fits (``_fit_to_window``; tool_limits.keybert_max_seq_tokens)."""
     encoder = getattr(getattr(kw_model, "model", None), "embedding_model", None)
     window = getattr(encoder, "max_seq_length", None)
     if not isinstance(window, int) or window <= 0:
@@ -425,21 +425,51 @@ def _chunk_words(words: List[str], size: int, overlap: int) -> List[str]:
     ]
 
 
-def _count_over_window(kw_model, chunks: List[str]) -> Tuple[int, Optional[int]]:
-    """How many ``chunks`` are longer than the encoder's token window, and the window."""
+def _fit_to_window(
+    kw_model, chunks: List[str], chunk_map: List[int]
+) -> Tuple[List[str], List[int], int, Optional[int]]:
+    """The chunks, each split again until it fits the encoder's token window.
+
+    A chunk longer than the window used to be embedded from its start only, its end cut
+    (``trimmed``). Since atrium-project#84 nothing is cut: such a chunk is halved by words
+    until every piece fits, the pieces keep the chunk's document, and their keywords are
+    merged with the rest (best score wins). Returns ``(chunks, map, re-split chunks,
+    window)``; with no tokenizer or window to measure by, the chunks come back unchanged.
+    """
     tokenizer, window = keybert_window(kw_model)
     if tokenizer is None or window is None:
-        return 0, window
-    try:
+        return chunks, chunk_map, 0, window
+
+    def fits(text: str) -> bool:
         # A token covers at most one word here, so a chunk of fewer words than the window
         # (less two for the special tokens) cannot be over it: only the others are tokenised.
-        return sum(
-            1
-            for chunk in chunks
-            if len(chunk.split()) > window - 2 and len(tokenizer(chunk)["input_ids"]) > window
-        ), window
-    except Exception:  # a tokenizer that cannot say must not fail the extraction
-        return 0, window
+        if len(text.split()) <= window - 2:
+            return True
+        try:
+            return len(tokenizer(text)["input_ids"]) <= window
+        except Exception:  # a tokenizer that cannot say must not fail the extraction
+            return True
+
+    out: List[str] = []
+    out_map: List[int] = []
+    resplit = 0
+    for chunk, doc_idx in zip(chunks, chunk_map, strict=True):
+        if fits(chunk):
+            out.append(chunk)
+            out_map.append(doc_idx)
+            continue
+        resplit += 1
+        pending = [chunk.split()]
+        while pending:
+            words = pending.pop(0)
+            text = " ".join(words)
+            if len(words) <= 1 or fits(text):
+                out.append(text)
+                out_map.append(doc_idx)
+            else:
+                middle = len(words) // 2
+                pending[0:0] = [words[:middle], words[middle:]]
+    return out, out_map, resplit, window
 
 
 def _extract_keybert(
@@ -457,8 +487,8 @@ def _extract_keybert(
     A document longer than ``KEYBERT_CHUNK_WORDS`` words is embedded in chunks that overlap
     by ``KEYBERT_CHUNK_OVERLAP`` words and its keywords merged (best score wins). With
     *limit_counts* (a dict), adds how many documents were chunked (``"split"``) and how
-    many chunks were longer than the encoder's token window (``"trimmed"``, and
-    ``"window"``) — the limits that shaped the result (atrium-project#53).
+    many chunks were split again to fit the encoder's token window (``"window_split"``, and
+    ``"window"``) — the limits that shaped the result (atrium-project#53, #84).
     """
     is_batch = isinstance(file_path, list)
     paths = file_path if is_batch else [file_path]
@@ -515,10 +545,10 @@ def _keybert_from_texts(
             all_chunks.append(text)
             doc_chunk_map.append(doc_idx)
 
+    all_chunks, doc_chunk_map, resplit, window = _fit_to_window(kw_model, all_chunks, doc_chunk_map)
     if limit_counts is not None:
-        over, window = _count_over_window(kw_model, all_chunks)
         limit_counts["split"] = limit_counts.get("split", 0) + chunked_docs
-        limit_counts["trimmed"] = limit_counts.get("trimmed", 0) + over
+        limit_counts["window_split"] = limit_counts.get("window_split", 0) + resplit
         if window is not None:
             limit_counts["window"] = window
 
@@ -775,16 +805,7 @@ def write_keywords_record(
             for page, found in result["pages"]
         ],
     }
-    return llm.write_document_record(
-        stem,
-        None,
-        out_dir,
-        run_id=logger.run_id,
-        run_uuid=logger.run_uuid,
-        paradata_ref=logger.paradata_ref,
-        license_detail=logger.get_license_block(),
-        keywords=block,
-    )
+    return llm.write_document_record(stem, None, out_dir, keywords=block, logger=logger)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -851,7 +872,7 @@ def _sort_csv_file(file_path: str) -> None:
 
 
 def _note_keybert_limits(logger: ParadataLogger, counts: dict) -> None:
-    """Record the KeyBERT limits that shaped the keywords (``limits_applied``, #53)."""
+    """Record the KeyBERT limits that shaped the keywords (paradata ``limits``, #53): both split."""
     if counts.get("split"):
         logger.note_limit(
             "keybert_chunk_words",
@@ -861,15 +882,15 @@ def _note_keybert_limits(logger: ParadataLogger, counts: dict) -> None:
             "document(s) longer than KEYBERT_CHUNK_WORDS were embedded in overlapping chunks "
             "and their keywords merged",
         )
-    if counts.get("trimmed"):
+    if counts.get("window_split"):
         window = counts.get("window")
         logger.note_limit(
             "keybert_max_seq_tokens",
             window,
-            "trimmed",
-            counts["trimmed"],
-            f"chunk(s) longer than the KeyBERT encoder's {window}-token window were embedded "
-            "from their start; lower KEYBERT_CHUNK_WORDS to embed them whole",
+            "split",
+            counts["window_split"],
+            f"chunk(s) longer than the KeyBERT encoder's {window}-token window were split again "
+            "until each piece fit, and their keywords merged",
         )
 
 
@@ -1072,7 +1093,7 @@ def main(argv: Optional[List[str]] = None) -> None:
                 batch_paths = futures[future]
                 try:
                     batch_results, counts, failed = future.result()
-                    for name in ("split", "trimmed"):
+                    for name in ("split", "window_split"):
                         limit_counts[name] = limit_counts.get(name, 0) + counts.get(name, 0)
                     if "window" in counts:
                         limit_counts["window"] = counts["window"]

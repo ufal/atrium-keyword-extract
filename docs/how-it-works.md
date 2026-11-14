@@ -4,7 +4,7 @@ Two kinds of keyword, kept apart: every keyword names the method that produced i
 
 ## The statistical kind
 
-The record is read: its `lines[].text` per page (lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left
+The record is read: its `lines[].text` per page (lines labelled `Trash` or `Empty` are left
 out). The same reader (`kw_inputs.py`) also takes [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich)'s CoNLL-U and
 TEITOK files, a line table and plain text.
 

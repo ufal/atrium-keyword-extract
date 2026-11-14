@@ -673,7 +673,7 @@ _RECORD = {
             "categ": "Clear",
             "quality_score": 0.9,
         },
-        {"page": "iv", "line": 2, "text": "mojibake ¤¤", "categ": "Garbage"},
+        {"page": "iv", "line": 2, "text": "mojibake ¤¤", "categ": "Trash"},
         {"page": "v", "line": 1, "text": "Sonda I.", "categ": "Clear"},
     ],
 }
@@ -683,7 +683,7 @@ def test_a_records_lines_are_its_rows_with_the_page_label_kept():
     rows = lcs.record_rows(_RECORD)
     assert [(r["page_label"], r["line_num"], r["categ"]) for r in rows] == [
         ("iv", "1", "Clear"),
-        ("iv", "2", "Garbage"),
+        ("iv", "2", "Trash"),
         ("v", "1", "Clear"),
     ]
     assert rows[0]["quality_score"] == 0.9 and rows[2]["quality_score"] is None
@@ -711,9 +711,10 @@ def test_a_texts_non_empty_lines_are_one_page():
 
 
 def test_untrustworthy_lines_never_reach_the_model_nor_its_context():
-    """The hub registry's untrustworthy categories (Trash, and digital-convert's Garbage and
-    Inverted) are skipped like Empty, and left out of a neighbour's context."""
-    for categ in ("Trash", "Garbage", "Inverted", "Empty"):
+    """The hub registry's untrustworthy category (Trash) is skipped like Empty, and left out of a
+    neighbour's context. Since record schema 2.0 digital-convert's Garbage and Inverted are
+    docproc line flags, never a record line's `categ` (atrium-project#84)."""
+    for categ in ("Trash", "Empty"):
         ok, _ = should_process_line("Readable enough text", categ, None, True, 3, 8, 0.40)
         assert not ok, categ
     seen = []
@@ -949,13 +950,20 @@ def test_line_level_never_asks_when_every_row_is_filtered_out(tmp_path):
     assert lcs.contributes_document_record(results, stats) is False
 
 
-def test_partial_success_is_still_a_contribution():
-    """Nine good rows and one error is a record worth writing, not a failed run."""
+def test_a_partial_success_is_a_failed_run():
+    """D13 (atrium-project#84): one failed row fails the document, so no partial `enrichment`
+    is written. Until #84 nine good rows and one error was a record worth writing."""
     results = [{"file_id": "doc1"}]
     stats = {"processed": 1, "skipped_filter": 0, "skipped_error": 1, "aborted": 0, "attempted": 2}
 
-    assert lcs.classify_outcome(results, stats) == lcs.OUTCOME_CONTRIBUTED
-    assert lcs.contributes_document_record(results, stats) is True
+    assert lcs.classify_outcome(results, stats) == lcs.OUTCOME_FAILED
+    assert lcs.contributes_document_record(results, stats) is False
+
+
+def test_a_document_given_up_is_a_failed_run_whatever_it_answered():
+    results = [{"file_id": "doc1"}]
+    stats = {"processed": 1, "skipped_filter": 0, "skipped_error": 0, "aborted": 1, "attempted": 1}
+    assert lcs.classify_outcome(results, stats) == lcs.OUTCOME_FAILED
 
 
 def test_enrichment_block_of_an_empty_run_is_schema_valid(tmp_path):
@@ -975,7 +983,7 @@ def test_enrichment_block_of_an_empty_run_is_schema_valid(tmp_path):
     record = load_document(str(path))
     validate_document(record)
     assert record["enrichment"] == {"items": []}
-    assert record["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
+    assert "assembled" not in record
 
 
 # ── repairing a non-conforming document reply (atrium-project run 34123820218) ──

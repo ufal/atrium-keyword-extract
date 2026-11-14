@@ -20,7 +20,7 @@ service and is research output.
 | for the batch command line: a folder of any of the above                           | a summary CSV, one CSV per document and per page, the records ([outputs](docs/reference/outputs.md))                         |
 
 The record follows the hub's [document contract](https://ufal.github.io/atrium-project/ecosystem/document-contract/).
-Lines labelled `Trash`, `Garbage`, `Inverted` or `Empty` are left out. `keywords.py` and the service read every input
+Lines labelled `Trash` or `Empty` are left out. `keywords.py` and the service read every input
 with the same code (`kw_inputs.py`). What only one of them does, and why:
 [the command line and the service](docs/usage.md#the-command-line-and-the-service).
 
@@ -86,10 +86,13 @@ ATRIUM](https://marketplace.sshopencloud.eu/tool-or-service/j9fqxo).
   ([Known limits](service/README.md#known-limits)).
 - **The prompt is large:** about 40,000 tokens by the service's estimate (4 characters a token), about 58,000 by the
   research path's (3.35). A model served with a smaller window sees only part of the vocabulary, and the paradata
-  records how many terms were cut
+  record it as `sampled`, with how many terms were left out
   ([Limits](service/README.md#limits)).
-- **YAKE is AGPL-3.0.** A run that uses it lists YAKE among its components. That licence is YAKE's, not the licence of
-  the keywords ([licences](docs/reference/licences.md)).
+- **No partial result.** A line the model could not answer, a reply cut at `LLM_MAX_NEW_TOKENS` or a document given
+  up fails the call, so no record is written (ARÚP's output contract of 12 November 2026, D13)
+  ([Errors](service/README.md#errors)).
+- **YAKE is AGPL-3.0.** A run that uses it lists YAKE among its components, with YAKE's own licence. No licence of
+  the keywords is computed ([licences](docs/reference/licences.md)).
 - **The research path needs a GPU.** `llm_run.py` runs a model on local weights; the service needs neither a GPU nor
   weights ([usage](docs/usage.md#run-the-controlled-kind-from-the-command-line)).
 

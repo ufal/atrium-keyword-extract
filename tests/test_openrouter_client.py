@@ -147,16 +147,15 @@ def test_teitok_run_preserves_every_upstream_block(remote_client_env, seeded_bas
 
     record = load_document(str(env.baseline))
     assert record["doc_id"] == env.doc_id
-    assert record["assembled"]["had_baseline"] is True
     for block in ("pages", "lines", "entities"):
         assert block in record, f"upstream {block!r} block was discarded"
     assert record["lines"][0]["text"].startswith("Výzkum odhalil")
     assert record["entities"][0]["surface"] == "gotického kostela"
-    assert record["source"]["origin"] == "ABBYY-ALTO"
+    assert record["source"]["origin"] == "legacy"
     # …and this stage's own contribution really is there, so the test is not passing by
     # having skipped the write altogether.
     assert record["enrichment"]["items"][0]["extracted_keywords_en"] == ["church"]
-    assert record["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
+    assert "assembled" not in record  # record schema 2.0: who wrote what is in the paradata
 
 
 def test_teitok_run_names_its_enriched_output_by_the_canonical_doc_id(
@@ -251,16 +250,15 @@ def _stub_line_level(monkeypatch, results, **stat_overrides):
     monkeypatch.setattr(openrouter_client, "run_line_level", fake_run_line_level)
 
 
-def test_asked_and_found_nothing_still_stamps_an_empty_enrichment_block(
+def test_asked_and_found_nothing_still_writes_an_empty_enrichment_block(
     remote_client_env, seeded_baseline, stub_llm, monkeypatch
 ):
     """The atrium-project#49 case, and the reason the fix is not "assert less".
 
     "the stage ran and found nothing" and "the stage never ran" are different facts and
-    the record has to be able to hold both. `assembled.blocks` is the record's account of
-    which tool contributed what, so the only honest encoding of the first is an
-    `enrichment` block with an empty `items` list, stamped by this stage — which is exactly
-    what atrium-project's e2e_assert.py checks for.
+    the record has to be able to hold both. The only honest encoding of the first is an
+    `enrichment` block with an empty `items` list; since record schema 2.0 the run's
+    paradata, not the record, name the block as written (atrium-project#84).
     """
     from atrium_document import load_document
 
@@ -291,13 +289,17 @@ def test_asked_and_found_nothing_still_stamps_an_empty_enrichment_block(
     assert out_path.exists(), "a completed pass must emit its record even with no items"
     record = load_document(str(out_path))
     assert record["enrichment"] == {"items": []}
-    assert record["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
+    (paradata,) = (env.root / "paradata").glob("*.json")
+    outputs = json.loads(paradata.read_text(encoding="utf-8"))["outputs"]
+    assert [o["record_fields"] for o in outputs if o["name"] == "atrium/document-json"] == [
+        {"enrichment": ["items"]}
+    ]
     # Accretion still holds: contributing an empty block must not cost the upstream ones.
     for block in ("pages", "lines", "entities"):
         assert block in record, f"upstream {block!r} block was discarded"
     # No records means no `*_enriched.json`, so nothing may claim one.
     assert not (env.output_dir / f"{env.doc_id}_enriched.json").exists()
-    assert "enriched" not in str(record.get("derived_from") or "")
+    assert "derived_from" not in record
 
 
 def test_failed_inference_never_ships_the_baseline_as_this_stage_output(

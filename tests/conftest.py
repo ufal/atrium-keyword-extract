@@ -248,23 +248,21 @@ def remote_client_env(tmp_path):
 def seeded_baseline(remote_client_env):
     """Pre-seed ``--document-json-dir`` with the record the upstream stages leave behind.
 
-    Written by the real tools' writer (the OCR stage originates pages/lines under an
-    `ABBYY-ALTO` origin, nlp-enrich adds entities) rather than hand-rolled, so the blocks
-    this stage must preserve carry genuine ownership stamps. Asserted schema-valid here on
+    Written by the real tools' writer (the record builder writes pages/lines of a `legacy`
+    origin, nlp-enrich adds entities) rather than hand-rolled, so the blocks this stage must
+    preserve are what record schema 2.0 makes of them. Asserted schema-valid here on
     purpose: an invalid baseline would demote the Layer D gate to a warning (D4) and quietly
     change what the tests using this fixture are measuring.
     """
     from atrium_document import DocumentRecord, load_document, validate_document
 
     env = remote_client_env
-    with DocumentRecord(
-        env.doc_id, "ocr-postprocess", run_id="R-OCR", out_dir=str(env.record_dir)
-    ) as ocr:
+    with DocumentRecord(env.doc_id, "ocr-postprocess", out_dir=str(env.record_dir)) as ocr:
         ocr.set_source(
-            sha256="a" * 64,
+            sha512="a" * 128,
             filename=f"{env.doc_id}.alto.xml",
             media_type="application/alto+xml",
-            origin="ABBYY-ALTO",
+            origin="legacy",
             page_count=1,
         )
         ocr.merge_block("pages", [{"page": "1", "page_index": 1, "quality_score": 0.91}])
@@ -275,6 +273,7 @@ def seeded_baseline(remote_client_env):
                     "page": "1",
                     "line": 1,
                     "text": "Výzkum odhalil základy gotického kostela.",
+                    "text_source": "legacy",
                     "categ": "Clear",
                     "quality_score": 0.91,
                 }

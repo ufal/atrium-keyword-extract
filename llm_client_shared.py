@@ -184,10 +184,10 @@ def http_error_detail(resp: Any, limit: int = 500) -> str:
 # ---------------------------------------------------------------------------
 
 #: Lines never sent to the model. The untrustworthy ones are the hub registry's
-#: (`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES`): ocr-postprocess's `Trash`, and
-#: digital-convert's `Garbage` and `Inverted`, the lines of a born-digital text layer that
-#: does not decode — which reach this module in a record, never in llm_utils' CSV/TEITOK
-#: inputs, so only this copy names them. `Empty` has nothing to read.
+#: (`atrium_vocab.UNTRUSTWORTHY_LINE_CATEGORIES`): `Trash`, the one category of the record
+#: builder's quality model that is not worth reading. Since record schema 2.0
+#: (atrium-project#84) a record carries no decode verdict (`Garbage`/`Inverted` are docproc
+#: line flags), so every line it holds was scored by that one model. `Empty` has nothing to read.
 _ALWAYS_SKIP_CATEG = frozenset(UNTRUSTWORTHY_LINE_CATEGORIES) | {"Empty"}
 _NOISE_CATEG = _ALWAYS_SKIP_CATEG | {"Non-text"}
 
@@ -274,6 +274,10 @@ def record_rows(record: Dict[str, Any]) -> List[dict]:
     *unknown* quality, see :func:`row_quality`), and the page twice — ``page_num`` for the
     context window, which compares it, and ``page_label`` for the result, which must cite the
     record's own label (``"iv"`` coerced to an int would cite a page that does not exist).
+
+    ``from_record`` marks them: a record's ``categ`` is the record builder's one band scheme
+    (atrium-project#84, rule 3), so the quality filter takes it as it is and does not re-band
+    the score as it does for a CSV row.
     """
     rows: List[dict] = []
     for line in record.get("lines") or []:
@@ -288,6 +292,7 @@ def record_rows(record: Dict[str, Any]) -> List[dict]:
                 "line_num": "" if line.get("line") is None else str(line.get("line")),
                 "categ": str(line.get("categ") or ""),
                 "quality_score": line.get("quality_score"),
+                "from_record": True,
             }
         )
     return rows
@@ -1046,29 +1051,29 @@ OUTCOME_NOT_ASKED = "not-asked"
 
 #: The outcomes that mean this stage has something to say about this document, i.e. the
 #: ones that MUST write the `enrichment` block. `empty` is in here on purpose: a stage
-#: that ran and found nothing is a different fact from a stage that never ran, and
-#: `assembled.blocks` is the record's account of which tool contributed what — so the
-#: only honest way to record "the model looked and there was nothing" is an enrichment
-#: block with an empty `items` list, stamped by keyword-extract.
+#: that ran and found nothing is a different fact from a stage that never ran, so the only
+#: honest way to record "the model looked and there was nothing" is an enrichment block
+#: with an empty `items` list (the run's paradata name the fields it wrote).
 _CONTRIBUTING_OUTCOMES = frozenset({OUTCOME_CONTRIBUTED, OUTCOME_EMPTY})
 
 
 def classify_outcome(results: List[dict], stats: Dict[str, int]) -> str:
     """Which of the four outcomes this pass had, from the driver's own stats.
 
-    Order matters. Partial success is still a contribution: run_line_level() can enrich
-    nine rows and error on the tenth, and that run has results to write — the error is
-    already in `skipped_error` and in the paradata, and refusing the record over it would
-    throw away nine good enrichments.
+    Order matters. A pass with ANY failed row — an error, a reply cut at the token cap, a
+    document given up after consecutive errors — is `failed`, even with results for the other
+    rows: an incomplete step fails the job and writes nothing (D13, atrium-project#84), so a
+    partial `enrichment` block is never written. (Until #84 a partial success counted as a
+    contribution.)
 
     `attempted` is what makes the empty/not-asked split possible; both have
     ``processed == 0`` and neither raises. See the stats dicts in run_document_level()
     and run_line_level().
     """
-    if results:
-        return OUTCOME_CONTRIBUTED
     if stats.get("aborted") or stats.get("skipped_error"):
         return OUTCOME_FAILED
+    if results:
+        return OUTCOME_CONTRIBUTED
     if stats.get("attempted"):
         return OUTCOME_EMPTY
     return OUTCOME_NOT_ASKED
@@ -1159,10 +1164,9 @@ def entity_pid_rows(
     answers with an all-None dict for a label it does not know, and most entities in an
     excavation report are people and places this archaeological vocabulary holds no concept
     for. Writing ``{"wikidata": null, "geonames": null, "aat": null, "amcr": null}`` onto
-    every one of them would add a block of nulls the schema already implies and — since
-    ``merge_block()`` stamps ``assembled.blocks.entities`` with the most recent writer —
-    would re-attribute nlp-enrich's block to this stage on every re-run for no content at
-    all. Returning ``[]`` means the caller never merges and the stamp stays where it was.
+    every one of them would add a block of nulls the schema already implies and would make
+    the run's paradata name ``entities`` as written (``DocumentRecord.written()``) on every
+    re-run for no content at all. Returning ``[]`` means the caller never merges.
 
     Degrades to ``[]``, never raises. The flat artifacts (``amcr_flat.json``,
     ``teater_flat.json``) are legitimately absent in a slim image or in a checkout that has
@@ -1230,9 +1234,9 @@ def entity_pid_rows(
     ]
 
 
-#: The recipe id ``regenerable.markdown`` names for ``api_util/json_to_md.py``, the record
-#: renderer of atrium-digital-convert, whose ``CONVERTER_ID`` must agree (its
-#: tests/test_json_to_md.py). This repository writes the recipe without carrying the module.
+#: The id of ``api_util/json_to_md.py``, the record renderer of atrium-digital-convert, whose
+#: ``CONVERTER_ID`` must agree (its tests/test_json_to_md.py). Record schema 2.0 holds no
+#: ``regenerable`` recipe (atrium-project#84), so this names the renderer for the logs only.
 JSON_TO_MD_CONVERTER = "json_to_md@1.1"
 
 
@@ -1319,20 +1323,18 @@ def schema_gate(record: Dict[str, Any], what: str, *, baseline: bool = False) ->
 #: `entities[].pid` beside its predecessor.
 PROGRAM = "keyword-extract"
 
+#: The AMČR distribution name of the record (paradata 3.0 inputs and outputs, atrium-project#84).
+RECORD_DISTRIBUTION = "atrium/document-json"
+
 
 def write_document_record(
     doc_id: str,
     results: Optional[List[dict]],
     record_dir: Path,
-    run_id: Optional[str] = None,
-    paradata_ref: str = "",
-    enriched_path: Optional[Path] = None,
-    detail: str = "full",
-    license_detail: Optional[dict] = None,
-    used_markdown_input: bool = False,
     vocab_dir: Optional[str] = None,
-    run_uuid: Optional[str] = None,
     keywords: Optional[Dict[str, Any]] = None,
+    logger: Any = None,
+    log_input: bool = True,
 ) -> Optional[Path]:
     """Write/update this document's paired record, contributing keyword-extract's blocks only.
 
@@ -1348,34 +1350,24 @@ def write_document_record(
     keywords without claiming a controlled verdict.
 
     The one exception to "own block only" is this stage's single declared field in
-    somebody else's block: ``entities[].pid``, granted by
-    ``BLOCK_FIELD_OWNERS["entities"]`` (to llm-enrich, and through it to its successor). It is
-    merged FIELD-wise onto the rows nlp-enrich already wrote (``own_fields=["pid"]``), never
-    set wholesale, and only for entities the controlled vocabulary can actually identify —
-    see ``entity_pid_rows()``. ``vocab_dir`` is where the flat vocabulary artifacts live;
-    ``None`` uses ``vocab_manager``'s own default, and a directory without them simply
-    yields no pids.
+    somebody else's block: ``entities[].pid``, granted by ``BLOCK_FIELD_OWNERS["entities"]``.
+    It is merged FIELD-wise onto the rows nlp-enrich already wrote (``own_fields=["pid"]``),
+    never set wholesale, and only for entities the controlled vocabulary can actually identify
+    — see ``entity_pid_rows()``. ``vocab_dir`` is where the flat vocabulary artifacts live;
+    ``None`` uses ``vocab_manager``'s own default, and a directory without them simply yields
+    no pids.
 
-    The ``regenerable.markdown`` recipe records how to rebuild the Markdown this run
-    actually fed the LLM (rule: never reference a transient artifact by a stored path),
-    at the cue profile ``detail`` (atrium-project#70). It is written only when
-    ``used_markdown_input=True`` (a document-mode run over ``.md``/``.txt``) AND the record
-    written here can be rendered (``renders_from_record``): the recipe then points at THIS
-    SAME document JSON via ``json_to_md``, since it is self-sufficient (issue #13 §5). A
-    line-mode run (a record's lines, CSV, TEITOK) fed no Markdown, so no recipe claims one.
+    Record schema 2.0 (atrium-project#84): the record holds content only — no run ids, no
+    ``derived_from``, no ``regenerable`` recipe, no licence. What the run read and wrote is its
+    paradata: with ``logger`` (a ``ParadataLogger``), the record version read is added as an
+    input (unless ``log_input`` is false: a caller that names it itself) and the record written
+    as an output, with the blocks and fields written (``DocumentRecord.written()``), each by
+    SHA-512.
+
     Returns the record path, or None when the optional ``atrium_document`` module is
-    unavailable.
-
-    ``run_uuid`` is the run's ``ParadataLogger.run_uuid`` (atrium-project#71): stamped with
-    every block and the contributor entry, and the ``@id`` of the run's CreateAction.
-
-    The returned path is the one ``finalize()`` wrote, and it is the baseline's own path
-    (atrium-project#68). The record keeps the BASELINE's ``doc_id`` when it differs from
-    ``doc_id`` here (an AMČR seed carries the AMČR file id, and the upload has another name),
-    and ``finalize()``'s default file name follows the record's id. Left to that default, the
-    record was written to ``<seed id>.document.json`` while this function returned the
-    ``<doc_id>`` path, i.e. the untouched seed, which a caller then handed back without
-    ``enrichment``.
+    unavailable. The path is the one ``finalize()`` wrote, the baseline's own path
+    (atrium-project#68): the record keeps the BASELINE's ``doc_id`` when it differs from
+    ``doc_id`` here (an AMČR seed carries the AMČR file id, and the upload has another name).
 
     This is also the repo's **single Layer D chokepoint** for the record (atrium-project#10,
     D4). Every write path — both batch clients and ``service/api.py`` — comes through here,
@@ -1419,13 +1411,14 @@ def write_document_record(
                 file=sys.stderr,
             )
 
+    if logger is not None and log_input and baseline.exists():
+        # The record version this run read, by SHA-512, before anything is written over it.
+        logger.add_input(RECORD_DISTRIBUTION, path=str(baseline), media_type="application/json")
+
     with DocumentRecord.open(
         doc_id,
         PROGRAM,
         baseline=str(baseline) if baseline.exists() else None,
-        run_id=run_id,
-        run_uuid=run_uuid,
-        paradata_ref=paradata_ref,
         out_dir=str(record_dir),
     ) as doc:
         if results is not None:
@@ -1447,22 +1440,6 @@ def write_document_record(
             # The statistical kind's own block (atrium-project#73): a whole block, replaced on a
             # re-run, beside `enrichment` and never merged into it.
             doc.set_block("keywords", keywords)
-
-        if enriched_path is not None:
-            doc.add_derived_from("enriched", str(enriched_path))
-        # The record's own file name follows doc.doc_id, the baseline's id (#68), so the
-        # recipe names that file and not one derived from the upload.
-        if used_markdown_input and renders_from_record(doc.to_dict()):
-            doc.add_regenerable(
-                "markdown",
-                {
-                    "from": f"{doc.doc_id}{FILE_SUFFIX}",
-                    "converter": JSON_TO_MD_CONVERTER,
-                    "detail": detail,
-                },
-            )
-        if license_detail:
-            doc.add_license_detail(license_detail)
 
         # Layer D, second half: never EMIT an invalid record. Raising here — INSIDE the
         # `with` — is what enforces that: DocumentRecord.__exit__ finalises only when no
@@ -1487,7 +1464,15 @@ def write_document_record(
         # Back to the file it was read from, explicitly (#68, see the docstring).
         # __exit__ then has nothing left to do.
         record_path = Path(doc.finalize(str(baseline)))
+        written = doc.written()
 
+    if logger is not None:
+        logger.add_output(
+            RECORD_DISTRIBUTION,
+            path=str(record_path),
+            media_type="application/json",
+            record_fields=written,
+        )
     return record_path
 
 
@@ -1858,7 +1843,8 @@ def enrich_rows(
             should_process, _ = should_process_line(
                 text_chunk,
                 categ,
-                quality_score,
+                # A record's categ is final (record_rows); only other inputs are re-banded.
+                None if row.get("from_record") else quality_score,
                 include_non_text,
                 min_char_count,
                 min_char_non_text,

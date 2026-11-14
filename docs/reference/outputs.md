@@ -12,8 +12,11 @@ What `keywords.py` writes, and how to read each method's score. The service's re
 * **Output 3** (`--per-page`): per-document CSV files of the pages' keywords, `page`, `keyword`, `score`
   (e.g., `KW_PER_PAGE_Y/`), for inputs with pages.
 * **Output 4** (`--document-json-out-dir`): each document's record with its `keywords` block (`document`, `pages`;
-  each keyword with its `score`, `method` and `rank`), as `POST /extract_keywords` returns it.
-* **Paradata:** `<run_id>_keyword-extract.json` in `--paradata-dir` (named `nlp-enrich` before v1.5.0-beta).
+  each keyword with its `score`, `method` and `rank`), as `POST /extract_keywords` returns it. The record (schema 2.0)
+  carries no run data.
+* **Paradata:** `<run_id>_keyword-extract.json` in `--paradata-dir` (named `nlp-enrich` before v1.5.0-beta). Schema
+  3.0: each record read is an input and each record written an output (`atrium/document-json`, by SHA-512), with the
+  blocks and fields written. Outputs 1-3 are development outputs and are not named.
 
 ```
 KW_PER_DOC/
