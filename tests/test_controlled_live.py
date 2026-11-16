@@ -22,6 +22,9 @@ secret; locally::
 
 The assertions hold for any model that answers within the schema. Which category a model
 chooses is printed, not asserted: that is the evaluation's question (#2), not this lane's.
+
+Record 2.0 and paradata 3.0 (atrium-project#84), as ``tests/test_service_document_json.py``: the
+blocks written are named in the CreateAction's ``result``, the components are facts beside it.
 """
 
 import json
@@ -52,24 +55,10 @@ META = "Nerelevantní (meta-text)"
 #: rather than demoted (rule 6): two lines any archaeological vocabulary has a term for, and an
 #: entity the vocabulary knows, so `entities[].pid` is written whatever the model answers.
 RECORD = {
-    "schema_version": "1.0",
+    "schema_version": "2.0",
     "record_type": "atrium-document",
     "doc_id": DOC,
-    "provenance": {
-        "contributors": [
-            {"program": "ocr-postprocess", "blocks": "pages,lines"},
-            {"program": "nlp-enrich", "blocks": "entities"},
-        ]
-    },
-    "assembled": {
-        "had_baseline": True,
-        "blocks": {
-            "pages": {"program": "ocr-postprocess"},
-            "lines": {"program": "ocr-postprocess"},
-            "entities": {"program": "nlp-enrich"},
-        },
-    },
-    "pages": [{"page": "1", "page_index": 1}],
+    "pages": [{"page": "1", "page_index": 1, "content_status": "text"}],
     "lines": [
         {
             "page": "1",
@@ -166,7 +155,11 @@ def test_the_record_comes_back_with_its_blocks_and_passes_layer_d(answer):
     assert "document_json_schema_error" not in answer, answer["document_json_schema_error"]
     assert record["doc_id"] == DOC
     assert record["enrichment"] == answer["enrichment"]
-    assert record["assembled"]["blocks"]["enrichment"]["program"] == "keyword-extract"
+    assert "assembled" not in record
+    (written,) = answer["paradata"]["result"]
+    assert written["name"] == "atrium/document-json"
+    assert written["recordFields"]["enrichment"] == ["items"]
+    assert "pid" in written["recordFields"]["entities"]
     assert [line["text"] for line in record["lines"]] == [line["text"] for line in RECORD["lines"]]
     (church,) = record["entities"]
     assert church["pid"]["amcr"].startswith("https://api.aiscr.cz/id/"), church
@@ -176,5 +169,7 @@ def test_the_create_action_names_the_model_and_the_vocabularies(answer):
     action = answer["paradata"]
     assert atrium_rocrate.action_problems(action) == []
     assert action["paradataRecord"]["config"]["model"] == answer["controlled"]["model"]
-    components = {c["name"] for c in action["paradataRecord"]["license_detail"]["components"]}
+    record = action["paradataRecord"]
+    components = {c["name"] for c in record["components"]}
     assert {"amcr_vocab", "teater_data"} <= components, components
+    assert not {"license", "license_url", "license_detail"} & set(record)

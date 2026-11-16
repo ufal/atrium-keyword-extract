@@ -1386,3 +1386,10 @@ Documentation only; no code, test or configuration change.
 * **Written here (not pushed):** an `enrichment` item keeps `line` only when it names a record line. 980 passed.
 * **Detail:** `plans/doc-schema-v2.plan.md`, "Status — the meeting's follow-ups"; hub: [plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md), "Status — round 8 (implemented)".
 * **Not posted; not pushed.**
+
+## 2026-11-16 (late) — atrium-project#84 round 9: the live controlled lane on record 2.0
+
+* **Asked (K4TEL):** confirm that #84 landed on `test` and its checks stay green.
+* **Found:** `Controlled Kind (live LLM)` failed on the push of #6 (3 of 6): `tests/test_controlled_live.py` still sent a 1.0 record and read `assembled` and `license_detail`. The test is opt-in (`ATRIUM_LIVE_BACKEND=1`), so no other lane runs it.
+* **Written here (not pushed):** the test sends a 2.0 record and reads the blocks written from the CreateAction's `result` and the components from the paradata record, as `tests/test_service_document_json.py` does. With the backend stubbed: 6 passed (3 failed before); the fast suite 1085 passed.
+* **Not posted; not pushed.**
