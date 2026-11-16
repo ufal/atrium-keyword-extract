@@ -945,7 +945,9 @@ async def _run(
             # The vocabularies are components of a run whose answers came from them.
             for component in engine["vocab_components"]:
                 pd.log_component(component)
-            enrichment = llm.enrichment_block(doc_id, results)
+            # With a record, an item's `line` must name one of its lines (the record's line key).
+            line_keys = llm.record_line_keys(record) if record is not None else None
+            enrichment = llm.enrichment_block(doc_id, results, line_keys)
             pd.log_success("enrichment", len(enrichment["items"]))
             contributed = results
         detail = None

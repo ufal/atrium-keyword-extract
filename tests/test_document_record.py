@@ -92,6 +92,21 @@ def test_enrichment_block_keeps_line_numbers_for_line_level_records():
     assert "locator" not in item  # line-level records have none
 
 
+def test_an_items_line_names_a_line_of_the_record_or_goes():
+    """The record's one line key (atrium-project#84): with the record's line keys, an item keeps
+    its `line` only when it names one of them; a line of a file sent beside the record, a record
+    without lines, or a `line` of 0 (an unknown line) leaves the item its page only."""
+    from llm_client_shared import record_line_keys
+
+    record = {"lines": [{"page": "1", "line": 14, "text": "Výzkum odhalil základy."}]}
+    assert enrichment_block(DOC, LINE_LEVEL, record_line_keys(record))["items"][0]["line"] == 14
+    elsewhere = [{**LINE_LEVEL[0], "line": 15}]
+    item = enrichment_block(DOC, elsewhere, record_line_keys(record))["items"][0]
+    assert "line" not in item and item["page"] == "1"
+    assert "line" not in enrichment_block(DOC, LINE_LEVEL, record_line_keys({}))["items"][0]
+    assert "line" not in enrichment_block(DOC, [{**LINE_LEVEL[0], "line": 0}])["items"][0]
+
+
 def test_enrichment_block_adds_page_citation():
     assert enrichment_block(DOC, DOC_LEVEL)["items"][0]["citation"] == f"[Source: {DOC}, Page 1]"
 
@@ -208,11 +223,12 @@ def test_rerun_replaces_only_its_own_block(tmp_path):
     write_document_record(DOC, DOC_LEVEL, tmp_path)
     path = tmp_path / f"{DOC}{FILE_SUFFIX}"
 
-    write_document_record(DOC, LINE_LEVEL, tmp_path)
+    # the seeded record's own line: an item's `line` names a line of the record (atrium-project#84)
+    write_document_record(DOC, [{**LINE_LEVEL[0], "line": 1}], tmp_path)
     record = load_document(str(path))
 
     assert record["lines"][0]["text"] == "Výzkum odhalil základy."  # survived
-    assert record["enrichment"]["items"][0]["line"] == 14  # replaced
+    assert record["enrichment"]["items"][0]["line"] == 1  # replaced
 
 
 def test_no_licence_is_written_into_the_record(tmp_path):

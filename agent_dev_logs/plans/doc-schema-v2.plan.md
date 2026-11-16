@@ -153,6 +153,15 @@ then this PR. Hub:
 [plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md),
 "Status — round 6".
 
+## Status — the meeting's follow-ups (11-16 night)
+
+atrium-project#84 round 8 (comment 3's update): `forms` gone, decode verdicts apart, one line key, the services' JSON in the record's names. Paradata per distribution waits for the next meeting (Q23). Not pushed.
+
+- **One line key.** `enrichment_block(..., line_keys)` with `record_line_keys()`: an item keeps `line` only when it names one of the record's `lines[]` (CLI and service), so an item of a file sent beside a record, or of a record without lines, keeps its page only.
+- Re-vendored shared modules; `service/openapi.json`; service README, CONTRIBUTING.
+- **Checked:** 980 passed.
+- **Next:** the hub's PR first; then this repository's, with the pins moved to it.
+
 ## Depends on
 
 - Hub tasks 1 (grants, `_migrate_1_to_2()`), 2 (no licence block), 3 (`file_entity` with SHA-512), 4 (the limit

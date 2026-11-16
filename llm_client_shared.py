@@ -1089,7 +1089,20 @@ def contributes_document_record(results: List[dict], stats: Dict[str, int]) -> b
     return classify_outcome(results, stats) in _CONTRIBUTING_OUTCOMES
 
 
-def enrichment_block(doc_id: str, results: List[dict]) -> dict:
+def record_line_keys(source: Any) -> Set[Tuple[str, str]]:
+    """The line keys of a record (or of its ``lines[]``): ``(page, line)`` as text, compared as
+    ``atrium_document.line_key_problems()`` compares them."""
+    lines = source.get("lines") if isinstance(source, dict) else source
+    return {
+        (str(row.get("page")), str(row.get("line")))
+        for row in lines or []
+        if isinstance(row, dict) and row.get("line") is not None
+    }
+
+
+def enrichment_block(
+    doc_id: str, results: List[dict], line_keys: Optional[Set[Tuple[str, str]]] = None
+) -> dict:
     """Project this repo's ``*_enriched.json`` records onto the ``enrichment`` block
     of the paired per-document record (see ``atrium_document.py``).
 
@@ -1104,6 +1117,12 @@ def enrichment_block(doc_id: str, results: List[dict]) -> dict:
     line-level run used to write an integer here and the resulting record was
     schema-INVALID — caught the moment the Layer D gate below was actually wired
     (atrium-project#10, D4), having gone unnoticed for as long as nothing validated.
+
+    ``line`` is the record's line key (``$defs/line_key``, atrium-project#84): an item keeps it
+    only when it names a line, a number from 1 and, given the record's ``line_keys``
+    (``record_line_keys()``), one of its ``lines[]`` rows. A line of a file sent beside the
+    record, or of a record without ``lines[]``, names none of them, so the item keeps its page
+    only; ``validate_document()`` refuses a ``line`` that names no row.
     """
     items: List[dict] = []
     for record in results:
@@ -1111,9 +1130,16 @@ def enrichment_block(doc_id: str, results: List[dict]) -> dict:
         for key in ("locator", "page", "line"):
             value = record.get(key)
             if value is not None:
-                # `line` stays an int: the schema does not constrain it, and
-                # BLOCK_KEY_FIELDS keys `lines[]` on it as an integer.
+                # `line` stays an int: BLOCK_KEY_FIELDS keys `lines[]` on it as an integer.
                 item[key] = str(value) if key == "page" else value
+        line = item.get("line")
+        if line is not None and not (
+            isinstance(line, int)
+            and not isinstance(line, bool)
+            and line >= 1
+            and (line_keys is None or (str(item.get("page")), str(line)) in line_keys)
+        ):
+            del item["line"]
         item.update(record.get("enrichment") or {})
         if item.get("page") is not None:
             item["citation"] = f"[Source: {doc_id}, Page {item['page']}]"
@@ -1424,7 +1450,10 @@ def write_document_record(
         if results is not None:
             # doc.doc_id, not doc_id: the citations name the record's document, which is the
             # baseline's id whenever it differs from the one derived from the input (#68).
-            doc.set_block("enrichment", enrichment_block(doc.doc_id, results))
+            lines = doc.get_block("lines") or []
+            doc.set_block(
+                "enrichment", enrichment_block(doc.doc_id, results, record_line_keys(lines))
+            )
 
             # The one field this stage has in a block it does not own. merge_block, not
             # set_block: `entities` is nlp-enrich's, and a wholesale write would erase the
