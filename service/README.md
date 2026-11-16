@@ -175,6 +175,10 @@ term get a `pid` with the term's AMČR URI and its AAT exact match (`vocab_manag
 A kind that ran and failed fails the whole call (D13): no keywords and no record come back
 ([Errors](#errors)).
 
+An `enrichment` item's `page` and `line` are the record's line key (atrium-project#84): an item keeps its `line` only
+when it names one of the record's `lines[]`, so an item of a `file` sent beside a record, or of a record without
+lines, carries its page only.
+
 `controlled.outcome` separates a model that was asked and found nothing from one that was never asked. With `empty`,
 an `enrichment` block with no items is still written. With `not-asked`, no line passed the filter and no `enrichment`
 is written. `document_json` is absent only when neither kind wrote a block. `document_json_schema_error` appears when
