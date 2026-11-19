@@ -1,21 +1,27 @@
 # Strategy — [atrium-project#84](https://github.com/ufal/atrium-project/issues/84) (doc-schema-v2): atrium-keyword-extract's part
 
+> _**Refreshed 2026-11-19**: "Status — 11-19": #6 and the live lane's fix on `test`; AMČR's storage contract; #1's pair
+> removed._
 > _**Refreshed 2026-11-14 (afternoon)**: "Status — round 6 (11-14)": the hub merged, the pins moved, round 6._
 > _**Refreshed 2026-11-14**: "Status — PR (11-14)": the PR's checks and round 5's fixes._
 > _**Refreshed 2026-11-13**: "Status — round 2" (the code, pushed 11-13 to `doc-schema-v2`) and round 4's notes. The file keeps
 > the name `doc-schema-v2.plan.md` (it was `84.plan.md` on 11-12 and 11-13)._
 > _**Refreshed 2026-11-12** on ARÚP's output contract of 12 November and atrium-project#84 (motyc, 11-12); code read
 > at `0c91740` (= `test`). The change as a whole is the hub's:
-> [plan](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md) ·
-> [digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/doc-schema-v2.digest.md) ·
+> [plan](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md) ·
+> [digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/84.digest.md) ·
 > [contract digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1211.md).
 > This file is this repository's slice only; its 11-11 version was written before the
 > issue existed. The section "2026-11-12" is the current reading; where the 11-11 text below differs, it is
 > superseded._
 
+**Status (2026-11-19)**: 🟢 **This repository's part is on `test` (#5, #6, `46f6e72`), pinned to `02cbd01`; the live
+controlled lane is green on record 2.0. AMČR's storage contract (11-19) keeps both keyword groups here, with KeyBERT
+the default, as `keywords.py:88` has it. Left: the release (`v2.0.0-beta`) with the batch (atrium-project#77).**
+
 **Status (2026-11-14, afternoon)**: 🟡 **The hub's PR is merged and this repository is pinned to it: drift is green.
 Round 6 completes this repository's part where no answer is pending; see "Status — round 6". The release (v2.0.0-beta)
-is cut at K4TEL's cadence.**
+is cut at K4TEL's cadence.** _(superseded 11-19: all on `test`)_
 
 **Status (2026-11-14)**: 🟡 **[atrium-keyword-extract#5](https://github.com/ufal/atrium-keyword-extract/pull/5) is open
 (`doc-schema-v2` into `test`); see "Status — PR". Drift clears once the hub's PR merges and the pins move; the
@@ -121,7 +127,7 @@ Local branch from `test`, on the re-vendored shared modules (record 2.0, paradat
 [atrium-keyword-extract#5](https://github.com/ufal/atrium-keyword-extract/pull/5), head `9218faf`. Failing checks:
 check-drift (canonical), because the callers read the hub at `v1` (`4435ffb`) while the copies are v2; api-contract,
 because the record schema went from 1.0 to 2.0 without a major version. The causes across all seven PRs:
-[hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md),
+[hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md),
 "Status — PRs".
 
 Round 5 (not pushed):
@@ -150,7 +156,7 @@ The hub's PR (atrium-project#86) merged; `v1` moved to it and K4TEL pinned this 
 
 The suite passes: 1017. Next: the hub's second PR for #84 (the E2E lanes, rule 5's mark), then `v1` and the pins again;
 then this PR. Hub:
-[plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/doc-schema-v2.plan.md),
+[plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md),
 "Status — round 6".
 
 ## Status — the meeting's follow-ups (11-16 night)
@@ -162,7 +168,20 @@ atrium-project#84 round 8 (comment 3's update): `forms` gone, decode verdicts ap
 - **Checked:** 980 passed.
 - **Next:** the hub's PR first; then this repository's, with the pins moved to it.
 
+## Status — 11-19: on `test`; the storage contract
+
+- **On `test`:** #6 (round 8, 11-16); `46f6e72` (11-16, direct push: the live controlled test sends a 2.0 record and
+  reads `result` and `components`), green since ([run](https://github.com/ufal/atrium-keyword-extract/actions/runs/43953120630));
+  #7 (11-19, the samples synthetic). `master` = `test`.
+- **AMČR's storage contract** (aiscr-webamcr `9e62a43`, 11-19): the statistical and the controlled keywords both come
+  from this repository; KeyBERT is the default method, which `keywords.py:88` already is.
+- **aiscr-docs-pipeline#6** (this step) still has the statistical keywords in nlp-enrich: a question for the meeting.
+- **Ronald's answers (11-17):** nothing for this step.
+- **The tag:** after the pilot run on the cluster.
+
 ## Depends on
+
+_(11-19: the hub tasks are on `test`; Q6 still waits for the meeting.)_
 
 - Hub tasks 1 (grants, `_migrate_1_to_2()`), 2 (no licence block), 3 (`file_entity` with SHA-512), 4 (the limit
   effects), 5 (one line-category originator); then re-vendoring.
@@ -186,7 +205,7 @@ Open issues (marked in place, 11-11):
   phase.
 - `digests/3.digest.md:130-131`, `plans/3.plan.md:295-297`: the tree's SHA-256 in the paradata → moot while parked.
 
-Closed #1 (listed, not edited):
+Closed #1 (listed, not edited; its pair removed 11-19, the issue keeps the history):
 
 - `digests/1.digest.md:34`, `:52`, `:249`, `plans/1.plan.md:17`, `:29`: an output or run-level licence → none is
   computed; the model is a component with its terms (D2).
