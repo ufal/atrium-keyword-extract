@@ -194,18 +194,18 @@ python3 corpus_review.py --gold-workbook     # gold_workbook.csv           (D1/D
 ### The corpus is not in git
 
 `data_samples/DOC_LINE_CATEG` and `data_samples/UDP` track only three **synthetic**
-demo documents (`CTX000000001-3`, 91 tokens). The real 16 reports (`CTX192100040`,
-`CTX195603828`, …) arrive as the zip attachment on issue
-[#19](https://github.com/ufal/atrium-nlp-enrich/issues/19) and are untracked. So:
+demo documents (`CTX000000001-3`, 91 tokens). Real reports are kept outside the
+repository and are never committed
+([atrium-project#16](https://github.com/ufal/atrium-project/issues/16)). So:
 
-- On a machine with the real corpus, these sheets are **evidence** (19 documents — the 16
-  reports and the 3 demo files — 2172 lines).
+- On a machine with a real corpus placed in those two folders, these sheets are
+  **evidence**.
 - On a clean checkout, they are a **smoke test** (3 documents, 4 hits).
 
 Every run prints its corpus size before writing anything — read that line first:
 
 ```
-  [corpus] 19 document(s), … tokens, … distinct lemmas, 101/1017 single-word terms hit
+  [corpus] 3 document(s), 91 tokens, 65 distinct lemmas, 4/2275 single-word terms hit
 ```
 
 `corpus_review.meta.json` records the corpus each committed sheet was built from, and
@@ -213,15 +213,11 @@ the tool **refuses to overwrite sheets built from a larger corpus** (exit 1) rat
 than silently replacing real evidence with placeholder numbers. Restore the corpus, or
 pass `--force` if shrinking really is intended.
 
-> [!WARNING]
-> **The committed corpus sheets are stale, and the guard is why.**
-> `corpus_review.meta.json` records `vocabulary_single_word_terms: 1017` — computed
-> against the **2 074**-term vocabulary, before M11 reinstated 2 638 terms. Against
-> today's 4 711 those denominators are wrong. They cannot be refreshed on a machine
-> without the real corpus, because the guard correctly refuses to replace 19-document
-> evidence with 3-document placeholders. **Re-run `python3 corpus_review.py --all` on
-> the machine that has the issue #19 documents** and commit the result; it is a
-> ten-minute job and nothing else in the repo can do it.
+> [!NOTE]
+> **The committed corpus sheets are the smoke test.** They were rebuilt with
+> `python3 corpus_review.py --all --force` over the three synthetic documents
+> (`corpus_review.meta.json`: 3 documents, 4/2275 terms hit). Evidence sheets built
+> from a real corpus stay on the machine that holds it and are not committed.
 
 ### Reading `corpus_branch_evidence.csv` — `unique_*`, not the totals
 
@@ -230,10 +226,10 @@ kept list already offers. The plain `occurrences` total includes labels that col
 with an offered term, where the hit is explained by the term already in the
 vocabulary, not by the excluded branch.
 
-The reason this matters: when it was generated, `heslar:zeme` (the 250 country names —
+The reason this matters: on the real corpus, `heslar:zeme` (the 250 country names —
 O3/O4 Q1, the branch the geographic guardrail existed for) scored **7 occurrences, all
 of them the word `malta`**. In those lines `malta` is *mortar*
-("spojovaných vápennou maltou"), an offered Material term; the record being credited was
+("… vápennou maltou"), an offered Material term; the record being credited was
 the country `Malta`, which casefolding makes indistinguishable. Quoted as a total, that
 row argues country names are attested in archaeological reports. Its
 `unique_occurrences` is **0**.

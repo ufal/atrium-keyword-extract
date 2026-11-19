@@ -1,8 +1,8 @@
 """
 tests/test_score_categories.py — score_categories.py, the issue #2 scorer.
 
-Small fixture runs for the arithmetic, and the committed runs for the numbers the
-2026-10-16 comment reported by hand (missing lines, the forced capital labels).
+Small fixture runs for the arithmetic, and the committed runs over the synthetic
+documents (CTX000000001-3) for the same measures end to end.
 """
 
 import csv
@@ -236,12 +236,12 @@ def test_the_cli_writes_the_report(toy, tmp_path):
     }
 
 
-# ── the committed runs: the 2026-10-16 numbers ───────────────────────────────────
+# ── the committed runs: the synthetic documents ─────────────────────────────────
 
 
 @pytest.fixture(scope="module")
 def committed():
-    # The 17 runs of 12–13 October; a later re-run (`KW_PER_DOC_LLM_R3_*`) has its own numbers.
+    # The 17 runs of 12–13 October over CTX000000001-3; the re-run (`KW_PER_DOC_LLM_R3_*`) is left out.
     runs = sorted(
         p
         for p in SAMPLES.glob("KW_PER_DOC_LLM_*")
@@ -256,30 +256,30 @@ def committed():
     return {row["run"]: row for row in result["runs"]}
 
 
-def test_the_committed_runs_owe_1029_lines_and_miss_what_the_review_found(committed):
-    assert {row["expected"] for row in committed.values()} == {1029}
+def test_the_committed_runs_owe_11_lines_and_granite_8b_misses_one(committed):
+    assert {row["expected"] for row in committed.values()} == {11}
     missing = {name: row["missing"] for name, row in committed.items() if row["missing"]}
-    assert missing == {
-        "KW_PER_DOC_LLM_granite_41_8b": 71,
-        "KW_PER_DOC_LLM_granite_41_30b": 15,
-        "KW_PER_DOC_LLM_qwen_35_9b_it": 3,
-    }
+    # granite-4.1-8b returned nothing for CTX000000002 p1 l1 ("HRADIŠTĚ U HORNÍ MEZÍ").
+    assert missing == {"KW_PER_DOC_LLM_granite_41_8b": 1}
+
+
+def test_no_committed_run_forces_a_capital_label(committed):
+    forced = {name: row["forced_capital"] for name, row in committed.items()}
+    assert set(forced.values()) == {0}, forced
 
 
 @pytest.mark.parametrize(
-    "run,forced",
+    "run,meta,content",
     [
-        ("gemma_3_12b_it", 94),
-        ("qwen_35_9b_it", 90),
-        ("gemma_4_31b_it", 64),
-        ("qwen3_8b", 49),
-        ("qwen_35_35b_moe_gptq", 27),
-        ("gemma_4_12b_it", 13),
-        ("gemma_4_12b_it_qat", 13),
-        ("gemma_4_31b_it_qat", 13),
-        ("granite_41_30b", 4),
-        ("qwen3_14b", 4),
+        ("qwen3_8b", 1, 10),
+        ("gemma_3_12b_it", 2, 9),
+        ("granite_41_30b", 3, 8),
+        ("granite_41_8b", 3, 7),
+        ("qwen25_14b_awq", 5, 6),
+        ("gemma_4_31b_it", 6, 5),
+        ("qwen_35_35b_moe_gptq", 7, 4),
     ],
 )
-def test_the_committed_runs_reproduce_the_forced_capital_table(committed, run, forced):
-    assert committed[f"KW_PER_DOC_LLM_{run}"]["forced_capital"] == forced
+def test_the_committed_runs_reproduce_the_meta_split(committed, run, meta, content):
+    row = committed[f"KW_PER_DOC_LLM_{run}"]
+    assert (row["meta"], row["content"]) == (meta, content)

@@ -11,11 +11,11 @@ evidence, from whatever corpus is on disk when it runs.
 How much that is worth depends entirely on what is present. The repository itself
 tracks only three synthetic demo documents
 (``data_samples/{ALTO,DOC_LINE_CATEG,UDP,...}/CTX00000000{1,2,3}`` — 69 words), on
-which these reports are a smoke test and nothing more. The real reports
-(``CTX192100040``, ``CTX195603828``, … — the 16 documents / ~618 lines the thread's
-numbers refer to, ``agent_dev_logs/issues/2026-07-17.19.issue.open.md``) arrive as a
-zip attachment on issue #19 and land in ``data_samples/DOC_LINE_CATEG`` +
-``data_samples/UDP`` without being committed. When they are present the same commands
+which these reports are a smoke test and nothing more. The real reports (the 16
+documents / ~618 lines the thread's numbers refer to,
+``agent_dev_logs/issues/2026-07-17.19.issue.open.md``) are kept outside the repository;
+placed in ``data_samples/DOC_LINE_CATEG`` + ``data_samples/UDP`` they are never
+committed (atrium-project#16). When they are present the same commands
 produce real evidence over the full corpus; nothing here needs changing between the
 two cases, and no report states a fixed hit count, precisely so a number computed
 over three placeholders can never be mistaken for one computed over real reports.
@@ -37,7 +37,7 @@ hidden.
 Every run prints its own corpus size (documents, tokens, distinct lemmas, terms hit)
 before writing anything, so any figure taken from these sheets can be quoted together
 with the corpus it came from. Read that line first: the same sheet over three
-placeholder documents and over the full 19-document set are not comparable numbers,
+placeholder documents and over the full real corpus are not comparable numbers,
 and only the second is evidence in the sense M3 means.
 """
 
@@ -288,8 +288,8 @@ def corpus_branch_evidence_rows(
     split the sheet argues the opposite of the truth on the single most sensitive row:
     ``heslar:zeme`` (the 249 country names, O3/O4 Q1, the branch the geographic
     guardrail exists for) scores 7 occurrences on the real corpus — every one of them
-    the word ``malta``. In those lines ``malta`` is *mortar*
-    ("spojovaných vápennou maltou"), an offered Material term (AMCR HES-000910 /
+    the word ``malta``. In those lines ``malta`` is *mortar* ("… vápennou maltou"),
+    an offered Material term (AMCR HES-000910 /
     HES-000992, TEATER 2499); the excluded record it is being credited to is the
     country ``Malta`` (HES-001366), which ``norm_label``'s casefold makes
     indistinguishable. Read raw, that row says country names are attested in

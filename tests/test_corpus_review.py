@@ -254,8 +254,8 @@ def test_gold_workbook_covers_every_committed_line():
     """One workbook row per DOC_LINE_CATEG data row -- no line silently dropped, none
     duplicated. The expected count is computed from the files actually on disk rather
     than hard-coded: this used to assert 16 (the three demo documents' rows), which
-    broke the moment the real reports were present locally and the true answer became
-    2172. The invariant is the 1:1 mapping, not any particular corpus size."""
+    broke the moment a larger corpus was present locally. The invariant is the 1:1
+    mapping, not any particular corpus size."""
     _require_flat()
     _require_corpus()
     manager = _shipped_manager()
@@ -387,30 +387,21 @@ def test_main_handles_missing_corpus_directories_gracefully(tmp_path, capsys):
 
 
 def _malta_corpus(tmp_path):
-    """The three real corpus lines where 'malta' means MORTAR, with a CoNLL-U that
-    lemmatises maltu/malty/maltou -> malta the way UDPipe does."""
+    """Three invented report lines where 'malta' means MORTAR, as it does in real
+    reports, with a CoNLL-U that lemmatises maltu/malty/maltou -> malta the way UDPipe
+    does."""
     udp, lines = tmp_path / "UDP", tmp_path / "LINES"
     udp.mkdir()
     lines.mkdir()
-    real = [
-        (
-            "CTX198402945",
-            "1",
-            "26",
-            "z lomového zdivá nasucho a jen místy na maltu, ve spodní části",
-        ),
-        ("CTX199603106", "3", "3", "charakteru s příměsí malty a úlomků opuky a cihel"),
-        (
-            "CTX199603106",
-            "3",
-            "6",
-            "nevelkých rozměrů, spojovaných vápennou maltou z hrubého říčního",
-        ),
+    lines_in = [
+        ("CTX000000002", "3", "3", "Zdivo sondy II bylo kladeno nasucho a jen místy na maltu."),
+        ("CTX000000003", "1", "3", "Výplň jámy obsahovala příměs malty a drobné zlomky cihel."),
+        ("CTX000000003", "1", "4", "Kameny valového tělesa byly spojeny vápennou maltou."),
     ]
     import csv as _csv
 
     by_doc = {}
-    for f, pg, ln, txt in real:
+    for f, pg, ln, txt in lines_in:
         by_doc.setdefault(f, []).append((pg, ln, txt))
     for doc, rows in by_doc.items():
         with open(lines / f"{doc}.csv", "w", encoding="utf-8", newline="") as fh:
@@ -497,8 +488,8 @@ def test_branch_evidence_unique_plus_shared_reconciles_with_the_total(tmp_path):
 
 
 def _corpus_doc_count():
-    """However many documents this checkout actually has — 3 on a clean clone, 19 with
-    the real reports restored. Every guard assertion below is derived from this rather
+    """However many documents this checkout actually has — 3 on a clean clone, more
+    with a larger corpus placed locally. Every guard assertion below is derived from this rather
     than hardcoded: the guard's behaviour depends on the RELATIVE size of the recorded
     corpus vs the one on disk, never on an absolute number."""
     return len(list(UDP_DIR.glob("*.conllu")))
