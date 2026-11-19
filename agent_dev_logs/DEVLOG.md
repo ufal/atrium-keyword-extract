@@ -362,8 +362,8 @@ now writes TEITOK format 2. The hub E2E has not run since (its last run was on 2
 format 2 is still to come. _(It ran later the same day, after the push: run 35990199050, green — see the next entry.)_
 * **Issues.** #9 and #28 closed; their exports left `issues/` in `3654e73`, and their digest+plan pairs are removed as
 for #35 (leftovers carried to #38 and the umbrella plan §7). **#38 "Annotate flexiconv-converted documents
-(FLEXICONV_ANNOTATE)"** opened as #10's action D: [`digests/38.digest.md`](digests/38.digest.md) ·
-[`plans/38.plan.md`](plans/38.plan.md). #10 stays open for its real-document report.
+(FLEXICONV_ANNOTATE)"** opened as #10's action D: `digests/38.digest.md` ·
+`plans/38.plan.md`. #10 stays open for its real-document report.
 * **Round-4 audit.** Same upstream heads as on 2026-09-23 (teitok.org, the TEI wiki and RIDE are blocked by the
 egress policy, so the TEITOK author's code stays the reference). Format 2 conforms upstream except for four details
 (split punctuation keeps a box, page size not on `pb@bbox`, TEITOK-project naming, `xpos` vs `pos`). Found:
@@ -1329,7 +1329,7 @@ Documentation only; no code, test or configuration change.
 * **Asked (K4TEL):** align the logs with ARÚP's output contract of 12 November (the .docx of that day, replacing the
   meeting document of 10 November) and with David Novák's comments of 11-12 (atrium-project#84 opened, #13, #16,
   #78); `test` fetched first (all seven working branches = `test`).
-  Anchor: [contract digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1211.md) · [hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md).
+  Anchor: contract digest · [hub plan of #84](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md).
 * **Decided in session:** the tool slices are named `plans/84.plan.md`; the translator keeps `amcr-fields.txt` as a
   documented example that nothing loads (no default list, D34); the hub's #84 plan carries a reply draft agreeing on
   points 1 and 2.

@@ -6,8 +6,8 @@
 > `atrium-alto-postprocess` and `atrium-project`, checked against the TEITOK author's own tooling; round 4
 > (2026-09-24) re-audited `test` `3654e73` (v0.21.0) and the same upstream heads; round 5 (2026-09-24, after the
 > push) re-checked the pushed heads (nlp `8003051`, llm `08dff48`, alto `2e2794d`, hub `eec0682` = `v1`). Per-issue detail:
-> [`digests/10.digest.md`](../digests/10.digest.md) · [`plans/10.plan.md`](10.plan.md) ·
-> [`digests/38.digest.md`](../digests/38.digest.md) · [`plans/38.plan.md`](38.plan.md). #9 and #28 are closed
+> `digests/10.digest.md` · `plans/10.plan.md` ·
+> `digests/38.digest.md` · `plans/38.plan.md`. #9 and #28 are closed
 > (2026-09-24); their digest+plan pairs were removed as for #35 — the issues themselves are the record:
 > [#9](https://github.com/ufal/atrium-nlp-enrich/issues/9) · [#28](https://github.com/ufal/atrium-nlp-enrich/issues/28).
 > Findings marked ▶ were reproduced by running the code (scratch environment, repos untouched)._
@@ -46,7 +46,7 @@ everywhere (nlp TEITOK Schema Contract 35989955130). Verified in a scratch venv:
 | 4 — flexiconv path                 | ✅ on `test`, v0.21.0; R3: `run_pipeline.py --with-flexiconv` ✅, `api_util/flexiconv_report.py` ✅ | reference experiment on flexiconv's own examples in the README; the table for real ATRIUM documents is now two commands (user action)                                                                                                                                                                                                                                                                                                                                                                                                             |
 | 5 — cross-repo                     | ✅ on `test`                                                                                      | hub: E2E asserts TEITOK and turns `SAVE_TEITOK` on; fixture + `document_schema.md` ids. `docs_site/external-tools.md` / `pipelines.md` W11 and the `atrium_vocab.py` authority string left to their own rounds (#57 policy, 5-repo vendoring)                                                                                                                                                                                                                                                                                                     |
 | 6 — annotation of flexiconv output | ✅ on `test`, v0.21.0, opt-in `FLEXICONV_ANNOTATE` → follow-ups in #38                            | in-house stages instead of xmltokenizer/flexipipe, see §5 Stage 6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| 7 — page provenance & #38 round    | ✅ on `test` `8003051` (2026-09-24), unreleased (suggested v0.22.0); E2E 35990199050 green        | re-scoped from #38's "page breaks for table inputs": chunk markers are the producer, and crossing sentences stay on their first page (§3.3). Deviations from the change sets: [`38.plan.md`](38.plan.md) "As implemented". Stage 3's "`/enrich` records have no `teitok_surface`" and Stage 5's "W11 / external-tools left to their own rounds" are superseded by it                                                                                                                                                                              |
+| 7 — page provenance & #38 round    | ✅ on `test` `8003051` (2026-09-24), unreleased (suggested v0.22.0); E2E 35990199050 green        | re-scoped from #38's "page breaks for table inputs": chunk markers are the producer, and crossing sentences stay on their first page (§3.3). Deviations from the change sets: `38.plan.md` "As implemented". Stage 3's "`/enrich` records have no `teitok_surface`" and Stage 5's "W11 / external-tools left to their own rounds" are superseded by it                                                                                                                                                                                            |
 
 #9's last item, the tier-1 evidence, is ✅ R3: `data_samples/pages/CTX000000001-1.png` plus a test. #9 and #28 closed on
 2026-09-24.
@@ -265,7 +265,7 @@ the real-document experiment table in the README.
   TEITOK, flexiconv, flexipipe, xmltokenizer, flexicorp, teitok-tools; `docs_site/pipelines.md` W11.
 - alto-postprocess: no code change (pass-through of `teitok_surface`/`teitok_ref`); re-vendor shared files only.
 
-**Stage 6 — annotated flexiconv path** (R3, 2026-09-24; released in v0.21.0; now issue [#38](38.plan.md)). The design changed from
+**Stage 6 — annotated flexiconv path** (R3, 2026-09-24; released in v0.21.0; now issue #38). The design changed from
 xmltokenizer (`profile="teitok"`) + UDPipe/NameTag to **this repo's own stages**. That needs no new dependency or model
 download, gives one writer and one id scheme, lets `document_hook.py` work unchanged, and keeps CI offline. The
 converted file is an intermediate:
@@ -283,7 +283,7 @@ converted file is an intermediate:
   `run_pipeline.py --with-flexiconv` runs `api_flexiconv.sh` first and sets `FLEXICONV_ANNOTATE=true`.
 
 **Stage 7 — page provenance and the #38 round** (round 4, 2026-09-24; detail and done-criteria in
-[`38.plan.md`](38.plan.md)). Change sets in order:
+`38.plan.md`). Change sets in order:
 - **CS-E** small fixes: flexiconv failures recorded as failures and a missing flexiconv stops the stage (R4-6);
   `BBOX_ORIGIN="${BBOX_ORIGIN:-page}"`; the LLM filter fixes (R4-8) here and in llm-enrich.
 - **CS-B** identity: `api_util/doc_identity.py` (file identity for converted documents, `find_converted`, a claim rule
@@ -368,7 +368,7 @@ block and `BLOCK_OWNERS` no owner.
    produces keywords.
 5. Stage 5 — llm-enrich `pytest -m "not slow"`; hub `pytest tests/`; E2E left to CI unless run locally.
 6. `ruff check` / `pre-commit run --all-files` in every touched repo.
-7. Stage 7 — the done-criteria of [`38.plan.md`](38.plan.md): released CTX000000002 s-5 gets `<pb n="4"/>` inside `<s>`
+7. Stage 7 — the done-criteria of `38.plan.md`: released CTX000000002 s-5 gets `<pb n="4"/>` inside `<s>`
    before `lb-4.1`; a chunk marker on the one-page CTX000000003 leaves one `<pb>`; the NE files of CTX000000002 are
    `-1…-4`; the default gate rejects duplicate or dangling ids with exit 5; `report.csv` + `report.txt.teitok.xml` give
    one document; `/enrich` accepts a `.teitok.xml` and reports `layout_source`; `--with-flexiconv` without flexiconv fails.

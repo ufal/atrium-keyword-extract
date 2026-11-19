@@ -10,7 +10,7 @@
 > at `0c91740` (= `test`). The change as a whole is the hub's:
 > [plan](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/plans/84.plan.md) ·
 > [digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/84.digest.md) ·
-> [contract digest](https://github.com/ufal/atrium-project/blob/test/agent_dev_logs/digests/project_state_1211.md).
+> contract digest.
 > This file is this repository's slice only; its 11-11 version was written before the
 > issue existed. The section "2026-11-12" is the current reading; where the 11-11 text below differs, it is
 > superseded._
