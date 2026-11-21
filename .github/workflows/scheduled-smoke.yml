@@ -1,5 +1,7 @@
 # .github/workflows/scheduled-smoke.yml
-# Nightly run of the FULL test suite, in a from-scratch environment.
+# An on-demand run of the FULL test suite, in a from-scratch environment.
+# Run by dispatch only (Actions -> this workflow -> Run workflow), for example before a release: the CI
+# agreement of 11 November 2026 allows no scheduled runs. The file keeps its name so links still work.
 #
 # What this replaced, and why (issue atrium-project#10): the step used to run
 # `pytest -m slow` against a repo with 0 tests marked @pytest.mark.slow. pytest exits 5
@@ -25,7 +27,7 @@
 # Infra note: this job runs on GitHub-hosted ubuntu-latest (CPU-only).
 # GPU inference tests live in gpu-inference.yml on self-hosted runners.
 
-name: Scheduled Smoke Tests
+name: Fresh-environment Smoke Tests (manual)
 
 # Mirrors the hub's e2e-pipeline-smoke.yml: a smoke run that is already executing is
 # the one carrying the signal, so a later trigger queues rather than killing it.
@@ -36,14 +38,8 @@ concurrency:
 permissions:
   contents: read
   actions: read
-  issues: write          # required by "Open Issue on Failure"; GitHub's 403 asked
-                         # for exactly this (x-accepted-github-permissions: issues=write).
-                         # A permissions block WITHOUT it pins issues=none -> 403.
 
 on:
-  schedule:
-    # Weekly Monday 04:00 UTC
-    - cron: '0 4 * * 1'
   workflow_dispatch:
 
 env:
@@ -86,15 +82,3 @@ jobs:
       - name: Run the full suite
         # No exit-5 tolerance: a run that collects no tests is a failure, not a pass.
         run: python -m pytest tests/ -v --tb=short -rs
-
-      # One open issue per failing lane, commented on by each later failure; scheduled runs only
-      # (atrium-project#81). It used to open a new issue on every failing run.
-      - name: Open or update the lane's issue on scheduled failure
-        if: failure() && github.event_name == 'schedule'
-        uses: ufal/atrium-project/.github/actions/lane-failure-issue@02cbd0144cfa2d39d981d43eea7f4cd72bed53ba  # v1
-        with:
-          lane: scheduled-smoke
-          title: Scheduled smoke test failed
-          labels: bug,automated issue
-          body: >-
-            The automated smoke test failed. Please review the action logs.
