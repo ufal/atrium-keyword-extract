@@ -4,7 +4,7 @@ Every script that reads or writes the controlled vocabulary, what it does, when 
 it, and what must **not** be run blindly. Companion to
 [`prompts/RUNBOOK.md`](../../prompts/RUNBOOK.md), which covers the prompt this term list
 is injected into and the records the run writes back. Issue
-[#6](https://github.com/ufal/atrium-nlp-enrich/issues/6).
+[atrium-nlp-enrich#6](https://github.com/ufal/atrium-nlp-enrich/issues/6).
 
 Two decision packages live beside the sheets they are built from. Each frames an open
 question with numbers from this directory and decides nothing:
@@ -78,10 +78,10 @@ before editing it:
   lists; both are right for a prompt glossary and are data loss for a concept graph, where
   each of those terms has its own URI. Curation stays in the nested files.
 * **No URI is minted for a source concept.** Subjects are `https://api.aiscr.cz/id/HES-…`
-  and `https://teater.aiscr.cz/id/…` — the identifiers AMCR and TEATER already publish, and
+  and `https://teater.aiscr.cz/id/…` — the identifiers AMČR and TEATER already publish, and
   the ones that become PID references when the SKOSification project ships. The only
   ATRIUM-minted URIs in the file are the two `skos:ConceptScheme`s describing the harvest.
-* **AMCR's `hierarchie_vyse` is emitted as `skos:related`, not `skos:broader`.** All 1,176
+* **AMČR's `hierarchie_vyse` is emitted as `skos:related`, not `skos:broader`.** All 1,176
   edges cross heslář boundaries — `obývání`, an activity, declares 22 `areal` "parents" — so
   it is associative, not hierarchical. TEATER's chain is a real hierarchy, but the field holds
   the whole root-first ancestry, so only its last element is `skos:broader` and the rest are
@@ -97,7 +97,7 @@ do not rely on it.
 
 **`vocab_build.py` is the only thing that writes to this directory.** `python3
 vocab_manager.py` is a read-only inspector — it prints a prompt preview and the per-facet
-counts and says so on exit. (It was not always: it used to run the legacy AMCR-only sync
+counts and says so on exit. (It was not always: it used to run the legacy AMČR-only sync
 against `union_nested.json` and save the result, which sent every term to `Other` and left
 the pipeline injecting an empty vocabulary. Looking at the vocabulary destroyed it.)
 
@@ -123,7 +123,7 @@ python3 vocab_review.py --census         # facet_census.csv            (A1-facet
 
 Two of the nine are **empty or near-empty on purpose** right now, and that is not a
 broken report: `teater_subbranch_impact.csv` decomposes *excluded* TEATER branches and
-M11 reinstated all of them, and `exclusion_impact.csv` is down to the 23 settled AMCR
+M11 reinstated all of them, and `exclusion_impact.csv` is down to the 23 settled AMČR
 lists. Both come back the moment something is excluded again.
 
 Re-run after **any** taxonomy change, for the same reason as the artifacts:
@@ -324,7 +324,7 @@ reports every problem at once, not one per rebuild).
 
 | Decision                                       | Goes in                                                                                                                                                                                                                                                                                        |
 |------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| A whole AMCR list / TEATER branch in or out    | `taxonomy_config.json` → `heslar_map` / `teater_branch_map`, **plus** a `_exclusions` entry stating `status` and `reason` when the value is `__exclude__`                                                                                                                                      |
+| A whole AMČR list / TEATER branch in or out    | `taxonomy_config.json` → `heslar_map` / `teater_branch_map`, **plus** a `_exclusions` entry stating `status` and `reason` when the value is `__exclude__`                                                                                                                                      |
 | Whether an exclusion is still an open question | `_exclusions[rule].status` — `settled`, `open_geo_ethnic` (Q1), `open_other` (Q2). Drives the `status` column of `exclusion_impact.csv`                                                                                                                                                        |
 | One term's facet                               | `taxonomy_overrides.json` → `facet`, keyed on `(source, id)` — never on the bare label                                                                                                                                                                                                         |
 | One term's sub-header                          | `taxonomy_overrides.json` → `sub`. Give the rendered Czech label (`druh objektu`, not `objekt_druh`), and prefer one the target facet already uses                                                                                                                                             |

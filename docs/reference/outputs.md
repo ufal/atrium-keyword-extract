@@ -32,7 +32,7 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, â
 ## Score interpretation by backend
 
 **`legacy`** â€” raw lemma count; higher = more frequent in the document. Examples in directory: [KW_PER_DOC_L](../../data_samples/KW_PER_DOC_L) and summary file
-[kw_summary_l.csv](../../data_samples/keywords_summary_l.csv).
+[keywords_summary_l.csv](../../data_samples/keywords_summary_l.csv).
 
 | Score range | Interpretation                                           |
 |-------------|----------------------------------------------------------|
@@ -41,7 +41,7 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, â
 | > 20        | Dominant terms, likely named entities or domain headings |
 
 **`yake`** â€” normalised inverse YAKE score, [0, 1] per document. Examples in directory: [KW_PER_DOC_Y](../../data_samples/KW_PER_DOC_Y) and summary file
-[kw_summary_y.csv](../../data_samples/keywords_summary_y.csv).
+[keywords_summary_y.csv](../../data_samples/keywords_summary_y.csv).
 
 | Score range | Semantic category | Interpretation                               |
 |-------------|-------------------|----------------------------------------------|
@@ -51,7 +51,7 @@ as the original pipeline (`document_id`, `kw-1`, `score-1`, `kw-2`, `score-2`, â
 | 0.9â€“1.0     | Entity layer      | Rare terms, neologisms, named entities       |
 
 **`keybert`** â€” cosine similarity to document centroid, [0, 1]. Examples in directory: [KW_PER_DOC_KB](../../data_samples/KW_PER_DOC_KB) and summary file
-[kw_summary_kb.csv](../../data_samples/keywords_summary_kb.csv).
+[keywords_summary_kb.csv](../../data_samples/keywords_summary_kb.csv).
 
 | Score range | Interpretation                   |
 |-------------|----------------------------------|

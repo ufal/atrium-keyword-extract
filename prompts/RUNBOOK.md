@@ -3,7 +3,7 @@
 What the model is told, how to change it, and what comes back. Companion to
 [`data_samples/vocab/RUNBOOK.md`](../data_samples/vocab/RUNBOOK.md), which covers the term
 list this prompt injects. Issue
-[#6](https://github.com/ufal/atrium-nlp-enrich/issues/6).
+[atrium-nlp-enrich#6](https://github.com/ufal/atrium-nlp-enrich/issues/6).
 
 **Nothing here needs a GPU, a model, or the Python ML stack.** `prompt_template.py`
 imports only the standard library, so every command below runs in a bare checkout — which
@@ -282,7 +282,7 @@ term count, the sha256 of both taxonomy files, and per-source record counts incl
 TEATER's pinned commit — read from the `*.meta.json` sidecar beside `VOCAB_PATH` (D3).
 Both sources are CC0 (atrium-project#6; earlier paradata says CC BY-NC 4.0) and declared
 *conditional* in `para_config.txt`, so the run
-logs a component per source actually present in the build; an AMCR-only artifact does not
+logs a component per source actually present in the build; an AMČR-only artifact does not
 claim TEATER data. A vocabulary with no sidecar logs nothing and does not fail the run.
 
 ---

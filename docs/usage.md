@@ -12,7 +12,6 @@ controlled kind from the command line, and use the Docker images. What each kind
 - [Run the controlled kind from the command line](#run-the-controlled-kind-from-the-command-line)
 - [Run the Docker images](#run-the-docker-images)
 - [The command line and the service](#the-command-line-and-the-service): where they differ
-- [Decision models, offline](#decision-models-offline): `dm_run.py`, the descent tree over the content vocabulary
 
 ## Set it up
 
@@ -34,16 +33,26 @@ use; set `HF_HOME` to keep the cache. A GPU is used when `torch` finds one. The 
 the errors and the OpenAPI contract. In short:
 
 ```bash
-python -m service.api                  # PORT / HOST; default 0.0.0.0:8000
+python -m service.api                  # PORT / HOST; default 0.0.0.0:8000; leave it running
+```
 
+Then, from another terminal, the statistical keywords of a record nlp-enrich wrote:
+
+```bash
 curl -s -X POST localhost:8000/extract_keywords \
-  -F "document_json=@CTX000000001.document.json;type=application/json" \
+  -F "document_json=@<doc>.document.json;type=application/json" \
   -F kind=statistical -F method=keybert -F num_keywords=10
+```
 
-# both kinds, with the controlled one's backend configured
-OPENROUTER_API_KEY=sk-... OPENROUTER_MODEL=openai/gpt-4o-mini python -m service.api
+Both kinds need the controlled one's backend configured when the service starts:
+
+```bash
+OPENROUTER_API_KEY=sk-... OPENROUTER_MODEL=openai/gpt-4o-mini python -m service.api   # leave it running
+```
+
+```bash
 curl -s -X POST localhost:8000/extract_keywords \
-  -F "document_json=@CTX000000001.document.json;type=application/json" -F kind=both
+  -F "document_json=@<doc>.document.json;type=application/json" -F kind=both
 ```
 
 ## Extract keywords from a folder
@@ -150,8 +159,8 @@ The three paths and what they read and write are in [how it works](how-it-works.
 ```bash
 pip install -r requirements_remote.txt
 export OPENROUTER_API_KEY=sk-...
-python openrouter_client.py --input CTX000000001.document.json --model openai/gpt-4o-mini \
-  --document-json-out CTX000000001.kw.document.json
+python openrouter_client.py --input <doc>.document.json --model openai/gpt-4o-mini \
+  --document-json-out <doc>.kw.document.json
 python ollama_client.py --input data_samples/DOC_LINE_CATEG --model qwen2.5:14b
 ```
 
@@ -181,7 +190,7 @@ What the research run does:
 The whole prompt is about 58k tokens. A model served with a smaller window sees only a prefix of the vocabulary, and
 the paradata record it as `sampled`, with how many terms were left out. A line whose prompt is still over the window
 is sent with fewer neighbouring lines as context (`llm_context_window`, `split`); a line that does not fit even alone
-stops the run (D13). The large vLLM models do this at their default `MAX_MODEL_LEN` of 16384.
+stops the run. The large vLLM models do this at their default `MAX_MODEL_LEN` of 16384.
 
 To keep the run fast and within memory:
 
@@ -204,10 +213,10 @@ The Dockerfile builds three images, one per target:
 | `base` | `ghcr.io/ufal/atrium-keyword-extract`     | the batch CLI (`keywords.py`)                                       |
 | `llm`  | `ghcr.io/ufal/atrium-keyword-extract-llm` | the research LLM batch run, GPU                                     |
 
-The batch image passes its arguments to `keywords.py` (`docker run IMAGE -i /data/UDP -m yake`). Since `v1.6.5-beta`
-its entry point is the hub-canonical `container_entrypoint.py`, which names `keywords.py` by its absolute path: a
-first argument that names a shell or Python runs that program instead (`docker run IMAGE /bin/sh job.sh`), which is
-how Galaxy starts a tool's container. Only those interpreters run, so an input folder that happens to be called `sh`
+The batch image passes its arguments to `keywords.py` (`docker run IMAGE -i /data/UDP -m yake`). Its entry point,
+the hub-canonical `container_entrypoint.py`, names `keywords.py` by its absolute path: a first argument that names a
+shell or Python runs that program instead (`docker run IMAGE /bin/sh job.sh`), so a job script can run in the image.
+Only those interpreters run, so an input folder that happens to be called `sh`
 is still a folder; the `llm` image does the same for `llm_run.py`.
 
 ```bash
@@ -244,48 +253,7 @@ differ:
 | Paradata                     | a file in `--paradata-dir` (program `keyword-extract`)             | the response's `paradata`, a `CreateAction`                       | the service keeps no files                                   |
 
 KER (`legacy`) counts lemmas, and where they come from depends on the input. CoNLL-U and TEITOK give every noun's,
-proper noun's and adjective's lemma. A record gives `lines[].lemma`, which no ATRIUM tool writes today. A CSV or a
-`.txt` gives none. The pages' lemmas come from a record only.
-
-## Decision models, offline
-
-`dm_run.py` prepares decision models for [#3](https://github.com/ufal/atrium-keyword-extract/issues/3)
-(atrium-project#83). A decision model reads a state, such as a text, and questions with fixed options, and returns
-a probability for every option; it writes no text. The tool is offline and experimental: the service does not run
-it, no image's entry point reaches it, and nothing it finds reaches the record. Run it from the repository root,
-set up as [above](#set-it-up).
-
-**Content, never form.** This repository reads text and never an image, so a decision model here decides what a
-document is about: a term of the vocabulary, or meta-text. What a document is (a report, a photograph, a plan, a
-map: its form) is read from page images, by atrium-digital-convert and atrium-page-classification, and AMČR's form
-lists (`dokument_typ` and the other `dokument_*` lists) are not in the vocabulary. The document type this tool
-asked from text until 2026-11-09 (`--doc-type`) is therefore gone.
-
-### The descent tree: `--dump-tree`
-
-A decision model cannot take the whole vocabulary at once (4,689 terms in the tree; a choice takes at most 255
-options), so the line mode of #3 is to walk down it, one choice a step: is the line content at all, which facet, the
-geographic gate, which group, then down the terms' own tree. Every step also offers `none_of_these`, so an answer is
-always a vocabulary term or unresolved. `--dump-tree OUT` builds that tree and writes it as JSON; the line mode
-itself (`--lines`) is not written yet and exits 2.
-
-```bash
-python3 dm_run.py --dump-tree /tmp/dm_tree.json
-```
-
-The tree is built from files the vocabulary build already writes (`data_samples/vocab/union_nested.json`,
-`specificity_pairs.csv`, `amcr_flat.json`, `data_samples/taxonomy_config.json`) and from the prompt's blocks and
-settings (`prompts/system_prompt.txt`, `llm_config.txt`). The file records each input's SHA-256, the questions'
-wording, every node and the tree's statistics, and a digest of all of it but the time it was made. The command
-prints the digest and the statistics. How a term's parent is chosen, and how a node with too many options is
-split, is in the module's docstring.
-
-**Form terms are withheld.** A few TEATER terms inside content facets name a kind of record rather than what a
-document is about: the documentation (`dokumentace` and its kinds: fotografická and kresebná dokumentace,
-archeologická mapa, videozáznam …), the site report (`nálezová správa`), `fotografie`, `kresba`, the kinds of map
-(`stará`, `katastrální`, `geologická` … `mapa`) and the remote-sensing products (`ortofotomapa`, `satelitní snímek`,
-`digitální model terénu`). A line naming one is mostly a caption or a reference to the archive's own documentation,
-so these 22 terms, listed by TEATER id in `dm_run.FORM_TERMS`, are left out of the tree with everything below them;
-the tree lists them under `withheld_form`. They stay in the vocabulary and in the generative prompt. Scripts
-(`písmo`), written artefacts (`písemnost`) and the aerial methods (`letecké snímkování`) stay: a line names them
-as content.
+proper noun's and adjective's lemma. A record gives one lemma per line at most: `lines[].lemma`, which nlp-enrich
+sets to the lemma of the line's head word, counted when its `upos` is a noun, a proper noun or an adjective. So KER
+counts fewer lemmas in a record than in the CoNLL-U or TEITOK file of the same document. A CSV or a `.txt` gives
+none. The pages' lemmas come from a record only.

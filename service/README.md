@@ -1,6 +1,6 @@
 # Keyword extraction API service
 
-This service is the stage "keywords" of the ATRIUM pipeline. The document record after
+This service is the keyword step of the AMČR pipeline, after nlp-enrich. The document record after
 [nlp-enrich](https://github.com/ufal/atrium-nlp-enrich), a file (nlp-enrich's CoNLL-U or TEITOK, a line table, a
 `.txt`) or a plain text goes in. Two kinds of keywords come out, chosen by `kind` and always kept apart, plus the
 run's **paradata** (a Process Run Crate `CreateAction`). The service version is read from `para_config.txt`
@@ -21,22 +21,28 @@ whole.
 
 **At a glance:**
 
-| Image                                               | CPU / GPU                                      | Memory       | Volumes                                         | Calls out to                                                                                                                                          | Ready after                                                             |
-|-----------------------------------------------------|------------------------------------------------|--------------|-------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| `ghcr.io/ufal/atrium-keyword-extract-api:<version>` | CPU only; KeyBERT uses a GPU when there is one | not measured | `/cache/huggingface`, the KeyBERT model's cache | huggingface.co at start (the KeyBERT model, unless `DEFAULT_KW_METHOD=yake`); for the controlled kind, OpenRouter or an Ollama server on each request | not measured; the image's health check allows 180 s for the first start |
+| Image                                               | CPU / GPU                                      | Memory       | Volumes                                         | Calls out to                                                                                                                                          | Ready after                                                                                                                                                              |
+|-----------------------------------------------------|------------------------------------------------|--------------|-------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ghcr.io/ufal/atrium-keyword-extract-api:<version>` | CPU only; KeyBERT uses a GPU when there is one | not measured | `/cache/huggingface`, the KeyBERT model's cache | huggingface.co at start (the KeyBERT model, unless `DEFAULT_KW_METHOD=yake`); for the controlled kind, OpenRouter or an Ollama server on each request | from a checkout, about 3 s with YAKE and about 20 s with KeyBERT, its model (458 MB) fetched over a fast link; the image's health check allows 180 s for the first start |
 
-The published image first: it is what a deployment runs, and it needs no checkout.
+The published image first: it is what a deployment runs, and it needs no checkout. Nothing answers, not even
+`/health`, until the start-up has finished: the KeyBERT model loaded (when it is the default) and the controlled
+kind built (when it is configured).
 
 ```bash
-docker run --rm -p 8000:8000 -v hf-cache:/cache/huggingface \
-  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # e.g. 1.6.5-beta
-curl -s http://localhost:8000/ready                      # 200 once the KeyBERT model is loaded
-# from a checkout:
-docker compose --profile api up
-# or in a virtual environment (development):
-pip install -r requirements.txt -r service/requirements.txt
-python -m service.api                  # honours PORT/HOST; default 0.0.0.0:8000
+docker run -d --name atrium-keyword-extract -p 8000:8000 -v hf-cache:/cache/huggingface \
+  ghcr.io/ufal/atrium-keyword-extract-api:<version>      # 2.0.0-beta or later
+until curl -fsS http://localhost:8000/ready >/dev/null 2>&1; do sleep 2; done
 ```
+
+From a checkout, with compose (`docker compose --profile api up -d`) or in a virtual environment, for development:
+
+```bash
+pip install -r requirements.txt -r service/requirements.txt
+python -m service.api                  # honours PORT/HOST; default 0.0.0.0:8000; leave it running
+```
+
+Then, from another terminal:
 
 ```bash
 # a text, YAKE (no model to load)
@@ -45,17 +51,24 @@ curl -s -X POST localhost:8000/extract_keywords_text -H 'Content-Type: applicati
 
 # the record after nlp-enrich, per document and per page
 curl -s -X POST localhost:8000/extract_keywords \
-  -F "document_json=@CTX000000001.document.json;type=application/json" -F kind=statistical
+  -F "document_json=@<doc>.document.json;type=application/json" -F kind=statistical
 ```
 
-The controlled kind, with OpenRouter (or `LLM_BACKEND=ollama OLLAMA_MODEL=…` for a local Ollama):
+Stop the container with `docker rm -f atrium-keyword-extract`.
+
+The controlled kind, with OpenRouter (or `LLM_BACKEND=ollama OLLAMA_MODEL=…` for a local Ollama). Start the service
+with the backend configured, and leave it running:
 
 ```bash
-export OPENROUTER_API_KEY=sk-... OPENROUTER_MODEL=openai/gpt-4o-mini
-python -m service.api
+OPENROUTER_API_KEY=sk-... OPENROUTER_MODEL=openai/gpt-4o-mini python -m service.api
+```
+
+Then, from another terminal:
+
+```bash
 curl -s localhost:8000/info | jq .controlled        # ready: true, the model, the vocabulary, the prompt
 curl -s -X POST localhost:8000/extract_keywords \
-  -F "document_json=@CTX000000001.document.json;type=application/json" -F kind=both
+  -F "document_json=@<doc>.document.json;type=application/json" -F kind=both
 ```
 
 ## Models and caches
@@ -68,13 +81,13 @@ curl -s -X POST localhost:8000/extract_keywords \
 
 ## Endpoints
 
-| Method | Path                     | Purpose                                                                                                                                                                                                                    |
-|--------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GET    | `/info`                  | service id, endpoints, the methods (default, descriptions, the KeyBERT model), the kinds available, `controlled` (ready or why not, backend, model, vocabulary, prompt), `limits` and `limits_meta`, `openapi_sha256`      |
-| GET    | `/health`                | liveness — 200 always, even mid-shutdown                                                                                                                                                                                   |
-| GET    | `/ready`                 | readiness — 503 until the startup warm-up (the KeyBERT model when it is the default; the controlled kind's vocabulary and prompt when it is configured) has finished, 200 while serving, 503 the instant `SIGTERM` arrives |
-| POST   | `/extract_keywords`      | **the entry point** — the record (`document_json`), a file (`file`), or both: statistical keywords per document and per page, controlled keywords per line, and the record with its `keywords` and `enrichment` blocks     |
-| POST   | `/extract_keywords_text` | the same on a plain text in a JSON body (no pages, no record)                                                                                                                                                              |
+| Method | Path                     | Purpose                                                                                                                                                                                                                                        |
+|--------|--------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GET    | `/info`                  | service id, endpoints, the methods (default, descriptions, the KeyBERT model), the kinds available, `controlled` (ready or why not, backend, model, vocabulary, prompt), `limits` and `limits_meta`, `openapi_sha256`                          |
+| GET    | `/health`                | liveness — 200 once the service has started, even mid-shutdown; nothing answers during the start-up                                                                                                                                            |
+| GET    | `/ready`                 | readiness — 200 while serving, 503 the instant `SIGTERM` arrives; like `/health`, it answers only once the start-up (the KeyBERT model when it is the default; the controlled kind's vocabulary and prompt when it is configured) has finished |
+| POST   | `/extract_keywords`      | **the entry point** — the record (`document_json`), a file (`file`), or both: statistical keywords per document and per page, controlled keywords per line, and the record with its `keywords` and `enrichment` blocks                         |
+| POST   | `/extract_keywords_text` | the same on a plain text in a JSON body (no pages, no record)                                                                                                                                                                                  |
 
 ### `POST /extract_keywords` (multipart form)
 
@@ -93,11 +106,11 @@ curl -s -X POST localhost:8000/extract_keywords \
 
 ### The methods
 
-| `method`  | What it is                                                                           | Score                                     | Needs                                                                                                                     |
-|-----------|--------------------------------------------------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
-| `keybert` | embedding-based; best quality, uses a GPU when there is one                          | cosine similarity, [0, 1]                 | the embedding model (first use)                                                                                           |
-| `yake`    | unsupervised statistical, CPU only (**AGPL-3.0**: a run that uses it is declared so) | inverted YAKE score, normalised to [0, 1] | —                                                                                                                         |
-| `legacy`  | KER: counts the lemmas of nouns, proper nouns and adjectives                         | an occurrence count                       | lemmas: a CoNLL-U or TEITOK `file`, or a record's `lines[].lemma`/`upos` (no ATRIUM tool writes them); without them → 422 |
+| `method`  | What it is                                                                           | Score                                     | Needs                                                                                                                                          |
+|-----------|--------------------------------------------------------------------------------------|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| `keybert` | embedding-based; best quality, uses a GPU when there is one                          | cosine similarity, [0, 1]                 | the embedding model (first use)                                                                                                                |
+| `yake`    | unsupervised statistical, CPU only (**AGPL-3.0**: a run that uses it is declared so) | inverted YAKE score, normalised to [0, 1] | —                                                                                                                                              |
+| `legacy`  | KER: counts the lemmas of nouns, proper nouns and adjectives                         | an occurrence count                       | lemmas: a CoNLL-U or TEITOK `file`, or a record's `lines[].lemma`/`upos` (nlp-enrich writes one per line, its head word's); without them → 422 |
 
 Scores mean different things per method, so compare them only within one method and one list; every
 keyword carries `method` and `rank`.
@@ -172,10 +185,10 @@ term get a `pid` with the term's AMČR URI and its AAT exact match (`vocab_manag
 - `ok`: it ran.
 - `skipped`: it was asked for with the other kind and is not available here.
 
-A kind that ran and failed fails the whole call (D13): no keywords and no record come back
+A kind that ran and failed fails the whole call: no keywords and no record come back
 ([Errors](#errors)).
 
-An `enrichment` item's `page` and `line` are the record's line key (atrium-project#84): an item keeps its `line` only
+An `enrichment` item's `page` and `line` are the record's line key: an item keeps its `line` only
 when it names one of the record's `lines[]`, so an item of a `file` sent beside a record, or of a record without
 lines, carries its page only.
 
@@ -184,13 +197,13 @@ an `enrichment` block with no items is still written. With `not-asked`, no line 
 is written. `document_json` is absent only when neither kind wrote a block. `document_json_schema_error` appears when
 the returned record does not validate, and only ever because the record sent did not.
 
-`paradata` is the run's Process Run Crate `CreateAction` (paradata schema 3.0, atrium-project#84). Its `@id` is the
+`paradata` is the run's Process Run Crate `CreateAction` (paradata schema 3.0). Its `@id` is the
 run's `run_uuid`. `object` names what the call read by AMČR distribution name and SHA-512: the record version
 (`atrium/document-json`), and a `file` or a text as `original`. `result` is the record written, with the blocks and
 fields the run wrote (`recordFields`); a call that returns no record has an empty `result`. The returned keywords
-and `enrichment` are not stored outputs and are not named. `paradataRecord` is the paradata itself: the method,
-model and vocabulary versions in `parameters`, and the methods and vocabularies as `components`, each with its own
-terms. No licence of the output is computed. The record itself carries no run data.
+and `enrichment` are not stored outputs and are not named. `paradataRecord` is the paradata itself: the kind, the method, the number of keywords and, for the
+controlled kind, the backend and the model in `parameters`; the methods and, when the controlled kind contributed, the
+vocabularies as `components`, each with its own terms. No licence of the output is computed. The record itself carries no run data.
 
 `limits_applied` lists the limits that sampled or split the input (the same notes as the paradata's `limits`):
 
@@ -202,7 +215,7 @@ A limit that would trim, skip or stop content fails the call instead ([Errors](#
 
 ## Errors
 
-Every error has one JSON body (hub `docs/agent_skill_strategy.md` §4.4):
+Every error has one JSON body, the same in every ATRIUM service (`ErrorBody` in [`openapi.json`](openapi.json)):
 `{"status": <int>, "reason": <code or null>, "detail": "<text>"}`. `detail` is always a string. A limit
 refusal adds `limit` (`{key, env, value, observed, unit}`, and `effect` when content was cut); a request validation error adds FastAPI's list
 of problems as `errors`.
@@ -224,7 +237,7 @@ Every limit is an environment setting, declared in `tool_limits.py`. `GET /info`
 (`limits`), and `limits_meta` says which variable sets it and whether the value came from the environment,
 `llm_config.txt` or the default. A malformed value stops the service at startup, naming the variable. An input over
 a limit is refused with the [JSON error body](#errors). A limit that samples or splits the input is named in
-`limits_applied`; one that would trim, skip or stop content fails the call (D13). `tests/test_limits_contract.py` checks this table against `tool_limits.py` and `.env.example`.
+`limits_applied`; one that would trim, skip or stop content fails the call. `tests/test_limits_contract.py` checks this table against `tool_limits.py` and `.env.example`.
 
 | Key (`/info`)                | Variable                                                            | Default | Unit     | Over the limit                                                                                                                                                                                                                                |
 |------------------------------|---------------------------------------------------------------------|---------|----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -249,10 +262,10 @@ counts of the controlled kind are estimates at 4 characters per token
 OpenRouter default whole and is cut at Ollama's. There is no per-request time limit: the work runs in a
 thread that cannot be stopped, and each LLM call has its own (`LLM_TIMEOUT`).
 
-## No partial results
+## Partial results
 
-Since ARÚP's output contract of 12 November 2026 (D13) a 200 carries everything that was asked for, or the call
-fails. Read these before using the result:
+There are none: a 200 carries everything that was asked for, or the call fails. Read these before using the
+result:
 
 - `kinds` says per kind `ok` or `skipped` (asked for with the other, not available here: no `enrichment` is
   written).
@@ -265,16 +278,17 @@ fails. Read these before using the result:
 - **Forced labels.** The enum keeps `teater_category` inside the vocabulary, not on topic. A model that
   starts a word that is no term is finished as a term sharing its start: `zvonice` (a bell tower) for
   Bell Beaker vessels, `Pentelikon` (a mountain) for *peníz* (a coin). The prompt rules and the accepted composite
-  halves reduce it. In the re-runs of 19 October 2026, Qwen3.8-27B had none left, while the Qwen3.6 models still gave
-  `zvonice` and `prahory`. `score_categories.py` counts it in a run. With OpenRouter and Ollama the reply is checked
+  halves reduce it. In the third round of research runs (`data_samples/KW_PER_DOC_LLM_R3_*`), Qwen3.8-27B had none
+  left, while the Qwen3.6 models still gave `zvonice` and `prahory`. `score_categories.py` counts it in a run. With OpenRouter and Ollama the reply is checked
   after it arrives, so only a provider that decodes under the schema can be forced.
 - **`confidence_score` is not calibrated.** Most lines get one of two values (0.95, 0.85): do not rank or
   filter on it.
 - **Research output.** No category has been checked against a reviewed answer yet
   (`data_samples/vocab/gold_workbook.csv` has no `gold_category`). Treat the categories as suggestions
-  ([#2](https://github.com/ufal/atrium-keyword-extract/issues/2)).
+  ([atrium-keyword-extract#2](https://github.com/ufal/atrium-keyword-extract/issues/2)).
 - **The KeyBERT model is fetched at startup** into `HF_HOME`, not shipped in the image: see
-  [Configuration](#configuration-environment).
+  [Configuration](#configuration-environment). Until it is loaded the service answers nothing, so a slow first
+  download can outlast the image's health check (180 s); fill the cache volume first.
 
 ## Configuration (environment)
 
@@ -313,8 +327,9 @@ KeyBERT in one batch — in a worker thread, inside one of `MAX_CONCURRENT_REQUE
 (`keywords.py`) reads the same inputs with the same code (`kw_inputs.py`) and runs the same methods. What only one of
 them does: [the command line and the service](../docs/usage.md#the-command-line-and-the-service).
 
-The KeyBERT model is loaded at startup when it is the default, so the first request does not pay for it. A model
-that does not load does not stop the service: the first request that needs it answers 500 with the cause.
+The KeyBERT model is loaded at startup when it is the default, so the first request does not pay for it; the port
+opens only after that. A model that does not load does not stop the service: the first request that needs it answers
+500 with the cause.
 
 The controlled kind is built once at startup when `LLM_BACKEND` and its model are configured. The vocabulary is
 loaded, the prompt rendered and the JSON schema built, and the backend's chat function bound (`llm_client_shared.py`
@@ -376,4 +391,4 @@ pytest -m "not slow"
 
 To check a controlled-kind backend end to end in two calls, set the variables from [Start](#start) and run
 `ATRIUM_LIVE_BACKEND=1 pytest -rs tests/test_controlled_live.py`. The workflow `.github/workflows/controlled-live.yml`
-runs it weekly, on demand and on `test` pushes that touch the controlled kind.
+runs it on pull requests into `test` that touch the controlled kind, and on demand.
