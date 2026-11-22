@@ -1,6 +1,7 @@
 # Strategy — [atrium-project#84](https://github.com/ufal/atrium-project/issues/84) (doc-schema-v2): atrium-keyword-extract's part
 
-> _**Refreshed 2026-11-19**: "Status — 11-19": #6 and the live lane's fix on `test`; AMČR's storage contract; #1's pair
+> _**Refreshed 2026-11-22**: the CI schedules gone with #8 (atrium-project#79 and #40); the pins at `fbffe25`.
+> **Refreshed 2026-11-19**: "Status — 11-19": #6 and the live lane's fix on `test`; AMČR's storage contract; #1's pair
 > removed._
 > _**Refreshed 2026-11-14 (afternoon)**: "Status — round 6 (11-14)": the hub merged, the pins moved, round 6._
 > _**Refreshed 2026-11-14**: "Status — PR (11-14)": the PR's checks and round 5's fixes._
@@ -14,6 +15,8 @@
 > This file is this repository's slice only; its 11-11 version was written before the
 > issue existed. The section "2026-11-12" is the current reading; where the 11-11 text below differs, it is
 > superseded._
+
+**Status (2026-11-22)**: 🟢 **As on 11-19, now pinned to `fbffe25` since atrium-project#79's merge (11-22, #8 `dcfd190`). The schedules of `controlled-live.yml`, `vocab-refresh.yml` and `scheduled-smoke.yml` are gone on `test`: the live check runs on pull requests into `test` that touch its files, and by dispatch. On `master` they run until the release merge (atrium-project#77).**
 
 **Status (2026-11-19)**: 🟢 **This repository's part is on `test` (#5, #6, `46f6e72`), pinned to `02cbd01`; the live
 controlled lane is green on record 2.0. AMČR's storage contract (11-19) keeps both keyword groups here, with KeyBERT
@@ -217,7 +220,7 @@ Closed #1 (listed, not edited; its pair removed 11-19, the issue keeps the histo
 - #2 (research, deferred past the pilot phase) and #3 (parked with atrium-project#83).
 - The cluster research runs (`llm_run.py`, its `trimmed` notes at `:538` and `:665`): not pipeline outputs.
 - CI schedules: atrium-project#81, CI on pull requests and releases only, security updates excepted. The schedules
-  of `controlled-live.yml`, `vocab-refresh.yml` and `scheduled-smoke.yml` go; `codeql.yml` and `security.yml` keep
-  theirs; `gpu-inference.yml` has no active schedule, and its commented-out "restore" note goes.
+  of `controlled-live.yml`, `vocab-refresh.yml` and `scheduled-smoke.yml` go (done on `test`, #8, 11-22); `codeql.yml`
+  and `security.yml` keep theirs; `gpu-inference.yml` has no active schedule, and its commented-out "restore" note goes.
 - The document's licence: AMČR's RO-Crate only.
 - `plans/teitok_conformance_plan.md` (a copy of nlp-enrich's; left as it is).
