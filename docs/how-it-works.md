@@ -9,12 +9,12 @@ out). The same reader (`kw_inputs.py`) also takes [nlp-enrich](https://github.co
 TEITOK files, a line table and plain text.
 
 The legacy method counts lemmas. It takes those of the nouns, proper nouns and adjectives of a CoNLL-U or TEITOK file,
-or a record's `lines[].lemma` and `lines[].upos`, which no ATRIUM tool writes today.
+or a record's `lines[].lemma` and `lines[].upos`. nlp-enrich writes one lemma per record line, that of the line's head
+word, so a record gives KER fewer lemmas than the CoNLL-U or TEITOK file of the same document.
 
-In the pipeline, keyword-extract comes after nlp-enrich (and after digital-convert on the born-digital route).
-nlp-enrich's `/project_record` can project the statistical and controlled keywords into the TEITOK header: each
-page's lists get an id that its `<pb>` points to, so a TEITOK project can search them as page attributes
-(ufal/flexiconv#1).
+In the AMČR pipeline, keyword-extract follows nlp-enrich and reads the record it leaves. nlp-enrich's
+`/project_record` can project the statistical and controlled keywords into the TEITOK header: each page's lists get an
+id that its `<pb>` points to, so a TEITOK project can search them as page attributes.
 
 | Method    | Needs                                   | Score                                     |
 |-----------|-----------------------------------------|-------------------------------------------|

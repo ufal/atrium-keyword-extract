@@ -26,8 +26,6 @@ concurrency:
 permissions:
   contents: write        # create-pull-request writes the branch
   pull-requests: write   # ...and opens the PR
-  issues: write          # required by "Open Issue on Failure" (a partial block pins
-                         # the omitted scopes to none and yields a 403)
 
 on:
   workflow_dispatch:
@@ -46,9 +44,6 @@ on:
         description: 'Open a PR with the refreshed artifacts'
         type: boolean
         default: false
-  schedule:
-    # Monthly, 1st at 05:00 UTC. Vocabularies move slowly; a nightly run would be noise.
-    - cron: '0 5 1 * *'
 
 jobs:
   harvest:
@@ -112,15 +107,3 @@ jobs:
             that placed every term, so a changed grouping can be read as a diff instead
             of being taken on trust.
           add-paths: data_samples/vocab
-
-      # One open issue per failing lane, commented on by each later failure; scheduled runs only
-      # (atrium-project#81). It used to open a new issue on every failing run.
-      - name: Open or update the lane's issue on scheduled failure
-        if: failure() && github.event_name == 'schedule'
-        uses: ufal/atrium-project/.github/actions/lane-failure-issue@02cbd0144cfa2d39d981d43eea7f4cd72bed53ba  # v1
-        with:
-          lane: vocab-refresh
-          title: Scheduled vocabulary refresh failed
-          labels: bug,automated issue
-          body: >-
-            The vocabulary harvest failed. Please review the action logs.

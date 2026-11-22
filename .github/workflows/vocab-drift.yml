@@ -49,29 +49,6 @@ on:
       - "llm_config.txt"
       - "prompts/**"
       - ".github/workflows/vocab-drift.yml"
-  push:
-    branches: [test, master]
-    paths:
-      - "vocab_sources.py"
-      - "vocab_manager.py"
-      - "vocab_build.py"
-      - "data_samples/taxonomy_config.json"
-      - "data_samples/taxonomy_overrides.json"
-      - "data_samples/vocab/**"
-      - "vocab_review.py"
-      - "atrium_vocab.py"
-      - "corpus_review.py"
-      - "tests/test_vocab_build.py"
-      - "tests/test_vocab_manager.py"
-      - "tests/test_vocab_sources.py"
-      - "tests/test_vocab_review.py"
-      - "tests/test_corpus_review.py"
-      - "tests/test_prompt_template.py"
-      - "prompt_template.py"
-      - "llm_run.py"
-      - "llm_config.txt"
-      - "prompts/**"
-      - ".github/workflows/vocab-drift.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

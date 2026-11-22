@@ -27,30 +27,30 @@ The vocabulary and the prompt have their own runbooks:
 
 ## Layout of the repository
 
-| Path                                                                              | What it holds                                                                                                         |
-|-----------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| `keywords.py`, `kw_inputs.py`, `kw_config.txt`                                    | the batch command line for the statistical kind, the reader that the command line and the service share, its defaults |
-| `service/`                                                                        | the HTTP service (`api.py`), its runbook, the committed `openapi.json`, and its requirements                          |
-| `llm_client_shared.py`, `openrouter_client.py`, `ollama_client.py`                | the controlled kind's engine and its two remote clients, which need no GPU                                            |
-| `llm_run.py`, `llm_utils.py`, `llm_config.txt`, `requirements_llm.txt`            | the research run on a GPU node (the `llm` Docker target)                                                              |
-| `prompt_template.py`, `prompts/`                                                  | the controlled kind's prompt, built from blocks, and its renders                                                      |
-| `vocab_sources.py`, `vocab_build.py`, `vocab_review.py`, `vocab_manager.py`       | the AMČR and TEATER vocabulary: harvest, build, review, look-up                                                       |
-| `corpus_review.py`, `score_categories.py`                                         | the vocabulary-gap review, and the report on a run's category picks                                                   |
-| `dm_run.py`                                                                       | decision models, offline (#3): the descent tree over the content vocabulary, form terms withheld                      |
-| `decision_client.py`                                                              | the decision-model client, copied from page-classification, for `dm_run.py`'s line mode                               |
-| `data_samples/`                                                                   | sample inputs, sample outputs, and the built vocabulary in `data_samples/vocab/`                                      |
-| `atrium_*.py`, `para_licenses.py`, `tool_limits.py`, `check_version.py`           | the modules shared across ATRIUM tools (the record, paradata, limits), and this tool's limits declaration             |
-| `api_util/`                                                                       | the TEITOK reader and the coordinate scaling, copied from nlp-enrich                                                  |
-| `para_config.txt`, `.env.example`                                                 | the tool's version and the licence inventory; the service's environment                                               |
-| `ker_data/`                                                                       | the two IDF tables of KER's LINDAT release; no shipped code reads them, and the images leave them out                 |
-| `Dockerfile`, `docker-compose.yaml`, `docker-compose.gpu.yaml`, `.github/`        | the three image targets, their compose files, and the workflows                                                       |
-| `tests/`                                                                          | the test suite, which needs no model and no GPU                                                                       |
-| `docs/`                                                                           | this documentation                                                                                                    |
+| Path                                                                        | What it holds                                                                                                                                                      |
+|-----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `keywords.py`, `kw_inputs.py`, `kw_config.txt`                              | the batch command line for the statistical kind, the reader that the command line and the service share, its defaults                                              |
+| `service/`                                                                  | the HTTP service (`api.py`), its runbook, the committed `openapi.json`, and its requirements                                                                       |
+| `llm_client_shared.py`, `openrouter_client.py`, `ollama_client.py`          | the controlled kind's engine and its two remote clients, which need no GPU                                                                                         |
+| `llm_run.py`, `llm_utils.py`, `llm_config.txt`, `requirements_llm.txt`      | the research run on a GPU node (the `llm` Docker target)                                                                                                           |
+| `prompt_template.py`, `prompts/`                                            | the controlled kind's prompt, built from blocks, and its renders                                                                                                   |
+| `vocab_sources.py`, `vocab_build.py`, `vocab_review.py`, `vocab_manager.py` | the AMČR and TEATER vocabulary: harvest, build, review, look-up                                                                                                    |
+| `corpus_review.py`, `score_categories.py`                                   | the vocabulary-gap review, and the report on a run's category picks                                                                                                |
+| `dm_run.py`                                                                 | decision models, offline: the descent tree over the content vocabulary, form terms withheld; parked during the AMČR pilot ([parked features](reference/parked.md)) |
+| `decision_client.py`                                                        | the decision-model client, copied from page-classification, for `dm_run.py`'s line mode; parked with it                                                            |
+| `data_samples/`                                                             | sample inputs, sample outputs, and the built vocabulary in `data_samples/vocab/`                                                                                   |
+| `atrium_*.py`, `para_licenses.py`, `tool_limits.py`, `check_version.py`     | the modules shared across ATRIUM tools (the record, paradata, limits), and this tool's limits declaration                                                          |
+| `api_util/`                                                                 | the TEITOK reader and the coordinate scaling, copied from nlp-enrich                                                                                               |
+| `para_config.txt`, `.env.example`                                           | the tool's version and the licence inventory; the service's environment                                                                                            |
+| `ker_data/`                                                                 | the two IDF tables of KER's LINDAT release; no shipped code reads them, and the images leave them out                                                              |
+| `Dockerfile`, `docker-compose.yaml`, `docker-compose.gpu.yaml`, `.github/`  | the three image targets, their compose files, and the workflows                                                                                                    |
+| `tests/`                                                                    | the test suite, which needs no model and no GPU                                                                                                                    |
+| `docs/`                                                                     | this documentation                                                                                                                                                 |
 
 ## History of the repository
 
 keyword-extract was assembled on 1 October 2026 from two repositories' keyword code, after the meeting of
-30 September ([#1](https://github.com/ufal/atrium-keyword-extract/issues/1)):
+30 September ([atrium-keyword-extract#1](https://github.com/ufal/atrium-keyword-extract/issues/1)):
 
 - the keyword extraction of [atrium-nlp-enrich](https://github.com/ufal/atrium-nlp-enrich) (`keywords.py`), which
   keeps the LINDAT calls (UDPipe and NameTag);

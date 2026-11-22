@@ -7,9 +7,10 @@
 # against OpenRouter with the repository's OPENROUTER_KEY secret: one record, two lines, two
 # calls of some 50k prompt tokens each.
 #
-# When: on demand (before a release) and weekly (the default branch). Not on every push and not
-# on pull requests: every run is paid for, and a fork's pull request gets no secret anyway. A
-# failing weekly run opens (or comments on) one issue for this lane (atrium-project#81).
+# When: on demand (before a release), and on a pull request into `test` that touches the files the
+# controlled kind depends on (the `paths` below). Not on every pull request: every run is paid for.
+# A fork's pull request gets no secret, and the test then skips. There is no scheduled run (the CI
+# agreement of 11 November 2026: pull requests and releases only).
 #
 # The model is the manual run's input, else the repository variable OPENROUTER_MODEL, else
 # openai/gpt-4o-mini (the service README's example and the hub E2E's default). A failure here is
@@ -18,7 +19,7 @@
 name: Controlled Kind (live LLM)
 
 on:
-  push:
+  pull_request:
     branches: [test]
     paths:
       - "service/api.py"
@@ -33,9 +34,6 @@ on:
       - "requirements-test.txt"
       - "tests/test_controlled_live.py"
       - ".github/workflows/controlled-live.yml"
-  schedule:
-    # Mondays 05:00 UTC, after scheduled-smoke.yml (04:00)
-    - cron: '0 5 * * 1'
   workflow_dispatch:
     inputs:
       model:
@@ -44,15 +42,14 @@ on:
         required: false
         default: ""
 
-# A superseded push's run is a paid run nobody reads. The event is in the group, so a push never
-# cancels the weekly run.
+# A superseded pull-request run is a paid run nobody reads. The event is in the group, so a pull
+# request never cancels a manual run.
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read   # least privilege: reads the tree, calls OpenRouter
-  issues: write    # the lane's failure issue (lane-failure-issue), scheduled runs only
 
 jobs:
   live:
@@ -91,16 +88,3 @@ jobs:
           fi
           echo "model: $OPENROUTER_MODEL"
           pytest -s -rs tests/test_controlled_live.py
-
-      # One open issue per failing lane, commented on by each later failure; scheduled runs only
-      # (atrium-project#81), as in scheduled-smoke.yml.
-      - name: Open or update the lane's issue on scheduled failure
-        if: failure() && github.event_name == 'schedule'
-        uses: ufal/atrium-project/.github/actions/lane-failure-issue@02cbd0144cfa2d39d981d43eea7f4cd72bed53ba  # v1
-        with:
-          lane: controlled-live
-          title: Controlled kind (live LLM) failed
-          labels: bug,automated issue
-          body: >-
-            The weekly run of the controlled kind against OpenRouter failed. A failure here is
-            first the provider's or the model's answer: read the log before touching the code.
