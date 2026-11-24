@@ -9,21 +9,20 @@ repository_fallback = https://github.com/ufal/atrium-keyword-extract
 
 [components]
 # name = <license> ; <always|conditional> ; <role>
-# "always"      -> component is part of every run (worst-case baseline)
-# "conditional" -> only counts toward the license when log_component() is called
-#                  (or, via the CLI shim, when `--component NAME` is passed to
-#                  `start`/`success`).
+# "always"      -> listed in the `components` of every run's paradata
+# "conditional" -> listed only when the run calls log_component() (or, via the CLI
+#                  shim, when `--component NAME` is passed to `start`/`success`).
+# Paradata 3.0 list each component a run used with these terms, as facts: no licence is
+# computed or merged from them (D2, atrium-project#84, #6).
 #
-# License rationale (see ATRIUM issue #6 licensing breakdown):
-#   * No component is "always": which licences apply depends on the method a run uses,
-#     and the run's calculated licence label is the most restrictive of the components it
-#     logged; it is not the licence of the output (atrium-project#6).
-#   * KER (the legacy lemma-frequency method of nlp-enrich) is stdlib-only; it adds no
-#     third-party license, so the repo MIT base applies for KER-only runs.
+# The rows (see ATRIUM issue #6 licensing breakdown):
+#   * No component is "always": which components a run uses depends on its method.
+#   * KER (the legacy lemma-frequency method of nlp-enrich) is stdlib-only; it brings no
+#     third-party terms.
 #   * KeyBERT is MIT and pulls in sentence-transformers (Apache-2.0); the default embedding
 #     model (paraphrase-multilingual-MiniLM-L12-v2) is Apache-2.0.
 #   * YAKE is AGPL-3.0 (LIAAD/yake PyPI package). It is selectable in the production image
-#     (`method=yake`), and a run that uses it is declared AGPL-3.0 -- the same class of
+#     (`method=yake`), and a run that uses it lists it with those terms -- the same class of
 #     finding as PyMuPDF's in page-classification (atrium-project#72).
 #   * The AMCR `heslo` vocabularies (https://api.aiscr.cz/2.2/oai) and the TEATER
 #     thesaurus are CC0, as stated by their rights holder (AMCR, atrium-project#6,
@@ -43,7 +42,9 @@ sentence_transformers = Apache-2.0 ; conditional ; sentence-transformers backbon
 keybert_model         = Apache-2.0 ; conditional ; paraphrase-multilingual-MiniLM-L12-v2 embedding model weights (Hugging Face Hub)
 amcr_vocab            = CC0        ; conditional ; AMCR heslar controlled vocabulary (vocab_sources.harvest_amcr)
 teater_data           = CC0        ; conditional ; TEATER thesaurus data (vocab_sources.harvest_teater)
-# (#3, atrium-project#83) The decision models of the offline dm_run.py, served at POST /v1/systemone and
-# called through decision_client.py (vendored from page-classification): Clef, Clef-Flash (Cloudflare)
-# and Strands Decider 2B, all Apache-2.0. The service and the batch CLIs never load them.
+# Parked during the AMČR pilot (#3, atrium-project#83; docs/reference/parked.md): the decision models
+# of the offline dm_run.py, served at POST /v1/systemone and called through decision_client.py (vendored
+# from page-classification): Clef, Clef-Flash (Cloudflare) and Strands Decider 2B, all Apache-2.0. The
+# row stays so that a parked run still lists them with their terms; the service and the batch CLIs never
+# load them.
 decision_model        = Apache-2.0 ; conditional ; decision models (Clef, Clef-Flash, Strands Decider 2B) for the #3 experiments
