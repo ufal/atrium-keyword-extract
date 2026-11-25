@@ -1,5 +1,6 @@
 # Strategy — [atrium-project#84](https://github.com/ufal/atrium-project/issues/84) (doc-schema-v2): atrium-keyword-extract's part
 
+> _**Refreshed 2026-11-25**: Status — 11-25 (the v2.0.0-beta release prep)._
 > _**Refreshed 2026-11-22**: the CI schedules gone with #8 (atrium-project#79 and #40); the pins at `fbffe25`.
 > **Refreshed 2026-11-19**: "Status — 11-19": #6 and the live lane's fix on `test`; AMČR's storage contract; #1's pair
 > removed._
@@ -17,6 +18,8 @@
 > superseded._
 
 **Status (2026-11-22)**: 🟢 **As on 11-19, now pinned to `fbffe25` since atrium-project#79's merge (11-22, #8 `dcfd190`). The schedules of `controlled-live.yml`, `vocab-refresh.yml` and `scheduled-smoke.yml` are gone on `test`: the live check runs on pull requests into `test` that touch its files, and by dispatch. On `master` they run until the release merge (atrium-project#77).**
+
+**Status (2026-11-25)**: 🟢 **v2.0.0-beta release prep in #9 (`v2-beta-prep` → `test`), CI green; no samples to regenerate. Tag 26 November after the merge; doc-schema-v2's tag waits for the full chain run.**
 
 **Status (2026-11-19)**: 🟢 **This repository's part is on `test` (#5, #6, `46f6e72`), pinned to `02cbd01`; the live
 controlled lane is green on record 2.0. AMČR's storage contract (11-19) keeps both keyword groups here, with KeyBERT

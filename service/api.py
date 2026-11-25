@@ -1036,7 +1036,7 @@ _EXTRACT_ERRORS = (413, 429, 501, 502)
 
 _RECORD_HELP = (
     "The ATRIUM document record, after nlp-enrich: its `lines[].text` are read per page (lines categorised "
-    "`Trash`, `Garbage`, `Inverted` or `Empty` are left out), and for the legacy method its `lines[].lemma` and "
+    "`Trash` or `Empty` are left out), and for the legacy method its `lines[].lemma` and "
     "`lines[].upos`. The controlled kind reads the same lines one by one, each with its neighbours as context, and "
     "returns the record with its `enrichment` block. With a `file`, the text comes from the file and the record "
     "gets its blocks. A record that cannot be opened is refused (422 `invalid_record`); one with no text, 422. "

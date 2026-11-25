@@ -693,8 +693,8 @@ def test_shipped_vocabulary_declares_both_sources_cc0():
 
 def test_every_paradata_component_name_is_declared_in_para_config():
     """log_component() falls back to "UNKNOWN" for a name para_config.txt does not
-    declare — silently, and the run's effective licence is then computed without it.
-    A typo here would under-report a CC BY-NC 4.0 dependency."""
+    declare — silently, and the run then lists that component with the terms "UNKNOWN".
+    A typo here would hide a CC BY-NC 4.0 dependency's terms."""
     from vocab_manager import PARADATA_COMPONENTS
 
     text = (_repo_root() / "para_config.txt").read_text(encoding="utf-8")
