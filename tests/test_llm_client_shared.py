@@ -1518,3 +1518,36 @@ def test_credentials_in_the_config_never_reach_the_paradata():
         "PROMPT_GEO_GUARDRAIL": "preference",
         "MAX_NEW_TOKENS": "2048",
     }
+
+
+def test_the_paradata_config_names_files_and_folders_not_their_paths(tmp_path):
+    """atrium-project#84 decision 1: a run's paradata name the files and folders of llm_config.txt,
+    never their paths (they describe the machine that ran the job); credentials stay out, and the
+    other settings, a model id among them, are kept as given."""
+    config = {
+        "INPUT_DIR": f"{tmp_path}/in/",
+        "OUTPUT_DIR": "data_samples/out",
+        "VOCAB_PATH": "/srv/vocab/union_nested.json",
+        "paradata_dir": "../paradata",
+        "PROMPT_TEMPLATE": "prompts/output_template.json",
+        "COMPOSITE_HALVES_PATH": "",
+        "HF_TOKEN": "hf_secret",
+        "MODEL": "Qwen/Qwen2.5-7B-Instruct",
+    }
+    assert lcs.paradata_config(config) == {
+        "INPUT_DIR": "in",
+        "OUTPUT_DIR": "out",
+        "VOCAB_PATH": "union_nested.json",
+        "paradata_dir": "paradata",
+        "PROMPT_TEMPLATE": "output_template.json",
+        "COMPOSITE_HALVES_PATH": "",
+        "MODEL": "Qwen/Qwen2.5-7B-Instruct",
+    }
+
+
+def test_the_prompt_is_fingerprinted_by_sha512():
+    """atrium-project#84 decision 2: the prompt's fingerprint in the paradata is its SHA-512, as every
+    file the paradata name; the run records it as `prompt.sha512`."""
+    source = (Path(__file__).resolve().parent.parent / "llm_run.py").read_text(encoding="utf-8")
+    assert '"sha512": prompt_sha512' in source and "sha512_of(data=system_prompt)" in source
+    assert "hashlib.sha256" not in source and '"sha256": prompt' not in source

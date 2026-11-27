@@ -1458,3 +1458,12 @@ Documentation only; no code, test or configuration change.
 * **Open (v2.0.1):** the batch command line exits 0 after a failed document; batch paradata hold local paths and a
   prompt SHA-256 (asked on [#84](https://github.com/ufal/atrium-project/issues/84), 11-24).
 * Logs only; not pushed.
+
+## 2026-11-27 — atrium-project#84: the non-A options prepared (ARÚP's answers pending)
+
+* **1b, 2b:** `llm_client_shared.paradata_config()` (redact, then `name_only` on the path keys) in `llm_run.py`, `ollama_client.py`, `openrouter_client.py`; `output_dir_resolved`, `vocabulary_provenance`'s `path`/`meta_path` and `keywords.py`'s folders by name; `prompt.sha512`. The taxonomy hashes are copied from the vocabulary build as they are. The 11-25 open item is prepared.
+* **Checked:** 980 passed (977 at baseline); openapi regenerated.
+* **Shared:** the re-vendored `atrium_paradata.py` (`name_only`, `start --config-name`, `RENDERED_PDF_DISTRIBUTION`), `atrium_document.schema.json` (H3 descriptions: the forced pages and the pages showing graphics) and `atrium_rocrate.py` (a docstring), byte-identical to the hub's; the pin moves to the hub's squash commit before the PR opens.
+* **Not in the PR:** the committed samples, regenerated from the merged code before the tags.
+* The change is `atrium-keyword-extract.decisions-84.zip`, these logs `atrium-keyword-extract.agent_dev_logs.zip`.
+* Logs only; not pushed.

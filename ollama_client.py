@@ -45,7 +45,7 @@ from tqdm import tqdm
 import prompt_template
 import tool_limits
 from atrium_document import canonical_doc_id
-from atrium_paradata import ParadataLogger
+from atrium_paradata import ParadataLogger, name_only
 from llm_client_shared import (
     OUTCOME_EMPTY,
     OUTCOME_FAILED,
@@ -68,8 +68,8 @@ from llm_client_shared import (
     is_document_level,
     is_record_input,
     load_config,
+    paradata_config,
     prompt_contradictions,
-    redact_secrets,
     repo_path,
     run_document_level,
     run_line_level,
@@ -298,11 +298,11 @@ def main(argv: Optional[List[str]] = None) -> None:
     logger = ParadataLogger(
         program=PROGRAM,
         config={
-            **redact_secrets(config),
+            **paradata_config(config),
             "backend": "ollama",
             "model": model,
             "host": host,
-            "output_dir_resolved": str(output_dir),
+            "output_dir_resolved": name_only(str(output_dir)),
             **({"vocabulary": provenance} if provenance else {}),
         },
         paradata_dir=paradata_dir,

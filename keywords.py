@@ -65,7 +65,7 @@ from api_util.teitok_read import (  # noqa: E402
     read_teitok_text,
     read_teitok_tokens,
 )
-from atrium_paradata import ParadataLogger  # noqa: E402
+from atrium_paradata import ParadataLogger, name_only  # noqa: E402
 
 # ── type alias ────────────────────────────────────────────────────────────────
 # A keyword list is a sequence of (phrase, score) pairs sorted best-first.
@@ -1042,20 +1042,22 @@ def main(argv: Optional[List[str]] = None) -> None:
         )
 
     # keyword-extract's own program id: these runs were logged as nlp-enrich's (atrium-project#72).
+    # Files and folders by name, never by path (atrium-project#84 decision 1); the KeyBERT model is
+    # a Hugging Face id and stays as given.
     _logger = ParadataLogger(
         program="keyword-extract",
         config={
             "script": "keywords",
             "method": args.method,
-            "input_dir": str(args.input_dir),
+            "input_dir": name_only(str(args.input_dir)),
             "lang": args.lang,
             "max_words": args.max_words,
             "num_keywords": args.num_keywords,
-            "per_doc_out_dir": str(args.per_doc_out_dir),
-            "output_file": str(args.output_file),
-            "per_page_out_dir": per_page_dir or None,
-            "document_json_dir": args.document_json_dir,
-            "document_json_out_dir": args.document_json_out_dir,
+            "per_doc_out_dir": name_only(str(args.per_doc_out_dir)),
+            "output_file": name_only(str(args.output_file)),
+            "per_page_out_dir": name_only(per_page_dir) or None,
+            "document_json_dir": name_only(args.document_json_dir),
+            "document_json_out_dir": name_only(args.document_json_out_dir),
             **(
                 {
                     "keybert_model": args.keybert_model,

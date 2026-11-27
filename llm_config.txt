@@ -97,7 +97,7 @@ MODEL_KEY=qwen-3.8-27b-it
 # Output goes to <OUTPUT_DIR>_<MODEL_KEY>/, and a document whose output is already there
 # is skipped. Give each variant of one model (PROMPT_* flags, VOCAB_PATH, MAX_MODEL_LEN)
 # its own OUTPUT_DIR, or the second run skips every document; paradata's
-# config.prompt.sha256 tells the variants apart.
+# config.prompt.sha512 tells the variants apart.
 INPUT_DIR=data_samples/DOC_LINE_CATEG
 OUTPUT_DIR=data_samples/KW_PER_DOC_LLM
 VOCAB_PATH=data_samples/vocab/union_nested.json

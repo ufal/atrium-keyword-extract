@@ -46,6 +46,7 @@ from pydantic import BaseModel, Field, ValidationError, field_validator
 import prompt_template
 from api_util import teitok_read
 from api_util.teitok_read import doc_id_from_path  # noqa: F401  (re-exported for clients)
+from atrium_paradata import name_only
 from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES
 
 #: The repository this module runs from: where a relative path from a config falls back to.
@@ -124,6 +125,30 @@ def redact_secrets(config: Dict[str, str]) -> Dict[str, str]:
     """``config`` without its credentials (a key ending in ``API_KEY``, ``TOKEN``, ``SECRET``
     or ``PASSWORD``), for the paradata."""
     return {key: value for key, value in config.items() if not _SECRET_KEY.search(key)}
+
+
+#: The llm_config.txt settings that are a file or a folder (matched in any case).
+_PATH_KEYS = frozenset(
+    {
+        "INPUT_DIR",
+        "OUTPUT_DIR",
+        "VOCAB_PATH",
+        "PARADATA_DIR",
+        "PROMPT_TEMPLATE",
+        "COMPOSITE_HALVES_PATH",
+    }
+)
+
+
+def paradata_config(config: Dict[str, str]) -> Dict[str, Any]:
+    """``config`` as a run's paradata records it: without its credentials (:func:`redact_secrets`),
+    and with each file or folder setting (:data:`_PATH_KEYS`) given by its name, never its path
+    (atrium-project#84 decision 1): ``VOCAB_PATH=data_samples/vocab/union_nested.json`` is
+    ``union_nested.json``. An empty value stays empty."""
+    return {
+        key: name_only(value) if key.upper() in _PATH_KEYS else value
+        for key, value in redact_secrets(config).items()
+    }
 
 
 # ---------------------------------------------------------------------------

@@ -649,6 +649,18 @@ def test_provenance_reads_the_sidecar_beside_the_artifact(tmp_path):
     assert prov["sources"]["amcr"]["ref"] == "oai"
 
 
+def test_provenance_names_the_vocabulary_files_not_their_paths(tmp_path):
+    """atrium-project#84 decision 1: the artifact and its sidecar by file name, never by path."""
+    import os
+
+    from vocab_manager import vocabulary_provenance
+
+    path = _write_vocab_with_meta(tmp_path, {"tool_version": "v0.20.0", "counts": {"total": 1}})
+    prov = vocabulary_provenance(path)
+    assert prov["vocab"]["path"] == "union_nested.json"
+    assert prov["vocab"]["meta_path"] and os.sep not in prov["vocab"]["meta_path"]
+
+
 def test_provenance_names_the_components_the_build_actually_used(tmp_path):
     """An AMCR-only artifact must not claim it used TEATER data — the licence block is
     an assertion about what a run depended on, not a list of what exists."""

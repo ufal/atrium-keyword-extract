@@ -18,7 +18,6 @@ except ImportError:
     pass
 import datetime  # noqa: E402
 import enum  # noqa: E402
-import hashlib  # noqa: E402
 import json  # noqa: E402
 import os  # noqa: E402
 import time  # noqa: E402
@@ -31,12 +30,12 @@ from tqdm import tqdm  # noqa: E402
 
 import llm_utils  # noqa: E402  (side-effect: env-var guard + compat patches)
 import prompt_template  # noqa: E402
-from atrium_paradata import ParadataLogger  # noqa: E402
+from atrium_paradata import ParadataLogger, name_only, sha512_of  # noqa: E402
 from llm_client_shared import (  # noqa: E402
     composite_half_variants,
     composite_halves_from_config,
     offered_composite_halves,
-    redact_secrets,
+    paradata_config,
 )
 from llm_utils import (  # noqa: E402
     CONTEXT_RESERVED,
@@ -402,9 +401,10 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
     logger = ParadataLogger(
         program="keyword-extract",
         config={
-            # HF_TOKEN may be in llm_config.txt; paradata is published with the record.
-            **redact_secrets(config),
-            "output_dir_resolved": str(OUTPUT_DIR),
+            # HF_TOKEN may be in llm_config.txt; paradata is published with the record, and
+            # names files and folders, never their paths (atrium-project#84 decision 1).
+            **paradata_config(config),
+            "output_dir_resolved": name_only(str(OUTPUT_DIR)),
             "backend": BACKEND,
             "include_non_text": INCLUDE_NON_TEXT,
             "min_char_count": MIN_CHAR_COUNT,
@@ -507,10 +507,11 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
 
         # What the model was told, as one fingerprint (D3): the instructions, the flags, the
         # vocabulary build, its grouping and its truncation all change it, so two runs with
-        # the same sha256 got the same system prompt, whatever checkout they ran from.
-        prompt_sha256 = hashlib.sha256(system_prompt.encode("utf-8")).hexdigest()
+        # the same sha512 got the same system prompt, whatever checkout they ran from. SHA-512,
+        # as the paradata name every file (atrium-project#84 decision 2).
+        prompt_sha512 = sha512_of(data=system_prompt)
         logger.config["prompt"] = {
-            "sha256": prompt_sha256,
+            "sha512": prompt_sha512,
             "terms_offered": len(surviving_terms) - 1,
             "context_window": context_window,
             # The category enum takes either case of a label's first letter (build_schema):
@@ -522,7 +523,7 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             "composite_halves": len(halves_offered),
         }
         print(
-            f"  prompt: sha256 {prompt_sha256[:16]}…, {len(surviving_terms) - 1} vocabulary "
+            f"  prompt: sha512 {prompt_sha512[:16]}…, {len(surviving_terms) - 1} vocabulary "
             f"terms offered, served window {context_window} tokens"
         )
 

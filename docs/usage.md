@@ -185,7 +185,8 @@ What the research run does:
   consecutive errors.
 - It skips a document whose output already exists, so a stopped job resumes. To redo an aborted document, delete its
   two files.
-- It writes a paradata record that names the vocabulary build and the sha256 of the prompt it used.
+- It writes a paradata record that names the vocabulary build and the SHA-512 of the prompt it used
+  (`prompt.sha512`). It names the files and folders of `llm_config.txt` and its output folder, never their paths.
 
 The whole prompt is about 58k tokens. A model served with a smaller window sees only a prefix of the vocabulary, and
 the paradata record it as `sampled`, with how many terms were left out. A line whose prompt is still over the window
