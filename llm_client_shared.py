@@ -46,7 +46,6 @@ from pydantic import BaseModel, Field, ValidationError, field_validator
 import prompt_template
 from api_util import teitok_read
 from api_util.teitok_read import doc_id_from_path  # noqa: F401  (re-exported for clients)
-from atrium_paradata import name_only
 from atrium_vocab import UNTRUSTWORTHY_LINE_CATEGORIES
 
 #: The repository this module runs from: where a relative path from a config falls back to.
@@ -141,14 +140,37 @@ _PATH_KEYS = frozenset(
 
 
 def paradata_config(config: Dict[str, str]) -> Dict[str, Any]:
-    """``config`` as a run's paradata records it: without its credentials (:func:`redact_secrets`),
-    and with each file or folder setting (:data:`_PATH_KEYS`) given by its name, never its path
-    (atrium-project#84 decision 1): ``VOCAB_PATH=data_samples/vocab/union_nested.json`` is
-    ``union_nested.json``. An empty value stays empty."""
+    """``config`` as a run's paradata records it: the settings only (atrium-project#84 decision
+    1(c)), without its credentials (:func:`redact_secrets`) and without its file and folder settings
+    (:data:`_PATH_KEYS`): the files a run reads and writes are its inputs and outputs, by file name and
+    SHA-512 (:func:`run_input_files`, ``ParadataLogger.add_input_files``)."""
     return {
-        key: name_only(value) if key.upper() in _PATH_KEYS else value
-        for key, value in redact_secrets(config).items()
+        key: value for key, value in redact_secrets(config).items() if key.upper() not in _PATH_KEYS
     }
+
+
+def run_input_files(
+    config: Dict[str, str], vocab_path: Optional[str] = None, config_file: Optional[str] = None
+) -> List[str]:
+    """The files an enrichment run reads besides its documents (atrium-project#84 decisions 1, 2):
+    its config file, the vocabulary and its ``*.meta.json`` sidecar, the prompt template, and the
+    composite-halves sheet when ``ACCEPT_COMPOSITE_HALVES`` is on. Named by file name and SHA-512
+    (``ParadataLogger.add_input_files``); those that are not files are left out."""
+    import prompt_template  # noqa: PLC0415  (imports this module)
+
+    paths: List[Any] = [config_file]
+    if vocab_path:
+        vocab = repo_path(vocab_path) if not Path(vocab_path).exists() else Path(vocab_path)
+        paths += [vocab, vocab.with_suffix(".meta.json")]
+    paths.append(prompt_template.template_path(config))
+    if str(config.get("ACCEPT_COMPOSITE_HALVES", "true")).strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }:
+        paths.append(repo_path(config.get("COMPOSITE_HALVES_PATH") or COMPOSITE_HALVES_PATH))
+    return [str(p) for p in paths if p and Path(str(p)).is_file()]
 
 
 # ---------------------------------------------------------------------------

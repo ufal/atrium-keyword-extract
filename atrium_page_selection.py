@@ -69,9 +69,7 @@ def forced_pages(docproc: Dict[str, Any]) -> List[int]:
     routing = _routing(docproc)
     if is_atr_docproc(docproc) or any("forced" in row for row in routing):
         return sorted({_number(row["page"]) for row in routing if row.get("forced") is True})
-    pages = {
-        _number(page["pageNumber"]) for page in _pages(docproc) if page.get("needsAtr") is True
-    }
+    pages = {_number(page["pageNumber"]) for page in _pages(docproc) if page.get("needsAtr") is True}
     pages |= {_number(row["page"]) for row in routing if row.get("route") == "atr"}
     return sorted(pages)
 
@@ -82,10 +80,7 @@ def figure_pages(docproc: Dict[str, Any]) -> List[int]:
         {
             _number(page["pageNumber"])
             for page in _pages(docproc)
-            if any(
-                isinstance(b, dict) and b.get("type") in FIGURE_TYPES
-                for b in page.get("blocks") or []
-            )
+            if any(isinstance(b, dict) and b.get("type") in FIGURE_TYPES for b in page.get("blocks") or [])
         }
     )
 

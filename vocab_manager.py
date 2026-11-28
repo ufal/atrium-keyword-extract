@@ -25,8 +25,6 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tupl
 
 import requests
 
-from atrium_paradata import name_only
-
 # Administrative words that should sort to the back of their theme, so that prompt
 # truncation drops boilerplate before it drops archaeological vocabulary. Module level
 # because build_nested() is now a pure function of (taxonomy, terms) and must not depend
@@ -106,10 +104,10 @@ def vocabulary_provenance(vocab_path: str) -> Dict[str, Any]:
     Returns ``{}`` when there is no sidecar: the legacy flat vocabulary and an
     auto-synced one have none, and a run must not fail over missing provenance. Keys:
 
-      ``vocab``        the artifact's and the sidecar's file names (never their paths:
-                       atrium-project#84 decision 1), tool version and term count
-      ``taxonomy``     ``{config_sha256, overrides_sha256}`` — the two files that
-                       decide every placement
+      ``vocab``        the build's tool version and term count (the artifact and its sidecar
+                       are the run's input entries, by file name and SHA-512:
+                       atrium-project#84 decisions 1, 2; the sidecar's SHA-256s of the
+                       taxonomy files are not copied, so no SHA-256 reaches the paradata)
       ``sources``      per source: records, licence and pinned ref
       ``components``   para_config component names to pass to ``log_component``
     """
@@ -137,14 +135,8 @@ def vocabulary_provenance(vocab_path: str) -> Dict[str, Any]:
 
     return {
         "vocab": {
-            "path": name_only(str(vocab_path)),
-            "meta_path": name_only(str(meta_path)),
             "tool_version": meta.get("tool_version"),
             "terms": (meta.get("counts") or {}).get("total"),
-        },
-        "taxonomy": {
-            "config_sha256": (meta.get("taxonomy_config") or {}).get("sha256"),
-            "overrides_sha256": (meta.get("taxonomy_overrides") or {}).get("sha256"),
         },
         "sources": sources,
         "components": sorted(components),

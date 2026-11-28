@@ -65,7 +65,7 @@ from api_util.teitok_read import (  # noqa: E402
     read_teitok_text,
     read_teitok_tokens,
 )
-from atrium_paradata import ParadataLogger, name_only  # noqa: E402
+from atrium_paradata import ParadataLogger  # noqa: E402
 
 # ── type alias ────────────────────────────────────────────────────────────────
 # A keyword list is a sequence of (phrase, score) pairs sorted best-first.
@@ -1042,22 +1042,17 @@ def main(argv: Optional[List[str]] = None) -> None:
         )
 
     # keyword-extract's own program id: these runs were logged as nlp-enrich's (atrium-project#72).
-    # Files and folders by name, never by path (atrium-project#84 decision 1); the KeyBERT model is
-    # a Hugging Face id and stays as given.
+    # Settings only (atrium-project#84 decision 1(c)): the documents read and the CSVs written are
+    # input and output entries by file name and SHA-512; the KeyBERT model is a Hugging Face id.
     _logger = ParadataLogger(
         program="keyword-extract",
         config={
             "script": "keywords",
             "method": args.method,
-            "input_dir": name_only(str(args.input_dir)),
             "lang": args.lang,
             "max_words": args.max_words,
             "num_keywords": args.num_keywords,
-            "per_doc_out_dir": name_only(str(args.per_doc_out_dir)),
-            "output_file": name_only(str(args.output_file)),
-            "per_page_out_dir": name_only(per_page_dir) or None,
-            "document_json_dir": name_only(args.document_json_dir),
-            "document_json_out_dir": name_only(args.document_json_out_dir),
+            "per_page": bool(per_page_dir),
             **(
                 {
                     "keybert_model": args.keybert_model,
@@ -1113,6 +1108,20 @@ def main(argv: Optional[List[str]] = None) -> None:
                                 args.num_keywords,
                             )
                             processed_count += 1
+                            _logger.add_input_files(result["path"])
+                            _logger.add_output_files(
+                                *[
+                                    p
+                                    for p in (
+                                        Path(args.per_doc_out_dir)
+                                        / f"{result['doc_id']}_keywords.csv",
+                                        Path(per_page_dir) / f"{result['doc_id']}_keywords.csv"
+                                        if per_page_dir
+                                        else None,
+                                    )
+                                    if p is not None and p.is_file()
+                                ]
+                            )
                             _logger.log_success("csv_per_doc", count=1)
                             _logger.log_success("csv_summary_row", count=1)
                             if result["pages"]:
@@ -1140,6 +1149,8 @@ def main(argv: Optional[List[str]] = None) -> None:
                     else:
                         _logger.log_skip(str(batch_paths), str(exc))
     finally:
+        if Path(args.output_file).is_file():
+            _logger.add_output_files(args.output_file)
         _note_keybert_limits(_logger, limit_counts)
         _logger.finalize(input_total=len(all_files))
 

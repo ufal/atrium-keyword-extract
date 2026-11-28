@@ -1520,10 +1520,10 @@ def test_credentials_in_the_config_never_reach_the_paradata():
     }
 
 
-def test_the_paradata_config_names_files_and_folders_not_their_paths(tmp_path):
-    """atrium-project#84 decision 1: a run's paradata name the files and folders of llm_config.txt,
-    never their paths (they describe the machine that ran the job); credentials stay out, and the
-    other settings, a model id among them, are kept as given."""
+def test_the_paradata_config_holds_settings_only(tmp_path):
+    """atrium-project#84 decision 1(c): a run's paradata `config` keeps the settings of llm_config.txt
+    and none of its files or folders (they are input entries); credentials stay out, and a model id is
+    kept as given."""
     config = {
         "INPUT_DIR": f"{tmp_path}/in/",
         "OUTPUT_DIR": "data_samples/out",
@@ -1533,21 +1533,38 @@ def test_the_paradata_config_names_files_and_folders_not_their_paths(tmp_path):
         "COMPOSITE_HALVES_PATH": "",
         "HF_TOKEN": "hf_secret",
         "MODEL": "Qwen/Qwen2.5-7B-Instruct",
+        "INCLUDE_NON_TEXT": "true",
     }
     assert lcs.paradata_config(config) == {
-        "INPUT_DIR": "in",
-        "OUTPUT_DIR": "out",
-        "VOCAB_PATH": "union_nested.json",
-        "paradata_dir": "paradata",
-        "PROMPT_TEMPLATE": "output_template.json",
-        "COMPOSITE_HALVES_PATH": "",
         "MODEL": "Qwen/Qwen2.5-7B-Instruct",
+        "INCLUDE_NON_TEXT": "true",
     }
 
 
-def test_the_prompt_is_fingerprinted_by_sha512():
-    """atrium-project#84 decision 2: the prompt's fingerprint in the paradata is its SHA-512, as every
-    file the paradata name; the run records it as `prompt.sha512`."""
+def test_the_files_a_run_reads_are_input_entries(tmp_path):
+    """Decisions 1(c) and 2: the config file, the vocabulary with its sidecar, the prompt template and
+    the composite halves are named by file name and SHA-512; the prompt's fingerprint is its template's
+    entry, so no `prompt.sha512` (and no SHA-256) is left in llm_run's config."""
+    config_file = tmp_path / "llm_config.txt"
+    config_file.write_text("MODEL=x\n", encoding="utf-8")
+    vocab = tmp_path / "union_nested.json"
+    vocab.write_text("{}", encoding="utf-8")
+    vocab.with_suffix(".meta.json").write_text("{}", encoding="utf-8")
+    halves = tmp_path / "halves.csv"
+    halves.write_text("half,label\n", encoding="utf-8")
+    template = tmp_path / "template.txt"
+    template.write_text("{instructions}", encoding="utf-8")
+    config = {"PROMPT_TEMPLATE": str(template), "COMPOSITE_HALVES_PATH": str(halves)}
+    files = lcs.run_input_files(config, str(vocab), config_file=str(config_file))
+    assert [Path(f).name for f in files] == [
+        "llm_config.txt",
+        "union_nested.json",
+        "union_nested.meta.json",
+        "template.txt",
+        "halves.csv",
+    ]
+    off = lcs.run_input_files({**config, "ACCEPT_COMPOSITE_HALVES": "false"}, str(vocab))
+    assert "halves.csv" not in [Path(f).name for f in off]
     source = (Path(__file__).resolve().parent.parent / "llm_run.py").read_text(encoding="utf-8")
-    assert '"sha512": prompt_sha512' in source and "sha512_of(data=system_prompt)" in source
-    assert "hashlib.sha256" not in source and '"sha256": prompt' not in source
+    assert '"sha512": prompt' not in source and "hashlib.sha256" not in source
+    assert "logger.add_input_files(*run_input_files(" in source
