@@ -12,9 +12,9 @@ permissions:
 
 jobs:
   check-drift:
-    uses: ufal/atrium-project/.github/workflows/para-drift.reusable.yml@fbffe25a9d1bcf681274d74f0dd026045d0478de  # v1
+    uses: ufal/atrium-project/.github/workflows/para-drift.reusable.yml@ff0a8eac7eb8580acd576159e7ee12d0623b8f8d  # v1
     with:
-      hub-ref: fbffe25a9d1bcf681274d74f0dd026045d0478de
+      hub-ref: ff0a8eac7eb8580acd576159e7ee12d0623b8f8d
       # atrium-project#72 B: api_util/teitok_read.py and bbox_scale.py are nlp-enrich's, pinned by
       # tests/test_vendored_teitok_parity.py. atrium-project#83: decision_client.py is
       # page-classification's (tests/test_vendored_decision_parity.py), for dm_run.py's line mode. The
