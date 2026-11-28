@@ -1,5 +1,6 @@
 # Strategy — [atrium-project#84](https://github.com/ufal/atrium-project/issues/84) (doc-schema-v2): atrium-keyword-extract's part
 
+> _**Refreshed 2026-11-27 (evening)**: Status — 11-27 (evening) (ARÚP's answers on atrium-project#84, comment 7; the PR adjusted)._
 > _**Refreshed 2026-11-27**: Status — 11-27 (the non-A options of atrium-project#84 prepared, not pushed)._
 > _**Refreshed 2026-11-25**: Status — 11-25 (the v2.0.0-beta release prep)._
 > _**Refreshed 2026-11-22**: the CI schedules gone with #8 (atrium-project#79 and #40); the pins at `fbffe25`.
@@ -17,6 +18,8 @@
 > This file is this repository's slice only; its 11-11 version was written before the
 > issue existed. The section "2026-11-12" is the current reading; where the 11-11 text below differs, it is
 > superseded._
+
+**Status (2026-11-27, evening)**: 🟡 **ARÚP answered atrium-project#84 (comment 7). #10 is adjusted: `config` keeps settings and models; the documents, the vocabulary, the prompt template and the composite halves are input entries and the outputs output entries, by name and SHA-512 (decisions 1, 2); `prompt.sha512` and the vocabulary sidecar's SHA-256s leave the paradata. See the DEVLOG entry of 11-27 (evening).**
 
 **Status (2026-11-27)**: 🟡 **The non-A options of atrium-project#84 prepared (not pushed; ARÚP has not answered): the batch command lines' paradata name the files and folders of `llm_config.txt`, the vocabulary and the outputs, never their paths (decision 1), and the prompt's fingerprint is `prompt.sha512` (decision 2). One PR, after the hub's. See the DEVLOG entry of 11-27.**
 
