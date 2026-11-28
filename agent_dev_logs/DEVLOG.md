@@ -1,5 +1,5 @@
 # 📓 atrium-keyword-extract — agent_dev_logs/DEVLOG.md (timeline index)
-> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-11-19). **Starting set of the pilot phase: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released; **v1.6.5-beta** (11-06, the Galaxy entry point). `test` (= `master`, `8508e2f`) is 22 commits past it and declares the unreleased v2.0.0-beta. Hub workflows pinned to `02cbd01` (`v1`). Latest entry: 2026-11-25 (v2.0.0-beta release prep)._
+> _Keyword extraction: statistical keywords (KeyBERT/YAKE) and controlled keywords from the AMČR/TEATER vocabulary through an LLM, with the CC0 vocabulary as a release asset. Split from atrium-nlp-enrich and atrium-llm-enrich on 2026-10-01. 2 open issues: #2 (research, deferred past the pilot, atrium-project#67) and #3 (decision models over the vocabulary, #2's Option 4, opened 2026-11-06; a sub-issue of atrium-project#83); #1 closed 2026-10-12 (its pair removed 2026-11-19). **Starting set of the pilot phase: v1.6.4-beta** (`0d5a2f3`, 2026-11-04; immutable, with `images.json`; atrium-project#77); v1.6.3-beta and the mistyped `v1.6.3.-beta` were tagged, not released; **v1.6.5-beta** (11-06, the Galaxy entry point) · **v2.0.0-beta** (2026-11-28, `e93cc67`: record 2.0, atrium-project#84's decisions 1 and 2; immutable, with `images.json` and the vocabulary bundle). `test` = `master` = the tag. Hub workflows pinned to `ff0a8ea` (`v1`). Latest entry: 2026-11-28 (v2.0.0-beta released)._
 > _Per-issue detail: `digests/{id}.digest.md` · `plans/{id}.plan.md` · `issues/` exports (source of truth). Entries before 2026-10-01 are atrium-nlp-enrich's, where #2 was #6. Cross-repo history lives in `ufal/atrium-project/agent_dev_logs/DEVLOG.md`._
 
 ## 2026-04-17
@@ -1479,3 +1479,19 @@ Documentation only; no code, test or configuration change.
   taxonomy SHA-256s.
 * **Verified:** 981 passed, 10 skipped.
 * Not pushed.
+
+## 2026-11-28 — atrium-project#84: merged, v2.0.0-beta released
+
+* **Merged:** #9 (release prep, `7e9f108`, 11-25) and #10 (`7fb2a58`, 11-28: ARÚP's answers, decisions 1, 2), squash.
+  Before the merge #10 was re-pinned to the hub's `ff0a8ea` (`v1`, atrium-project#95's merge; 10 references) and got
+  its samples.
+* **Released:** `v2.0.0-beta` on `e93cc67` (#10 plus `CITATION.cff` `date-released: 2026-11-28`), published 12:03 UTC,
+  immutable, "Record Schema 2.0 update of `atrium_document`", the curated notes above the generated part. Release run
+  46141283279 green: tests, smoke, build and push with Trivy, the CVE gate and the promotion to the scanned digest,
+  the OpenAPI checks, the assets (`images.json`, `openapi.json`, the vocabulary bundle). `master` = `test` = the tag;
+  `CITATION.cff`, `service/openapi.json` and `para_config.txt` say 2.0.0-beta.
+* **Samples:** none to make again (no committed output carries a run's paradata).
+* **Not yet, in the hub:** both E2E lanes on the `2.0.0-beta` images; the chain sample (`fixtures/chain/CTX000000003`)
+  re-run at this tag, since its paradata name #84's PR heads; `doc-schema-v2`'s tag, asked of motyc on
+  atrium-project#84.
+* Logs only; not pushed.

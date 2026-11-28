@@ -1,5 +1,6 @@
 # Strategy — [atrium-project#84](https://github.com/ufal/atrium-project/issues/84) (doc-schema-v2): atrium-keyword-extract's part
 
+> _**Refreshed 2026-11-28**: Status — 11-28 (merged and released as `v2.0.0-beta`; the hub's lanes, the chain sample at the tags and `doc-schema-v2` next)._
 > _**Refreshed 2026-11-27 (evening)**: Status — 11-27 (evening) (ARÚP's answers on atrium-project#84, comment 7; the PR adjusted)._
 > _**Refreshed 2026-11-27**: Status — 11-27 (the non-A options of atrium-project#84 prepared, not pushed)._
 > _**Refreshed 2026-11-25**: Status — 11-25 (the v2.0.0-beta release prep)._
@@ -19,17 +20,19 @@
 > issue existed. The section "2026-11-12" is the current reading; where the 11-11 text below differs, it is
 > superseded._
 
-**Status (2026-11-27, evening)**: 🟡 **ARÚP answered atrium-project#84 (comment 7). #10 is adjusted: `config` keeps settings and models; the documents, the vocabulary, the prompt template and the composite halves are input entries and the outputs output entries, by name and SHA-512 (decisions 1, 2); `prompt.sha512` and the vocabulary sidecar's SHA-256s leave the paradata. See the DEVLOG entry of 11-27 (evening).**
+**Status (2026-11-28)**: 🟢 **Released as `v2.0.0-beta` (`e93cc67`, 11-28): #10 squash-merged (`7fb2a58`, atrium-project#84's decisions 1, 2) after the re-pin to the hub's `ff0a8ea` (`v1`), with no samples to make again; the release run is green and the images are certified. Next, in the hub: the chain sample re-run at this tag, both E2E lanes on the `2.0.0-beta` images, and `doc-schema-v2`'s tag (motyc is asked on atrium-project#84). See the DEVLOG entry of 11-28.**
 
-**Status (2026-11-27)**: 🟡 **The non-A options of atrium-project#84 prepared (not pushed; ARÚP has not answered): the batch command lines' paradata name the files and folders of `llm_config.txt`, the vocabulary and the outputs, never their paths (decision 1), and the prompt's fingerprint is `prompt.sha512` (decision 2). One PR, after the hub's. See the DEVLOG entry of 11-27.**
+**Status (2026-11-27, evening)**: 🟡 **ARÚP answered atrium-project#84 (comment 7). #10 is adjusted: `config` keeps settings and models; the documents, the vocabulary, the prompt template and the composite halves are input entries and the outputs output entries, by name and SHA-512 (decisions 1, 2); `prompt.sha512` and the vocabulary sidecar's SHA-256s leave the paradata. See the DEVLOG entry of 11-27 (evening).** _(superseded 11-28: merged and released)_
 
-**Status (2026-11-22)**: 🟢 **As on 11-19, now pinned to `fbffe25` since atrium-project#79's merge (11-22, #8 `dcfd190`). The schedules of `controlled-live.yml`, `vocab-refresh.yml` and `scheduled-smoke.yml` are gone on `test`: the live check runs on pull requests into `test` that touch its files, and by dispatch. On `master` they run until the release merge (atrium-project#77).**
+**Status (2026-11-27)**: 🟡 **The non-A options of atrium-project#84 prepared (not pushed; ARÚP has not answered): the batch command lines' paradata name the files and folders of `llm_config.txt`, the vocabulary and the outputs, never their paths (decision 1), and the prompt's fingerprint is `prompt.sha512` (decision 2). One PR, after the hub's. See the DEVLOG entry of 11-27.** _(superseded 11-27 evening: ARÚP answered)_
 
-**Status (2026-11-25)**: 🟢 **v2.0.0-beta release prep in #9 (`v2-beta-prep` → `test`), CI green; no samples to regenerate. Tag 26 November after the merge; doc-schema-v2's tag waits for the full chain run.**
+**Status (2026-11-22)**: 🟢 **As on 11-19, now pinned to `fbffe25` since atrium-project#79's merge (11-22, #8 `dcfd190`). The schedules of `controlled-live.yml`, `vocab-refresh.yml` and `scheduled-smoke.yml` are gone on `test`: the live check runs on pull requests into `test` that touch its files, and by dispatch. On `master` they run until the release merge (atrium-project#77).** _(superseded 11-25: the release prep)_
+
+**Status (2026-11-25)**: 🟢 **v2.0.0-beta release prep in #9 (`v2-beta-prep` → `test`), CI green; no samples to regenerate. Tag 26 November after the merge; doc-schema-v2's tag waits for the full chain run.** _(superseded 11-28: tagged `v2.0.0-beta` on 11-28, after ARÚP's answers)_
 
 **Status (2026-11-19)**: 🟢 **This repository's part is on `test` (#5, #6, `46f6e72`), pinned to `02cbd01`; the live
 controlled lane is green on record 2.0. AMČR's storage contract (11-19) keeps both keyword groups here, with KeyBERT
-the default, as `keywords.py:88` has it. Left: the release (`v2.0.0-beta`) with the batch (atrium-project#77).**
+the default, as `keywords.py:88` has it. Left: the release (`v2.0.0-beta`) with the batch (atrium-project#77).** _(superseded 11-25: the release prep)_
 
 **Status (2026-11-14, afternoon)**: 🟡 **The hub's PR is merged and this repository is pinned to it: drift is green.
 Round 6 completes this repository's part where no answer is pending; see "Status — round 6". The release (v2.0.0-beta)
