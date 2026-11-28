@@ -70,10 +70,11 @@ from llm_client_shared import (
     is_document_level,
     is_record_input,
     load_config,
+    paradata_config,
     prompt_contradictions,
-    redact_secrets,
     repo_path,
     run_document_level,
+    run_input_files,
     run_line_level,
     write_document_record,
 )
@@ -339,16 +340,18 @@ def main(argv: Optional[List[str]] = None) -> None:
     logger = ParadataLogger(
         program=PROGRAM,
         config={
-            **redact_secrets(config),
+            **paradata_config(config),
             "backend": "openrouter",
             "model": model,
-            "output_dir_resolved": str(output_dir),
             **({"vocabulary": provenance} if provenance else {}),
         },
         paradata_dir=paradata_dir,
         output_types=["json"],
         config_dir=str(Path(__file__).resolve().parent),
     )
+    # The config file, the vocabulary, the prompt template and the composite halves read, by file
+    # name and SHA-512 (atrium-project#84 decisions 1, 2).
+    logger.add_input_files(*run_input_files(config, vocab_path, config_file=args.config))
     print(prompt_template.describe(config))
     for component in provenance.get("components", []):
         logger.log_component(component)
@@ -539,6 +542,9 @@ def main(argv: Optional[List[str]] = None) -> None:
                 if results:
                     with open(out_file, "w", encoding="utf-8") as out_f:
                         json.dump(results, out_f, indent=4, ensure_ascii=False)
+                    # The document read and the keywords written, by file name and SHA-512.
+                    logger.add_input_files(f)
+                    logger.add_output_files(out_file)
                     tqdm.write(f"  -> {len(results)} records -> {out_file.name}")
                     logger.log_success("json", count=1)
                     logger.log_document_success()

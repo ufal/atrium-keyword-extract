@@ -185,7 +185,10 @@ What the research run does:
   consecutive errors.
 - It skips a document whose output already exists, so a stopped job resumes. To redo an aborted document, delete its
   two files.
-- It writes a paradata record that names the vocabulary build and the sha256 of the prompt it used.
+- It writes a paradata record whose `config` holds the settings of `llm_config.txt` only, with the vocabulary build
+  (tool version, terms, sources) and the prompt's settings; never a file or a folder (atrium-project#84 decision 1).
+  The files it reads (`llm_config.txt`, the vocabulary and its sidecar, the prompt template, the composite halves,
+  each document) and writes (each `_enriched.json`) are `inputs`/`outputs` entries by file name and SHA-512.
 
 The whole prompt is about 58k tokens. A model served with a smaller window sees only a prefix of the vocabulary, and
 the paradata record it as `sampled`, with how many terms were left out. A line whose prompt is still over the window

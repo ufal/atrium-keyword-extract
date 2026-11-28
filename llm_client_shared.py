@@ -126,6 +126,53 @@ def redact_secrets(config: Dict[str, str]) -> Dict[str, str]:
     return {key: value for key, value in config.items() if not _SECRET_KEY.search(key)}
 
 
+#: The llm_config.txt settings that are a file or a folder (matched in any case).
+_PATH_KEYS = frozenset(
+    {
+        "INPUT_DIR",
+        "OUTPUT_DIR",
+        "VOCAB_PATH",
+        "PARADATA_DIR",
+        "PROMPT_TEMPLATE",
+        "COMPOSITE_HALVES_PATH",
+    }
+)
+
+
+def paradata_config(config: Dict[str, str]) -> Dict[str, Any]:
+    """``config`` as a run's paradata records it: the settings only (atrium-project#84 decision
+    1(c)), without its credentials (:func:`redact_secrets`) and without its file and folder settings
+    (:data:`_PATH_KEYS`): the files a run reads and writes are its inputs and outputs, by file name and
+    SHA-512 (:func:`run_input_files`, ``ParadataLogger.add_input_files``)."""
+    return {
+        key: value for key, value in redact_secrets(config).items() if key.upper() not in _PATH_KEYS
+    }
+
+
+def run_input_files(
+    config: Dict[str, str], vocab_path: Optional[str] = None, config_file: Optional[str] = None
+) -> List[str]:
+    """The files an enrichment run reads besides its documents (atrium-project#84 decisions 1, 2):
+    its config file, the vocabulary and its ``*.meta.json`` sidecar, the prompt template, and the
+    composite-halves sheet when ``ACCEPT_COMPOSITE_HALVES`` is on. Named by file name and SHA-512
+    (``ParadataLogger.add_input_files``); those that are not files are left out."""
+    import prompt_template  # noqa: PLC0415  (imports this module)
+
+    paths: List[Any] = [config_file]
+    if vocab_path:
+        vocab = repo_path(vocab_path) if not Path(vocab_path).exists() else Path(vocab_path)
+        paths += [vocab, vocab.with_suffix(".meta.json")]
+    paths.append(prompt_template.template_path(config))
+    if str(config.get("ACCEPT_COMPOSITE_HALVES", "true")).strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }:
+        paths.append(repo_path(config.get("COMPOSITE_HALVES_PATH") or COMPOSITE_HALVES_PATH))
+    return [str(p) for p in paths if p and Path(str(p)).is_file()]
+
+
 # ---------------------------------------------------------------------------
 # 2. Token-count approximation — no tokenizer/torch dependency
 # ---------------------------------------------------------------------------

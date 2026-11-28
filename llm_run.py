@@ -18,7 +18,6 @@ except ImportError:
     pass
 import datetime  # noqa: E402
 import enum  # noqa: E402
-import hashlib  # noqa: E402
 import json  # noqa: E402
 import os  # noqa: E402
 import time  # noqa: E402
@@ -36,7 +35,8 @@ from llm_client_shared import (  # noqa: E402
     composite_half_variants,
     composite_halves_from_config,
     offered_composite_halves,
-    redact_secrets,
+    paradata_config,
+    run_input_files,
 )
 from llm_utils import (  # noqa: E402
     CONTEXT_RESERVED,
@@ -391,20 +391,18 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             )
     log_gpu_info()
 
-    # D3 (issue #6): every run injects the AMCR + TEATER vocabulary into its prompt,
-    # and until now the paradata recorded neither which build of it was used nor that
-    # it was used at all. vocab_build.py has always written the identity beside the
-    # artifact — taxonomy sha256s, tool version, TEATER's pinned commit — and nothing
-    # read it. Empty for a legacy or auto-synced vocabulary with no sidecar; a run
-    # must not fail over missing provenance.
+    # D3 (issue #6): every run injects the AMCR + TEATER vocabulary into its prompt, and the
+    # paradata say which build: its tool version, terms and sources (vocabulary_provenance), and
+    # the vocabulary file and its sidecar as input entries by SHA-512 (atrium-project#84). Empty
+    # for a legacy or auto-synced vocabulary with no sidecar; a run must not fail over it.
     provenance = vocabulary_provenance(VOCAB_PATH)
 
     logger = ParadataLogger(
         program="keyword-extract",
         config={
-            # HF_TOKEN may be in llm_config.txt; paradata is published with the record.
-            **redact_secrets(config),
-            "output_dir_resolved": str(OUTPUT_DIR),
+            # HF_TOKEN may be in llm_config.txt; paradata is published with the record, and
+            # holds settings only, never a file or folder (atrium-project#84 decision 1(c)).
+            **paradata_config(config),
             "backend": BACKEND,
             "include_non_text": INCLUDE_NON_TEXT,
             "min_char_count": MIN_CHAR_COUNT,
@@ -421,6 +419,9 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
     # in para_config.txt, so they enter a run's effective licence only when named
     # here. Logged per source actually present in the build, not hard-wired to both:
     # an AMCR-only artifact must not claim it used TEATER data.
+    # The config file, the vocabulary, the prompt template and the composite halves read, by file
+    # name and SHA-512 (decisions 1, 2): the template's entry is what tells two prompts apart.
+    logger.add_input_files(*run_input_files(config, VOCAB_PATH, config_file=config_path))
     print(prompt_template.describe(config))
     for component in provenance.get("components", []):
         logger.log_component(component)
@@ -505,12 +506,9 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
         EnrichmentModel = build_schema(surviving_terms, halves)
         halves_offered = offered_composite_halves(surviving_terms, halves)
 
-        # What the model was told, as one fingerprint (D3): the instructions, the flags, the
-        # vocabulary build, its grouping and its truncation all change it, so two runs with
-        # the same sha256 got the same system prompt, whatever checkout they ran from.
-        prompt_sha256 = hashlib.sha256(system_prompt.encode("utf-8")).hexdigest()
+        # What shaped the prompt (D3): the template and the vocabulary are input entries by
+        # SHA-512 (atrium-project#84 decisions 1, 2); these are the settings that build it from them.
         logger.config["prompt"] = {
-            "sha256": prompt_sha256,
             "terms_offered": len(surviving_terms) - 1,
             "context_window": context_window,
             # The category enum takes either case of a label's first letter (build_schema):
@@ -522,8 +520,8 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
             "composite_halves": len(halves_offered),
         }
         print(
-            f"  prompt: sha256 {prompt_sha256[:16]}…, {len(surviving_terms) - 1} vocabulary "
-            f"terms offered, served window {context_window} tokens"
+            f"  prompt: {len(surviving_terms) - 1} vocabulary terms offered, served window "
+            f"{context_window} tokens"
         )
 
         # The vocabulary budget, recorded as the service records it (atrium-project#53): a term
@@ -688,6 +686,9 @@ def main(config_path: str = "llm_config.txt", download: Optional[List[str]] = No
                 if enriched_results:
                     with open(out_file, "w", encoding="utf-8") as out_f:
                         json.dump(enriched_results, out_f, indent=4, ensure_ascii=False)
+                    # The document read and the keywords written, by file name and SHA-512.
+                    logger.add_input_files(input_file)
+                    logger.add_output_files(out_file)
                     print(f"  -> {len(enriched_results)} records → {out_file.name}")
                     logger.log_success("json", count=1)
                     logger.log_document_success()

@@ -16,7 +16,8 @@ What `keywords.py` writes, and how to read each method's score. The service's re
   carries no run data.
 * **Paradata:** `<run_id>_keyword-extract.json` in `--paradata-dir` (named `nlp-enrich` before v1.5.0-beta). Schema
   3.0: each record read is an input and each record written an output (`atrium/document-json`, by SHA-512), with the
-  blocks and fields written. Outputs 1-3 are development outputs and are not named.
+  blocks and fields written. Its `config` holds the command line's settings only; the documents read and outputs 1-3
+  written are `inputs`/`outputs` entries by file name and SHA-512, `stored: false` (atrium-project#84 decision 1).
 
 ```
 KW_PER_DOC/

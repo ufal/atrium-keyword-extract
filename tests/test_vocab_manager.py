@@ -643,10 +643,24 @@ def test_provenance_reads_the_sidecar_beside_the_artifact(tmp_path):
     prov = vocabulary_provenance(path)
     assert prov["vocab"]["tool_version"] == "v0.20.0"
     assert prov["vocab"]["terms"] == 2074
-    assert prov["taxonomy"] == {"config_sha256": "aaa", "overrides_sha256": "bbb"}
+    assert "taxonomy" not in prov, "the sidecar's SHA-256s are not copied into the paradata"
     # TEATER pins a commit; AMCR has no equivalent, so the endpoint stands in for one.
     assert prov["sources"]["teater"]["ref"] == "2106c59"
     assert prov["sources"]["amcr"]["ref"] == "oai"
+
+
+def test_provenance_names_no_file_and_no_path(tmp_path):
+    """atrium-project#84 decision 1: the artifact and its sidecar by file name, never by path."""
+    import os
+
+    from vocab_manager import vocabulary_provenance
+
+    path = _write_vocab_with_meta(tmp_path, {"tool_version": "v0.20.0", "counts": {"total": 1}})
+    prov = vocabulary_provenance(path)
+    assert set(prov["vocab"]) == {"tool_version", "terms"}, (
+        "the files are the run's input entries (#84 1(c))"
+    )
+    assert os.sep not in json.dumps(prov)
 
 
 def test_provenance_names_the_components_the_build_actually_used(tmp_path):
@@ -680,7 +694,7 @@ def test_shipped_vocabulary_declares_both_sources_cc0():
     prov = vocabulary_provenance(str(_repo_root() / "data_samples" / "vocab" / "union_nested.json"))
     assert prov["components"] == ["amcr_vocab", "teater_data"]
     assert {s["license"] for s in prov["sources"].values()} == {"CC0"}
-    assert prov["taxonomy"]["config_sha256"] and prov["taxonomy"]["overrides_sha256"]
+    assert "taxonomy" not in prov and "sha256" not in json.dumps(prov)
 
     text = (_repo_root() / "para_config.txt").read_text(encoding="utf-8")
     declared = {
